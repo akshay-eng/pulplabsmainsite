@@ -1,27 +1,16 @@
 /* ==========================================================================
-   PulpLabs assistant — knowledge + intent routing
+   PulpLabs assistant — knowledge, intent routing and the booking flow.
 
-   There is no backend on this site yet, so this module answers locally from
-   the same content in src/data/ that the pages render. That keeps it honest:
-   it can only say things the site already says.
+   Answers come from Grok via /api/assistant. This file keeps a local intent
+   matcher too, used for two things:
 
-   ── Swapping in a real model ──────────────────────────────────────────────
-   `askAssistant()` is the only seam. Replace its body with a fetch to your
-   own server route and everything else (UI, booking flow, transcript) keeps
-   working unchanged:
+     1. Fallback. If the model is unreachable, out of credits or rate limited,
+        the dock answers from the site's own content instead of erroring.
+     2. The booking flow, which stays deterministic on purpose — collecting a
+        name and email is not a job for a language model.
 
-     export async function askAssistant(text, ctx) {
-       const r = await fetch('/api/assistant', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({ message: text, history: ctx.history }),
-       })
-       const { reply } = await r.json()
-       return { reply }
-     }
-
-   Call an LLM from a server route, never from here — a browser-side API key
-   is readable by every visitor.
+   The xAI key lives in XAI_API_KEY and is read only in src/lib/grok.js, which
+   is server-only. Nothing in this file ever sees it.
    ========================================================================== */
 
 export const BOOKING_EMAIL = 'hello@pulplabs.ai'
@@ -278,15 +267,35 @@ export function completeBooking({ name, email, topic }) {
 }
 
 /* --------------------------------------------------------------------------
-   The seam. Swap this body for a fetch to your own route.
+   Calls /api/assistant, which talks to Grok server-side. The API key is never
+   in this file or anywhere else the browser can read.
+
+   If the route fails for any reason — offline, rate limited, model down — the
+   local intent matcher above answers instead, so the dock always says
+   something useful rather than showing an error.
    -------------------------------------------------------------------------- */
-export async function askAssistant(text) {
-  const entry = matchIntent(text) ?? FALLBACK
-  return {
-    reply: entry.answer,
-    chips: entry.chips,
-    action: entry.action,
+export async function askAssistant(text, history = []) {
+  try {
+    const res = await fetch('/api/assistant', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text, history }),
+    })
+
+    if (res.status === 429) {
+      return { reply: "That's a lot of questions at once — give it a minute and try again.", chips: [] }
+    }
+
+    if (res.ok) {
+      const data = await res.json()
+      if (data?.reply) return { reply: data.reply, chips: data.chips, action: data.action }
+    }
+  } catch {
+    /* fall through to the local matcher */
   }
+
+  const entry = matchIntent(text) ?? FALLBACK
+  return { reply: entry.answer, chips: entry.chips, action: entry.action }
 }
 
 export const OPENERS = [

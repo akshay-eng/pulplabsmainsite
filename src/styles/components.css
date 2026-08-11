@@ -142,7 +142,10 @@
   width: 78%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 138, 43, 0.34), rgba(255, 107, 26, 0.1) 44%, transparent 70%);
+  /* Cream, not tangerine. A warm bloom behind a warm core on a warm ground
+     was adding to the camouflage; a pale halo cuts the core out of the
+     backdrop instead. */
+  background: radial-gradient(circle, rgba(255, 252, 245, 0.92), rgba(255, 246, 232, 0.55) 42%, transparent 72%);
   filter: blur(34px);
   z-index: 0;
   pointer-events: none;

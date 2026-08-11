@@ -105,6 +105,28 @@ study would imply it documents that client's actual facility; stylised art carri
 without claiming to be evidence. For the same reason there are no generated team photos — faces on
 a team page read as real employees.
 
+## Assistant
+
+The dock is backed by Grok (xAI) through `POST /api/assistant`. The key is read
+only in [`src/lib/grok.js`](src/lib/grok.js), which is `server-only` — it is never
+sent to the browser.
+
+The route is public and unauthenticated, because it powers the site chat. That makes it
+a paid API anyone can call, so it is rate limited to 12 messages per IP per minute and
+capped at 1000 characters per message. The limiter is in-memory, which is fine while
+`fly.toml` pins one always-on machine; past that it needs to move to SQLite or Redis.
+
+If the model is unreachable — no credits, bad key, wrong model name, timeout — the route
+falls back to the local intent matcher in [`src/lib/assistant.js`](src/lib/assistant.js)
+and the dock answers from the site's own content. The real cause is logged server-side
+and never returned to the browser. The booking flow stays deterministic and never touches
+the model.
+
+```bash
+XAI_API_KEY=...            # required for live answers
+XAI_MODEL=grok-4-fast      # override if that name is wrong for your account
+```
+
 ## Notes before this goes live
 
 - The contact and newsletter forms validate and acknowledge locally. Point `ContactForm` and

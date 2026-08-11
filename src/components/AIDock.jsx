@@ -202,7 +202,13 @@ export default function AIDock() {
       }
 
       setThinking(true)
-      askAssistant(text)
+      // Prior turns give the model context for follow-ups ("what about the
+      // second one?"). Trimmed server-side; sent oldest-first.
+      const history = messages
+        .filter((m) => m.text)
+        .map((m) => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text }))
+
+      askAssistant(text, history)
         .then(({ reply, chips, action }) => {
           const t = setTimeout(() => {
             setThinking(false)
@@ -215,7 +221,7 @@ export default function AIDock() {
           push({ role: 'bot', text: 'Something went wrong reaching the assistant. Try again in a moment.' })
         })
     },
-    [booking, mode, push, replyAfter, thinking],
+    [booking, messages, mode, push, replyAfter, thinking],
   )
 
   const onChip = useCallback(

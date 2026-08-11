@@ -132,7 +132,7 @@ function Core({ amp = 0.34 }) {
          trough colour and the core read as burnt brown rather than lit. */
       uDeep: { value: new THREE.Color('#F0562A') },
       uMid: { value: new THREE.Color('#FF9440') },
-      uRim: { value: new THREE.Color('#FFE08A') },
+      uRim: { value: new THREE.Color('#FFF4DC') },
     }),
     [amp],
   )
@@ -151,17 +151,20 @@ function Core({ amp = 0.34 }) {
   )
 }
 
-function Shell() {
+function Shell({ radius = 1.62, detail = 2, opacity = 0.55, speed = 0.06 }) {
   const ref = useRef(null)
   useFrame((_, dt) => {
     if (!ref.current) return
-    ref.current.rotation.y -= dt * 0.06
-    ref.current.rotation.x += dt * 0.02
+    ref.current.rotation.y -= dt * speed
+    ref.current.rotation.x += dt * (speed / 3)
   })
   return (
     <mesh ref={ref}>
-      <icosahedronGeometry args={[1.62, 2]} />
-      <meshBasicMaterial color="#FF8A2B" wireframe transparent opacity={0.22} />
+      <icosahedronGeometry args={[radius, detail]} />
+      {/* White, not tangerine. On the amber hero backdrop an orange wireframe
+          on an orange core on an orange ground had no separation at all —
+          value contrast is what makes the structure legible here, not hue. */}
+      <meshBasicMaterial color="#FFFFFF" wireframe transparent opacity={opacity} />
     </mesh>
   )
 }
@@ -194,7 +197,7 @@ function Particles({ count = 700 }) {
 
   return (
     <points ref={ref} geometry={geometry}>
-      <pointsMaterial color="#FF6B1A" size={0.028} sizeAttenuation transparent opacity={0.72} depthWrite={false} />
+      <pointsMaterial color="#FFFFFF" size={0.03} sizeAttenuation transparent opacity={0.85} depthWrite={false} />
     </points>
   )
 }
@@ -226,7 +229,10 @@ export default function HeroCore({ className = '' }) {
     >
       <PointerRig>
         <Core />
-        <Shell />
+        {/* Two shells at different radii and rates — the interference between
+            them gives the core an envelope with depth. */}
+        <Shell radius={1.62} detail={2} opacity={0.6} speed={0.06} />
+        <Shell radius={2.05} detail={1} opacity={0.3} speed={-0.035} />
         <Particles />
       </PointerRig>
     </Canvas>
