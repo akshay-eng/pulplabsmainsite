@@ -1,5 +1,7 @@
+'use client'
+
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { usePathname, useRouter } from 'next/navigation'
 import {
   askAssistant,
   bookingPrompt,
@@ -30,6 +32,8 @@ let uid = 0
 const nextId = () => `m${++uid}`
 
 function loadStored() {
+  // Runs during the server render too, where there is no sessionStorage.
+  if (typeof window === 'undefined') return null
   try {
     const raw = sessionStorage.getItem(STORE_KEY)
     if (!raw) return null
@@ -43,14 +47,18 @@ function loadStored() {
 
 export default function AIDock() {
   const stored = useRef(loadStored()).current
-  const navigate = useNavigate()
+  const router = useRouter()
+  const pathname = usePathname()
 
   const [mode, setMode] = useState(stored?.mode === 'dot' ? 'dot' : 'bar')
   const [messages, setMessages] = useState(stored?.messages ?? [])
   const [draft, setDraft] = useState('')
   const [thinking, setThinking] = useState(false)
   const [booking, setBooking] = useState(null) // { step, data }
-  const [narrow, setNarrow] = useState(() => window.matchMedia?.('(max-width: 560px)').matches ?? false)
+  // Seeded false so server and first client render agree; corrected on mount
+  // by the effect below. Seeding from matchMedia here would both crash on the
+  // server and cause a hydration mismatch on a narrow screen.
+  const [narrow, setNarrow] = useState(false)
 
   const dockRef = useRef(null)
   const inputRef = useRef(null)
@@ -69,6 +77,7 @@ export default function AIDock() {
   /* Track the narrow breakpoint so the placeholder can shorten with it */
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 560px)')
+    setNarrow(mq.matches)
     const onChange = (e) => setNarrow(e.matches)
     mq.addEventListener('change', onChange)
     return () => mq.removeEventListener('change', onChange)
@@ -225,11 +234,11 @@ export default function AIDock() {
   const onAction = useCallback(
     (action) => {
       if (action.type === 'navigate') {
-        navigate(action.to)
+        router.push(action.to)
         setMode('bar')
       }
     },
-    [navigate],
+    [router],
   )
 
   const onKeyDown = (e) => {
@@ -248,6 +257,11 @@ export default function AIDock() {
       narrow
       ? 'Ask, or book a call…'
       : 'Ask about our services, or book a call…'
+
+  /* The dock is a visitor-facing sales surface; it has no business sitting
+     on top of the CMS. Checked after the hooks so the hook order stays
+     identical on every render. */
+  if (pathname?.startsWith('/admin')) return null
 
   /* ---------------------------------------------------------------- dot --- */
   if (mode === 'dot') {

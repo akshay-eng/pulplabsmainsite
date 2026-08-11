@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 // Coloured dot · mono eyebrow · hairline rule — one fruit per section.
 export default function SectionLabel({ dot = '#FF6B1A', children, trailTo, trailLabel, note }) {
@@ -8,7 +8,7 @@ export default function SectionLabel({ dot = '#FF6B1A', children, trailTo, trail
       <span className="eyebrow">{children}</span>
       <span className="rule" />
       {trailTo && (
-        <Link className="trail" to={trailTo}>
+        <Link className="trail" href={trailTo}>
           {trailLabel}
         </Link>
       )}

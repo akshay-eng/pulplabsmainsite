@@ -1,5 +1,8 @@
+'use client'
+
 import { useEffect, useState } from 'react'
-import { NavLink, Link, useLocation } from 'react-router-dom'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import Logo, { Wordmark } from './Logo'
 import { useStuck } from '../lib/motion'
 
@@ -10,10 +13,16 @@ const LINKS = [
   { to: '/blog', label: 'Blog' },
 ]
 
+/* NavLink's `end` prop is gone, so "/" needs an exact match while the others
+   match their subtree — otherwise "/" stays highlighted on every page. */
+function isActive(pathname, to) {
+  return to === '/' ? pathname === '/' : pathname.startsWith(to)
+}
+
 export default function Navbar() {
   const stuck = useStuck(10)
   const [open, setOpen] = useState(false)
-  const { pathname } = useLocation()
+  const pathname = usePathname()
 
   // Close the sheet on navigation — otherwise it stays open over the new page.
   useEffect(() => setOpen(false), [pathname])
@@ -41,21 +50,21 @@ export default function Navbar() {
   return (
     <header className="nav-bar" data-stuck={stuck}>
       <nav className="nav-inner">
-        <Link to="/" className="brand">
+        <Link href="/" className="brand">
           <Logo size={30} />
           <Wordmark size={19} />
         </Link>
 
         <div className="nav-links">
           {LINKS.map(({ to, label }) => (
-            <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) => (isActive ? 'active' : undefined)}>
+            <Link key={to} href={to} className={isActive(pathname, to) ? 'active' : undefined}>
               {label}
-            </NavLink>
+            </Link>
           ))}
         </div>
 
         <div className="nav-actions">
-          <Link to="/#contact" className="btn btn-primary btn-sm">
+          <Link href="/#contact" className="btn btn-primary btn-sm">
             Book a call
           </Link>
 
@@ -82,17 +91,16 @@ export default function Navbar() {
           <button type="button" className="nav-scrim" aria-label="Close menu" onClick={() => setOpen(false)} />
           <div className="nav-sheet" id="nav-sheet">
             {LINKS.map(({ to, label }, i) => (
-              <NavLink
+              <Link
                 key={to}
-                to={to}
-                end={to === '/'}
-                className={({ isActive }) => (isActive ? 'active' : undefined)}
+                href={to}
+                className={isActive(pathname, to) ? 'active' : undefined}
                 style={{ '--reveal-delay': `${i * 40}ms` }}
               >
                 {label}
-              </NavLink>
+              </Link>
             ))}
-            <Link to="/#contact" className="btn btn-primary nav-sheet-cta">
+            <Link href="/#contact" className="btn btn-primary nav-sheet-cta">
               Book a call
             </Link>
           </div>

@@ -1,0 +1,28 @@
+# fly.toml — deploy with:  fly launch --no-deploy  then  fly deploy
+app = "pulplabs"
+primary_region = "lhr"   # change to your nearest region
+
+[build]
+
+[env]
+  PORT = "3000"
+  DATABASE_PATH = "/data/pulplabs.db"
+  NEXT_PUBLIC_SITE_URL = "https://pulplabs.ai"
+
+# The whole reason SQLite works here: a real disk that survives redeploys.
+[[mounts]]
+  source = "pulplabs_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  # SQLite is a single file with a single writer — one machine, always on.
+  # Scaling to 2+ machines would give each its own copy of the database.
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

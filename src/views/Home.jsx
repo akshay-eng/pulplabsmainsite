@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
 import Navbar from '../components/Navbar'
 import HeroMarker from '../components/HeroMarker'
 import { FooterFull } from '../components/Footer'
@@ -66,7 +68,7 @@ export default function Home() {
                   Book a 30-min consultation
                 </a>
               </Magnetic>
-              <Link to="/services" className="btn btn-ghost">
+              <Link href="/services" className="btn btn-ghost">
                 View service catalogue
               </Link>
             </div>
@@ -227,7 +229,7 @@ export default function Home() {
             <SpotlightCard
               key={title}
               as={Link}
-              to="/services"
+              href="/services"
               className="card card-lift practice-card"
               style={{ '--accent': accent, '--accent-shadow': shadow, '--reveal-delay': `${i * 70}ms` }}
               data-reveal

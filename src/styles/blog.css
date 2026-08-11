@@ -1,0 +1,437 @@
+/* ==========================================================================
+   Blog — index filters, post header, prose and table of contents
+   ========================================================================== */
+
+/* ---- filters ---- */
+
+.blog-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  padding: 7px 14px;
+  min-height: 34px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline-crisp);
+  background: var(--surface);
+  color: var(--body-soft);
+  transition:
+    border-color var(--t-fast) var(--e-out),
+    color var(--t-fast) var(--e-out),
+    transform var(--t-fast) var(--e-out);
+}
+
+.filter-chip:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 107, 26, 0.45);
+  color: var(--tangerine-deep);
+}
+
+.filter-chip[data-active] {
+  background: var(--tangerine-deep);
+  border-color: var(--tangerine-deep);
+  color: #fff;
+}
+
+.filter-count {
+  opacity: 0.6;
+  font-size: 11px;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.blog-empty {
+  color: var(--body);
+  font-size: 16px;
+  padding: 40px 0 60px;
+}
+
+/* ---- cards ---- */
+
+.featured-post {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 26px;
+}
+
+.featured-art-mark {
+  width: 74px;
+  height: 74px;
+  border-radius: 20px;
+  opacity: 0.9;
+  position: relative;
+}
+
+.post-byline {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 14px;
+}
+
+.post-row {
+  border-left: 3px solid transparent;
+  transition:
+    border-color var(--t-base) var(--e-out),
+    transform var(--t-base) var(--e-out);
+}
+
+.post-row:hover {
+  border-left-color: var(--row-accent, var(--tangerine));
+  transform: translateX(2px);
+}
+
+.post-row-desc {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--body);
+  /* Two lines keeps every row the same height regardless of copy length */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* ==========================================================================
+   Post detail
+   ========================================================================== */
+
+.post-header {
+  position: relative;
+  padding: 56px 0 40px;
+  background:
+    radial-gradient(60% 100% at 12% 0%, rgba(255, 107, 26, 0.09), transparent 62%),
+    var(--tint-warm);
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.post-crumbs {
+  display: flex;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.post-crumbs a {
+  color: var(--post-accent, var(--tangerine-deep));
+}
+
+.post-header h1 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(32px, 5vw, 54px);
+  line-height: 1.03;
+  letter-spacing: -0.04em;
+  margin: 0;
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.post-lede {
+  margin: 18px 0 0;
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--body);
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted-cool);
+}
+
+.post-meta > * + *::before {
+  content: '·';
+  margin-right: 16px;
+  color: var(--muted);
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 20px;
+}
+
+/* ---- body layout: prose plus a sticky contents rail ---- */
+
+.post-body-grid {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  padding-top: 48px;
+  padding-bottom: 60px;
+}
+
+/* Without a TOC the prose centres instead of hugging the left edge */
+.post-body-grid:not(:has(.post-toc)) {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 760px;
+}
+
+.post-toc {
+  position: sticky;
+  top: 96px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.post-toc-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.post-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--hairline);
+}
+
+.post-toc li[data-level='3'] {
+  padding-left: 12px;
+}
+
+.post-toc a {
+  display: block;
+  padding: 6px 0 6px 14px;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  color: var(--body);
+  transition:
+    color var(--t-fast) var(--e-out),
+    border-color var(--t-fast) var(--e-out);
+}
+
+.post-toc a:hover {
+  color: var(--tangerine-deep);
+  border-left-color: var(--tangerine);
+}
+
+/* ---- prose ---- */
+
+.prose {
+  max-width: 68ch;
+  font-size: 17px;
+  line-height: 1.72;
+  color: var(--body-soft);
+}
+
+.prose > * + * {
+  margin-top: 1.15em;
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--display);
+  color: var(--ink-strong);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  /* Generous space above, tight below — headings belong to what follows */
+  margin-top: 1.9em;
+  margin-bottom: 0.55em;
+  scroll-margin-top: 96px; /* clears the sticky navbar on anchor jumps */
+}
+
+.prose h2 {
+  font-size: 28px;
+  font-weight: 800;
+}
+.prose h3 {
+  font-size: 21px;
+  font-weight: 700;
+}
+.prose h4 {
+  font-size: 17.5px;
+  font-weight: 700;
+}
+
+.prose a {
+  color: var(--tangerine-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(217, 82, 15, 0.4);
+}
+
+.prose a:hover {
+  text-decoration-color: currentColor;
+}
+
+.prose strong {
+  color: var(--ink-strong);
+  font-weight: 600;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.3em;
+}
+
+.prose li + li {
+  margin-top: 0.4em;
+}
+
+.prose li::marker {
+  color: var(--tangerine);
+}
+
+.prose blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 4px 0 4px 22px;
+  border-left: 3px solid var(--tangerine);
+  font-size: 18.5px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--tint);
+  border: 1px solid var(--hairline-soft);
+  padding: 1px 6px;
+  border-radius: 6px;
+  overflow-wrap: anywhere;
+}
+
+.prose pre {
+  background: #1a1613;
+  color: #f6ece2;
+  padding: 18px 20px;
+  border-radius: var(--r-md);
+  overflow-x: auto;
+  font-size: 13.5px;
+  line-height: 1.62;
+}
+
+.prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+.prose img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--r-md);
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--hairline);
+  margin: 2.4em 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  display: block;
+  overflow-x: auto; /* a wide table scrolls itself rather than the page */
+}
+
+.prose th,
+.prose td {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.prose th {
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-cool);
+}
+
+.post-related {
+  border-top: 1px solid var(--hairline-soft);
+  padding-top: 44px;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .post-body-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  /* Contents becomes a collapsible block above the article rather than a rail */
+  .post-toc {
+    position: static;
+    margin-bottom: 30px;
+    padding: 16px 18px;
+    background: var(--tint);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+  }
+
+  .post-toc ul {
+    border-left: 0;
+  }
+
+  .post-toc a {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .post-header {
+    padding: 36px 0 30px;
+  }
+  .post-lede {
+    font-size: 17px;
+  }
+  .prose {
+    font-size: 16.5px;
+  }
+  .prose h2 {
+    font-size: 24px;
+  }
+}

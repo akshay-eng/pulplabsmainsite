@@ -1,3 +1,5 @@
+'use client'
+
 /* Shared interactive primitives — grouped like icons.jsx rather than split into
  * one file each, since none of them carry meaningful weight alone. */
 

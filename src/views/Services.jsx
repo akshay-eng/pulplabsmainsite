@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
 import Navbar from '../components/Navbar'
 import HeroMarker from '../components/HeroMarker'
 import { FooterSlim } from '../components/Footer'
@@ -84,7 +86,7 @@ export default function Services() {
           <span>
             Every engagement is priced from discovery — tell us the requirement and we'll scope it with you.
           </span>
-          <Link to="/#contact" className="btn btn-primary btn-sm">
+          <Link href="/#contact" className="btn btn-primary btn-sm">
             Book a consultation
           </Link>
         </div>
@@ -177,7 +179,7 @@ export default function Services() {
               Start with a 30-minute discovery call — we'll point you at the smallest thing that helps.
             </p>
           </div>
-          <Link to="/#contact" className="btn btn-lemon" style={{ position: 'relative' }}>
+          <Link href="/#contact" className="btn btn-lemon" style={{ position: 'relative' }}>
             Book a consultation
           </Link>
         </div>

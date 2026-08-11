@@ -1,3 +1,5 @@
+'use client'
+
 /* Telemetry primitives — radial gauges and line icons for the outcomes panel.
  *
  * Gauges are plain SVG with a dash-offset transition rather than a chart

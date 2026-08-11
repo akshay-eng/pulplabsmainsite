@@ -1,3 +1,5 @@
+'use client'
+
 import { lazy, Suspense, useEffect, useState } from 'react'
 
 const HeroCore = lazy(() => import('./HeroCore'))
@@ -6,6 +8,7 @@ const HeroCore = lazy(() => import('./HeroCore'))
  *  browsers cap how many live at once. */
 let webglOk = null
 function supportsWebGL() {
+  if (typeof document === 'undefined') return false
   if (webglOk !== null) return webglOk
   try {
     const canvas = document.createElement('canvas')

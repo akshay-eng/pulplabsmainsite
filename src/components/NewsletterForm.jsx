@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 
 // No backend yet — the form validates, then acknowledges locally.

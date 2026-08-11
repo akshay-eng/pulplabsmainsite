@@ -1,6 +1,11 @@
+'use client'
+
 import { useEffect, useRef, useState } from 'react'
 
-const REDUCED = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+/* Guarded for SSR: client components still render once on the server, where
+   there is no window. Every caller must tolerate `false` on that first pass. */
+const REDUCED = () =>
+  typeof window !== 'undefined' && (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false)
 
 /* --------------------------------------------------------------------------
    useRevealObserver — mounted once at app level.
@@ -78,11 +83,16 @@ export function useStuck(offset = 8) {
    -------------------------------------------------------------------------- */
 export function useCountUp(target, { duration = 1500, decimals = 0 } = {}) {
   const ref = useRef(null)
-  const [value, setValue] = useState(REDUCED() ? target : 0)
+  const [value, setValue] = useState(0)
 
   useEffect(() => {
     const node = ref.current
-    if (!node || REDUCED()) return
+    if (!node) return
+    // Reduced motion: jump straight to the final value rather than counting.
+    if (REDUCED()) {
+      setValue(target)
+      return
+    }
 
     let raf = null
     const io = new IntersectionObserver(

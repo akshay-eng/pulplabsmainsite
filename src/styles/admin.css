@@ -1,0 +1,508 @@
+/* ==========================================================================
+   Admin — deliberately plainer than the marketing site. This is a tool, and
+   the site's motion and glass would only get in the way of writing.
+   ========================================================================== */
+
+.admin {
+  min-height: 100dvh;
+  background: #faf8f6;
+}
+
+.admin-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #fff;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.admin-bar-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.admin-brand {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink-strong);
+}
+
+.admin-brand span {
+  color: var(--tangerine-deep);
+}
+
+.admin-nav {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+}
+
+.admin-nav a {
+  color: var(--body-soft);
+}
+
+.admin-nav a:hover {
+  color: var(--tangerine-deep);
+}
+
+.admin-bar form {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-direction: row-reverse;
+}
+
+.admin-who {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.admin-main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 34px 24px 90px;
+}
+
+.admin-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.admin-head h1 {
+  font-family: var(--display);
+  font-size: 30px;
+  letter-spacing: -0.035em;
+  margin: 0;
+}
+
+.admin-sub {
+  margin: 6px 0 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ---- buttons ---- */
+
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 9px 16px;
+  min-height: 38px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color var(--t-fast) var(--e-out),
+    border-color var(--t-fast) var(--e-out),
+    transform var(--t-fast) var(--e-out);
+}
+
+.admin-btn:active {
+  transform: translateY(1px);
+}
+.admin-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.admin-btn.primary {
+  background: var(--tangerine-deep);
+  color: #fff;
+}
+.admin-btn.primary:hover:not(:disabled) {
+  background: var(--tangerine-dark);
+}
+
+.admin-btn.ghost {
+  background: #fff;
+  border-color: var(--hairline-crisp);
+  color: var(--body-soft);
+}
+.admin-btn.ghost:hover:not(:disabled) {
+  border-color: var(--tangerine);
+  color: var(--tangerine-deep);
+}
+
+.admin-btn.danger {
+  background: transparent;
+  color: var(--watermelon-deep);
+  border-color: transparent;
+}
+.admin-btn.danger:hover:not(:disabled) {
+  background: var(--watermelon-wash);
+}
+
+.admin-btn.sm {
+  font-size: 13px;
+  padding: 6px 11px;
+  min-height: 32px;
+}
+.admin-btn.block {
+  width: 100%;
+}
+
+.admin-btn:focus-visible,
+.admin-field input:focus-visible,
+.admin-field textarea:focus-visible {
+  outline: 2px solid var(--tangerine-deep);
+  outline-offset: 2px;
+}
+
+/* ---- table ---- */
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.admin-table th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--hairline);
+  background: #fdfbf9;
+}
+
+.admin-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--hairline-soft);
+  font-size: 14.5px;
+  vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.admin-title-link {
+  font-weight: 600;
+  color: var(--ink-strong);
+}
+.admin-title-link:hover {
+  color: var(--tangerine-deep);
+}
+
+.admin-slug,
+.admin-date {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.admin-slug {
+  margin-top: 3px;
+}
+
+.admin-row-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.admin-pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 4px 9px;
+  border-radius: 100px;
+}
+.admin-pill.published {
+  background: var(--kiwi-wash);
+  color: var(--kiwi-deep);
+}
+.admin-pill.draft {
+  background: var(--tint);
+  color: var(--muted-cool);
+}
+
+/* ---- messages ---- */
+
+.admin-flash,
+.admin-error {
+  padding: 11px 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+.admin-flash {
+  background: var(--kiwi-wash);
+  color: var(--kiwi-deep);
+}
+.admin-error {
+  background: var(--watermelon-wash);
+  color: #a82233;
+}
+.admin-empty {
+  color: var(--body);
+  padding: 30px 0;
+}
+
+/* ---- fields ---- */
+
+.admin-field {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.admin-field > span {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.admin-field em {
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.admin-field em.over {
+  color: var(--watermelon-deep);
+}
+
+.admin-field input,
+.admin-field textarea {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--hairline-crisp);
+  border-radius: 10px;
+  padding: 10px 13px;
+}
+
+.admin-field textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.admin-field input[aria-invalid='true'],
+.admin-field textarea[aria-invalid='true'] {
+  border-color: var(--watermelon);
+}
+
+/* ---- login ---- */
+
+.admin-login {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.admin-card {
+  width: 100%;
+  max-width: 380px;
+  background: #fff;
+  border: 1px solid var(--hairline);
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: var(--sh-3);
+}
+
+.admin-card h1 {
+  font-family: var(--display);
+  font-size: 24px;
+  margin: 0;
+  letter-spacing: -0.03em;
+}
+
+.admin-card .admin-sub {
+  margin-bottom: 22px;
+}
+
+/* ==========================================================================
+   Editor
+   ========================================================================== */
+
+.editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.editor-dirty {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--lemon-dark);
+}
+
+.editor-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
+  gap: 26px;
+  align-items: start;
+}
+
+.editor-side {
+  background: #fff;
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  padding: 18px;
+  position: sticky;
+  top: 76px;
+}
+
+.editor-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 0;
+}
+
+.editor-tabs button {
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 9px 14px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--muted-cool);
+  cursor: pointer;
+}
+
+.editor-tabs button[aria-selected='true'] {
+  color: var(--tangerine-deep);
+  border-bottom-color: var(--tangerine);
+}
+
+.editor-count {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Side-by-side on a wide screen; the tabs only take over on narrow ones. */
+.editor-panes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid var(--hairline);
+  border-top: 0;
+  border-radius: 0 0 14px 14px;
+  padding: 16px;
+}
+
+.editor-write {
+  margin: 0;
+  display: flex;
+}
+
+.editor-write textarea {
+  min-height: 58vh;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.7;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  resize: none;
+}
+
+.editor-write textarea:focus-visible {
+  outline-offset: 4px;
+}
+
+.editor-preview {
+  border-left: 1px solid var(--hairline);
+  padding-left: 20px;
+  max-height: 58vh;
+  overflow-y: auto;
+  font-size: 15.5px;
+}
+
+.editor-preview > *:first-child {
+  margin-top: 0;
+}
+
+.editor-meta {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline-soft);
+  display: grid;
+  gap: 8px;
+}
+
+.editor-meta > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+}
+
+.editor-meta span {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+@media (max-width: 1040px) {
+  .editor-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .editor-side {
+    position: static;
+  }
+}
+
+@media (max-width: 720px) {
+  /* Below this width two panes are both too narrow to use, so the tabs drive
+     which one is visible. */
+  .editor-panes {
+    grid-template-columns: 1fr;
+  }
+  .editor-panes[data-tab='write'] .editor-preview,
+  .editor-panes[data-tab='preview'] .editor-write {
+    display: none;
+  }
+  .editor-preview {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .admin-bar-inner {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .admin-row-actions {
+    flex-wrap: wrap;
+  }
+}

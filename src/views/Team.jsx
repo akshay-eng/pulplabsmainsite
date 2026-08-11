@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
 import Navbar from '../components/Navbar'
 import HeroMarker from '../components/HeroMarker'
 import { FooterSlim } from '../components/Footer'
@@ -123,7 +125,7 @@ export default function Team() {
               Book a discovery call and you'll talk to an engineer, not a salesperson.
             </p>
           </div>
-          <Link to="/#contact" className="btn btn-ink" style={{ position: 'relative' }}>
+          <Link href="/#contact" className="btn btn-ink" style={{ position: 'relative' }}>
             Book a consultation
           </Link>
         </div>
