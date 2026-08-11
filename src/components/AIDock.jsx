@@ -45,7 +45,10 @@ export default function AIDock() {
   const stored = useRef(loadStored()).current
   const navigate = useNavigate()
 
-  const [mode, setMode] = useState(stored?.mode === 'dot' ? 'dot' : 'bar')
+  // Start as a compact launcher so the assistant never competes with a page's
+  // primary CTA or covers editorial content. Once a visitor opens it, their
+  // chosen state and transcript continue to persist for the session.
+  const [mode, setMode] = useState(stored?.mode === 'bar' ? 'bar' : stored?.mode === 'open' ? 'bar' : 'dot')
   const [messages, setMessages] = useState(stored?.messages ?? [])
   const [draft, setDraft] = useState('')
   const [thinking, setThinking] = useState(false)

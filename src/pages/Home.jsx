@@ -250,6 +250,18 @@ export default function Home() {
           </h2>
         </div>
 
+        <figure className="stock-photo-figure stock-photo-delivery" data-reveal>
+          <img
+            src="/photos/coding-session.webp"
+            alt="Two engineers reviewing code together during a collaborative working session"
+            loading="lazy"
+            decoding="async"
+            width="1600"
+            height="1067"
+          />
+          <figcaption>Hands-on delivery · illustrative editorial image</figcaption>
+        </figure>
+
         <div className="step-grid">
           {engagementSteps.map((s, i) => (
             <div key={s.title} className="step-card" style={{ background: s.bg, '--reveal-delay': `${i * 80}ms` }} data-reveal>

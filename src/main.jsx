@@ -6,6 +6,7 @@ import './styles/global.css'
 import './styles/refined.css'
 import './styles/components.css'
 import './styles/ai-dock.css'
+import './styles/stock-images.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

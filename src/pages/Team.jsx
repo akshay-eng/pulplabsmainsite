@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import HeroMarker from '../components/HeroMarker'
@@ -40,6 +41,18 @@ export default function Team() {
           The six of us
         </SectionLabel>
 
+        <figure className="stock-photo-figure stock-photo-team" data-reveal>
+          <img
+            src="/photos/workshop-collaboration.webp"
+            alt="Two colleagues working side by side with a tablet"
+            loading="lazy"
+            decoding="async"
+            width="1600"
+            height="1067"
+          />
+          <figcaption>Working side by side · illustrative editorial image</figcaption>
+        </figure>
+
         <div className="team-grid" style={{ marginTop: 26 }}>
           {people.map((p, i) => (
             <article
@@ -48,21 +61,7 @@ export default function Team() {
               style={{ boxShadow: `0 2px 0 ${p.shadow}`, '--reveal-delay': `${(i % 3) * 80}ms` }}
               data-reveal
             >
-              <div className="person-photo" style={{ background: p.photoBg }}>
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    backgroundImage: `radial-gradient(${p.dots} 1.3px, transparent 1.3px)`,
-                    backgroundSize: '18px 18px',
-                  }}
-                />
-                <div className="head" style={{ background: p.figure, opacity: p.figureOpacity }} />
-                <div className="shoulders" style={{ background: p.figure, opacity: p.figureOpacity }} />
-                <span className="tag" style={{ color: p.tagColor }}>
-                  [ photo ]
-                </span>
-              </div>
+              <PersonPhoto person={p} />
 
               <div className="person-body">
                 <div className="name">{p.name}</div>
@@ -130,6 +129,30 @@ export default function Team() {
       </section>
 
       <FooterSlim />
+    </div>
+  )
+}
+
+function PersonPhoto({ person }) {
+  const [failed, setFailed] = useState(false)
+
+  return (
+    <div className="person-photo" style={{ background: person.photoBg }}>
+      {!failed && person.photo ? (
+        <img
+          src={person.photo}
+          alt={`Illustrated portrait for ${person.role}`}
+          loading="lazy"
+          decoding="async"
+          onError={() => setFailed(true)}
+          style={{ objectPosition: person.photoPosition || '50% 20%' }}
+        />
+      ) : (
+        <div className="person-photo-fallback" aria-label={`${person.role} portrait unavailable`}>
+          <span className="head" style={{ background: person.figure, opacity: person.figureOpacity }} />
+          <span className="shoulders" style={{ background: person.figure, opacity: person.figureOpacity }} />
+        </div>
+      )}
     </div>
   )
 }
