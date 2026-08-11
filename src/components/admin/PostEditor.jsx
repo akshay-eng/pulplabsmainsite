@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useMemo, useRef, useState } from 'react'
 import { useFormStatus } from 'react-dom'
 import { savePostAction } from '@/app/admin/actions'
+import CoverField from './CoverField'
 
 /* ==========================================================================
    Post editor — markdown on the left, live preview on the right.
@@ -221,12 +222,7 @@ export default function PostEditor({ post = null, saved = false }) {
             <input name="slug" defaultValue={post?.slug ?? ''} placeholder="why-your-incident-bot-keeps-guessing" />
           </label>
 
-          <label className="admin-field">
-            <span>
-              Cover image <em>path or URL, 1200×630 for social</em>
-            </span>
-            <input name="cover_image" defaultValue={v.cover_image ?? ''} placeholder="/art/blog-featured.webp" />
-          </label>
+          <CoverField defaultValue={v.cover_image ?? ''} />
 
           <label className="admin-field">
             <span>Author</span>

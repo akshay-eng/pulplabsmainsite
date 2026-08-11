@@ -1,7 +1,7 @@
 # pulplabs.ai
 
-Marketing site for PulpLabs — an AI consultancy and engineering firm. Built in React with Vite,
-ported from the "PulpLabs UI mockup" design comps.
+Marketing site and blog for PulpLabs — an AI consultancy and engineering firm. Next.js (App Router)
+with a SQLite-backed blog, an admin CMS and a REST API.
 
 ## Pages
 
@@ -10,16 +10,22 @@ ported from the "PulpLabs UI mockup" design comps.
 | `/`         | Home     | Hero, trusted-by strip, practice-area preview, engagement steps, testimonials, enablement, contact |
 | `/services` | Services | Five-area catalogue, enterprise accelerators, case studies, CTA                                     |
 | `/team`     | Team     | Six-person roster, platform certifications, CTA                                                     |
-| `/blog`     | Blog     | Featured post, post list, open-source panel, newsletter                                             |
+| `/blog`     | Blog     | Post index from the database, category and tag filters, newsletter                                 |
+| `/blog/[slug]` | Post  | Server-rendered article, table of contents, related posts, full SEO metadata                       |
+| `/admin`    | CMS      | Sign-in, post list, markdown editor. Gated by middleware, `noindex`                                 |
 
 ## Running it
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
-npm run build    # → dist/
-npm run preview  # serve the production build
+cp .env.example .env.local          # then fill SESSION_SECRET and API_TOKEN
+ADMIN_EMAIL=you@example.com ADMIN_PASSWORD='at least 12 chars' npm run seed
+npm run dev                          # http://localhost:3000
+npm run build && npm start           # production build
 ```
+
+`npm run seed` creates the admin user and imports the starter posts. It is safe to re-run —
+the admin is upserted and posts are matched on slug.
 
 ## Layout
 
@@ -27,9 +33,13 @@ npm run preview  # serve the production build
 src/
 ├── components/     Navbar, footers, logo, icons, forms, shared bits
 ├── data/           Page content — copy, colours and metrics live here, not in JSX
-├── lib/            motion.js (reveals, parallax, counters), assistant.js
-├── pages/          Home, Services, Team, Blog
-└── styles/         global.css → refined.css → components.css → ai-dock.css
+├── app/            Routes: marketing pages, /blog, /admin, /api, sitemap, robots, feed
+├── lib/            db.js, posts.js, markdown.js, auth.js, motion.js, assistant.js
+├── views/          Home, Services, Team — the marketing page bodies
+└── styles/         global → refined → components → blog → ai-dock (load order matters)
+
+`views/` rather than `pages/` on purpose: `pages/` is reserved by Next and these components
+would be picked up as Pages Router routes.
 ```
 
 Content is separated from markup on purpose: to change a service blurb, a team member or a blog
@@ -40,7 +50,8 @@ override `global.css` without specificity hacks. Tokens live at the top of the f
 
 ## Assistant dock
 
-`AIDock` is mounted once in `App.jsx`, outside `<Routes>`, so its transcript survives navigation.
+`AIDock` is mounted once in the root layout, so its transcript survives navigation. It hides itself
+on `/admin` — it is a visitor-facing sales surface, not part of the CMS.
 It has three states — composer bar, open panel, and minimised to a dot — persisted to
 `sessionStorage`.
 
@@ -57,8 +68,15 @@ The hero centrepiece is a WebGL shader (`HeroCore.jsx`) lazy-loaded behind `requ
 it ships as a separate ~221KB gzip chunk that only `/` requests. `HeroStage.jsx` probes for WebGL and
 respects `prefers-reduced-motion`, falling back to a pure-CSS orb.
 
-three / @react-three/fiber / @react-three/drei are pinned to an older line **on purpose** — fiber v9
-and drei v10 both require React 19. They move as a set; upgrading means React 18 → 19 first.
+The stack is React 19 + `@react-three/fiber@9` + `three@0.169`. `@react-three/drei` is deliberately
+**not** installed: nothing imports it and its `react: ^18` peer would pin the whole tree back.
+
+Next 15's package.json advertises `react: "^18.2.0 || ^19.0.0"`, but the App Router serves **React 19**
+to client components regardless — on React 18 the hero throws `ReactCurrentOwner is undefined` from
+fiber v8. Check what is really running with
+`node -e "console.log(typeof require('react').useActionState)"` (React 19 only). three and fiber move
+as a set, gated on the React major, and a green `next build` will not catch a mismatch — the failure
+is client-side, so load `/` and confirm the canvas mounts.
 
 ## Design system
 
@@ -93,8 +111,10 @@ a team page read as real employees.
   `NewsletterForm` at a real endpoint before launch.
 - The assistant dock cannot actually book anything — see "Assistant dock" above.
 - The telemetry panel is headed "Live estate telemetry"; the figures are static values from
-  `src/pages/Home.jsx`, not a live feed. Reword if that framing overstates it.
+  `src/views/Home.jsx`, not a live feed. Reword if that framing overstates it.
 - Team names, bios, photos and social links in `src/data/team.js` are placeholders.
-- Blog posts and case-study copy are placeholders; post links point at `#`.
-- Routing uses `BrowserRouter`, so a static host needs an SPA rewrite. `public/_redirects` covers
-  Netlify; Vercel and friends need the equivalent rule.
+- The seeded blog posts are stubs — the originals were titles and excerpts only. Rewrite them in
+  the admin.
+- Case-study copy on `/services` is still placeholder.
+- Set `NEXT_PUBLIC_SITE_URL` in production, or every canonical URL, OG tag, sitemap entry and RSS
+  link will point at localhost.

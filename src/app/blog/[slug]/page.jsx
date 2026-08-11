@@ -131,6 +131,16 @@ export default async function PostPage({ params }) {
           </div>
         </header>
 
+        {post.cover_image && (
+          <div className="shell">
+            {/* Cropped to 1.91:1 by CSS — the same framing as the social card,
+                so what a reader sees matches what LinkedIn unfurls. */}
+            <figure className="post-cover">
+              <img src={post.cover_image} alt="" fetchPriority="high" decoding="async" />
+            </figure>
+          </div>
+        )}
+
         <div className="shell post-body-grid">
           {/* Contents rail — only worth showing once there's enough structure
               to navigate. */}

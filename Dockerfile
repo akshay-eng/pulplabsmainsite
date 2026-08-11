@@ -29,6 +29,8 @@ ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 # Persistent volume mount point — see fly.toml
 ENV DATABASE_PATH=/data/pulplabs.db
+# Cover uploads share the volume — public/ is baked in at build time
+ENV UPLOAD_DIR=/data/uploads
 
 RUN groupadd -r app && useradd -r -g app app
 

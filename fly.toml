@@ -7,6 +7,7 @@ primary_region = "lhr"   # change to your nearest region
 [env]
   PORT = "3000"
   DATABASE_PATH = "/data/pulplabs.db"
+  UPLOAD_DIR = "/data/uploads"
   NEXT_PUBLIC_SITE_URL = "https://pulplabs.ai"
 
 # The whole reason SQLite works here: a real disk that survives redeploys.
