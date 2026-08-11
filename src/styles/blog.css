@@ -195,10 +195,17 @@
   padding-bottom: 60px;
 }
 
-/* Without a TOC the prose centres instead of hugging the left edge */
+/* Without a TOC the grid is a single column. It must NOT get a max-width:
+   `.post-body-grid` also carries `.shell` (margin: 0 auto), so constraining
+   it here centred the whole column at left:340 while the header and cover sat
+   at left:132 — three different left edges on one page. The prose does the
+   constraining instead, and everything aligns. */
 .post-body-grid:not(:has(.post-toc)) {
   grid-template-columns: minmax(0, 1fr);
-  max-width: 760px;
+}
+
+.post-body-grid:not(:has(.post-toc)) .prose {
+  max-width: 72ch;
 }
 
 .post-toc {
@@ -444,10 +451,20 @@
    card all frame the same way, and object-fit does the cropping.
    ========================================================================== */
 
-.featured-art,
-.post-cover {
+.featured-art {
   aspect-ratio: 1200 / 630;
   height: auto;
+  overflow: hidden;
+  position: relative;
+}
+
+/* The page cover keeps full shell width and takes a fixed height instead of
+   the card ratio. At 1.91:1 across a 1176px shell it rendered 617px tall —
+   a whole screen of image before the article started. Capping the height
+   while keeping aspect-ratio shrank the WIDTH to 838px instead, hence a
+   fixed height with object-fit doing the crop. */
+.post-cover {
+  height: clamp(240px, 34vw, 420px);
   overflow: hidden;
   position: relative;
 }
@@ -470,4 +487,65 @@
 
 .post-thumb {
   overflow: hidden;
+}
+
+/* ==========================================================================
+   Loading skeletons
+   Shown by loading.jsx while a route streams. The point is feedback, not
+   fidelity — a shimmer that appears instantly beats an accurate placeholder
+   that appears late.
+   ========================================================================== */
+
+.skeleton-header {
+  padding: 56px 0 40px;
+  background: var(--tint-warm);
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.skeleton-body {
+  padding-top: 40px;
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+}
+
+.sk {
+  display: block;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--tint) 25%, var(--tangerine-wash) 50%, var(--tint) 75%);
+  background-size: 200% 100%;
+  animation: sk-shimmer 1.4s linear infinite;
+}
+
+.sk-kicker {
+  width: 120px;
+  height: 12px;
+  margin-bottom: 20px;
+}
+.sk-title {
+  width: min(680px, 90%);
+  height: 42px;
+  margin-bottom: 12px;
+}
+.sk-title.short {
+  width: min(420px, 60%);
+}
+.sk-line {
+  width: 100%;
+  height: 14px;
+}
+.sk-line.short {
+  width: 70%;
+}
+
+@keyframes sk-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk {
+    animation: none;
+  }
 }

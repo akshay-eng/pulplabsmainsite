@@ -15,8 +15,10 @@ export default function NewsletterForm({ variant = 'inline' }) {
 
   if (variant === 'stacked') {
     return (
+      <>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="newsletter-stacked" className="sr-only" style={{ display: 'none' }}>
+        {/* sr-only rather than display:none — a hidden label is not announced */}
+        <label htmlFor="newsletter-stacked" className="sr-only">
           Email address
         </label>
         <input
@@ -29,6 +31,10 @@ export default function NewsletterForm({ variant = 'inline' }) {
         />
         <button type="submit">{sent ? 'Subscribed ✓' : 'Subscribe'}</button>
       </form>
+      <p className="newsletter-note">
+        {sent ? 'Thanks — you are on the list.' : 'One email a month. Unsubscribe in a click.'}
+      </p>
+      </>
     )
   }
 
