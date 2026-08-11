@@ -62,10 +62,11 @@
   overflow: hidden;
 }
 
-/* Generated backdrop — blown-glass ribbons, Gemini 3 Pro Image.
-   Full-bleed and right-weighted so the ribbons sweep behind the WebGL core
-   rather than sitting beside it; the core reads as glowing through the glass.
-   image-set() serves WebP (46KB) with a JPEG fallback (88KB). */
+/* Generated backdrop — hairline engineering blueprint, Gemini 3 Pro Image.
+   Deliberately a GROUND, not a subject. Earlier passes (contours, glass
+   ribbons, isometric layers) each became a subject and fought the WebGL core
+   for attention. This is whisper-quiet linework whose left half is empty, so
+   the headline and the core both sit on it cleanly. 25KB WebP. */
 .home-hero::before {
   content: '';
   position: absolute;
@@ -74,31 +75,15 @@
   background-image: -webkit-image-set(url('/hero-bg.webp') type('image/webp'), url('/hero-bg.jpg') type('image/jpeg'));
   background-image: image-set(url('/hero-bg.webp') type('image/webp'), url('/hero-bg.jpg') type('image/jpeg'));
   background-size: cover;
-  background-position: 78% center;
+  background-position: 72% center;
   background-repeat: no-repeat;
-  opacity: 0.95;
+  opacity: 1;
   animation: mesh-drift 40s var(--e-in-out) infinite alternate;
-  /* The headline runs to roughly the halfway mark, so the ramp stays near-zero
-     until 38% and only reaches full past 70%. The ribbons get to be bold on
-     the right without ever competing with type on the left. */
-  -webkit-mask-image: linear-gradient(
-    100deg,
-    transparent 10%,
-    rgba(0, 0, 0, 0.12) 38%,
-    rgba(0, 0, 0, 0.62) 56%,
-    #000 72%,
-    rgba(0, 0, 0, 0.62) 94%,
-    rgba(0, 0, 0, 0.25) 100%
-  );
-  mask-image: linear-gradient(
-    100deg,
-    transparent 10%,
-    rgba(0, 0, 0, 0.12) 38%,
-    rgba(0, 0, 0, 0.62) 56%,
-    #000 72%,
-    rgba(0, 0, 0, 0.62) 94%,
-    rgba(0, 0, 0, 0.25) 100%
-  );
+  /* A light falloff only. The previous multi-stop ramp existed to hold back a
+     loud backdrop; this one is already pale and empty on the left, so heavy
+     masking would erase it entirely. */
+  -webkit-mask-image: linear-gradient(100deg, transparent 6%, rgba(0, 0, 0, 0.5) 34%, #000 62%);
+  mask-image: linear-gradient(100deg, transparent 6%, rgba(0, 0, 0, 0.5) 34%, #000 62%);
 }
 
 /* Phone: serve the 900px variant and drop the mask — at narrow widths the
@@ -120,20 +105,8 @@
   }
 }
 
-/* Engineering grid — fades out toward the edges so it never reads as a table */
-.home-hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-image:
-    linear-gradient(rgba(31, 23, 16, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(31, 23, 16, 0.045) 1px, transparent 1px);
-  background-size: 68px 68px;
-  -webkit-mask-image: radial-gradient(76% 68% at 50% 42%, #000 20%, transparent 82%);
-  mask-image: radial-gradient(76% 68% at 50% 42%, #000 20%, transparent 82%);
-  pointer-events: none;
-}
+/* The CSS engineering grid is retired: the blueprint artwork already carries
+   technical linework, and running both put two grids on top of each other. */
 
 /* Bloom behind the core */
 .wheel-stage::before {
@@ -1062,8 +1035,12 @@
    people shown are PulpLabs staff.
    ========================================================================== */
 
+/* `.section` is padded 82px top / 0 bottom, so every gap in the page comes
+   from the NEXT section's top padding. Zeroing it here (the previous value)
+   left the photo butted straight against the cards above it. Slightly tighter
+   than a full section because a photo band belongs with what precedes it. */
 .photo-strip {
-  padding-top: 0;
+  padding-top: 64px;
 }
 
 .photo-band {
