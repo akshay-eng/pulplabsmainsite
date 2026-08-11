@@ -107,9 +107,19 @@ a team page read as real employees.
 
 ## Assistant
 
-The dock is backed by Grok (xAI) through `POST /api/assistant`. The key is read
-only in [`src/lib/grok.js`](src/lib/grok.js), which is `server-only` — it is never
-sent to the browser.
+The dock is backed by an LLM through `POST /api/assistant` — currently Groq running
+`openai/gpt-oss-120b`. The key is read only in [`src/lib/llm.js`](src/lib/llm.js), which
+is `server-only`, so it is never sent to the browser.
+
+The module is named for the job, not the vendor: this has already moved from xAI to Groq
+once, and both speak the OpenAI chat/completions shape, so switching again is
+`LLM_BASE_URL` + `LLM_MODEL` + a key. (Groq is the inference provider at groq.com, keys
+start `gsk_`. Grok is xAI's model, keys start `xai-`. Different companies.)
+
+`gpt-oss` is a **reasoning** model, which has two consequences the code handles:
+`max_completion_tokens` covers reasoning *and* the answer, so a low cap returns an empty
+`content`; and the trace comes back in `message.reasoning`, which is deliberately dropped
+— it is the model's scratchpad, not something a visitor should read.
 
 The route is public and unauthenticated, because it powers the site chat. That makes it
 a paid API anyone can call, so it is rate limited to 12 messages per IP per minute and
@@ -123,8 +133,10 @@ and never returned to the browser. The booking flow stays deterministic and neve
 the model.
 
 ```bash
-XAI_API_KEY=...            # required for live answers
-XAI_MODEL=grok-4-fast      # override if that name is wrong for your account
+GROQ_API_KEY=...                              # required for live answers
+LLM_BASE_URL=https://api.groq.com/openai/v1   # any OpenAI-compatible provider
+LLM_MODEL=openai/gpt-oss-120b
+LLM_REASONING_EFFORT=low                      # low suits simple grounded lookups
 ```
 
 ## Notes before this goes live

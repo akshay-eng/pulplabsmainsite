@@ -1,4 +1,4 @@
-import { askGrok, isConfigured, GrokError } from '@/lib/grok'
+import { askLlm, isConfigured, LlmError } from '@/lib/llm'
 import { matchIntent } from '@/lib/assistant'
 
 export const dynamic = 'force-dynamic'
@@ -76,13 +76,14 @@ export async function POST(request) {
   if (!isConfigured()) return json(localAnswer(message))
 
   try {
-    const reply = await askGrok(history, message)
-    return json({ reply, source: 'grok' })
+    const reply = await askLlm(history, message)
+    return json({ reply, source: 'llm' })
   } catch (err) {
-    if (err instanceof GrokError) {
+    if (err instanceof LlmError) {
       // Logged server-side so the real cause (no credits, bad key, unknown
-      // model) is diagnosable; never returned to the browser.
-      console.error('[assistant] grok failed:', err.status, err.message, err.detail ?? '')
+      // model, reasoning ate the budget) is diagnosable; never returned to
+      // the browser.
+      console.error('[assistant] llm failed:', err.status, err.message, err.detail ?? '')
     } else {
       console.error('[assistant] unexpected:', err)
     }

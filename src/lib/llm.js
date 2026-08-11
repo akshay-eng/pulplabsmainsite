@@ -1,21 +1,35 @@
 import 'server-only'
 
 /* ==========================================================================
-   xAI (Grok) client.
+   LLM client for the site assistant. Currently Groq.
 
-   Server-only, deliberately. The key lives in XAI_API_KEY and must never be
-   sent to the browser — anything in NEXT_PUBLIC_* or imported by a client
-   component is readable by every visitor, and this key bills a real account.
+   Named for the job rather than the vendor: this has already moved from xAI to
+   Groq once, and both speak the OpenAI chat/completions shape, so switching
+   again is a base URL, a key and a model name.
 
-   The API is OpenAI-compatible, so this is a plain chat/completions call.
+   Server-only. GROQ_API_KEY must never reach the browser — anything in
+   NEXT_PUBLIC_* or imported by a client component is readable by every
+   visitor, and this key bills a real account.
+
+   NOTE (Groq vs Grok): Groq is the inference provider at groq.com and its keys
+   start `gsk_`. Grok is xAI's model, keys start `xai-`. Different companies,
+   different endpoints — easy to conflate.
    ========================================================================== */
 
-const ENDPOINT = 'https://api.x.ai/v1/chat/completions'
-const MODEL = process.env.XAI_MODEL || 'grok-4-fast'
+const BASE_URL = process.env.LLM_BASE_URL || 'https://api.groq.com/openai/v1'
+const MODEL = process.env.LLM_MODEL || 'openai/gpt-oss-120b'
 
-/* The assistant answers about a real business, so it is grounded in the same
-   facts the site publishes and told plainly what it must not invent. An
-   ungrounded model will cheerfully make up prices and case studies. */
+/* gpt-oss is a reasoning model: it spends tokens thinking before it writes,
+   and returns that separately in `message.reasoning`. Two consequences:
+
+   1. `max_completion_tokens` covers reasoning AND the answer. Set it too low
+      and reasoning consumes the whole budget, leaving `content` empty — a 20
+      token cap returned a blank string in testing.
+   2. 'low' effort is right here. These are lookups against a grounded prompt,
+      not hard problems, and effort costs latency the visitor waits through. */
+const REASONING_EFFORT = process.env.LLM_REASONING_EFFORT || 'low'
+const MAX_TOKENS = 1200
+
 const SYSTEM = `You are the assistant on pulplabs.ai, the website of PulpLabs — an AI consultancy and engineering firm.
 
 WHAT PULPLABS DOES — five practice areas:
@@ -45,25 +59,25 @@ RULES:
 - Use **bold** for emphasis. Do not use headings, tables or code blocks.
 - Stay on PulpLabs and its work. If asked about something unrelated, say it is outside what you can help with and redirect.`
 
-export class GrokError extends Error {
+export class LlmError extends Error {
   constructor(message, { status, detail } = {}) {
     super(message)
-    this.name = 'GrokError'
+    this.name = 'LlmError'
     this.status = status
     this.detail = detail
   }
 }
 
-export const isConfigured = () => Boolean(process.env.XAI_API_KEY)
+export const isConfigured = () => Boolean(process.env.GROQ_API_KEY)
 
 /**
  * @param {{role:'user'|'assistant', content:string}[]} history
  * @param {string} message
- * @returns {Promise<string>} the assistant's reply text
+ * @returns {Promise<string>} the visible reply, never the reasoning trace
  */
-export async function askGrok(history, message) {
-  const key = process.env.XAI_API_KEY
-  if (!key) throw new GrokError('XAI_API_KEY is not set.', { status: 503 })
+export async function askLlm(history, message) {
+  const key = process.env.GROQ_API_KEY
+  if (!key) throw new LlmError('GROQ_API_KEY is not set.', { status: 503 })
 
   const messages = [
     { role: 'system', content: SYSTEM },
@@ -77,18 +91,25 @@ export async function askGrok(history, message) {
   ]
 
   // Don't let a hung upstream hold a request open indefinitely.
-  const abort = AbortSignal.timeout(20000)
+  const signal = AbortSignal.timeout(25000)
 
   let res
   try {
-    res = await fetch(ENDPOINT, {
+    res = await fetch(`${BASE_URL}/chat/completions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
-      body: JSON.stringify({ model: MODEL, messages, temperature: 0.3, max_tokens: 600, stream: false }),
-      signal: abort,
+      body: JSON.stringify({
+        model: MODEL,
+        messages,
+        temperature: 0.3,
+        max_completion_tokens: MAX_TOKENS,
+        reasoning_effort: REASONING_EFFORT,
+        stream: false,
+      }),
+      signal,
     })
   } catch (err) {
-    throw new GrokError(err.name === 'TimeoutError' ? 'The model timed out.' : 'Could not reach the model.', {
+    throw new LlmError(err.name === 'TimeoutError' ? 'The model timed out.' : 'Could not reach the model.', {
       status: 504,
       detail: err.message,
     })
@@ -96,13 +117,22 @@ export async function askGrok(history, message) {
 
   if (!res.ok) {
     const body = await res.text()
-    // Surface the upstream message — the difference between "no credits",
-    // "bad key" and "unknown model" matters and is otherwise invisible.
-    throw new GrokError(`xAI returned ${res.status}.`, { status: res.status, detail: body.slice(0, 400) })
+    // Surface the upstream message — "no credits", "bad key", "unknown model"
+    // and "rate limited" are all different problems and otherwise invisible.
+    throw new LlmError(`Provider returned ${res.status}.`, { status: res.status, detail: body.slice(0, 400) })
   }
 
   const data = await res.json()
-  const reply = data?.choices?.[0]?.message?.content?.trim()
-  if (!reply) throw new GrokError('The model returned an empty reply.', { status: 502 })
+  const choice = data?.choices?.[0]
+  // `message.reasoning` is deliberately ignored — it is the model's private
+  // scratchpad, frequently unpolished, and not something a visitor should read.
+  const reply = choice?.message?.content?.trim()
+
+  if (!reply) {
+    throw new LlmError('The model returned no visible content.', {
+      status: 502,
+      detail: `finish_reason=${choice?.finish_reason} — if this is "length", reasoning consumed the whole token budget.`,
+    })
+  }
   return reply
 }
