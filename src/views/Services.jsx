@@ -116,6 +116,25 @@ export default function Services() {
         </div>
       </section>
 
+      <section className="section photo-strip" data-reveal>
+        <div className="photo-pair">
+          <figure className="photo-band">
+            <img src="/photos/engineering.webp" alt="An engineer working at a desk with two monitors" loading="lazy" decoding="async" />
+            <figcaption>
+              <span className="photo-kicker">Build &amp; evaluate</span>
+              Weekly increments, evaluated before they reach production.
+            </figcaption>
+          </figure>
+          <figure className="photo-band">
+            <img src="/photos/operations.webp" alt="An operations wall of monitoring dashboards" loading="lazy" decoding="async" />
+            <figcaption>
+              <span className="photo-kicker">Managed operations</span>
+              We run what we build, for as long as you want us to.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
       {/* CASE STUDIES */}
       <section id="work" className="section">
         <SectionLabel dot="#FFC93C">Case studies</SectionLabel>

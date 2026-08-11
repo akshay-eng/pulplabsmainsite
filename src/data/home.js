@@ -44,50 +44,33 @@ export const practiceAreas = [
   },
 ]
 
+/* A process, not four unrelated cards. The old shape carried a different
+   pastel background per step (peach / pink / lemon / mint), which read as a
+   crayon box; colour is now carried by the rail alone. */
 export const engagementSteps = [
   {
-    step: 'STEP 1 · WEEK 0–1',
+    n: 1,
+    when: 'Week 0–1',
     title: 'Discover',
     body: 'A structured audit of the workflow, the data behind it, and what a win would measurably look like.',
-    bg: '#FFF3E4',
-    blob: '#FFE3C6',
-    disc: '#fff',
-    fill: '#FF6B1A',
-    fraction: 'quarter',
-    metaColor: '#D9520F',
   },
   {
-    step: 'STEP 2 · WEEK 1–2',
+    n: 2,
+    when: 'Week 1–2',
     title: 'Scope & propose',
     body: 'A fixed scope, timeline and estimate built from your requirement — not a rate card.',
-    bg: '#FFE1E4',
-    blob: '#FFD3D8',
-    disc: '#fff',
-    fill: '#F0384B',
-    fraction: 'half',
-    metaColor: '#C42B3D',
   },
   {
-    step: 'STEP 3 · WEEK 2–8',
+    n: 3,
+    when: 'Week 2–8',
     title: 'Build & evaluate',
     body: 'Weekly increments, with evaluation gates before anything touches production.',
-    bg: '#FFF3C4',
-    blob: '#FFECA8',
-    disc: '#fff',
-    fill: '#C9930A',
-    fraction: 'threequarter',
-    metaColor: '#A87B00',
   },
   {
-    step: 'STEP 4 · ONGOING',
+    n: 4,
+    when: 'Ongoing',
     title: 'Hand over',
     body: 'Your code, your documentation, your trained team — with managed ops if you want it.',
-    bg: '#EAF6DC',
-    blob: '#DDF0C8',
-    disc: '#fff',
-    fill: '#7BC043',
-    full: true,
-    metaColor: '#4F8A1D',
   },
 ]
 

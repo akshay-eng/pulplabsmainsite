@@ -252,24 +252,18 @@ export default function Home() {
           </h2>
         </div>
 
-        <div className="step-grid">
+        <ol className="steps">
           {engagementSteps.map((s, i) => (
-            <div key={s.title} className="step-card" style={{ background: s.bg, '--reveal-delay': `${i * 80}ms` }} data-reveal>
-              <div
-                className="blob"
-                style={{ right: -26, top: -26, width: 96, height: 96, background: s.blob }}
-              />
-              <div className="card-body">
-                <PieIcon disc={s.disc} fill={s.fill} fraction={s.fraction} full={s.full} />
-                <div className="step-meta" style={{ color: s.metaColor }}>
-                  {s.step}
-                </div>
-                <h3>{s.title}</h3>
-                <p>{s.body}</p>
+            <li key={s.title} className="step" style={{ '--reveal-delay': `${i * 90}ms` }} data-reveal>
+              <div className="step-node">
+                <span className="step-n">{s.n}</span>
               </div>
-            </div>
+              <div className="step-when">{s.when}</div>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
       {/* TESTIMONIALS */}
@@ -314,6 +308,19 @@ export default function Home() {
       </section>
 
       {/* ENABLEMENT */}
+      {/* Photo strip leading into the enablement band. Generated imagery, used
+          the way stock photography is — nobody in it is identifiable, so it
+          illustrates the work without implying these are PulpLabs staff. */}
+      <section className="section photo-strip" data-reveal>
+        <figure className="photo-band">
+          <img src="/photos/workshop.webp" alt="A team working through a system diagram on a whiteboard" loading="lazy" decoding="async" />
+          <figcaption>
+            <span className="photo-kicker">In the room</span>
+            Every cohort works on your workflows, at your whiteboard.
+          </figcaption>
+        </figure>
+      </section>
+
       <section className="band">
         <div className="band-ring" />
         <div className="band-inner">
