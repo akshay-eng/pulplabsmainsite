@@ -1,6 +1,6 @@
 import 'server-only'
 import { mkdir, writeFile, readFile, stat } from 'node:fs/promises'
-import { join, extname, normalize } from 'node:path'
+import { join, extname, normalize, resolve } from 'node:path'
 import { randomBytes } from 'node:crypto'
 
 /* ==========================================================================
@@ -12,7 +12,9 @@ import { randomBytes } from 'node:crypto'
    writable.
    ========================================================================== */
 
-export const UPLOAD_DIR = process.env.UPLOAD_DIR || '.data/uploads'
+/* Absolute, for the same reason as DATABASE_PATH — see src/lib/db.js. Under
+   `output: standalone` a relative path resolves against .next/standalone/. */
+export const UPLOAD_DIR = resolve(process.env.UPLOAD_DIR || '.data/uploads')
 
 /** 1200×630 — the Open Graph standard. Cover art doubles as the social card,
  *  so one ratio serves both and there's nothing to reconcile later. */

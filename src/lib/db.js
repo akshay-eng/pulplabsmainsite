@@ -1,6 +1,6 @@
 import Database from 'better-sqlite3'
-import { mkdirSync } from 'node:fs'
-import { dirname } from 'node:path'
+import { mkdirSync, existsSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
 
 /* ==========================================================================
    SQLite connection.
@@ -10,7 +10,13 @@ import { dirname } from 'node:path'
    lost on redeploy, which is the classic way SQLite-on-a-PaaS goes wrong.
    ========================================================================== */
 
-const DB_PATH = process.env.DATABASE_PATH || '.data/pulplabs.db'
+/* Resolved to an absolute path against the process cwd, and logged, because a
+   relative path is a silent-failure trap: `output: standalone` starts the
+   server from .next/standalone/, so `.data/pulplabs.db` resolved to a
+   DIFFERENT directory, SQLite happily created an empty database there, and
+   the site served 200s with no posts and no case studies. Always set an
+   absolute DATABASE_PATH in production. */
+const DB_PATH = resolve(process.env.DATABASE_PATH || '.data/pulplabs.db')
 
 /* Next dev reloads modules on every edit; without a global singleton each
    reload would open another handle to the same file and eventually exhaust
@@ -18,6 +24,7 @@ const DB_PATH = process.env.DATABASE_PATH || '.data/pulplabs.db'
 const globalForDb = globalThis
 
 function connect() {
+  const isNew = !existsSync(DB_PATH)
   mkdirSync(dirname(DB_PATH), { recursive: true })
   const db = new Database(DB_PATH)
 
@@ -28,6 +35,19 @@ function connect() {
   db.pragma('busy_timeout = 5000')
 
   migrate(db)
+
+  /* Creating a database from scratch is expected on a first run and a red flag
+     anywhere else — in production it almost always means DATABASE_PATH is
+     pointing somewhere unintended and the site is about to serve empty pages. */
+  if (isNew && process.env.NODE_ENV === 'production') {
+    console.warn(
+      `[db] Created a NEW empty database at ${DB_PATH}. ` +
+        'If you expected existing content, DATABASE_PATH is wrong — it must be absolute in production.',
+    )
+  } else {
+    console.log(`[db] ${DB_PATH}${isNew ? ' (new)' : ''}`)
+  }
+
   return db
 }
 
