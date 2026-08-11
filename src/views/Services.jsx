@@ -8,9 +8,10 @@ import SectionLabel from '../components/SectionLabel'
 import Squiggle from '../components/Squiggle'
 import Aperture from '../components/Aperture'
 import { SpotlightCard } from '../components/ui'
-import { catalogue, accelerators, caseStudies } from '../data/services'
+import CaseCarousel from '../components/CaseCarousel'
+import { catalogue, accelerators } from '../data/services'
 
-export default function Services() {
+export default function Services({ cases = [] }) {
   return (
     <div className="page">
       <Navbar />
@@ -142,46 +143,7 @@ export default function Services() {
           Where we've squeezed out real results
         </h2>
 
-        <div className="case-grid">
-          {caseStudies.map((c) => (
-            <article
-              key={c.title}
-              className="card card-lift case-card"
-              style={{ '--accent': c.accent, '--accent-shadow': 'transparent' }}
-            >
-              <div className="case-art" style={{ background: c.artBg }}>
-                <img src={c.art} alt="" loading="lazy" decoding="async" />
-              </div>
-
-              <div className="case-copy">
-                <div
-                  style={{
-                    fontFamily: 'var(--mono)',
-                    fontSize: 11.5,
-                    letterSpacing: '.1em',
-                    textTransform: 'uppercase',
-                    color: c.kickerColor,
-                  }}
-                >
-                  {c.client}
-                </div>
-                <h3>{c.title}</h3>
-                <p>{c.body}</p>
-
-                <div className="metric-row">
-                  {c.metrics.map((m) => (
-                    <div key={m.caption} className="metric">
-                      <div className="figure" style={{ color: c.accent }}>
-                        {m.figure}
-                      </div>
-                      <div className="caption">{m.caption}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        <CaseCarousel items={cases} />
       </section>
 
       {/* CTA */}

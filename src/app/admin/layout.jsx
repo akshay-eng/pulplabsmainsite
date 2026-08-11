@@ -20,7 +20,7 @@ export default async function AdminLayout({ children }) {
             </Link>
             <nav className="admin-nav">
               <Link href="/admin">Posts</Link>
-              <Link href="/admin/posts/new">New post</Link>
+              <Link href="/admin/cases">Case studies</Link>
               <Link href="/blog" target="_blank" rel="noreferrer">
                 View blog ↗
               </Link>

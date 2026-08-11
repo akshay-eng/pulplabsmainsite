@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createPost, updatePost, deletePost, getById } from '@/lib/posts'
+import { createCase, updateCase, deleteCase, getCaseById } from '@/lib/cases'
 import { createSession, destroySession, requireSession, verifyCredentials } from '@/lib/auth'
 
 /* Server actions for the admin.
@@ -73,4 +74,47 @@ export async function deletePostAction(formData) {
   deletePost(id)
   revalidatePost(post?.slug)
   redirect('/admin?deleted=1')
+}
+
+/* ------------------------------------------------------- case studies --- */
+
+function revalidateCase(slug) {
+  revalidatePath('/services')
+  revalidatePath('/case-studies/[slug]', 'page')
+  if (slug) revalidatePath(`/case-studies/${slug}`)
+  revalidatePath('/sitemap.xml')
+}
+
+export async function saveCaseAction(_prev, formData) {
+  await requireSession()
+
+  const id = formData.get('id')
+  const input = {
+    title: formData.get('title'),
+    client: formData.get('client'),
+    industry: formData.get('industry'),
+    summary: formData.get('summary'),
+    body: formData.get('body'),
+    metrics: formData.get('metrics'),
+    cover_image: formData.get('cover_image'),
+    accent: formData.get('accent'),
+    position: formData.get('position'),
+    status: formData.get('status'),
+    slug: formData.get('slug') || undefined,
+  }
+
+  const result = id ? updateCase(Number(id), input) : createCase(input)
+  if (result.errors) return { errors: result.errors, values: input }
+
+  revalidateCase(result.item.slug)
+  redirect(`/admin/cases/${result.item.id}?saved=1`)
+}
+
+export async function deleteCaseAction(formData) {
+  await requireSession()
+  const id = Number(formData.get('id'))
+  const existing = getCaseById(id)
+  deleteCase(id)
+  revalidateCase(existing?.slug)
+  redirect('/admin/cases?deleted=1')
 }

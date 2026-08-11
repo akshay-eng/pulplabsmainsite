@@ -1,4 +1,5 @@
 import { listPublished } from '@/lib/posts'
+import { listPublishedCases } from '@/lib/cases'
 import { SITE_URL } from './layout'
 
 /* Next generates /sitemap.xml from this. Posts carry their real lastModified
@@ -18,5 +19,12 @@ export default function sitemap() {
     priority: 0.8,
   }))
 
-  return [...staticPages, ...posts]
+  const cases = listPublishedCases({ limit: 200 }).map((c) => ({
+    url: `${SITE_URL}/case-studies/${c.slug}`,
+    lastModified: new Date(c.updated_at || c.published_at),
+    changeFrequency: 'yearly',
+    priority: 0.8,
+  }))
+
+  return [...staticPages, ...posts, ...cases]
 }

@@ -3,12 +3,13 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "pulplabs.ai — AI consultancy marketing site",
+  "description": "pulplabs.ai \u2014 AI consultancy marketing site",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "seed": "node scripts/seed.mjs"
+    "seed": "node scripts/seed.mjs",
+    "seed:cases": "node scripts/seed-cases.mjs"
   },
   "dependencies": {
     "@react-three/fiber": "^9.7.0",

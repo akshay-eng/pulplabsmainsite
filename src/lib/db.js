@@ -55,6 +55,30 @@ function migrate(db) {
       ON posts (status, published_at DESC);
     CREATE INDEX IF NOT EXISTS idx_posts_category ON posts (category);
 
+    CREATE TABLE IF NOT EXISTS case_studies (
+      id           INTEGER PRIMARY KEY AUTOINCREMENT,
+      slug         TEXT    NOT NULL UNIQUE,
+      title        TEXT    NOT NULL,
+      client       TEXT    NOT NULL DEFAULT '',
+      industry     TEXT    NOT NULL DEFAULT '',
+      summary      TEXT    NOT NULL DEFAULT '',
+      body         TEXT    NOT NULL DEFAULT '',
+      -- JSON array of { figure, caption }. Fixed shape, small, always read
+      -- together — a metrics table would be three joins for no benefit.
+      metrics      TEXT    NOT NULL DEFAULT '[]',
+      cover_image  TEXT,
+      accent       TEXT    NOT NULL DEFAULT '#FF6B1A',
+      status       TEXT    NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','published')),
+      -- Manual ordering: the newest case study is not always the best one to
+      -- lead with, so the carousel order is editorial rather than chronological.
+      position     INTEGER NOT NULL DEFAULT 0,
+      published_at TEXT,
+      created_at   TEXT    NOT NULL DEFAULT (datetime('now')),
+      updated_at   TEXT    NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_cases_status ON case_studies (status, position, published_at DESC);
+
     -- Single-admin credential store. Kept in the DB rather than an env var so
     -- the password can be rotated without a redeploy.
     CREATE TABLE IF NOT EXISTS admin_users (

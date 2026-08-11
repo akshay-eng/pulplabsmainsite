@@ -623,3 +623,85 @@
 .cover-msg.error {
   color: var(--watermelon-deep);
 }
+
+/* ---- case study editor extras ---- */
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.metrics-field {
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+.metrics-field legend {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0 6px;
+}
+
+.metric-row {
+  display: grid;
+  /* Figure is short ("4x", "70%"); the caption needs the room. */
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.metric-row input {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 14px;
+  border: 1px solid var(--hairline-crisp);
+  border-radius: 9px;
+  padding: 8px 11px;
+  background: #fff;
+}
+
+.metric-row:first-of-type input:first-child {
+  font-weight: 700;
+}
+
+.mono-input {
+  font-family: var(--mono) !important;
+  font-size: 13.5px !important;
+  line-height: 1.7;
+}
+
+.accent-row {
+  display: flex;
+  gap: 8px;
+}
+
+.accent-swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 1px var(--hairline);
+  cursor: pointer;
+}
+
+.accent-swatch[data-active] {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 2px var(--canvas);
+}
+
+.accent-swatch:focus-visible {
+  outline: 2px solid var(--tangerine-deep);
+  outline-offset: 2px;
+}
+
+@media (max-width: 620px) {
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+}

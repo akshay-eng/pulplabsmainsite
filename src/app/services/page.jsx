@@ -10,7 +10,10 @@ export const metadata = {
 }
 
 import Services from '@/views/Services'
+import { listPublishedCases } from '@/lib/cases'
 
-export default function Page() {
-  return <Services />
+/* Case studies are read here, on the server, and handed to the client view —
+   the view needs hooks, so it cannot query SQLite itself. */
+export default async function Page() {
+  return <Services cases={listPublishedCases()} />
 }
