@@ -50,25 +50,21 @@ export const practiceAreas = [
 export const engagementSteps = [
   {
     n: 1,
-    when: 'Week 0–1',
     title: 'Discover',
     body: 'A structured audit of the workflow, the data behind it, and what a win would measurably look like.',
   },
   {
     n: 2,
-    when: 'Week 1–2',
     title: 'Scope & propose',
     body: 'A fixed scope, timeline and estimate built from your requirement — not a rate card.',
   },
   {
     n: 3,
-    when: 'Week 2–8',
     title: 'Build & evaluate',
     body: 'Weekly increments, with evaluation gates before anything touches production.',
   },
   {
     n: 4,
-    when: 'Ongoing',
     title: 'Hand over',
     body: 'Your code, your documentation, your trained team — with managed ops if you want it.',
   },

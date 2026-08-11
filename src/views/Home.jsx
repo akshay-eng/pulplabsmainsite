@@ -258,7 +258,6 @@ export default function Home() {
               <div className="step-node">
                 <span className="step-n">{s.n}</span>
               </div>
-              <div className="step-when">{s.when}</div>
               <h3>{s.title}</h3>
               <p>{s.body}</p>
             </li>

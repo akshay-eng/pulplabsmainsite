@@ -955,15 +955,8 @@
   color: #fff;
 }
 
-.step-when {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 8px;
-}
-
+/* Sits directly under the node now that the week eyebrow is gone, so it
+   carries the clearance the eyebrow used to provide. */
 .step h3 {
   font-family: var(--display);
   font-size: 20px;
@@ -971,6 +964,7 @@
   letter-spacing: -0.03em;
   color: var(--ink-strong);
   margin: 0 0 8px;
+  padding-top: 2px;
 }
 
 .step p {
