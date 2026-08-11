@@ -4,6 +4,8 @@ import Home from './pages/Home'
 import Services from './pages/Services'
 import Team from './pages/Team'
 import Blog from './pages/Blog'
+import AIDock from './components/AIDock'
+import { useRevealObserver } from './lib/motion'
 
 // Route changes jump to the top; a hash (e.g. /#contact) scrolls to that section instead.
 function ScrollManager() {
@@ -24,6 +26,9 @@ function ScrollManager() {
 }
 
 export default function App() {
+  // One observer for the whole app; sections opt in with a `data-reveal` attribute.
+  useRevealObserver()
+
   return (
     <>
       <ScrollManager />
@@ -34,6 +39,9 @@ export default function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      {/* Mounted outside <Routes> so the transcript survives navigation */}
+      <AIDock />
     </>
   )
 }

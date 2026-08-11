@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import HeroMarker from '../components/HeroMarker'
 import { FooterSlim } from '../components/Footer'
 import SectionLabel from '../components/SectionLabel'
 import Squiggle from '../components/Squiggle'
-import CitrusWheel from '../components/CitrusWheel'
+import Aperture from '../components/Aperture'
+import { SpotlightCard } from '../components/ui'
 import { catalogue, accelerators, caseStudies } from '../data/services'
 
 export default function Services() {
@@ -14,15 +16,12 @@ export default function Services() {
       {/* PAGE HEADER */}
       <section className="hero">
         <div className="dots" />
-        <CitrusWheel
-          size={230}
-          style={{ position: 'absolute', right: -64, top: -64, opacity: 0.9, pointerEvents: 'none' }}
+        <Aperture
+          size={260}
+          style={{ position: 'absolute', right: -72, top: -72, opacity: 0.55, pointerEvents: 'none' }}
         />
-        <div className="hero-inner">
-          <div className="pill-badge">
-            <span className="pip" />
-            Services
-          </div>
+        <div className="hero-inner" data-reveal>
+          <HeroMarker tone="watermelon">No rate cards</HeroMarker>
           <h1 className="page-title" style={{ maxWidth: 760 }}>
             A catalogue of capabilities, <Squiggle>scoped to you.</Squiggle>
           </h1>
@@ -41,8 +40,14 @@ export default function Services() {
         </h2>
 
         <div className="catalogue">
-          {catalogue.map(({ code, icon: Icon, title, body, tags, tagStyle, codeColor, blob, shadow }) => (
-            <article key={code} className="card catalogue-row" style={{ boxShadow: `0 2px 0 ${shadow}` }}>
+          {catalogue.map(({ code, icon: Icon, title, body, tags, tagStyle, codeColor, blob, shadow }, i) => (
+            <SpotlightCard
+              key={code}
+              as="article"
+              className="card catalogue-row"
+              style={{ boxShadow: `0 2px 0 ${shadow}`, '--reveal-delay': `${i * 60}ms` }}
+              data-reveal
+            >
               <div className="blob" style={{ right: -30, top: -30, width: 110, height: 110, background: blob }} />
 
               <div className="card-body">
@@ -71,11 +76,11 @@ export default function Services() {
                   ))}
                 </div>
               </div>
-            </article>
+            </SpotlightCard>
           ))}
         </div>
 
-        <div className="scope-strip">
+        <div className="scope-strip" data-reveal>
           <span>
             Every engagement is priced from discovery — tell us the requirement and we'll scope it with you.
           </span>
@@ -124,18 +129,7 @@ export default function Services() {
               style={{ '--accent': c.accent, '--accent-shadow': 'transparent' }}
             >
               <div className="case-art" style={{ background: c.artBg }}>
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    backgroundImage: `radial-gradient(${c.artDots} 1.3px, transparent 1.3px)`,
-                    backgroundSize: '18px 18px',
-                  }}
-                />
-                <div className="blob" style={{ ...c.artBlobPos, background: c.artBlob }} />
-                <span className="caption" style={{ color: c.captionColor }}>
-                  {c.caption}
-                </span>
+                <img src={c.art} alt="" loading="lazy" decoding="async" />
               </div>
 
               <div className="case-copy">

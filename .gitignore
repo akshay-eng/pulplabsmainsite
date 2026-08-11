@@ -10,3 +10,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .vite
+
+# Vendored Claude Code skills (three.js, 3d-web-experience, ui-ux-pro-max).
+# Local tooling, not part of the site: third-party code, and its SKILL.md
+# carries absolute machine paths. Reinstall from the upstream repos if needed.
+.claude/

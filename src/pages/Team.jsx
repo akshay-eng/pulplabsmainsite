@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import HeroMarker from '../components/HeroMarker'
 import { FooterSlim } from '../components/Footer'
 import SectionLabel from '../components/SectionLabel'
 import Squiggle from '../components/Squiggle'
@@ -21,11 +22,8 @@ export default function Team() {
           <span className="bob" style={{ background: 'var(--lemon)', animationDuration: '12s' }} />
         </div>
 
-        <div className="hero-inner">
-          <div className="pill-badge">
-            <span className="pip" />
-            The team
-          </div>
+        <div className="hero-inner" data-reveal>
+          <HeroMarker tone="kiwi">Six people, four platforms</HeroMarker>
           <h1 className="page-title" style={{ maxWidth: 760 }}>
             Six people. <Squiggle>You'll meet all of them.</Squiggle>
           </h1>
@@ -44,7 +42,12 @@ export default function Team() {
 
         <div className="team-grid" style={{ marginTop: 26 }}>
           {people.map((p, i) => (
-            <article key={i} className="card" style={{ boxShadow: `0 2px 0 ${p.shadow}` }}>
+            <article
+              key={i}
+              className="card"
+              style={{ boxShadow: `0 2px 0 ${p.shadow}`, '--reveal-delay': `${(i % 3) * 80}ms` }}
+              data-reveal
+            >
               <div className="person-photo" style={{ background: p.photoBg }}>
                 <div
                   style={{
@@ -88,8 +91,13 @@ export default function Team() {
           <h2 style={{ fontWeight: 800, fontSize: 36, margin: '0 0 24px' }}>Certified across four platforms</h2>
 
           <div className="cert-grid">
-            {certifications.map(({ icon: Icon, name, issuer, shadow }) => (
-              <div key={name} className="cert-card" style={{ boxShadow: `0 3px 0 ${shadow}` }}>
+            {certifications.map(({ icon: Icon, name, issuer, shadow }, i) => (
+              <div
+                key={name}
+                className="cert-card"
+                style={{ boxShadow: `0 3px 0 ${shadow}`, '--reveal-delay': `${i * 70}ms` }}
+                data-reveal
+              >
                 <Icon />
                 <div>
                   <div className="name">{name}</div>

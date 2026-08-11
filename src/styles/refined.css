@@ -1,0 +1,465 @@
+/* ==========================================================================
+   PulpLabs — refinement layer
+   Loads after global.css. Keeps the fruit palette and the warmth, but trades
+   the toy-box read for editorial precision: a real depth scale, restrained
+   accent use, spring easings, and a grain/aurora ground instead of flat cream.
+   ========================================================================== */
+
+:root {
+  /* --- Depth ------------------------------------------------------------
+     Warm-tinted shadows (never neutral grey — grey on cream reads dirty).
+     Two-layer: a tight contact shadow plus a wide ambient one. */
+  --sh-1: 0 1px 2px rgba(31, 23, 16, 0.05), 0 1px 1px rgba(31, 23, 16, 0.03);
+  --sh-2: 0 2px 4px rgba(31, 23, 16, 0.05), 0 4px 10px rgba(31, 23, 16, 0.045);
+  --sh-3: 0 3px 6px rgba(31, 23, 16, 0.05), 0 10px 24px rgba(31, 23, 16, 0.06);
+  --sh-4: 0 6px 12px rgba(31, 23, 16, 0.055), 0 20px 44px rgba(31, 23, 16, 0.075);
+  --sh-5: 0 12px 24px rgba(31, 23, 16, 0.06), 0 36px 76px rgba(31, 23, 16, 0.1);
+  --sh-tangerine: 0 4px 12px rgba(217, 82, 15, 0.18), 0 16px 36px rgba(217, 82, 15, 0.14);
+
+  /* --- Glass ----------------------------------------------------------- */
+  --glass: rgba(255, 255, 255, 0.72);
+  --glass-strong: rgba(255, 255, 255, 0.86);
+  --glass-line: rgba(255, 255, 255, 0.7);
+  --glass-blur: saturate(180%) blur(20px);
+
+  /* --- Easing ----------------------------------------------------------
+     `spring` overshoots slightly — the difference between "moved" and "arrived". */
+  --e-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --e-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --e-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --t-fast: 160ms;
+  --t-base: 260ms;
+  --t-slow: 520ms;
+
+  /* --- Tightened radii --------------------------------------------------
+     The original had pills everywhere. Pills stay for actions only. */
+  --r-xs: 8px;
+  --r-sm: 12px;
+  --r-md: 16px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+
+  /* --- Restrained accents ----------------------------------------------
+     Full-saturation fruit is for marks and micro-accents. Large fills use
+     these muted siblings so five colours can coexist without a crayon read. */
+  --tangerine-quiet: #e8823f;
+  --watermelon-quiet: #d95b68;
+  --lemon-quiet: #e0b04a;
+  --strawberry-quiet: #e07a9f;
+  --kiwi-quiet: #7ea85c;
+
+  /* Ink refinements — a touch deeper for headline authority */
+  --ink-strong: #14100c;
+  --hairline-crisp: rgba(31, 23, 16, 0.12);
+
+  --dock-h: 0px; /* set by the AI dock so page bottoms clear it */
+}
+
+/* --------------------------------------------------------------------------
+   Ground: subtle aurora wash + film grain.
+   Replaces flat cream. Fixed-position, pointer-events:none, zero layout cost.
+   -------------------------------------------------------------------------- */
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Aurora — three soft radial pools, tangerine-led */
+body::before {
+  background:
+    radial-gradient(58% 44% at 12% 0%, rgba(255, 107, 26, 0.09), transparent 62%),
+    radial-gradient(46% 38% at 92% 8%, rgba(255, 92, 147, 0.06), transparent 60%),
+    radial-gradient(60% 50% at 50% 104%, rgba(255, 201, 60, 0.07), transparent 64%);
+}
+
+/* Grain — an inline SVG turbulence, no network request */
+body::after {
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+}
+
+/* Clearance for the dock goes INSIDE the footer, not after it.
+   Padding on .page reserved the space below the footer's tinted band, which
+   rendered as a slab of bare canvas that looked like a layout bug. Putting it
+   on the footer lets its own background fill the space instead. */
+.footer,
+.footer-slim {
+  padding-bottom: calc(56px + var(--dock-h));
+  transition: padding-bottom var(--t-base) var(--e-out);
+}
+
+/* Headline authority — tighter tracking, deeper ink */
+h1,
+h2 {
+  color: var(--ink-strong);
+}
+
+/* --------------------------------------------------------------------------
+   Kill the toy-box motion.
+   `bob` made stat chips bounce like balloons. Replaced with a drift so slight
+   it reads as "alive" rather than "animated".
+   -------------------------------------------------------------------------- */
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -5px, 0);
+  }
+}
+
+.bob,
+.bob-slow,
+.bob-slower {
+  animation: drift 9s var(--e-in-out) infinite;
+}
+.bob-slow {
+  animation-duration: 12s;
+}
+.bob-slower {
+  animation-duration: 15s;
+}
+.bob-down {
+  animation: drift 11s var(--e-in-out) infinite reverse;
+}
+
+/* The 90s spin stays but slows further — motion you notice is motion that distracts */
+.spin-slow {
+  animation-duration: 140s;
+}
+
+/* ==========================================================================
+   Scroll reveal
+   Driven by IntersectionObserver in useReveal(). Opacity + a short rise;
+   never a scale (scaling text resamples and looks soft mid-flight).
+   ========================================================================== */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity var(--t-slow) var(--e-out),
+    transform var(--t-slow) var(--e-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-reveal='in'] {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* ==========================================================================
+   Buttons — depth + a light sweep on hover
+   ========================================================================== */
+
+.btn {
+  transition:
+    transform var(--t-fast) var(--e-out),
+    box-shadow var(--t-base) var(--e-out),
+    background-color var(--t-fast) var(--e-out),
+    color var(--t-fast) var(--e-out);
+}
+
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--sh-tangerine);
+}
+
+/* Specular sweep */
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.32) 50%, transparent 80%);
+  transform: translateX(-120%);
+  transition: transform 700ms var(--e-out);
+  pointer-events: none;
+}
+
+.btn-primary:hover::after {
+  transform: translateX(120%);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 16px rgba(217, 82, 15, 0.24),
+    0 22px 48px rgba(217, 82, 15, 0.2);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.btn-ghost {
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sh-3);
+  border-color: rgba(255, 107, 26, 0.4);
+}
+
+/* ==========================================================================
+   Cards — lift, crisper edges, warm shadow
+   ========================================================================== */
+
+.card {
+  transition:
+    transform var(--t-base) var(--e-out),
+    box-shadow var(--t-base) var(--e-out),
+    border-color var(--t-base) var(--e-out);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-4);
+  border-color: var(--hairline-crisp);
+}
+
+/* Stat chips: glass instead of flat white, real depth */
+.stat-chip {
+  background: var(--glass-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--r-md);
+  border-color: var(--glass-line);
+  box-shadow: var(--sh-4);
+}
+
+/* The dashed hero ring read as a dotted-line craft template. Make it a real orbit. */
+.wheel-ring {
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(255, 107, 26, 0.16);
+}
+
+/* ==========================================================================
+   Navbar — glass on scroll
+   ========================================================================== */
+
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  transition:
+    background-color var(--t-base) var(--e-out),
+    box-shadow var(--t-base) var(--e-out),
+    border-color var(--t-base) var(--e-out);
+}
+
+.nav-bar[data-stuck='true'] {
+  background: var(--glass);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--sh-2);
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.nav-links a {
+  position: relative;
+  transition: color var(--t-fast) var(--e-out);
+}
+
+/* Underline that grows from the centre rather than a colour flip */
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--tangerine);
+  transform: scaleX(0);
+  transition: transform var(--t-base) var(--e-out);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  transform: scaleX(1);
+}
+
+/* The original active state was a 3px lemon border-bottom. With the sliding
+   underline above it that reads as two rules stacked, so it's retired. */
+.nav-links a,
+.nav-links a.active {
+  border-bottom-color: transparent;
+}
+
+/* ==========================================================================
+   Mobile navigation
+   ========================================================================== */
+
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid var(--hairline-crisp);
+  border-radius: 12px;
+  background: var(--glass-strong);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--e-out);
+}
+
+.nav-toggle:hover {
+  border-color: rgba(255, 107, 26, 0.4);
+}
+
+.nav-toggle-bars {
+  display: grid;
+  gap: 5px;
+  width: 18px;
+}
+
+.nav-toggle-bars i {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform var(--t-base) var(--e-out);
+}
+
+/* Two bars crossing beats three collapsing — fewer moving parts, same read */
+.nav-toggle-bars[data-open='true'] i:first-child {
+  transform: translateY(3.5px) rotate(45deg);
+}
+
+.nav-toggle-bars[data-open='true'] i:last-child {
+  transform: translateY(-3.5px) rotate(-45deg);
+}
+
+.nav-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  border: 0;
+  padding: 0;
+  background: rgba(31, 23, 16, 0.34);
+  backdrop-filter: blur(2px);
+  animation: fade-in var(--t-base) var(--e-out) both;
+  cursor: default;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Keep the brand and the toggle above the scrim so the header stays crisp
+   while the sheet is open. */
+.nav-inner {
+  position: relative;
+  z-index: 57;
+}
+
+.nav-sheet {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 56;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px var(--gutter) 20px;
+  /* Fully opaque: a navigation menu is not the place to spend legibility on
+     a glass effect — the hero headline was ghosting through behind the links. */
+  background: #fffcf8;
+  border-bottom: 1px solid var(--hairline);
+  box-shadow: var(--sh-4);
+  animation: sheet-drop var(--t-base) var(--e-out) both;
+}
+
+@keyframes sheet-drop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+.nav-sheet a {
+  font-family: var(--display);
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  padding: 13px 4px;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.nav-sheet a.active {
+  color: var(--tangerine-deep);
+}
+
+.nav-sheet-cta {
+  margin-top: 16px;
+  justify-content: center;
+  border-bottom: 0 !important;
+}
+
+@media (max-width: 860px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: grid;
+  }
+
+  .nav-sheet {
+    display: flex;
+  }
+
+  .nav-inner {
+    flex-wrap: nowrap;
+  }
+}
+
+/* Below 400px the "Book a call" pill and the toggle fight for the same row;
+   the sheet already carries the CTA, so the pill steps out. */
+@media (max-width: 400px) {
+  .nav-actions .btn-primary {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion — hard stop
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .btn-primary::after {
+    display: none;
+  }
+
+  body::before {
+    animation: none;
+  }
+}

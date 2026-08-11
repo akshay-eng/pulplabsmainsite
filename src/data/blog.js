@@ -5,6 +5,7 @@ export const featuredPost = {
     "Most incident bots fail the same way: confident answers, no ground truth. Here's the task-level evaluation harness we run before anything touches a production queue.",
   author: 'Name Surname',
   date: 'Aug 2026',
+  art: '/art/blog-featured.webp',
   href: '#',
 }
 

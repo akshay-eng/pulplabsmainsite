@@ -1,4 +1,5 @@
 import Navbar from '../components/Navbar'
+import HeroMarker from '../components/HeroMarker'
 import { FooterSlim } from '../components/Footer'
 import Squiggle from '../components/Squiggle'
 import NewsletterForm from '../components/NewsletterForm'
@@ -47,11 +48,8 @@ export default function Blog() {
             background: 'transparent',
           }}
         />
-        <div className="hero-inner">
-          <div className="pill-badge">
-            <span className="pip" />
-            From the lab
-          </div>
+        <div className="hero-inner" data-reveal>
+          <HeroMarker tone="strawberry">Notes from live work</HeroMarker>
           <h1 className="page-title">
             What we shipped, learned and <Squiggle>open-sourced.</Squiggle>
           </h1>
@@ -65,30 +63,11 @@ export default function Blog() {
             <a
               href={featuredPost.href}
               className="card card-lift"
+              data-reveal
               style={{ borderRadius: 24, '--accent': '#FF6B1A', '--accent-shadow': 'rgba(255,107,26,.12)' }}
             >
               <div className="featured-art">
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    backgroundImage: 'radial-gradient(rgba(255,107,26,.22) 1.3px, transparent 1.3px)',
-                    backgroundSize: '18px 18px',
-                  }}
-                />
-                <div className="blob" style={{ right: -40, top: -56, width: 190, height: 190, background: '#FFE3C6' }} />
-                <svg
-                  width="120"
-                  height="120"
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                  style={{ position: 'relative' }}
-                  aria-hidden="true"
-                >
-                  <circle cx="50" cy="50" r="46" fill="#FFEBD9" />
-                  <path d="M50,50 L96,50 A46,46 0 0 1 50,96 Z" fill="#FF6B1A" opacity=".9" />
-                  <circle cx="50" cy="50" r="9" fill="#FFF9F2" />
-                </svg>
+                <img src={featuredPost.art} alt="" loading="lazy" decoding="async" />
               </div>
 
               <div className="featured-copy">
@@ -107,11 +86,13 @@ export default function Blog() {
             </a>
 
             <div className="post-list">
-              {posts.map((post) => (
+              {posts.map((post, i) => (
                 <a
                   key={post.title}
                   href={post.href}
                   className="post-row"
+                  data-reveal
+                  style={{ '--reveal-delay': `${i * 70}ms` }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.borderColor = post.accent
                   }}

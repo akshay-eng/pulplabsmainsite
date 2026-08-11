@@ -1,0 +1,904 @@
+/* ==========================================================================
+   PulpLabs — component layer
+   Marquee, spotlight cards, bento, aperture, magnetic, gradient frames.
+   ========================================================================== */
+
+/* ==========================================================================
+   Hero WebGL core
+   ========================================================================== */
+
+.core-canvas {
+  position: absolute;
+  inset: -8%;
+  z-index: 0;
+}
+
+.core-canvas canvas {
+  display: block;
+  /* No blend mode. `multiply` was tried to seat the core in the page and
+     crushed its midtones to brown — the whole point of the shader is that it
+     glows. It sits in the page via the bloom behind it instead. */
+}
+
+/* Static stand-in — CSS only */
+.core-fallback {
+  position: relative;
+  width: min(340px, 76vw);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+.core-fallback-orb {
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 30%, #ffc93c 0%, #ff8a2b 34%, #ff6b1a 62%, #c7420a 100%);
+  box-shadow:
+    0 0 60px rgba(255, 107, 26, 0.4),
+    inset -12px -18px 40px rgba(140, 50, 5, 0.5);
+}
+
+.core-fallback-ring {
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 107, 26, 0.24);
+}
+
+.core-fallback-ring-2 {
+  inset: 15%;
+  border-color: rgba(255, 107, 26, 0.14);
+}
+
+/* ==========================================================================
+   Hero ground — generated backdrop, engineering grid and core bloom.
+   ========================================================================== */
+
+.home-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Generated backdrop — blown-glass ribbons, Gemini 3 Pro Image.
+   Full-bleed and right-weighted so the ribbons sweep behind the WebGL core
+   rather than sitting beside it; the core reads as glowing through the glass.
+   image-set() serves WebP (46KB) with a JPEG fallback (88KB). */
+.home-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: -webkit-image-set(url('/hero-bg.webp') type('image/webp'), url('/hero-bg.jpg') type('image/jpeg'));
+  background-image: image-set(url('/hero-bg.webp') type('image/webp'), url('/hero-bg.jpg') type('image/jpeg'));
+  background-size: cover;
+  background-position: 78% center;
+  background-repeat: no-repeat;
+  opacity: 0.95;
+  animation: mesh-drift 40s var(--e-in-out) infinite alternate;
+  /* The headline runs to roughly the halfway mark, so the ramp stays near-zero
+     until 38% and only reaches full past 70%. The ribbons get to be bold on
+     the right without ever competing with type on the left. */
+  -webkit-mask-image: linear-gradient(
+    100deg,
+    transparent 10%,
+    rgba(0, 0, 0, 0.12) 38%,
+    rgba(0, 0, 0, 0.62) 56%,
+    #000 72%,
+    rgba(0, 0, 0, 0.62) 94%,
+    rgba(0, 0, 0, 0.25) 100%
+  );
+  mask-image: linear-gradient(
+    100deg,
+    transparent 10%,
+    rgba(0, 0, 0, 0.12) 38%,
+    rgba(0, 0, 0, 0.62) 56%,
+    #000 72%,
+    rgba(0, 0, 0, 0.62) 94%,
+    rgba(0, 0, 0, 0.25) 100%
+  );
+}
+
+/* Phone: serve the 900px variant and drop the mask — at narrow widths the
+   layout stacks, so there is no left column to protect. */
+@media (max-width: 620px) {
+  .home-hero::before {
+    background-image: -webkit-image-set(url('/hero-bg@sm.webp') type('image/webp'));
+    background-image: image-set(url('/hero-bg@sm.webp') type('image/webp'));
+    background-position: 62% top;
+    opacity: 0.6;
+    -webkit-mask-image: linear-gradient(#000 40%, transparent 92%);
+    mask-image: linear-gradient(#000 40%, transparent 92%);
+  }
+}
+
+@keyframes mesh-drift {
+  to {
+    transform: scale(1.05);
+  }
+}
+
+/* Engineering grid — fades out toward the edges so it never reads as a table */
+.home-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(31, 23, 16, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(31, 23, 16, 0.045) 1px, transparent 1px);
+  background-size: 68px 68px;
+  -webkit-mask-image: radial-gradient(76% 68% at 50% 42%, #000 20%, transparent 82%);
+  mask-image: radial-gradient(76% 68% at 50% 42%, #000 20%, transparent 82%);
+  pointer-events: none;
+}
+
+/* Bloom behind the core */
+.wheel-stage::before {
+  content: '';
+  position: absolute;
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 138, 43, 0.34), rgba(255, 107, 26, 0.1) 44%, transparent 70%);
+  filter: blur(34px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Chips ride above the canvas */
+.wheel-stage .stat-chip {
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero::before {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Generated art in the case-study and featured-post slots
+   Both were dotted-gradient placeholders with a "[ photo: … ]" caption.
+   The art is decorative, so the <img> carries an empty alt.
+   ========================================================================== */
+
+.case-art img,
+.featured-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* The artwork's own cream ground would sit as a hard rectangle inside the
+     tinted slot; multiply lets the slot's colour show through it instead. */
+  mix-blend-mode: multiply;
+}
+
+.case-art,
+.featured-art {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Hero marker
+   ========================================================================== */
+
+.hero-marker {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 0 0 26px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--tangerine-deep);
+}
+
+.hero-marker[data-tone='watermelon'] {
+  color: var(--watermelon-deep);
+}
+.hero-marker[data-tone='kiwi'] {
+  color: var(--kiwi-deep);
+}
+.hero-marker[data-tone='strawberry'] {
+  color: var(--strawberry-deep);
+}
+
+/* The rule draws itself out from zero on load — a small piece of intent that
+   a static badge never had. */
+.hero-marker-rule {
+  height: 2px;
+  width: 34px;
+  flex: none;
+  border-radius: 2px;
+  background: currentColor;
+  transform-origin: left center;
+  animation: marker-draw 700ms var(--e-out) both;
+}
+
+@keyframes marker-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.hero-marker-text {
+  font-weight: 500;
+}
+
+@media (max-width: 560px) {
+  .hero-marker {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .hero-marker-rule {
+    width: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-marker-rule {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Aperture (retained for decorative page-header use)
+   ========================================================================== */
+
+.aperture {
+  overflow: visible;
+}
+
+/* Each ring turns at its own rate and direction. Slow enough that you notice
+   it only on a second look — the point is depth, not spectacle. */
+@keyframes ap-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.aperture .ap-ticks,
+.aperture .ap-arc,
+.aperture .ap-iris {
+  transform-origin: 100px 100px;
+}
+
+.aperture .ap-ticks {
+  animation: ap-spin 240s linear infinite;
+}
+.aperture .ap-arc-a {
+  animation: ap-spin 90s linear infinite;
+}
+.aperture .ap-arc-b {
+  animation: ap-spin 64s linear infinite reverse;
+}
+.aperture .ap-arc-c {
+  animation: ap-spin 130s linear infinite;
+}
+.aperture .ap-iris {
+  animation: ap-spin 200s linear infinite reverse;
+}
+
+/* ==========================================================================
+   Emphasis stroke
+   ========================================================================== */
+
+.squiggle-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: sq-draw 1100ms var(--e-out) 350ms forwards;
+}
+
+@keyframes sq-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ==========================================================================
+   Marquee
+   ========================================================================== */
+
+.marquee {
+  position: relative;
+  overflow: hidden;
+  /* Fade the ends so items enter and leave rather than being clipped */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-run var(--marquee-duration, 42s) linear infinite;
+}
+
+.marquee[data-reverse='true'] .marquee-track {
+  animation-direction: reverse;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-right: 14px;
+}
+
+@keyframes marquee-run {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  .marquee {
+    overflow-x: auto;
+  }
+}
+
+/* ==========================================================================
+   Spotlight card
+   ========================================================================== */
+
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+
+.spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(220px circle at var(--mx, -999px) var(--my, -999px), rgba(255, 107, 26, 0.13), transparent 68%);
+  opacity: 0;
+  transition: opacity var(--t-base) var(--e-out);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Magnetic wrapper
+   ========================================================================== */
+
+.magnetic {
+  display: inline-block;
+  transition: transform 420ms var(--e-spring);
+  will-change: transform;
+}
+
+/* ==========================================================================
+   Gradient-framed surface
+   A 1px conic border done with a mask, so the fill stays opaque and the frame
+   stays crisp at any radius.
+   ========================================================================== */
+
+.frame-grad {
+  position: relative;
+}
+
+.frame-grad::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(140deg, rgba(255, 107, 26, 0.55), rgba(255, 201, 60, 0.3) 40%, rgba(240, 56, 75, 0.35));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Bento grid
+   Asymmetric by design — a uniform grid of equal cards is exactly the
+   "mediocre" read we're removing.
+   ========================================================================== */
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+.bento-cell {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-xl);
+  padding: 28px;
+  box-shadow: var(--sh-2);
+  transition:
+    transform var(--t-base) var(--e-out),
+    box-shadow var(--t-base) var(--e-out),
+    border-color var(--t-base) var(--e-out);
+}
+
+.bento-cell:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-4);
+  border-color: var(--hairline-crisp);
+}
+
+.bento-cell.wide {
+  grid-column: span 4;
+}
+.bento-cell.half {
+  grid-column: span 3;
+}
+.bento-cell.third {
+  grid-column: span 2;
+}
+.bento-cell.full {
+  grid-column: span 6;
+}
+
+/* A tinted cell carries the section's accent without shouting */
+.bento-cell.tinted {
+  background: linear-gradient(150deg, var(--tint) 0%, var(--surface) 62%);
+}
+
+.bento-cell.ink {
+  background: linear-gradient(150deg, #241a12 0%, #1a1410 100%);
+  border-color: rgba(255, 255, 255, 0.09);
+  color: #f6ece2;
+}
+
+.bento-cell.ink h3,
+.bento-cell.ink .stat-value {
+  color: #fff6ec;
+}
+
+.bento-cell.ink .stat-label,
+.bento-cell.ink p {
+  color: rgba(246, 236, 226, 0.62);
+}
+
+/* Corner glow, clipped by the cell's own overflow */
+.bento-cell.ink::after {
+  content: '';
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  right: -90px;
+  top: -110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 107, 26, 0.34), transparent 68%);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Stats
+   ========================================================================== */
+
+.stat-value {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(30px, 4.4vw, 44px);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums; /* stops the width jitter while counting */
+}
+
+.stat-label {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 22px;
+}
+
+/* ==========================================================================
+   Trust strip — the dashed "+ your logo here" chip read as a placeholder
+   template, so it becomes a solid, deliberate slot.
+   ========================================================================== */
+
+.trust-logo {
+  border: 1px solid var(--hairline);
+  box-shadow: var(--sh-1);
+  transition:
+    transform var(--t-base) var(--e-out),
+    box-shadow var(--t-base) var(--e-out);
+}
+
+.trust-logo:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sh-3);
+}
+
+/* ==========================================================================
+   Telemetry panel — the outcomes section
+   ========================================================================== */
+
+/* A burnt-tangerine ground, not cream-on-cream. The light version was legible
+   but had no presence; this gives the section a figure to read against.
+   The gradient bottoms out at #8F2F06 so white text clears 5:1 everywhere —
+   a lighter tangerine (#FF6B1A) only reaches 2.6:1 and fails outright. */
+.telemetry {
+  position: relative;
+  margin-top: 34px;
+  border-radius: var(--r-xl);
+  padding: 30px;
+  overflow: hidden;
+  color: #fff6ec;
+  background: linear-gradient(142deg, #d9520f 0%, #b83e08 46%, #8f2f06 100%);
+  box-shadow:
+    var(--sh-5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+/* Generated glass-instrument artwork, bled off the right edge. Screen blend
+   keeps its cream ground from flattening the gradient into a grey wash. */
+.telemetry::before {
+  content: '';
+  position: absolute;
+  right: -8%;
+  top: -28%;
+  width: 62%;
+  height: 156%;
+  background: url('/art/outcomes.webp') center right / contain no-repeat;
+  mix-blend-mode: screen;
+  opacity: 0.5;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 42%);
+  mask-image: linear-gradient(90deg, transparent, #000 42%);
+}
+
+/* Fine measurement grid over the ground */
+.telemetry::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(90% 80% at 20% 0%, #000, transparent 76%);
+  mask-image: radial-gradient(90% 80% at 20% 0%, #000, transparent 76%);
+  pointer-events: none;
+}
+
+.telemetry-head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-bottom: 18px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.telemetry-status,
+.telemetry-meta {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.telemetry-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #fff6ec;
+}
+
+/* The artwork lightens the ground under this corner, so the meta needs more
+   weight here than a flat panel would call for. */
+.telemetry-meta {
+  color: rgba(255, 246, 236, 0.82);
+}
+
+/* Lemon reads as "live" against tangerine; the kiwi green used on the dark
+   version disappeared into the warm ground. */
+.telemetry-pip {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffe08a;
+  animation: pip-breathe 2.4s var(--e-out) infinite;
+}
+
+@keyframes pip-breathe {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 224, 138, 0.7);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 10px rgba(255, 224, 138, 0);
+  }
+}
+
+.telemetry-body-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 26px;
+  align-items: center;
+}
+
+/* ---- lead metric, directly on the ground ---- */
+
+.telemetry-lead {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.telemetry-lead-value {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(46px, 6vw, 68px);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.telemetry-lead-label {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: #ffd9b0;
+  margin-top: 12px;
+}
+
+.telemetry-lead p {
+  margin: 14px 0 0;
+  max-width: 42ch;
+  font-size: 14.5px;
+  line-height: 1.62;
+  color: rgba(255, 246, 236, 0.84);
+}
+
+/* ---- supporting metrics, as white cards ---- */
+
+.telemetry-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.telemetry-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: var(--r-lg);
+  background: rgba(255, 253, 250, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 6px rgba(90, 30, 4, 0.16), 0 12px 28px rgba(90, 30, 4, 0.14);
+  transition:
+    transform var(--t-base) var(--e-out),
+    box-shadow var(--t-base) var(--e-out);
+}
+
+.telemetry-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(90, 30, 4, 0.2), 0 18px 40px rgba(90, 30, 4, 0.2);
+}
+
+.telemetry-card-value {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--ink-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+.telemetry-card-label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted-cool);
+  margin-top: 7px;
+  line-height: 1.4;
+}
+
+@media (max-width: 940px) {
+  .telemetry-body-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 560px) {
+  .telemetry {
+    padding: 22px 18px;
+  }
+  .telemetry::before {
+    opacity: 0.32;
+  }
+  .telemetry-cards {
+    grid-template-columns: 1fr;
+  }
+  .telemetry-lead {
+    gap: 14px;
+  }
+}
+
+/* ==========================================================================
+   Gauge
+   ========================================================================== */
+
+.gauge {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+
+/* Direct child only. As a descendant selector this also matched the icon's
+   own <svg>, pulling it out of flow and collapsing .gauge-icon to 0×0 — the
+   icons were in the DOM but had no box. */
+.gauge > svg {
+  position: absolute;
+  inset: 0;
+}
+
+/* 1.1s sweep, eased so it decelerates into its final value */
+.gauge-fill {
+  transition: stroke-dashoffset 1100ms var(--e-out);
+}
+
+.gauge-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gauge-fill {
+    transition: none;
+  }
+  .telemetry-pip {
+    animation: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .telemetry-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .telemetry {
+    padding: 20px 16px;
+  }
+  .telemetry-grid {
+    grid-template-columns: 1fr;
+  }
+  .telemetry-cell {
+    padding: 16px;
+    gap: 14px;
+  }
+}
+
+/* Capability marquee under the trust strip */
+.capability-marquee {
+  margin-top: 22px;
+  border-top: 1px solid var(--hairline-soft);
+  padding-top: 20px;
+}
+
+.capability-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.01em;
+  color: var(--body-soft);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  padding: 9px 16px;
+  box-shadow: var(--sh-1);
+}
+
+/* Leading tangerine pip, so the loop reads as a system not a word list */
+.capability-pill::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--tangerine);
+  flex: none;
+}
+
+/* ==========================================================================
+   Section eyebrow — the coloured dot gets a soft halo
+   ========================================================================== */
+
+.section-label .dot {
+  box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 0%, transparent);
+  position: relative;
+}
+
+.section-label .dot::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0.18;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .bento {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .bento-cell.wide,
+  .bento-cell.full {
+    grid-column: span 4;
+  }
+  .bento-cell.half {
+    grid-column: span 2;
+  }
+  .bento-cell.third {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 620px) {
+  .bento {
+    grid-template-columns: 1fr;
+  }
+  .bento-cell,
+  .bento-cell.wide,
+  .bento-cell.half,
+  .bento-cell.third,
+  .bento-cell.full {
+    grid-column: span 1;
+    padding: 22px;
+  }
+}
