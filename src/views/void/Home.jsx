@@ -8,11 +8,6 @@ import Chevron from '@/components/apple/Chevron'
 import LoopVideo from '@/components/void/LoopVideo'
 import { useScrollProgress } from '@/lib/apple-motion'
 
-const CHIPS = [
-  ['MTTR', '−38%'],
-  ['Quotes', '4× faster'],
-  ['Certified', '4 platforms'],
-]
 
 const COUNTS = [
   ['8+', 'accelerators'],
@@ -62,13 +57,6 @@ const VOICES = [
   ],
 ]
 
-const PLATFORMS = ['Certified Claude architects', 'OpenAI', 'Copilot Studio', 'IBM watsonx Orchestrate']
-
-const FORMATS = [
-  ['Half day', 'Executive briefing', 'What to fund, what to defer, and what it realistically costs.'],
-  ['2 days', 'Builder bootcamp', 'Prompting, tools, agents, evals. Hands on keyboards.'],
-  ['6 weeks', 'Embedded enablement', 'We sit with your team until two workflows are in production.'],
-]
 
 
 export default function Home() {
@@ -113,14 +101,6 @@ export default function Home() {
               </Link>
             </div>
 
-            <ul className="chips">
-              {CHIPS.map(([k, v], i) => (
-                <li key={k} style={{ '--rd': `${300 + i * 90}ms` }}>
-                  <span className="mono">{k}</span>
-                  <b>{v}</b>
-                </li>
-              ))}
-            </ul>
           </div>
         </section>
 
@@ -247,40 +227,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Enablement ───────────────────────────────────────────────── */}
-        <section className="sec enable">
-          <div className="enable-img" aria-hidden="true">
-            <img src="/void/flare-column.webp" alt="" loading="lazy" decoding="async" />
-          </div>
-          <div className="shell-wide enable-in">
-            <header className="sec-h" data-r>
-              <p className="mono">AI enablement</p>
-              <h2 className="d2">Capability transfer, not a training day.</h2>
-              <p className="lede">
-                Certified instructors run sessions on your workflows and your data — not a generic slide deck. Every
-                cohort leaves with something in production.
-              </p>
-            </header>
-
-            <div className="certs" data-r>
-              <ul>
-                {PLATFORMS.map((p) => (
-                  <li key={p}>{p}</li>
-                ))}
-              </ul>
-            </div>
-
-            <ul className="formats">
-              {FORMATS.map(([d, t, b], i) => (
-                <li key={t} data-r style={{ '--rd': `${i * 70}ms` }}>
-                  <span className="mono">{d}</span>
-                  <h3 className="d3">{t}</h3>
-                  <p className="body">{b}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
         </div>
 
         <NextPage
