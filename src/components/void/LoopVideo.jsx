@@ -16,7 +16,7 @@ import { useEffect, useRef, useState } from 'react'
    The poster carries the composition on its own, so every suppressed path
    still looks finished rather than blank.
    ========================================================================== */
-export default function LoopVideo({ src, poster, className = '', opacity = 1 }) {
+export default function LoopVideo({ src, poster, className = '', opacity = 1, once = false }) {
   const wrap = useRef(null)
   const video = useRef(null)
   const [play, setPlay] = useState(false)
@@ -44,9 +44,20 @@ export default function LoopVideo({ src, poster, className = '', opacity = 1 }) 
 
   useEffect(() => {
     if (!play) return
+    const v = video.current
     // Autoplay can still be refused; the poster stays visible if it is.
-    video.current?.play?.().catch(() => {})
-  }, [play])
+    v?.play?.().catch(() => {})
+    if (!once || !v) return
+
+    // Pausing a hair before the true end avoids the blank frame some
+    // decoders present exactly at duration.
+    const stop = () => {
+      v.pause()
+      v.currentTime = Math.max(0, v.duration - 0.05)
+    }
+    v.addEventListener('ended', stop)
+    return () => v.removeEventListener('ended', stop)
+  }, [play, once])
 
   return (
     <div ref={wrap} className={`loop ${className}`} style={{ opacity }} aria-hidden="true">
@@ -54,7 +65,10 @@ export default function LoopVideo({ src, poster, className = '', opacity = 1 }) 
         ref={video}
         poster={poster}
         muted
-        loop
+        /* `once` plays through and holds the last frame. A background that
+           restarts every eight seconds pulls the eye back repeatedly; playing
+           in once and settling reads as the page arriving, then being still. */
+        loop={!once}
         playsInline
         preload="none"
         /* Tells Safari/iOS this is decorative chrome, not media the user

@@ -1,11 +1,10 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
+import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
-import FieldStage from '@/components/void/FieldStage'
 import LoopVideo from '@/components/void/LoopVideo'
 import { useScrollProgress } from '@/lib/apple-motion'
 
@@ -42,13 +41,6 @@ const TELEMETRY = [
   ['4', 'Platform certifications'],
 ]
 
-const PRACTICES = [
-  ['Advisory & strategy', 'Readiness audits, use-case discovery, roadmap & governance.'],
-  ['Enterprise accelerators', 'Incident, change, patch & agent-migration for IT ops.'],
-  ['Small business solutions', 'Leads, support, marketing & social — live in ~4 weeks.'],
-  ['Enablement & workshops', 'Certified instructors, your workflows, your data.'],
-  ['Managed AI operations', 'Monitoring, evals & tuning for as long as you want us.'],
-]
 
 const STEPS = [
   ['Discover', 'A structured audit of the workflow, the data behind it, and what a win would measurably look like.'],
@@ -78,7 +70,6 @@ const FORMATS = [
   ['6 weeks', 'Embedded enablement', 'We sit with your team until two workflows are in production.'],
 ]
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 export default function Home() {
   const plate = useScrollProgress()
@@ -95,8 +86,8 @@ export default function Home() {
             src="/void/hero-loop"
             poster="/void/hero-loop-poster.webp"
             opacity={0.85}
+            once
           />
-          <FieldStage />
 
           <div className="shell hero-in">
             <p className="mono hero-pill-line">We stay after the pilot</p>
@@ -211,38 +202,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── Service catalogue ────────────────────────────────────────── */}
-        <section className="sec-sm">
-          <div className="shell-wide">
-            <header className="sec-h sec-h-row" data-r>
-              <div>
-                <p className="mono">Service catalogue</p>
-                <h2 className="d2">
-                  Five practice areas, <span className="dim">zero fixed menus.</span>
-                </h2>
-              </div>
-              <Link href="/services" className="link">
-                Full catalogue <Chevron />
-              </Link>
-            </header>
-
-            <ul className="prac">
-              {PRACTICES.map(([t, b], i) => (
-                <li key={t} data-r style={{ '--rd': `${i * 55}ms` }}>
-                  <span className="mono prac-i">{String(i + 1).padStart(2, '0')}</span>
-                  <div className="prac-body">
-                    <h3 className="d3">{t}</h3>
-                    <p className="body">{b}</p>
-                  </div>
-                  <Link href="/services" className="link prac-more" aria-label={`More on ${t}`}>
-                    <Chevron />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
+        <div className="flow">
         {/* ── How we engage ────────────────────────────────────────────── */}
         <section className="sec">
           <div className="shell">
@@ -286,24 +246,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── In the room ──────────────────────────────────────────────── */}
-        <section className="sec-sm">
-          <div className="shell-wide">
-            <figure className="photo" data-r>
-              <img
-                src="/photos/workshop.webp"
-                alt="A team working through a system diagram on a whiteboard"
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption>
-                <span className="mono">In the room</span>
-                Every cohort works on your workflows, at your whiteboard.
-              </figcaption>
-            </figure>
-          </div>
-        </section>
-
         {/* ── Enablement ───────────────────────────────────────────────── */}
         <section className="sec enable">
           <div className="enable-img" aria-hidden="true">
@@ -338,38 +280,14 @@ export default function Home() {
             </ul>
           </div>
         </section>
+        </div>
 
-        {/* ── Contact ──────────────────────────────────────────────────── */}
-        <section className="sec contact-sec" id="contact">
-          <LoopVideo className="contact-img" src="/void/hero-loop" poster="/void/hero-loop-poster.webp" opacity={0.55} />
-          <div className="shell-wide contact-in">
-            <div className="contact-copy" data-r>
-              <h2 className="d2">Tell us the workflow that&rsquo;s eating your week.</h2>
-              <p className="lede">
-                Thirty minutes with an engineer, no deck. You&rsquo;ll leave with a straight answer on whether AI helps
-                here — even if that answer is no.
-              </p>
-              <a className="contact-mail" href="mailto:hello@pulplabs.ai">
-                hello@pulplabs.ai
-              </a>
-            </div>
-
-            <HomeForm />
-          </div>
-        </section>
-
-        {/* ── Newsletter ───────────────────────────────────────────────── */}
-        <section className="sec-sm">
-          <div className="shell-wide">
-            <div className="news" data-r>
-              <div>
-                <h2 className="d3">Fresh from the lab, monthly.</h2>
-                <p className="body">One email a month on what we shipped, learned and open-sourced. No spam.</p>
-              </div>
-              <NewsForm />
-            </div>
-          </div>
-        </section>
+        <NextPage
+          href="/services"
+          kicker="Next"
+          title="Capabilities"
+          blurb="The full catalogue — five practice areas, what sits inside each, and how a scope gets built."
+        />
       </main>
 
       <Footer />
@@ -377,159 +295,3 @@ export default function Home() {
   )
 }
 
-/* --------------------------------------------------------------------------
-   Forms. No backend yet, so both validate and then hand off — the contact
-   form to a pre-filled mailto, so the enquiry actually reaches someone rather
-   than dying in a fake success state.
-   -------------------------------------------------------------------------- */
-
-function HomeForm() {
-  const [v, setV] = useState({ name: '', company: '', email: '', problem: '' })
-  const [errs, setErrs] = useState({})
-  const [sent, setSent] = useState(false)
-
-  const set = (k) => (e) => {
-    setV((s) => ({ ...s, [k]: e.target.value }))
-    if (errs[k]) setErrs((x) => ({ ...x, [k]: undefined }))
-  }
-
-  function submit(e) {
-    e.preventDefault()
-    const next = {}
-    if (v.name.trim().length < 2) next.name = 'Please give us a name we can use.'
-    if (!EMAIL_RE.test(v.email.trim())) next.email = 'That does not look like a complete email address.'
-    if (v.problem.trim().length < 10) next.problem = 'A sentence about the workflow helps us prepare.'
-    setErrs(next)
-    if (Object.keys(next).length) {
-      document.getElementById(Object.keys(next)[0])?.focus()
-      return
-    }
-    setSent(true)
-  }
-
-  const mailto = `mailto:hello@pulplabs.ai?subject=${encodeURIComponent(
-    `Consultation — ${v.company || v.name}`,
-  )}&body=${encodeURIComponent(`Name: ${v.name}\nCompany: ${v.company}\nEmail: ${v.email}\n\n${v.problem}`)}`
-
-  if (sent) {
-    return (
-      <div className="contact-done" role="status" data-r>
-        <h3 className="d3">Almost there, {v.name.split(' ')[0]}.</h3>
-        <p className="body">
-          This site has no form backend yet, so nothing has been sent. The button below opens a pre-filled email to the
-          team, who reply the same working day.
-        </p>
-        <a className="btn" href={mailto}>
-          Send it to the team
-        </a>
-        <button type="button" className="link contact-back" onClick={() => setSent(false)}>
-          Edit the details
-        </button>
-      </div>
-    )
-  }
-
-  return (
-    <form className="contact-form" onSubmit={submit} noValidate data-r>
-      <div className="f-row">
-        <Field id="name" label="Name" placeholder="Jane Doe" value={v.name} onChange={set('name')} error={errs.name} autoComplete="name" />
-        <Field id="company" label="Company" placeholder="Acme Ltd" value={v.company} onChange={set('company')} autoComplete="organization" />
-      </div>
-
-      <Field
-        id="email"
-        label="Work email"
-        type="email"
-        inputMode="email"
-        placeholder="jane@acme.com"
-        value={v.email}
-        onChange={set('email')}
-        error={errs.email}
-        autoComplete="email"
-      />
-
-      <div className="f">
-        <label className="f-label" htmlFor="problem">
-          What&rsquo;s the problem?
-        </label>
-        <textarea
-          id="problem"
-          rows={4}
-          value={v.problem}
-          onChange={set('problem')}
-          placeholder="Our support inbox is three days behind…"
-          aria-invalid={errs.problem ? 'true' : undefined}
-          aria-describedby={errs.problem ? 'problem-err' : undefined}
-        />
-        {errs.problem && (
-          <p className="f-err" id="problem-err">
-            {errs.problem}
-          </p>
-        )}
-      </div>
-
-      <button type="submit" className="btn contact-submit">
-        Book the consultation
-      </button>
-    </form>
-  )
-}
-
-function NewsForm() {
-  const [email, setEmail] = useState('')
-  const [done, setDone] = useState(false)
-
-  return (
-    <form
-      className="news-form"
-      onSubmit={(e) => {
-        e.preventDefault()
-        setDone(true)
-        setEmail('')
-      }}
-    >
-      <label className="sr-only" htmlFor="news-email">
-        Email address
-      </label>
-      <input
-        id="news-email"
-        type="email"
-        required
-        placeholder="you@company.com"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <button type="submit" className="btn">
-        {done ? 'Subscribed' : 'Subscribe'}
-      </button>
-    </form>
-  )
-}
-
-/* Visible label above every field. A placeholder is not a label — it vanishes
-   the moment someone starts typing, exactly when they need it. */
-function Field({ id, label, error, ...rest }) {
-  return (
-    <div className="f">
-      <label className="f-label" htmlFor={id}>
-        {label}
-      </label>
-      <input
-        id={id}
-        type={rest.type ?? 'text'}
-        value={rest.value}
-        onChange={rest.onChange}
-        placeholder={rest.placeholder}
-        inputMode={rest.inputMode}
-        autoComplete={rest.autoComplete}
-        aria-invalid={error ? 'true' : undefined}
-        aria-describedby={error ? `${id}-err` : undefined}
-      />
-      {error && (
-        <p className="f-err" id={`${id}-err`}>
-          {error}
-        </p>
-      )}
-    </div>
-  )
-}

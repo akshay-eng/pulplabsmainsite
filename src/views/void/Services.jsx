@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
+import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
 
 const CAT = [
@@ -98,7 +99,14 @@ export default function Services() {
             </div>
           </div>
         </section>
+        <NextPage
+          href="/team"
+          kicker="Next"
+          title="Team"
+          blurb="Six people, four certifications, and the stack we build on. The person who scopes it builds it."
+        />
       </main>
+
       <Footer />
     </div>
   )

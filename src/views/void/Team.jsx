@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import Chevron from '@/components/apple/Chevron'
-import FieldStage from '@/components/void/FieldStage'
+import NextPage from '@/components/void/NextPage'
 
 /* Names are still placeholders in src/data/team.js. Rather than invent six
    people for a real company's team page, each card carries the role, the
@@ -51,6 +51,18 @@ const CERTS = [
   ['watsonx Orchestrate', 'IBM'],
 ]
 
+/* Deliberately separate from CERTS. These are things we build on, not things
+   we hold a certification in — merging the two lists would claim credentials
+   that do not exist. */
+const STACK = [
+  ['Models', ['Claude', 'GPT', 'Gemini', 'Llama', 'Mistral']],
+  ['Orchestration', ['LangGraph', 'LlamaIndex', 'Temporal', 'Airflow', 'n8n']],
+  ['Platforms', ['Azure AI Foundry', 'AWS Bedrock', 'Google Vertex AI', 'Databricks']],
+  ['Data', ['Snowflake', 'Postgres', 'pgvector', 'Elasticsearch', 'Redis']],
+  ['ITSM & ops', ['ServiceNow', 'Jira Service Management', 'PagerDuty', 'Datadog']],
+  ['Runtime', ['Kubernetes', 'Docker', 'Terraform', 'GitHub Actions']],
+]
+
 const PRINCIPLES = [
   ['We say no', 'If AI does not help your case, we tell you in the discovery call rather than selling you a pilot that stalls.'],
   ['We evaluate first', 'Nothing reaches a production queue without being scored against your own historical cases.'],
@@ -64,7 +76,6 @@ export default function Team() {
 
       <main id="main">
         <section className="phead grid-bg team-head">
-          <FieldStage lattice={false} />
           <div className="phead-light" aria-hidden="true">
             <img src="/void/deep-field.webp" alt="" fetchPriority="high" decoding="async" />
           </div>
@@ -88,15 +99,19 @@ export default function Team() {
             <ul className="roster">
               {PEOPLE.map((p, i) => (
                 <li key={p.role} data-r style={{ '--rd': `${i * 60}ms` }}>
-                  {/* A generated portrait here would read as a real employee.
-                      The mark is geometric and obviously a placeholder. */}
-                  <span className="roster-mark" aria-hidden="true">
-                    <svg viewBox="0 0 40 40" width="40" height="40">
-                      <circle cx="20" cy="20" r="19" fill="none" stroke="currentColor" strokeWidth="0.8" opacity="0.35" />
-                      <circle cx="20" cy="20" r="4.5" fill="currentColor" opacity="0.9" />
-                      <path d={`M20 1 A19 19 0 ${i % 2 ? 1 : 0} 1 ${20 + 19 * Math.cos((i + 1) * 1.1)} ${20 + 19 * Math.sin((i + 1) * 1.1)}`}
-                        fill="none" stroke="currentColor" strokeWidth="1.4" />
+                  {/* A portrait slot, sized and framed like the real thing so
+                      the layout is already correct when photographs arrive. A
+                      generated face here would read as a named employee. */}
+                  <span className="roster-photo" aria-hidden="true">
+                    <svg viewBox="0 0 40 40" width="34" height="34">
+                      <circle cx="20" cy="20" r="19" fill="none" stroke="currentColor" strokeWidth="0.8" opacity="0.4" />
+                      <circle cx="20" cy="20" r="4.5" fill="currentColor" opacity="0.85" />
+                      <path
+                        d={`M20 1 A19 19 0 ${i % 2 ? 1 : 0} 1 ${20 + 19 * Math.cos((i + 1) * 1.1)} ${20 + 19 * Math.sin((i + 1) * 1.1)}`}
+                        fill="none" stroke="currentColor" strokeWidth="1.4"
+                      />
                     </svg>
+                    <span className="mono roster-photo-l">Photo</span>
                   </span>
                   <div className="roster-body">
                     <p className="mono">{p.disc}</p>
@@ -129,6 +144,32 @@ export default function Team() {
                 <li key={n} data-r style={{ '--rd': `${i * 60}ms` }}>
                   <span className="h4">{n}</span>
                   <span className="mono">{issuer}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="sec">
+          <div className="shell-wide">
+            <header className="sec-h" data-r>
+              <p className="mono">The stack</p>
+              <h2 className="d2">What we build on.</h2>
+              <p className="lede">
+                Certifications above are the four platforms we are accredited on. This is everything else we deploy,
+                integrate and operate against.
+              </p>
+            </header>
+
+            <ul className="stack">
+              {STACK.map(([group, items], i) => (
+                <li key={group} data-r style={{ '--rd': `${i * 55}ms` }}>
+                  <p className="mono">{group}</p>
+                  <ul>
+                    {items.map((it) => (
+                      <li key={it}>{it}</li>
+                    ))}
+                  </ul>
                 </li>
               ))}
             </ul>
@@ -172,6 +213,12 @@ export default function Team() {
             </div>
           </div>
         </section>
+        <NextPage
+          href="/contact"
+          kicker="Next"
+          title="Contact"
+          blurb="Thirty minutes with an engineer. You will leave with a straight answer on whether AI helps here."
+        />
       </main>
 
       <Footer />

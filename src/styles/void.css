@@ -2380,3 +2380,216 @@ canvas {
     animation: none;
   }
 }
+
+/* ==========================================================================
+   Flow — one continuous ground across the back half of the home page
+
+   The lower sections were sitting on flat black with nothing between them.
+   A single plate spanning all of them (rather than one per section) is the
+   point: it does not restart, so the page reads as one surface rather than a
+   stack of unrelated blocks.
+   ========================================================================== */
+
+.flow {
+  position: relative;
+  isolation: isolate;
+}
+
+.flow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 40% at 12% 0%, rgba(70, 110, 190, 0.13), transparent 60%),
+    radial-gradient(100% 36% at 88% 34%, rgba(190, 120, 60, 0.1), transparent 62%),
+    radial-gradient(120% 44% at 30% 78%, rgba(60, 150, 140, 0.09), transparent 64%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent 22%, transparent 78%, rgba(255, 255, 255, 0.022));
+}
+
+/* A hairline grid over the whole run, fading at both ends so it has no start
+   or finish of its own. */
+.flow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 84px 84px;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+}
+
+/* The enablement plate already lights this run; drop its own so two grounds
+   do not stack. */
+.flow .enable-img {
+  opacity: 0.28;
+}
+
+/* ==========================================================================
+   Next-page hand-off
+   ========================================================================== */
+
+.next {
+  padding-block: clamp(56px, 7vw, 96px);
+  border-top: 1px solid var(--line-1);
+}
+
+.next-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: 'kick go' 'title go' 'blurb go';
+  align-items: center;
+  gap: 8px 28px;
+  padding: clamp(28px, 3.4vw, 44px);
+  border: 1px solid var(--line-1);
+  border-radius: 20px;
+  background: var(--raise-1);
+  transition:
+    background-color var(--t-hover) var(--ease-out),
+    border-color var(--t-hover) var(--ease-out),
+    transform var(--t-press) var(--ease-out);
+}
+
+.next-card:active {
+  transform: scale(0.995);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .next-card:hover {
+    background: var(--raise-2);
+    border-color: var(--line-2);
+  }
+  .next-card:hover .next-go {
+    transform: translateX(4px);
+    border-color: var(--line-3);
+  }
+}
+
+.next-card:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 4px;
+}
+
+.next-card .mono {
+  grid-area: kick;
+}
+
+.next-t {
+  grid-area: title;
+}
+
+.next-b {
+  grid-area: blurb;
+  margin-top: 6px;
+  max-width: 56ch;
+}
+
+.next-go {
+  grid-area: go;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-2);
+  border-radius: 50%;
+  color: var(--w-1);
+  flex: none;
+  transition:
+    transform var(--t-hover) var(--ease-out),
+    border-color var(--t-hover) var(--ease-out);
+}
+
+@media (max-width: 600px) {
+  .next-card {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'kick' 'title' 'blurb' 'go';
+    justify-items: start;
+  }
+  .next-go {
+    margin-top: 18px;
+  }
+}
+
+/* ==========================================================================
+   Team — portrait slots and the stack
+   ========================================================================== */
+
+.roster-photo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  aspect-ratio: 4 / 3;
+  border: 1px dashed var(--line-2);
+  border-radius: 12px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.035), transparent 70%);
+  color: var(--w-3);
+}
+
+.roster-photo-l {
+  color: var(--w-4);
+  letter-spacing: 0.16em;
+}
+
+.stack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line-1);
+  border: 1px solid var(--line-1);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.stack > li {
+  background: var(--void);
+  padding: clamp(22px, 2.4vw, 30px);
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.stack ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.stack ul li {
+  padding: 6px 12px;
+  border: 1px solid var(--line-1);
+  border-radius: 100px;
+  font-size: 0.8125rem;
+  color: var(--w-2);
+  transition: border-color var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .stack ul li:hover {
+    border-color: var(--line-3);
+    color: var(--w-1);
+  }
+}
+
+@media (max-width: 900px) {
+  .stack {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .stack {
+    grid-template-columns: 1fr;
+  }
+}
