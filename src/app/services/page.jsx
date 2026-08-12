@@ -1,4 +1,4 @@
-import Services from '@/views/apple/Services'
+import Services from '@/views/void/Services'
 
 export const metadata = {
   title: 'Services',

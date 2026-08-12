@@ -1,4 +1,4 @@
-import Contact from '@/views/apple/Contact'
+import Contact from '@/views/void/Contact'
 
 export const metadata = {
   title: 'Contact',

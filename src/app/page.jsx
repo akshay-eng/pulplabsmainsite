@@ -1,4 +1,4 @@
-import Home from '@/views/apple/Home'
+import Home from '@/views/void/Home'
 
 export default function Page() {
   return <Home />

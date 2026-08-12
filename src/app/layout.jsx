@@ -1,4 +1,4 @@
-import '@/styles/apple.css'
+import '@/styles/void.css'
 /* The dock is mounted globally, so its own stylesheet belongs here rather than
    with the legacy routes. apple.css restyles its surface further down. */
 import '@/styles/ai-dock.css'
@@ -26,7 +26,7 @@ export const viewport = {
   initialScale: 1,
   // Matches the page ground so mobile browser chrome blends with the site
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { color: "#000000" },
   ],
 }
 
