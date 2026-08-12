@@ -2345,3 +2345,9 @@ canvas {
 .ft-cols {
   grid-template-columns: repeat(3, 1fr);
 }
+
+/* The page head's bottom padding and the next section's top padding stacked
+   into a gap wide enough to read as a missing element. */
+.phead + .sec-sm {
+  padding-top: 0;
+}

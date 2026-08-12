@@ -58,7 +58,7 @@ export default function Contact() {
 
       <main id="main">
         <section className="phead">
-          <div className="u-shell">
+          <div className="shell">
             <h1 className="d1 phead-h">
               Tell us the workflow
               <br />
@@ -72,7 +72,7 @@ export default function Contact() {
         </section>
 
         <section className="sec-sm">
-          <div className="u-shell contact-grid">
+          <div className="shell contact-grid">
             <div className="contact-aside">
               <div data-r>
                 <p className="mono">Email</p>
