@@ -51,17 +51,6 @@ const CERTS = [
   ['watsonx Orchestrate', 'IBM'],
 ]
 
-/* Deliberately separate from CERTS. These are things we build on, not things
-   we hold a certification in — merging the two lists would claim credentials
-   that do not exist. */
-const STACK = [
-  ['Models', ['Claude', 'GPT', 'Gemini', 'Llama', 'Mistral']],
-  ['Orchestration', ['LangGraph', 'LlamaIndex', 'Temporal', 'Airflow', 'n8n']],
-  ['Platforms', ['Azure AI Foundry', 'AWS Bedrock', 'Google Vertex AI', 'Databricks']],
-  ['Data', ['Snowflake', 'Postgres', 'pgvector', 'Elasticsearch', 'Redis']],
-  ['ITSM & ops', ['ServiceNow', 'Jira Service Management', 'PagerDuty', 'Datadog']],
-  ['Runtime', ['Kubernetes', 'Docker', 'Terraform', 'GitHub Actions']],
-]
 
 const PRINCIPLES = [
   ['We say no', 'If AI does not help your case, we tell you in the discovery call rather than selling you a pilot that stalls.'],
@@ -153,32 +142,6 @@ export default function Team() {
         <section className="sec">
           <div className="shell-wide">
             <header className="sec-h" data-r>
-              <p className="mono">The stack</p>
-              <h2 className="d2">What we build on.</h2>
-              <p className="lede">
-                Certifications above are the four platforms we are accredited on. This is everything else we deploy,
-                integrate and operate against.
-              </p>
-            </header>
-
-            <ul className="stack">
-              {STACK.map(([group, items], i) => (
-                <li key={group} data-r style={{ '--rd': `${i * 55}ms` }}>
-                  <p className="mono">{group}</p>
-                  <ul>
-                    {items.map((it) => (
-                      <li key={it}>{it}</li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section className="sec">
-          <div className="shell-wide">
-            <header className="sec-h" data-r>
               <p className="mono">How we work</p>
               <h2 className="d2">Three things we will not trade.</h2>
             </header>
@@ -215,9 +178,7 @@ export default function Team() {
         </section>
         <NextPage
           href="/contact"
-          kicker="Next"
           title="Contact"
-          blurb="Thirty minutes with an engineer. You will leave with a straight answer on whether AI helps here."
         />
       </main>
 

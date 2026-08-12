@@ -16,7 +16,7 @@ import { useEffect, useRef, useState } from 'react'
    The poster carries the composition on its own, so every suppressed path
    still looks finished rather than blank.
    ========================================================================== */
-export default function LoopVideo({ src, poster, className = '', opacity = 1, once = false }) {
+export default function LoopVideo({ src, poster, className = '', opacity = 1, once = false, pauseAt = null }) {
   const wrap = useRef(null)
   const video = useRef(null)
   const [play, setPlay] = useState(false)
@@ -49,15 +49,29 @@ export default function LoopVideo({ src, poster, className = '', opacity = 1, on
     v?.play?.().catch(() => {})
     if (!once || !v) return
 
-    // Pausing a hair before the true end avoids the blank frame some
-    // decoders present exactly at duration.
+    /* Stop on `pauseAt` — the same frame the poster was cut from, so the
+       still shown before playback, the frame it settles on, and the static
+       background afterwards are all one picture. Nothing jumps. */
+    if (pauseAt != null) {
+      const watch = () => {
+        if (v.currentTime < pauseAt) return
+        v.pause()
+        v.currentTime = pauseAt
+        v.removeEventListener('timeupdate', watch)
+      }
+      v.addEventListener('timeupdate', watch)
+      return () => v.removeEventListener('timeupdate', watch)
+    }
+
+    // Otherwise hold the last frame, a hair before the true end — some
+    // decoders present a blank frame exactly at duration.
     const stop = () => {
       v.pause()
       v.currentTime = Math.max(0, v.duration - 0.05)
     }
     v.addEventListener('ended', stop)
     return () => v.removeEventListener('ended', stop)
-  }, [play, once])
+  }, [play, once, pauseAt])
 
   return (
     <div ref={wrap} className={`loop ${className}`} style={{ opacity }} aria-hidden="true">

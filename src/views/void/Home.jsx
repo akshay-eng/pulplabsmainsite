@@ -84,9 +84,10 @@ export default function Home() {
           <LoopVideo
             className="hero-light"
             src="/void/hero-loop"
-            poster="/void/hero-loop-poster.webp"
+            poster="/void/hero-pause.webp"
             opacity={0.85}
             once
+            pauseAt={4.2}
           />
 
           <div className="shell hero-in">
@@ -284,9 +285,7 @@ export default function Home() {
 
         <NextPage
           href="/services"
-          kicker="Next"
           title="Capabilities"
-          blurb="The full catalogue — five practice areas, what sits inside each, and how a scope gets built."
         />
       </main>
 

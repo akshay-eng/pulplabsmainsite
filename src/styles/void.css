@@ -2431,87 +2431,74 @@ canvas {
 }
 
 /* ==========================================================================
-   Next-page hand-off
+   Next-page hand-off — a row, not a section
    ========================================================================== */
 
 .next {
-  padding-block: clamp(56px, 7vw, 96px);
   border-top: 1px solid var(--line-1);
 }
 
-.next-card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas: 'kick go' 'title go' 'blurb go';
+.next-row {
+  max-width: var(--shell-wide);
+  margin-inline: auto;
+  padding: clamp(26px, 3vw, 38px) var(--gutter);
+  display: flex;
   align-items: center;
-  gap: 8px 28px;
-  padding: clamp(28px, 3.4vw, 44px);
-  border: 1px solid var(--line-1);
-  border-radius: 20px;
-  background: var(--raise-1);
-  transition:
-    background-color var(--t-hover) var(--ease-out),
-    border-color var(--t-hover) var(--ease-out),
-    transform var(--t-press) var(--ease-out);
+  gap: 18px;
+  color: var(--w-3);
+  transition: color var(--t-hover) var(--ease-out);
 }
 
-.next-card:active {
-  transform: scale(0.995);
+.next-k {
+  flex: none;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .next-card:hover {
-    background: var(--raise-2);
-    border-color: var(--line-2);
-  }
-  .next-card:hover .next-go {
-    transform: translateX(4px);
-    border-color: var(--line-3);
-  }
-}
-
-.next-card:focus-visible {
-  outline: 2px solid var(--signal);
-  outline-offset: 4px;
-}
-
-.next-card .mono {
-  grid-area: kick;
+/* The rule fills whatever space is left, so the destination always sits hard
+   against the right edge however long the label is. */
+.next-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--line-1);
+  transition: background-color var(--t-hover) var(--ease-out);
 }
 
 .next-t {
-  grid-area: title;
-}
-
-.next-b {
-  grid-area: blurb;
-  margin-top: 6px;
-  max-width: 56ch;
-}
-
-.next-go {
-  grid-area: go;
-  width: 52px;
-  height: 52px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line-2);
-  border-radius: 50%;
-  color: var(--w-1);
   flex: none;
+  font-size: clamp(1.25rem, 2.4vw, 1.875rem);
+  letter-spacing: -0.03em;
+  font-weight: 500;
+  color: var(--w-1);
+}
+
+.next-arrow {
+  flex: none;
+  color: var(--w-2);
   transition:
     transform var(--t-hover) var(--ease-out),
-    border-color var(--t-hover) var(--ease-out);
+    color var(--t-hover) var(--ease-out);
 }
 
-@media (max-width: 600px) {
-  .next-card {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: 'kick' 'title' 'blurb' 'go';
-    justify-items: start;
+@media (hover: hover) and (pointer: fine) {
+  .next-row:hover .next-arrow {
+    transform: translateX(6px);
+    color: var(--w-1);
   }
-  .next-go {
-    margin-top: 18px;
+  .next-row:hover .next-rule {
+    background: var(--line-3);
+  }
+}
+
+.next-row:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: -4px;
+}
+
+@media (max-width: 520px) {
+  .next-rule {
+    display: none;
+  }
+  .next-row {
+    justify-content: space-between;
   }
 }
 

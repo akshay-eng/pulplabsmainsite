@@ -86,7 +86,7 @@ export default function Services() {
 
         <section className="close">
           <div className="close-img" aria-hidden="true">
-            <img src="/void/grid-horizon.webp" alt="" loading="lazy" decoding="async" />
+            <img src="/void/hero-pause.webp" alt="" loading="lazy" decoding="async" />
           </div>
           <div className="shell center close-in">
             <h2 className="d2 measure" data-r>Pricing comes out of discovery.</h2>
@@ -101,9 +101,7 @@ export default function Services() {
         </section>
         <NextPage
           href="/team"
-          kicker="Next"
           title="Team"
-          blurb="Six people, four certifications, and the stack we build on. The person who scopes it builds it."
         />
       </main>
 
