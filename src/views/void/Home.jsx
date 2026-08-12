@@ -6,6 +6,7 @@ import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import Chevron from '@/components/apple/Chevron'
 import FieldStage from '@/components/void/FieldStage'
+import LoopVideo from '@/components/void/LoopVideo'
 import { useScrollProgress } from '@/lib/apple-motion'
 
 const CHIPS = [
@@ -89,9 +90,12 @@ export default function Home() {
       <main id="main">
         {/* ── Hero ─────────────────────────────────────────────────────── */}
         <section className="hero grid-bg">
-          <div className="hero-light" aria-hidden="true">
-            <img src="/void/hero-bleed.webp" alt="" fetchPriority="high" decoding="async" />
-          </div>
+          <LoopVideo
+            className="hero-light"
+            src="/void/hero-loop"
+            poster="/void/hero-loop-poster.webp"
+            opacity={0.85}
+          />
           <FieldStage />
 
           <div className="shell hero-in">
@@ -337,9 +341,7 @@ export default function Home() {
 
         {/* ── Contact ──────────────────────────────────────────────────── */}
         <section className="sec contact-sec" id="contact">
-          <div className="contact-img" aria-hidden="true">
-            <img src="/void/deep-field.webp" alt="" loading="lazy" decoding="async" />
-          </div>
+          <LoopVideo className="contact-img" src="/void/hero-loop" poster="/void/hero-loop-poster.webp" opacity={0.55} />
           <div className="shell-wide contact-in">
             <div className="contact-copy" data-r>
               <h2 className="d2">Tell us the workflow that&rsquo;s eating your week.</h2>

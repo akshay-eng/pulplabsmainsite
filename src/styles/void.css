@@ -2351,3 +2351,32 @@ canvas {
 .phead + .sec-sm {
   padding-top: 0;
 }
+
+/* ==========================================================================
+   Looping video plates
+   ========================================================================== */
+
+.loop {
+  overflow: hidden;
+}
+
+.loop video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* Same rule as the still plates: screen means the black in the frame adds
+     nothing and only the light shows, so the plate emits rather than covers. */
+  mix-blend-mode: screen;
+}
+
+/* The hero plate is a video now; it keeps the mask and drift the still had */
+.hero-light video {
+  animation: drift 26s var(--ease-in-out) infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-light video {
+    animation: none;
+  }
+}
