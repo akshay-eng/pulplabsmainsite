@@ -1,0 +1,1355 @@
+/* ==========================================================================
+   PulpLabs — reimagined
+
+   A deliberate break from the previous system. No fruit palette, no pill
+   buttons, no crayon accents. The reference is Apple's product pages:
+   near-monochrome, enormous type, generous emptiness, translucent chrome that
+   content moves beneath, and motion that behaves rather than plays.
+
+   Tangerine survives as the single accent. Apple uses exactly one accent
+   colour too — keeping one thread of the brand is what stops this being a
+   generic Apple pastiche.
+   ========================================================================== */
+
+:root {
+  /* --- Ground ----------------------------------------------------------
+     Two grounds only, alternating by section. #f5f5f7 is Apple's own
+     off-white; against pure white it reads as a distinct plane without a
+     border, which is how sections separate here. */
+  --bg: #ffffff;
+  --bg-alt: #f5f5f7;
+  --bg-deep: #000000;
+
+  /* --- Ink -------------------------------------------------------------
+     Never pure black on white — #1d1d1f is Apple's, and the softer contrast
+     is what makes large type feel refined instead of harsh. */
+  --ink: #1d1d1f;
+  --ink-2: #6e6e73;
+  --ink-3: #86868b;
+  --ink-inv: #f5f5f7;
+  --ink-inv-2: rgba(245, 245, 247, 0.72);
+
+  --accent: #ff6b1a;
+  --accent-press: #e85c0e;
+
+  --line: rgba(0, 0, 0, 0.1);
+  --line-inv: rgba(255, 255, 255, 0.14);
+
+  /* --- Materials -------------------------------------------------------
+     Translucent chrome with content scrolling under it, not opaque bars that
+     consume a strip of the viewport. */
+  --mat-light: rgba(255, 255, 255, 0.72);
+  --mat-dark: rgba(29, 29, 31, 0.72);
+  --mat-blur: saturate(180%) blur(20px);
+
+  /* --- Motion ----------------------------------------------------------
+     From the animate skill. The browser built-ins are too weak to read as
+     deliberate; these are the sanctioned curves. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --t-press: 120ms;
+  --t-hover: 200ms;
+  --t-panel: 260ms;
+
+  --shell: 1024px;
+  --shell-wide: 1280px;
+  --gutter: 22px;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  /* The platform font ships optical sizing, tracking tables and legibility
+     tuning that a webfont would have to re-earn. Overriding it needs a reason,
+     and "a display face" is not one for an interface this text-heavy. */
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.022em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(255, 107, 26, 0.22);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+.u-shell {
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.u-shell-wide {
+  max-width: var(--shell-wide);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   Type
+
+   Tracking is size-specific, never one value: large text reads too loose as
+   it grows and wants negative tracking; small text wants a touch positive.
+   Leading tightens as size grows. These pairs are set together, not derived
+   from size alone.
+   ========================================================================== */
+
+.t-display {
+  font-size: clamp(2.75rem, 7.4vw, 5.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.t-headline {
+  font-size: clamp(2rem, 4.6vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.t-title {
+  font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.022em;
+  font-weight: 600;
+  margin: 0;
+}
+
+.t-lede {
+  font-size: clamp(1.125rem, 1.9vw, 1.5rem);
+  line-height: 1.38;
+  letter-spacing: -0.018em;
+  font-weight: 400;
+  color: var(--ink-2);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.t-body {
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  letter-spacing: -0.012em;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+/* Small text takes POSITIVE tracking — the inverse of the display sizes */
+.t-eyebrow {
+  font-size: 0.75rem;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 590;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+.t-caption {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  letter-spacing: 0.005em;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+.t-accent {
+  color: var(--accent);
+}
+
+/* On dark sections */
+.is-dark {
+  background: var(--bg-deep);
+  color: var(--ink-inv);
+}
+.is-dark .t-lede,
+.is-dark .t-body {
+  color: var(--ink-inv-2);
+}
+.is-dark .t-eyebrow,
+.is-dark .t-caption {
+  color: rgba(245, 245, 247, 0.56);
+}
+
+/* ==========================================================================
+   Sections
+   ========================================================================== */
+
+.sec {
+  padding-block: clamp(88px, 12vw, 160px);
+}
+
+.sec-tight {
+  padding-block: clamp(56px, 7vw, 96px);
+}
+
+.sec-alt {
+  background: var(--bg-alt);
+}
+
+.u-center {
+  text-align: center;
+}
+
+.u-measure {
+  max-width: 34ch;
+  margin-inline: auto;
+}
+
+.u-measure-wide {
+  max-width: 52ch;
+  margin-inline: auto;
+}
+
+/* ==========================================================================
+   Controls
+
+   Feedback on pointer-down, not on release — waiting for click to show a
+   state reads as dead. 120ms is inside the button-press band.
+   ========================================================================== */
+
+.btn {
+  --btn-bg: var(--accent);
+  --btn-fg: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  font: inherit;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  padding: 0.72em 1.4em;
+  min-height: 44px;
+  border: 0;
+  border-radius: 980px; /* Apple's continuous-corner pill */
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  cursor: pointer;
+  transition:
+    transform var(--t-press) var(--ease-out),
+    background-color var(--t-hover) var(--ease-out),
+    opacity var(--t-hover) var(--ease-out);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:focus-visible {
+  outline: 3px solid rgba(255, 107, 26, 0.5);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    background: var(--btn-hover, var(--accent-press));
+  }
+}
+
+.btn-secondary {
+  --btn-bg: transparent;
+  --btn-fg: var(--accent);
+  --btn-hover: rgba(255, 107, 26, 0.08);
+  border: 1px solid rgba(255, 107, 26, 0.35);
+}
+
+.btn-quiet {
+  --btn-bg: rgba(0, 0, 0, 0.05);
+  --btn-fg: var(--ink);
+  --btn-hover: rgba(0, 0, 0, 0.09);
+}
+
+.is-dark .btn-quiet {
+  --btn-bg: rgba(255, 255, 255, 0.12);
+  --btn-fg: var(--ink-inv);
+  --btn-hover: rgba(255, 255, 255, 0.2);
+}
+
+/* Text link with the chevron Apple uses for "more" */
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28em;
+  color: var(--accent);
+  font-weight: 450;
+  transition: opacity var(--t-hover) var(--ease-out);
+}
+
+.link svg {
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover svg {
+    transform: translateX(3px);
+  }
+}
+
+.link:active {
+  opacity: 0.65;
+}
+
+/* ==========================================================================
+   Scroll reveal
+
+   Opacity plus a short rise. No scale: scaling text resamples it and reads
+   soft mid-flight. Driven by IntersectionObserver in useReveal.
+   ========================================================================== */
+
+[data-r] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity 700ms var(--ease-out),
+    transform 700ms var(--ease-out);
+  transition-delay: var(--rd, 0ms);
+}
+
+[data-r='1'] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Gentler, not zero: the fade still signals arrival, the movement goes. */
+  [data-r] {
+    transform: none;
+    transition: opacity 300ms var(--ease-out);
+  }
+}
+
+/* ==========================================================================
+   Reduced transparency / contrast
+
+   Independent signals from reduced-motion, and both need handling: frostier
+   surfaces for the first, defined borders for the second.
+   ========================================================================== */
+
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --mat-light: #ffffff;
+    --mat-dark: #1d1d1f;
+    --mat-blur: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --ink-2: #3a3a3c;
+    --ink-3: #4a4a4d;
+    --line: rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* ==========================================================================
+   Nav
+   ========================================================================== */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* Transparent until there is content behind it worth separating from */
+  background: transparent;
+  transition:
+    background-color var(--t-panel) var(--ease-out),
+    backdrop-filter var(--t-panel) var(--ease-out),
+    border-color var(--t-panel) var(--ease-out);
+  border-bottom: 1px solid transparent;
+}
+
+.nav[data-scrolled],
+.nav[data-open] {
+  background: var(--mat-light);
+  backdrop-filter: var(--mat-blur);
+  -webkit-backdrop-filter: var(--mat-blur);
+  border-bottom-color: var(--line);
+}
+
+.nav-in {
+  max-width: var(--shell-wide);
+  margin-inline: auto;
+  padding: 0 var(--gutter);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  flex: none;
+}
+
+.nav-mark {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--accent);
+  /* A single dot as the mark. The old logo was a literal orange; this keeps
+     the colour and drops the illustration. */
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-inline-start: auto;
+}
+
+.nav-links a {
+  display: block;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+  color: var(--ink-2);
+  transition:
+    color var(--t-hover) var(--ease-out),
+    background-color var(--t-hover) var(--ease-out);
+}
+
+.nav-links a[aria-current='page'] {
+  color: var(--ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-links a:hover {
+    color: var(--ink);
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.nav-end {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+
+.nav-cta {
+  font-size: 0.8125rem;
+  padding: 0.45em 1.05em;
+  min-height: 32px;
+}
+
+.nav-toggle {
+  display: none;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  place-items: center;
+  gap: 5px;
+  grid-auto-flow: row;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 17px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--ink);
+  transition: transform var(--t-panel) var(--ease-out);
+}
+
+.nav[data-open] .nav-toggle span:first-child {
+  transform: translateY(3.25px) rotate(45deg);
+}
+.nav[data-open] .nav-toggle span:last-child {
+  transform: translateY(-3.25px) rotate(-45deg);
+}
+
+.nav-sheet {
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+}
+
+.nav-sheet[hidden] {
+  display: none;
+}
+
+.nav-sheet ul {
+  list-style: none;
+  margin: 0;
+  padding: 8px var(--gutter) 20px;
+  max-width: var(--shell-wide);
+  margin-inline: auto;
+}
+
+.nav-sheet a {
+  display: block;
+  padding: 13px 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  border-bottom: 1px solid var(--line);
+  /* 40ms stagger — enough to read as sequence, short enough not to wait */
+  animation: sheet-in 320ms var(--ease-out) both;
+  animation-delay: calc(var(--i) * 40ms);
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-sheet a {
+    animation: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .nav-links {
+    display: none;
+  }
+  .nav-toggle {
+    display: grid;
+  }
+  .nav-cta {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Hero
+
+   Deliberately empty above the headline. The first thing on the page is the
+   sentence, and the space around it is what gives it weight.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  padding-block: clamp(80px, 15vh, 168px) clamp(72px, 12vh, 132px);
+}
+
+/* Staggered on load rather than on scroll — the hero is already in view, so
+   an IntersectionObserver would fire everything at once anyway. 60ms apart:
+   sequence without a wait. */
+.hero-h,
+.hero-l,
+.hero-cta {
+  animation: rise 800ms var(--ease-out) both;
+}
+.hero-l {
+  animation-delay: 90ms;
+}
+.hero-cta {
+  animation-delay: 180ms;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+}
+
+.hero-l {
+  margin-top: clamp(20px, 2.6vw, 30px);
+  max-width: 40ch;
+}
+
+.hero-cta {
+  margin-top: clamp(28px, 3.4vw, 40px);
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+/* A hairline that draws down into the page — the only ornament in the hero,
+   and it points at where to go next. */
+.hero-rule {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 1px;
+  height: clamp(40px, 7vh, 76px);
+  background: linear-gradient(to bottom, transparent, var(--line));
+  transform-origin: top;
+  animation: rule-draw 900ms var(--ease-out) 420ms both;
+}
+
+@keyframes rule-draw {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-h,
+  .hero-l,
+  .hero-cta {
+    animation: fade-in 320ms var(--ease-out) both;
+  }
+  .hero-rule {
+    animation: none;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
+/* ==========================================================================
+   Statement — one dark plane, one number
+   ========================================================================== */
+
+.statement {
+  --p: 0;
+  padding-block: clamp(104px, 17vw, 210px);
+  overflow: hidden;
+}
+
+.statement-h {
+  margin-top: 14px;
+  /* Counter-scroll tied to scroll position, not a timer: the reader drives it
+     and can stop or reverse it at any point. Range kept small — big parallax
+     on type makes it hard to read while moving. */
+  transform: translate3d(0, calc((0.5 - var(--p)) * 34px), 0);
+}
+
+.statement-b {
+  margin-top: clamp(20px, 2.4vw, 28px);
+  margin-inline: 0;
+  transform: translate3d(0, calc((0.5 - var(--p)) * 18px), 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .statement-h,
+  .statement-b {
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Section heads
+   ========================================================================== */
+
+.sec-head {
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+
+.sec-head .t-lede {
+  margin-top: 14px;
+  margin-inline: 0;
+}
+
+/* ==========================================================================
+   Practices
+   ========================================================================== */
+
+.practices {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  /* The gap IS the divider: a 1px grid gap over a line-coloured background
+     draws every rule at once, with no borders to double up at the seams. */
+  background: var(--line);
+  border-block: 1px solid var(--line);
+}
+
+.practice {
+  background: var(--bg);
+  padding: clamp(28px, 3.2vw, 42px) clamp(24px, 2.6vw, 34px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.practice .t-title {
+  margin-top: 2px;
+}
+
+.practice .t-body {
+  font-size: 1rem;
+}
+
+.practice-cta {
+  background: var(--bg-alt);
+  justify-content: center;
+}
+
+.practice-cta .link {
+  margin-top: 6px;
+}
+
+@media (max-width: 900px) {
+  .practices {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .practices {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Steps
+   ========================================================================== */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.steps li {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: clamp(16px, 3vw, 40px);
+  padding-block: clamp(24px, 3vw, 34px);
+  border-top: 1px solid var(--line);
+  align-items: start;
+}
+
+.steps li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.steps-n {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.35em;
+}
+
+.steps .t-body {
+  margin-top: 7px;
+  max-width: 56ch;
+}
+
+.steps-note {
+  margin-top: 26px;
+  max-width: 60ch;
+}
+
+@media (max-width: 600px) {
+  .steps li {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .steps-n {
+    padding-top: 0;
+  }
+}
+
+/* ==========================================================================
+   Close
+   ========================================================================== */
+
+.close-l {
+  margin-top: 18px;
+}
+
+.close-cta {
+  margin-top: 32px;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.foot {
+  border-top: 1px solid var(--line);
+  background: var(--bg-alt);
+  padding-block: clamp(40px, 5vw, 56px);
+}
+
+.foot-cols {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: clamp(24px, 4vw, 56px);
+}
+
+.foot-blurb {
+  margin-top: 10px;
+  max-width: 36ch;
+}
+
+.foot ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 7px;
+}
+
+.foot li a {
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+  transition: color var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .foot li a:hover {
+    color: var(--ink);
+  }
+}
+
+.foot-base {
+  margin-top: clamp(30px, 4vw, 44px);
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 700px) {
+  .foot-cols {
+    grid-template-columns: 1fr 1fr;
+  }
+  .foot-cols > :first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ==========================================================================
+   Page heads (services, contact)
+   ========================================================================== */
+
+.page-head {
+  padding-block: clamp(64px, 11vh, 128px) clamp(40px, 6vh, 64px);
+}
+
+.page-h,
+.page-l {
+  animation: rise 800ms var(--ease-out) both;
+}
+.page-l {
+  animation-delay: 90ms;
+  margin-top: clamp(18px, 2.4vw, 26px);
+  max-width: 46ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-h,
+  .page-l {
+    animation: fade-in 320ms var(--ease-out) both;
+  }
+}
+
+/* ==========================================================================
+   Catalogue accordion
+
+   `height` is animated here, which the property rules otherwise forbid — an
+   accordion has no transform equivalent, and it is the one sanctioned case.
+   grid-template-rows 0fr→1fr does it without measuring content in JS.
+   ========================================================================== */
+
+.cat {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.cat-row {
+  border-bottom: 1px solid var(--line);
+}
+
+.cat-row h2 {
+  margin: 0;
+}
+
+.cat-trigger {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: 'k sign' 't sign';
+  align-items: center;
+  gap: 4px 20px;
+  padding: clamp(22px, 2.6vw, 30px) 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cat-k {
+  grid-area: k;
+}
+
+.cat-t {
+  grid-area: t;
+  font-size: clamp(1.25rem, 2.6vw, 1.875rem);
+  line-height: 1.18;
+  letter-spacing: -0.026em;
+  font-weight: 600;
+  transition: color var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cat-trigger:hover .cat-t {
+    color: var(--accent);
+  }
+}
+
+.cat-trigger:focus-visible {
+  outline: 3px solid rgba(255, 107, 26, 0.5);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* A plus that becomes a minus. Two bars, one rotates away. */
+.cat-sign {
+  grid-area: sign;
+  position: relative;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.cat-sign span {
+  position: absolute;
+  width: 11px;
+  height: 1.6px;
+  border-radius: 2px;
+  background: var(--ink-2);
+  transition: transform var(--t-panel) var(--ease-out);
+}
+
+.cat-sign span:last-child {
+  transform: rotate(90deg);
+}
+
+.cat-row[data-open] .cat-sign span:last-child {
+  transform: rotate(0deg);
+}
+
+.cat-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--t-panel) var(--ease-out);
+}
+
+.cat-panel[hidden] {
+  display: none;
+}
+
+.cat-row[data-open] .cat-panel {
+  grid-template-rows: 1fr;
+}
+
+.cat-panel-in {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.cat-b {
+  max-width: 62ch;
+  padding-bottom: 22px;
+}
+
+.cat-items {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 clamp(24px, 3vw, 34px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(232px, 1fr));
+  gap: 18px 28px;
+}
+
+.cat-items li {
+  display: grid;
+  gap: 4px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.cat-item-t {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cat-panel {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Contact
+   ========================================================================== */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 80px);
+  align-items: start;
+}
+
+.contact-aside {
+  display: grid;
+  gap: 30px;
+  position: sticky;
+  top: 84px;
+}
+
+.contact-mail {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 1.0625rem;
+  color: var(--accent);
+}
+
+.contact-next {
+  margin: 10px 0 0;
+  padding-left: 1.1em;
+  display: grid;
+  gap: 7px;
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+}
+
+.contact-next li::marker {
+  color: var(--ink-3);
+}
+
+.contact-hint {
+  margin-top: 8px;
+  max-width: 34ch;
+}
+
+/* --- form --- */
+
+.contact-form {
+  display: grid;
+  gap: 20px;
+}
+
+.f-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.f {
+  display: grid;
+  gap: 7px;
+}
+
+.f-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--ink-2);
+}
+
+.f-opt {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+  font-weight: 400;
+}
+
+.f input,
+.f textarea,
+.f select {
+  width: 100%;
+  font: inherit;
+  font-size: 1.0625rem;
+  letter-spacing: -0.014em;
+  color: var(--ink);
+  background: var(--bg-alt);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 13px 15px;
+  transition:
+    border-color var(--t-hover) var(--ease-out),
+    background-color var(--t-hover) var(--ease-out);
+}
+
+.f textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.f input:focus,
+.f textarea:focus,
+.f select:focus {
+  outline: none;
+  background: var(--bg);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(255, 107, 26, 0.16);
+}
+
+.f [aria-invalid='true'] {
+  border-color: #d5342a;
+  background: rgba(213, 52, 42, 0.04);
+}
+
+.f-err {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #b3271e;
+}
+
+.f-select {
+  position: relative;
+  display: grid;
+}
+
+.f-select select {
+  appearance: none;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.f-select svg {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-3);
+  pointer-events: none;
+}
+
+.contact-submit {
+  justify-self: start;
+  min-width: 140px;
+}
+
+.contact-done {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  padding: clamp(24px, 3vw, 34px);
+  background: var(--bg-alt);
+  border-radius: 18px;
+}
+
+.contact-done .t-body {
+  max-width: 50ch;
+}
+
+.contact-back {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+@media (max-width: 860px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  .contact-aside {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .f-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Skip link
+   ========================================================================== */
+
+.skip {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 200;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.875rem;
+  transform: translateY(-160%);
+  transition: transform var(--t-panel) var(--ease-out);
+}
+
+.skip:focus-visible {
+  transform: none;
+  outline: 3px solid rgba(255, 107, 26, 0.6);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   AI dock — restyled as a floating material
+
+   The dock component is shared with the legacy pages, so this overrides its
+   surface rather than replacing the component. Bigger surfaces read thicker:
+   stronger blur and a deeper shadow than a small chip would carry.
+   ========================================================================== */
+
+.dock-composer,
+.dock-panel {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: saturate(180%) blur(24px) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(24px) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 20px !important;
+  /* Bright top edge = light catching the material */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 12px 40px rgba(0, 0, 0, 0.12) !important;
+}
+
+.dock-input {
+  font-family: inherit !important;
+  letter-spacing: -0.014em;
+  color: var(--ink) !important;
+}
+
+.dock-send,
+.dock-dot {
+  background: var(--accent) !important;
+  box-shadow: 0 2px 12px rgba(255, 107, 26, 0.3) !important;
+}
+
+.dock-chip {
+  font-family: inherit !important;
+  font-size: 0.8125rem !important;
+  letter-spacing: -0.008em;
+  background: rgba(255, 255, 255, 0.76) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: var(--ink-2) !important;
+  border-radius: 980px !important;
+}
+
+.dock-msg-bot .dock-bubble {
+  background: rgba(0, 0, 0, 0.045) !important;
+  border: 0 !important;
+  color: var(--ink) !important;
+  border-radius: 18px 18px 18px 6px !important;
+}
+
+.dock-msg-user .dock-bubble {
+  background: var(--accent) !important;
+  border-radius: 18px 18px 6px 18px !important;
+}
+
+.dock-head-id strong,
+.dock-head-id em {
+  font-family: inherit !important;
+}
+
+.dock-orb,
+.dock-composer-orb {
+  background: var(--accent) !important;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .dock-composer,
+  .dock-panel {
+    background: #fff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* --- corrections -------------------------------------------------------- */
+
+/* page-head's bottom padding and the next section's top padding were stacking
+   into a gap large enough to read as a missing element. */
+.page-head + .sec-tight {
+  padding-top: 0;
+}
+
+/* The chips sit on white, so a 0.76 white surface had no edge to speak of.
+   Slightly denser fill and a real border. */
+.dock-chip {
+  background: rgba(0, 0, 0, 0.035) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dock-chip:hover {
+    background: rgba(0, 0, 0, 0.07) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: var(--ink) !important;
+    transform: none !important;
+  }
+}

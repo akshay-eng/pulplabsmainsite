@@ -1,3 +1,7 @@
+import '@/styles/global.css'
+import '@/styles/refined.css'
+import '@/styles/components.css'
+import '@/styles/blog.css'
 import Link from 'next/link'
 import { logoutAction } from './actions'
 import { getSession } from '@/lib/auth'
