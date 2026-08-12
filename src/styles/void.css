@@ -1882,3 +1882,466 @@ canvas {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   Home — hero chips, trust strip, marquee, telemetry, contact, newsletter
+   ========================================================================== */
+
+.hero-pill-line {
+  animation: rise 900ms var(--ease-out) both;
+}
+
+.chips {
+  list-style: none;
+  margin: clamp(38px, 5vw, 56px) 0 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chips li {
+  display: grid;
+  gap: 3px;
+  padding: 12px 20px;
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  animation: rise 900ms var(--ease-out) both;
+  animation-delay: var(--rd);
+}
+
+.chips b {
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.024em;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-pill-line,
+  .chips li {
+    animation: fade 320ms var(--ease-out) both;
+  }
+}
+
+/* ---- trust ---- */
+
+.trust {
+  border-block: 1px solid var(--line-1);
+  padding-block: 24px 0;
+}
+
+.trust-in {
+  display: flex;
+  align-items: center;
+  gap: 20px 28px;
+  flex-wrap: wrap;
+  padding-bottom: 22px;
+}
+
+.trust-logos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.trust-logos li {
+  padding: 7px 14px;
+  border: 1px solid var(--line-1);
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  color: var(--w-2);
+}
+
+.trust-counts {
+  list-style: none;
+  margin-inline-start: auto;
+  padding: 0;
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  color: var(--w-3);
+}
+
+.trust-counts b {
+  color: var(--w-1);
+  font-weight: 500;
+}
+
+/* ---- marquee ---- */
+
+.marq {
+  overflow: hidden;
+  border-top: 1px solid var(--line-1);
+  padding-block: 16px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marq-track {
+  display: flex;
+  width: max-content;
+  /* Two copies translating exactly -50% — the second lands where the first
+     began, so the seam is invisible. */
+  animation: marq 46s linear infinite;
+}
+
+.marq:hover .marq-track {
+  animation-play-state: paused;
+}
+
+.marq-group {
+  display: flex;
+  gap: 12px;
+  padding-right: 12px;
+}
+
+.marq-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  white-space: nowrap;
+  padding: 8px 16px;
+  border: 1px solid var(--line-1);
+  border-radius: 100px;
+  font-size: 0.8125rem;
+  color: var(--w-3);
+}
+
+.marq-item::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--w-2);
+  flex: none;
+}
+
+@keyframes marq {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marq-track {
+    animation: none;
+  }
+  .marq {
+    overflow-x: auto;
+  }
+}
+
+/* ---- telemetry ---- */
+
+.tel {
+  position: relative;
+  border: 1px solid var(--line-1);
+  border-radius: 20px;
+  overflow: hidden;
+  isolation: isolate;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.tel-img {
+  position: absolute;
+  right: -10%;
+  top: -40%;
+  width: 60%;
+  height: 180%;
+  z-index: -1;
+  mix-blend-mode: screen;
+  opacity: 0.4;
+  -webkit-mask-image: radial-gradient(55% 55% at 50% 50%, #000, transparent 78%);
+  mask-image: radial-gradient(55% 55% at 50% 50%, #000, transparent 78%);
+}
+
+.tel-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 18px clamp(20px, 2.6vw, 32px);
+  border-bottom: 1px solid var(--line-1);
+}
+
+.tel-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--w-1);
+}
+
+.tel-pip {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--w-1);
+  animation: pip 2.6s var(--ease-out) infinite;
+}
+
+@keyframes pip {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 9px rgba(255, 255, 255, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tel-pip {
+    animation: none;
+  }
+}
+
+.tel-body {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 1px;
+  background: var(--line-1);
+}
+
+.tel-lead {
+  background: transparent;
+  padding: clamp(26px, 3vw, 40px);
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.tel-n {
+  font-size: clamp(3rem, 6vw, 4.75rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.tel-n.sm {
+  font-size: clamp(1.75rem, 3vw, 2.375rem);
+}
+
+.tel-lead .body {
+  margin-top: 6px;
+  max-width: 46ch;
+}
+
+.tel-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line-1);
+}
+
+.tel-grid li {
+  background: #000;
+  padding: clamp(20px, 2.4vw, 28px);
+  display: grid;
+  gap: 8px;
+  align-content: center;
+}
+
+@media (max-width: 860px) {
+  .tel-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .tel-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- section head with a trailing link ---- */
+
+.sec-h-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: none;
+}
+
+.prac-more {
+  align-self: center;
+  color: var(--w-3);
+}
+
+@media (max-width: 900px) {
+  .prac-more {
+    display: none;
+  }
+}
+
+/* ---- photo band ---- */
+
+.photo {
+  position: relative;
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line-1);
+  aspect-ratio: 16 / 7;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Desaturated and dimmed so a warm photograph sits inside a monochrome
+     system without becoming the loudest thing on the page. */
+  filter: grayscale(0.55) brightness(0.72) contrast(1.05);
+}
+
+.photo figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 52px clamp(22px, 3vw, 34px) 24px;
+  display: grid;
+  gap: 6px;
+  font-size: 1rem;
+  color: var(--w-1);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92), transparent);
+}
+
+@media (max-width: 700px) {
+  .photo {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* ---- contact ---- */
+
+.contact-sec {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.contact-img {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  mix-blend-mode: screen;
+  opacity: 0.75;
+}
+
+.contact-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.contact-in {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+}
+
+.contact-copy .lede {
+  margin-top: 18px;
+  max-width: 44ch;
+}
+
+.contact-mail {
+  display: inline-block;
+  margin-top: 22px;
+  font-size: 1.0625rem;
+  border-bottom: 1px solid var(--line-2);
+  padding-bottom: 2px;
+}
+
+@media (max-width: 900px) {
+  .contact-in {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- newsletter ---- */
+
+.news {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: clamp(26px, 3vw, 38px);
+  border: 1px solid var(--line-1);
+  border-radius: 18px;
+  background: var(--raise-1);
+}
+
+.news .body {
+  margin-top: 8px;
+  max-width: 46ch;
+}
+
+.news-form {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  min-width: 280px;
+  max-width: 420px;
+}
+
+.news-form input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 0.9375rem;
+  color: var(--w-1);
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--line-2);
+  border-radius: 100px;
+  padding: 12px 18px;
+}
+
+.news-form input::placeholder {
+  color: var(--w-4);
+}
+
+.news-form input:focus {
+  outline: none;
+  border-color: var(--line-3);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+}
+
+.news-form .btn {
+  flex: none;
+}
+
+/* ---- footer additions ---- */
+
+.ft-blurb {
+  margin-top: 12px;
+  max-width: 42ch;
+}
+
+.ft-cols {
+  grid-template-columns: repeat(3, 1fr);
+}
