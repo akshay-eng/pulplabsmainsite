@@ -1387,16 +1387,25 @@ canvas {
    AI dock — the one piece of chrome carried over, restyled for the void
    ========================================================================== */
 
+/* Glass, not a dark slab. At 0.82 alpha the panel was effectively opaque and
+   the page vanished behind it. Legibility here comes from the BLUR — a 44px
+   radius destroys the detail behind the panel, so the surface can sit at 0.42
+   and still hold white text. Raising alpha instead is what kills the effect.
+
+   The gradient runs slightly lighter at the top so the panel reads as a pane
+   catching light from above rather than a flat tint. */
 .dock-composer,
 .dock-panel {
-  background: rgba(12, 12, 12, 0.82) !important;
-  backdrop-filter: saturate(160%) blur(24px) !important;
-  -webkit-backdrop-filter: saturate(160%) blur(24px) !important;
-  border: 1px solid var(--line-2) !important;
+  background: linear-gradient(165deg, rgba(30, 30, 34, 0.5) 0%, rgba(12, 12, 14, 0.42) 100%) !important;
+  backdrop-filter: saturate(190%) blur(44px) !important;
+  -webkit-backdrop-filter: saturate(190%) blur(44px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
   border-radius: 18px !important;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 20px 60px rgba(0, 0, 0, 0.8) !important;
+    /* lit top edge — the tell that this is a material, not a rectangle */
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 24px 70px rgba(0, 0, 0, 0.7) !important;
 }
 
 .dock-input {
@@ -1438,11 +1447,16 @@ canvas {
 }
 
 .dock-msg-bot .dock-bubble {
-  background: rgba(255, 255, 255, 0.07) !important;
+  /* Was 0.07, which disappeared once the panel became transparent — the
+     bubble needs its own edge against a moving background, not just the
+     panel's. */
+  background: rgba(255, 255, 255, 0.11) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
   border: 0 !important;
   color: var(--w-1) !important;
   border-radius: 16px 16px 16px 5px !important;
-  backdrop-filter: none !important;
+  backdrop-filter: blur(8px) !important;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
 }
 
 .dock-msg-user .dock-bubble {
@@ -1456,7 +1470,12 @@ canvas {
 }
 
 .dock-head {
-  border-bottom-color: var(--line-1) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dock-head-id strong,
+.dock-log {
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
 }
 
 .dock-head-id strong {
@@ -2578,5 +2597,23 @@ canvas {
 @media (max-width: 600px) {
   .stack {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Reduced transparency: a solid dark panel, not a frosted one. The setting
+   exists for people who find translucency hard to read, so the answer is to
+   remove it — not to thicken it slightly. */
+@media (prefers-reduced-transparency: reduce) {
+  .dock-composer,
+  .dock-panel {
+    background: #0b0b0c !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+  }
+  .dock-msg-bot .dock-bubble {
+    background: #1a1a1d !important;
+    backdrop-filter: none !important;
+    text-shadow: none;
   }
 }
