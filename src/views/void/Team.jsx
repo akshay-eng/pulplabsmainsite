@@ -122,11 +122,17 @@ export default function Team() {
             <img src="/void/grid-horizon.webp" alt="" loading="lazy" decoding="async" />
           </div>
           <div className="shell plate-in">
-            <p className="mono">Certified</p>
+            <p className="mono">Accreditation</p>
             <p className="d2 plate-h">
-              Every platform we deploy on,
+              Certified where it counts,
               <br />
-              <span className="dim">we are certified to deploy on.</span>
+              <span className="dim">fluent across the rest.</span>
+            </p>
+            <p className="body plate-b">
+              We hold formal accreditation on the four platforms below. Beyond those we build on, integrate and operate
+              against the wider ecosystem — frontier and open-weight models, the major cloud AI platforms, and the
+              orchestration, data and ITSM tooling around them. Ask about anything specific and we will tell you
+              straight whether we have shipped on it.
             </p>
             <ul className="certs-grid">
               {CERTS.map(([n, issuer], i) => (
