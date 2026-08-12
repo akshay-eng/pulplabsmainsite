@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import Chevron from '@/components/apple/Chevron'
+import FieldStage from '@/components/void/FieldStage'
 import { useScrollProgress } from '@/lib/apple-motion'
 
 const SURFACES = [
@@ -29,6 +30,27 @@ const SURFACES = [
   },
 ]
 
+const PRACTICES = [
+  ['Advisory & strategy', 'Where AI pays back, and where it does not. Workflow, data and constraint mapping before anyone writes code.', 'Readiness · Discovery · Roadmap · Governance'],
+  ['Enterprise accelerators', 'Production-tested IT-ops systems deployed inside your estate, wired to your ITSM and CMDB.', 'Incident · Change · Patch · Migration'],
+  ['Small business systems', 'Growth and operations for small teams. Live in about four weeks, tuned monthly, human approval kept.', 'Leads · Support · Marketing · Social'],
+  ['Enablement & workshops', 'Certified instructors running sessions on your workflows and your data — never a generic deck.', 'Briefing · Bootcamp · Embedded'],
+  ['Managed AI operations', 'Monitoring, evaluation and tuning for as long as you want us. We run what we build.', 'Monitoring · Evals · Tuning · Review'],
+]
+
+const VOICES = [
+  ['Quotes that took our team two days now go out in twenty minutes. The PulpLabs team understood our pricing rules better than some of our own hires.', 'Director', 'Power & Pack Solutions'],
+  ['Our researchers stopped tagging transcripts and started interpreting them. The coding framework is still ours — the machine just keeps up with it now.', 'Principal', 'Urban Ethnographers'],
+]
+
+const FORMATS = [
+  ['Executive briefing', 'Half a day', 'For the people who approve the budget. What is real, what is not, and what it costs to find out.'],
+  ['Builder bootcamp', 'Two days', 'Hands-on for the people who ship. Your workflows, your data, working code at the end.'],
+  ['Embedded enablement', 'Six weeks', 'Alongside your team on live work. The cohort leaves with something in production.'],
+]
+
+const PLATFORMS = ['Claude', 'OpenAI', 'Copilot Studio', 'IBM watsonx Orchestrate']
+
 const NUMBERS = [
   ['8+', 'accelerators in production'],
   ['4', 'platform certifications'],
@@ -50,6 +72,7 @@ export default function Home() {
           <div className="hero-light" aria-hidden="true">
             <img src="/void/hero-bleed.webp" alt="" fetchPriority="high" decoding="async" />
           </div>
+          <FieldStage />
 
           <div className="shell hero-in">
             <Link href="/services" className="pill hero-pill">
@@ -101,6 +124,29 @@ export default function Home() {
                     </span>
                   </div>
                   <p className="body">{s.b}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ── Practices ──────────────────────────────────────────────── */}
+        <section className="sec-sm">
+          <div className="shell-wide">
+            <header className="sec-h" data-r>
+              <p className="mono">Practice areas</p>
+              <h2 className="d2">Five ways we work.</h2>
+            </header>
+
+            <ul className="prac">
+              {PRACTICES.map(([t, b, tags], i) => (
+                <li key={t} data-r style={{ '--rd': `${i * 60}ms` }}>
+                  <span className="mono prac-i">{String(i + 1).padStart(2, '0')}</span>
+                  <div className="prac-body">
+                    <h3 className="d3">{t}</h3>
+                    <p className="body">{b}</p>
+                  </div>
+                  <span className="mono prac-tags">{tags}</span>
                 </li>
               ))}
             </ul>
@@ -165,6 +211,61 @@ export default function Home() {
                 </li>
               ))}
             </ol>
+          </div>
+        </section>
+
+        {/* ── Voices ────────────────────────────────────────────────── */}
+        <section className="sec-sm">
+          <div className="shell-wide">
+            <header className="sec-h" data-r>
+              <p className="mono">In their words</p>
+            </header>
+            <ul className="voices">
+              {VOICES.map(([q, role, org], i) => (
+                <li key={org} data-r style={{ '--rd': `${i * 80}ms` }}>
+                  <p className="d3 voice-q">“{q}”</p>
+                  <p className="mono">
+                    {role} · {org}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ── Enablement ────────────────────────────────────────────── */}
+        <section className="sec enable">
+          <div className="enable-img" aria-hidden="true">
+            <img src="/void/flare-column.webp" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div className="shell-wide enable-in">
+            <header className="sec-h" data-r>
+              <p className="mono">Enablement</p>
+              <h2 className="d2">Capability transfer, not a training day.</h2>
+              <p className="lede">
+                Every cohort works on your workflows and your data. Three formats, and each one leaves something behind
+                that runs.
+              </p>
+            </header>
+
+            <ul className="formats">
+              {FORMATS.map(([t, d, b], i) => (
+                <li key={t} data-r style={{ '--rd': `${i * 70}ms` }}>
+                  <span className="mono">{d}</span>
+                  <h3 className="d3">{t}</h3>
+                  <p className="body">{b}</p>
+                </li>
+              ))}
+            </ul>
+
+            <div className="certs" data-r>
+              <span className="mono">Certified across</span>
+              <ul>
+                {PLATFORMS.map((p) => (
+                  <li key={p}>{p}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </section>
 
