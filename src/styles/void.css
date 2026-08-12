@@ -2527,19 +2527,28 @@ canvas {
 
 .roster-photo {
   position: relative;
-  display: grid;
-  place-items: center;
-  gap: 8px;
+  display: block;
   aspect-ratio: 4 / 3;
-  border: 1px dashed var(--line-2);
   border-radius: 12px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.035), transparent 70%);
-  color: var(--w-3);
+  overflow: hidden;
+  background: var(--raise-1);
 }
 
-.roster-photo-l {
-  color: var(--w-4);
-  letter-spacing: 0.16em;
+.roster-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Heavily desaturated and dimmed. Full-colour portraits in an otherwise
+     monochrome system become the loudest thing on the page and break the rule
+     that colour arrives only through the light plates. */
+  filter: grayscale(1) brightness(0.82) contrast(1.05);
+  transition: filter var(--t-panel) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .roster li:hover .roster-photo img {
+    filter: grayscale(0.75) brightness(0.95) contrast(1.02);
+  }
 }
 
 .stack {

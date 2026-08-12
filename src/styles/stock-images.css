@@ -1,0 +1,99 @@
+/* Locally stored editorial photography retained as a restrained supporting
+   layer. Sources and licensing are recorded in public/IMAGE_CREDITS.md. */
+
+.stock-photo-figure {
+  position: relative;
+  overflow: hidden;
+  margin: 28px 0 30px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-media);
+  background: var(--tint);
+  box-shadow: var(--sh-2);
+}
+
+.stock-photo-figure img {
+  display: block;
+  width: 100%;
+  height: clamp(250px, 34vw, 420px);
+  object-fit: cover;
+  filter: saturate(0.82) contrast(1.03);
+}
+
+.stock-photo-delivery img {
+  object-position: center 42%;
+}
+
+.stock-photo-team img {
+  object-position: center 44%;
+}
+
+.stock-photo-figure figcaption {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  max-width: calc(100% - 28px);
+  padding: 9px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 9px;
+  color: #fff8f1;
+  background: rgba(31, 23, 16, 0.76);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 620px) {
+  .stock-photo-figure {
+    margin-top: 22px;
+  }
+
+  .stock-photo-figure img {
+    height: 260px;
+  }
+}
+
+/* Team portraits are generated illustrations because the roster still uses
+   placeholder identities. Real headshots can replace the data paths later
+   without changing the card component. */
+.person-photo > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.9) contrast(1.02);
+  transition: transform 420ms var(--e-out);
+}
+
+.card:hover .person-photo > img {
+  transform: scale(1.025);
+}
+
+.person-photo-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.person-photo-fallback .head {
+  position: absolute;
+  top: 14%;
+  width: 26%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.person-photo-fallback .shoulders {
+  width: 52%;
+  height: 30%;
+  border-radius: 100px 100px 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .person-photo > img {
+    transition: none;
+  }
+}

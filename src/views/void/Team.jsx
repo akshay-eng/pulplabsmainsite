@@ -11,6 +11,8 @@ import NextPage from '@/components/void/NextPage'
    discipline and a real description of the work — and says plainly that the
    name is pending. A fabricated roster is the one thing on this page that
    would actually mislead someone. */
+import { people as ROSTER } from '@/data/team'
+
 const PEOPLE = [
   {
     role: 'Founder & AI architect',
@@ -88,19 +90,18 @@ export default function Team() {
             <ul className="roster">
               {PEOPLE.map((p, i) => (
                 <li key={p.role} data-r style={{ '--rd': `${i * 60}ms` }}>
-                  {/* A portrait slot, sized and framed like the real thing so
-                      the layout is already correct when photographs arrive. A
-                      generated face here would read as a named employee. */}
-                  <span className="roster-photo" aria-hidden="true">
-                    <svg viewBox="0 0 40 40" width="34" height="34">
-                      <circle cx="20" cy="20" r="19" fill="none" stroke="currentColor" strokeWidth="0.8" opacity="0.4" />
-                      <circle cx="20" cy="20" r="4.5" fill="currentColor" opacity="0.85" />
-                      <path
-                        d={`M20 1 A19 19 0 ${i % 2 ? 1 : 0} 1 ${20 + 19 * Math.cos((i + 1) * 1.1)} ${20 + 19 * Math.sin((i + 1) * 1.1)}`}
-                        fill="none" stroke="currentColor" strokeWidth="1.4"
-                      />
-                    </svg>
-                    <span className="mono roster-photo-l">Photo</span>
+                  {/* Portraits are AI-generated illustrations of fictional
+                      people — see public/IMAGE_CREDITS.md. Desaturated so they
+                      sit in a monochrome system, and the card still says the
+                      name is pending so nobody reads them as real staff. */}
+                  <span className="roster-photo">
+                    <img
+                      src={ROSTER[i]?.photo ?? '/avatars/member-01.webp'}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      style={{ objectPosition: ROSTER[i]?.photoPosition ?? '50% 20%' }}
+                    />
                   </span>
                   <div className="roster-body">
                     <p className="mono">{p.disc}</p>
