@@ -9,7 +9,7 @@ export const metadata = {
   description:
     'A structured assessment of where AI pays back in your business and where it does not — workflow mapping, ranked use cases, an adoption roadmap and the governance framework your auditors will ask for.',
   alternates: { canonical: '/services/advisory' },
-  openGraph: { images: [{ url: '/void/advisory-map.webp', width: 1600, height: 900 }] },
+  openGraph: { images: [{ url: '/void/adv-board.webp', width: 1800, height: 1012 }] },
 }
 
 /* The four things the engagement produces. Each is written as an artefact
@@ -17,6 +17,7 @@ export const metadata = {
 const PILLARS = [
   {
     n: '01',
+    id: 'readiness',
     k: 'AI readiness assessment',
     t: 'Where you actually are.',
     b: 'Not a maturity score out of five. We look at the data you hold and whether it is usable, the systems that would have to integrate, the permissions already sprawling inside your tenant, and whether anyone owns the workflow end to end. Most readiness problems turn out to be data and ownership problems wearing a different hat.',
@@ -24,6 +25,7 @@ const PILLARS = [
   },
   {
     n: '02',
+    id: 'discovery',
     k: 'Use-case discovery',
     t: 'Ranked by payback, not by novelty.',
     b: 'We map the workflow as it actually runs — including the steps nobody documented — and cost each one in hours, error rate and delay. Then every candidate gets plotted on payback against effort. The output is a shortlist, and just as usefully, a list of things to leave alone.',
@@ -31,6 +33,7 @@ const PILLARS = [
   },
   {
     n: '03',
+    id: 'roadmap',
     k: 'Adoption roadmap',
     t: 'Sequenced so each phase funds the next.',
     b: 'Nobody gets a two-year budget on faith. The roadmap is ordered so the first thing delivered is the thing that pays for the second — usually not the most exciting candidate, but the one with the shortest path to a number a CFO recognises. Each phase carries its own success criteria and its own abandon condition.',
@@ -38,6 +41,7 @@ const PILLARS = [
   },
   {
     n: '04',
+    id: 'governance',
     k: 'Governance & risk',
     t: 'The framework your auditors will ask for.',
     b: 'Where a human has to approve, what gets logged, how a model change is reviewed before it reaches production, who is accountable when an agent gets it wrong, and what evidence exists afterwards. Written to be handed to your risk function rather than to impress a board.',
@@ -59,7 +63,7 @@ export default function Advisory() {
       <main id="main">
         <section className="adv-head">
           <div className="adv-art" aria-hidden="true">
-            <img src="/void/advisory-map.webp" alt="" fetchPriority="high" decoding="async" />
+            <img src="/void/adv-matrix.webp" alt="" fetchPriority="high" decoding="async" />
           </div>
           <div className="shell adv-in">
             <p className="mono">
@@ -90,8 +94,30 @@ export default function Advisory() {
           </div>
         </section>
 
-        <section className="sec-sm">
+        <section className="sec-sm adv-cost-sec">
           <div className="shell">
+            <ul className="adv-cost">
+              {[
+                ['4 wks', 'Typical length', 'Two for a single workflow; longer across operating companies.'],
+                ['6–8', 'People we talk to', 'The ones doing the work, not only the ones who own it.'],
+                ['½ day', 'Of your team\u2019s time', 'Per person, spread across the four weeks. We do the rest.'],
+                ['1', 'Written report', 'Not a deck. Read once, then used as a reference.'],
+              ].map(([v, k, d], i) => (
+                <li key={k} data-r style={{ '--rd': `${i * 55}ms` }}>
+                  <span className="adv-cv">{v}</span>
+                  <span className="mono">{k}</span>
+                  <span className="body">{d}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="sec-sm adv-art-sec">
+          <div className="adv-plate" aria-hidden="true">
+            <img src="/void/adv-contour.webp" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div className="shell adv-rel">
             <header className="sec-head" data-r>
               <h2 className="d3">What you get.</h2>
               <p className="lede measure-w">Four artefacts, each written to be used by a different person in your organisation.</p>
@@ -99,7 +125,7 @@ export default function Advisory() {
 
             <ul className="adv-pillars">
               {PILLARS.map((p, i) => (
-                <li key={p.k} data-r style={{ '--rd': `${i * 70}ms` }}>
+                <li key={p.k} id={p.id} data-r style={{ '--rd': `${i * 70}ms` }}>
                   <div className="adv-p-top">
                     <span className="mono adv-p-n">{p.n}</span>
                     <div>
@@ -125,8 +151,11 @@ export default function Advisory() {
           </div>
         </section>
 
-        <section className="sec-sm">
-          <div className="shell">
+        <section className="sec-sm adv-run-sec">
+          <div className="adv-plate is-side" aria-hidden="true">
+            <img src="/void/adv-shaft.webp" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div className="shell adv-rel">
             <header className="sec-head" data-r>
               <h2 className="d3">How the four weeks run.</h2>
             </header>
@@ -143,6 +172,40 @@ export default function Advisory() {
               Four weeks is the common shape. A single workflow can be done in two; a group with several operating
               companies takes longer.
             </p>
+          </div>
+        </section>
+
+        <section className="sec-sm">
+          <div className="shell">
+            <header className="sec-head" data-r>
+              <h2 className="d3">What a finding looks like.</h2>
+              <p className="lede measure-w">
+                One row from a real report shape, so the artefacts above are not abstract.
+              </p>
+            </header>
+            <div className="adv-eg" data-r>
+              <div className="adv-eg-col">
+                <p className="mono">The workflow</p>
+                <p className="body">
+                  Quote build. Four people, roughly 46 hours a week between them, rekeying line items from an email
+                  into the CRM and pricing them against a spreadsheet nobody owns.
+                </p>
+              </div>
+              <div className="adv-eg-col">
+                <p className="mono">What we found</p>
+                <p className="body">
+                  The bottleneck is not the pricing, it is that 12% of quotes go out with a wrong line item and get
+                  reworked. Fixing the source data first makes automation worth roughly half what it would be otherwise.
+                </p>
+              </div>
+              <div className="adv-eg-col is-out">
+                <p className="mono">The recommendation</p>
+                <p className="body">
+                  Validate at intake before you automate anything. Payback in eight weeks on the validation alone —
+                  and it makes the later build cheaper, not redundant.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 

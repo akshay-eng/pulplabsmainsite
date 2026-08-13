@@ -10,9 +10,14 @@ import CapCard from '@/components/void/CapCard'
 import { byParent } from '@/data/capabilities'
 
 const CAT = [
-  { id: 'advisory', n: '01', art: 'advisory-map', alt: 'An opportunity assessment: a workflow map with high-payback steps ringed, plotted against a payback-versus-effort matrix and a ranked shortlist.', more: ['/services/advisory', 'How we run an assessment'], k: 'Advisory & strategy', t: 'Find out where AI pays back — and where it does not.',
+  { id: 'advisory', n: '01', art: 'adv-board', alt: 'An assessment report: a workflow map with high-payback steps ringed, an opportunity scoring table, a readiness heatmap and effort estimates.', more: ['/services/advisory', 'How we run an assessment'], k: 'Advisory & strategy', t: 'Find out where AI pays back — and where it does not.',
     b: 'We map your workflows, the data behind them and the constraints around them before anyone writes code. You get a written view of what is worth automating, what is not, and what has to change first.',
-    items: [['AI readiness assessment', 'Where you actually are, not where a vendor says you are.'], ['Use-case discovery', 'Ranked by payback, not by novelty.'], ['Adoption roadmap', 'Sequenced so each phase funds the next.'], ['Governance & risk', 'The framework your auditors will ask for.']] },
+    tracks: [
+      ['AI readiness assessment', 'Artefact 01', 'Where you actually are, not where a vendor says you are.', 'readiness'],
+      ['Use-case discovery', 'Artefact 02', 'Ranked by payback, not by novelty — with a do-not-automate list.', 'discovery'],
+      ['Adoption roadmap', 'Artefact 03', 'Sequenced so each phase funds the next, with an abandon condition.', 'roadmap'],
+      ['Governance & risk', 'Artefact 04', 'The framework your auditors will ask for, written for your risk function.', 'governance'],
+    ] },
   { id: 'accelerators', n: '02', k: 'Enterprise accelerators', t: 'Four systems for IT operations, already built.',
     b: 'Production-tested and deployed inside your estate rather than as multi-tenant SaaS, integrated with the ITSM and CMDB you already run. Your data does not leave your boundary for us to operate them.',
     items: [['Incident Intelligence', 'Triage, correlation and suggested remediation on your live queue.'], ['Change Copilot', 'Risk scoring and change-record drafting against your CAB rules.'], ['Patch Orchestrator', 'Sequencing with rollback paths, around your maintenance windows.'], ['Agent Migration', 'RPA and legacy bots onto modern runtimes, audit trail intact.']] },
@@ -78,7 +83,7 @@ export default function Services() {
                           <ul className="tracks">
                             {c.tracks.map(([t, len, d, f], j) => (
                               <li key={t} data-r style={{ '--rd': `${j * 60}ms` }}>
-                                <Link href={`/services/enablement#${f}`} className="track">
+                                <Link href={`${c.more[0]}#${f}`} className="track">
                                   <span className="track-top">
                                     <span className="h4">{t}</span>
                                     <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true">
