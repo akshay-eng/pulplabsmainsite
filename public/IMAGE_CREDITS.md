@@ -37,3 +37,27 @@ AI-generated photographs. **The people shown are not real and are not employees,
 workshop attendees.** They illustrate the format of the engagement — a discovery session and a
 hands-on workshop — and must not be captioned or presented as documentation of real events.
 Replace with genuine photography when it is available.
+
+
+## Platform logos — `public/logos/`
+
+`claude.webp`, `openai.webp`, `copilot.webp`, `gemini.webp` are the vendors' own brand marks,
+supplied by the site owner as Icons8 "Windows 11 Color" icon files.
+
+**Two things to settle before this goes live:**
+
+1. **Icons8 licensing.** Icons8's free tier requires a visible attribution link back to
+   icons8.com wherever the icons appear. If that link is not present on this site, the icons
+   need either an Icons8 paid licence or replacement with each vendor's own official brand
+   asset. This is unresolved.
+2. **Trademark use.** Showing these marks is nominative use — identifying the platforms we
+   teach — which is normally fine. It becomes a problem if the layout implies endorsement,
+   partnership or certification *by* the vendor. Several of these vendors publish brand
+   guidelines with specific rules on clear space, minimum size and permitted contexts; worth
+   a read before launch.
+
+The OpenAI mark ships as mid-grey (rgb 97,97,97) and is illegible on an AMOLED background,
+so it was repainted white with its alpha preserved. The other three are unmodified.
+
+IBM watsonx Orchestrate has no supplied mark and keeps a drawn abstract shape — deliberately
+not an approximation of IBM's logo.

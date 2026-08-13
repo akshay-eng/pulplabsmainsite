@@ -3257,3 +3257,18 @@ canvas {
 /* The facts strip is one row tall; a full section padding under it opened a
    band of empty black before the platform grid. */
 .enb-facts-sec { padding-bottom: clamp(8px, 1.4vw, 20px); }
+
+/* Real logos are raster and already carry their own colour, so they must not
+   inherit the stroke treatment the drawn marks use. Sized a touch larger in
+   the platform grid, where the mark is the thing being scanned. */
+.pmark-img { object-fit: contain; display: block; }
+.ex-tab .pmark-img { width: 17px; height: 17px; }
+.enb-pm .pmark-img { width: 19px; height: 19px; }
+.ex-tab[data-on] .ex-tab-n .pmark-img,
+.ex-tab .ex-tab-n .pmark-img { opacity: 1; }
+
+/* The OpenAI mark was repainted white for the black ground, which makes it
+   invisible on a selected tab's white fill. Inverting a pure-white glyph
+   gives back a black one, so it reads in both states. The other three carry
+   their own colours and work on either. */
+.ex-tab[data-on] .pmark-img[src*="openai"] { filter: invert(1); }
