@@ -6,6 +6,8 @@ import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
+import CapCard from '@/components/void/CapCard'
+import { byParent } from '@/data/capabilities'
 
 const CAT = [
   { id: 'advisory', n: '01', k: 'Advisory & strategy', t: 'Find out where AI pays back — and where it does not.',
@@ -67,14 +69,20 @@ export default function Services() {
                     <div className="cat-panel" id={`p-${c.id}`} role="region" hidden={!isOpen}>
                       <div className="cat-panel-in">
                         <p className="body cat-b">{c.b}</p>
-                        <ul className="cat-items">
-                          {c.items.map(([t, d]) => (
-                            <li key={t}>
-                              <span className="h4">{t}</span>
-                              <span className="body">{d}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        {byParent(c.id).length ? (
+                          <ul className="caps">
+                            {byParent(c.id).map((cap, j) => <CapCard key={cap.slug} cap={cap} i={j} />)}
+                          </ul>
+                        ) : (
+                          <ul className="cat-items">
+                            {c.items.map(([t, d]) => (
+                              <li key={t}>
+                                <span className="h4">{t}</span>
+                                <span className="body">{d}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                     </div>
                   </li>
