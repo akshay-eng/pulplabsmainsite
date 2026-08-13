@@ -4,6 +4,7 @@ import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
 import EnablementExplorer from '@/components/void/EnablementExplorer'
+import PlatformMark from '@/components/void/PlatformMark'
 import { delivery, platforms, formats } from '@/data/enablement'
 
 export const metadata = {
@@ -36,13 +37,38 @@ export default function Enablement() {
         </section>
 
         {/* The three numbers that decide whether this is even worth reading. */}
-        <section className="sec-sm">
+        <section className="sec-sm enb-facts-sec">
           <div className="shell">
             <ul className="enb-facts">
               {[['05', 'Platforms taught'], ['03', 'Fixed formats, plus custom'], ['01', 'Thing in production per cohort']].map(([n, l]) => (
                 <li key={l} data-r>
                   <span className="enb-fn">{n}</span>
                   <span className="mono">{l}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="sec-sm enb-plat-sec">
+          <div className="enb-plate" aria-hidden="true">
+            <img src="/void/enb-grid.webp" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div className="shell enb-rel">
+            <header className="sec-head" data-r>
+              <h2 className="d3">Five platforms, taught properly.</h2>
+              <p className="lede measure-w">
+                Certified instruction on each — and an honest read on which one suits the job in front of you,
+                including when the answer is a different vendor entirely.
+              </p>
+            </header>
+            <ul className="enb-plats">
+              {platforms.map((x, i) => (
+                <li key={x.id} data-r style={{ '--rd': `${i * 55}ms` }}>
+                  <span className="enb-pm"><PlatformMark id={x.id} /></span>
+                  <h3 className="h4">{x.name}</h3>
+                  <p className="mono">{x.vendor}</p>
+                  <p className="body">{x.tag}</p>
                 </li>
               ))}
             </ul>
@@ -69,8 +95,11 @@ export default function Enablement() {
           </div>
         </section>
 
-        <section className="sec-sm">
-          <div className="shell">
+        <section className="sec-sm enb-ex-sec" id="curriculum">
+          <div className="enb-plate is-low" aria-hidden="true">
+            <img src="/void/enb-plate.webp" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div className="shell enb-rel">
             <header className="sec-head" data-r>
               <h2 className="d3">Pick a platform and a length.</h2>
               <p className="lede measure-w">

@@ -21,7 +21,12 @@ const CAT = [
     items: [['Lead Engine', 'Enquiries answered and qualified around the clock.'], ['Support Desk', 'First-line resolution with escalation you define.'], ['Marketing Studio', 'Campaign drafting against your own positioning.'], ['Social Autopilot', 'Scheduled, on-brand, always reviewable.']] },
   { id: 'enablement', n: '04', photo: 'enablement-workshops', alt: 'An instructor working through a build alongside a cohort at their laptops.', more: ['/services/enablement', 'Platforms, formats and curricula'], k: 'Enablement & workshops', t: 'Capability transfer, not a training day.',
     b: 'Certified instructors across Claude, OpenAI, Copilot Studio and IBM watsonx Orchestrate. Every session runs on your workflows and your data. Each cohort leaves with something in production.',
-    items: [['Executive briefing', 'Half a day, for the people who approve the budget.'], ['Builder bootcamp', 'Two days, hands-on for the people who ship.'], ['Embedded enablement', 'Six weeks alongside your team, on live work.']] },
+    tracks: [
+      ['Executive briefing', 'One day', 'For the people who approve the budget. One working artefact by the end.', 'one-day'],
+      ['Builder bootcamp', 'Three days', 'Hands-on for the people who ship. Agents, tools and evaluation.', 'three-day'],
+      ['Embedded enablement', 'One week', 'Alongside your team on live work, taking one workflow into production.', 'one-week'],
+      ['Custom cohort', 'Scoped', 'Mixed platforms, a regulated estate, or roles split across separate tracks.', 'custom'],
+    ] },
   { id: 'managed', n: '05', k: 'Managed operations', t: 'We run what we build.',
     b: 'Monitoring, evaluation and tuning for as long as you want us. Handover is real — your code, your documentation, your trained team — and staying on is your option, not a dependency we engineer in.',
     items: [['Monitoring & alerting', 'On the behaviour that matters, not just uptime.'], ['Evaluation harnesses', 'Re-scored as your estate changes.'], ['Model & prompt tuning', 'Regression-checked before it ships.'], ['Quarterly review', 'What it saved, in your numbers.']] },
@@ -69,18 +74,30 @@ export default function Services() {
                     <div className="cat-panel" id={`p-${c.id}`} role="region" hidden={!isOpen}>
                       <div className="cat-panel-in">
                         <p className="body cat-b">{c.b}</p>
-                        {/* Advisory and enablement are people work. A diagram
-                            would misrepresent what those engagements are. */}
-                        {(c.photo || c.art) && (
-                          <figure className={`cat-photo${c.art ? ' is-art' : ''}`}>
-                            <img src={`/void/${c.photo ?? c.art}.webp`} alt={c.alt} loading="lazy" decoding="async" />
-                          </figure>
+                        {c.tracks && (
+                          <ul className="tracks">
+                            {c.tracks.map(([t, len, d, f], j) => (
+                              <li key={t} data-r style={{ '--rd': `${j * 60}ms` }}>
+                                <Link href={`/services/enablement#${f}`} className="track">
+                                  <span className="track-top">
+                                    <span className="h4">{t}</span>
+                                    <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true">
+                                      <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.4"
+                                        fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                  </span>
+                                  <span className="body track-d">{d}</span>
+                                  <span className="mono track-l">{len}</span>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
                         )}
                         {byParent(c.id).length ? (
                           <ul className="caps">
                             {byParent(c.id).map((cap, j) => <CapCard key={cap.slug} cap={cap} i={j} />)}
                           </ul>
-                        ) : (
+                        ) : c.items ? (
                           <ul className="cat-items">
                             {c.items.map(([t, d]) => (
                               <li key={t}>
@@ -89,6 +106,13 @@ export default function Services() {
                               </li>
                             ))}
                           </ul>
+                        ) : null}
+                        {/* Advisory and enablement are people work. A diagram
+                            would misrepresent what those engagements are. */}
+                        {(c.photo || c.art) && (
+                          <figure className={`cat-photo${c.art ? ' is-art' : ''}`}>
+                            <img src={`/void/${c.photo ?? c.art}.webp`} alt={c.alt} loading="lazy" decoding="async" />
+                          </figure>
                         )}
                         {c.more && (
                           <Link href={c.more[0]} className="cat-more">

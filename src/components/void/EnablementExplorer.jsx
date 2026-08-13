@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import PlatformMark from '@/components/void/PlatformMark'
 import { platforms, formats, curriculum, custom } from '@/data/enablement'
 
 /* Fifteen curricula plus a custom option is far more than anyone will read.
@@ -11,6 +12,20 @@ import { platforms, formats, curriculum, custom } from '@/data/enablement'
 export default function EnablementExplorer() {
   const [p, setP] = useState('claude')
   const [f, setF] = useState('three-day')
+
+  /* Deep links arrive as /services/enablement#one-week. Read on mount and on
+     hashchange — a hash rather than a query string, because useSearchParams
+     would force this whole page under a Suspense boundary for one string. */
+  useEffect(() => {
+    const ids = new Set([...formats.map((x) => x.id), 'custom'])
+    const apply = () => {
+      const h = window.location.hash.slice(1)
+      if (ids.has(h)) setF(h)
+    }
+    apply()
+    window.addEventListener('hashchange', apply)
+    return () => window.removeEventListener('hashchange', apply)
+  }, [])
 
   const platform = platforms.find((x) => x.id === p)
   const isCustom = f === 'custom'
@@ -25,7 +40,7 @@ export default function EnablementExplorer() {
           {platforms.map((x) => (
             <button key={x.id} type="button" role="tab" aria-selected={p === x.id}
               className="ex-tab" data-on={p === x.id || undefined} onClick={() => setP(x.id)}>
-              <span className="ex-tab-n">{x.name}</span>
+              <span className="ex-tab-n"><PlatformMark id={x.id} />{x.name}</span>
               <span className="mono ex-tab-v">{x.vendor}</span>
             </button>
           ))}
