@@ -2628,6 +2628,17 @@ canvas {
 }
 
 
+/* Form controls do not inherit type from the page — they fall back to the
+   UA font. Most components in here set `font: inherit` individually, but two
+   were missed and rendered in Arial while everything around them was Geist.
+   Reset once, at element specificity, so any class rule still overrides it. */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
 /* ─── Capability widgets ──────────────────────────────────────────────────
    Cards inside an open practice area. Each is a door to a detail page. */
 
