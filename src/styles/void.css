@@ -3210,12 +3210,9 @@ canvas {
 .enb-pm {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  margin-bottom: 12px;
-  border: 1px solid var(--line-2);
-  border-radius: 9px;
+  justify-content: flex-start;
+  height: 40px;
+  margin-bottom: 14px;
   color: var(--w-1);
 }
 .enb-plats .mono { opacity: var(--w-4); }
@@ -3223,7 +3220,7 @@ canvas {
 
 /* The mark sits inside the tab label, so the row of tabs is scannable by
    shape before it is scannable by name. */
-.ex-tab-n { display: inline-flex; align-items: center; gap: 8px; }
+.ex-tab-n { display: inline-flex; align-items: center; gap: 10px; }
 .ex-tab-n .pmark { flex: none; opacity: 0.75; }
 .ex-tab[data-on] .ex-tab-n .pmark { opacity: 1; }
 
@@ -3262,8 +3259,10 @@ canvas {
    inherit the stroke treatment the drawn marks use. Sized a touch larger in
    the platform grid, where the mark is the thing being scanned. */
 .pmark-img { object-fit: contain; display: block; }
-.ex-tab .pmark-img { width: 17px; height: 17px; }
-.enb-pm .pmark-img { width: 19px; height: 19px; }
+/* 96px is the largest size supplied, so 40px renders sharp at 2x. */
+.ex-tab .pmark-img { width: 22px; height: 22px; }
+.enb-pm .pmark-img { width: 40px; height: 40px; }
+.enb-pm > .pmark:not(.pmark-img) { width: 34px; height: 34px; }
 .ex-tab[data-on] .ex-tab-n .pmark-img,
 .ex-tab .ex-tab-n .pmark-img { opacity: 1; }
 
