@@ -2965,7 +2965,14 @@ canvas {
 .ex-pick { margin-bottom: 20px; }
 .ex-lbl { opacity: var(--w-3); margin-bottom: 12px; }
 
-.ex-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+/* Equal columns filling the row, so the two selectors line up with each other
+   and with the panel beneath instead of trailing off to the left. */
+.ex-tabs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+.ex-tabs.is-fmt { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
 .ex-tab {
   display: flex;
@@ -2982,7 +2989,7 @@ canvas {
               background 260ms cubic-bezier(0.23, 1, 0.32, 1),
               color 260ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-.ex-tab-n { font-size: 14.5px; letter-spacing: -0.01em; }
+.ex-tab-n { font-size: 14.5px; letter-spacing: -0.01em; line-height: 1.25; }
 .ex-tab-v { font-size: 10.5px; opacity: var(--w-4); }
 .ex-tab:hover { border-color: var(--line-3); color: var(--w-1); }
 .ex-tab[data-on] { background: var(--w-1); border-color: var(--w-1); color: #000; }
@@ -3052,9 +3059,12 @@ canvas {
 .ex-out.is-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; justify-content: space-between; }
 .ex-out.is-cta .body { color: var(--w-2); font-size: 14.5px; max-width: 46ch; }
 
+@media (max-width: 900px) {
+  .ex-tabs, .ex-tabs.is-fmt { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 @media (max-width: 620px) {
   .ex-mods li { grid-template-columns: 32px minmax(0, 1fr); }
-  .ex-tab { flex: 1 1 calc(50% - 8px); }
+  .ex-tabs, .ex-tabs.is-fmt { grid-template-columns: 1fr; }
 }
 
 /* ─── Advisory page ───────────────────────────────────────────────────── */

@@ -41,8 +41,9 @@ Replace with genuine photography when it is available.
 
 ## Platform logos — `public/logos/`
 
-`claude.webp`, `openai.webp`, `copilot.webp`, `gemini.webp` are the vendors' own brand marks,
-supplied by the site owner as Icons8 "Windows 11 Color" icon files.
+`claude.webp`, `openai.webp`, `copilot.webp`, `gemini.webp` and `watsonx.webp` are the vendors'
+own brand marks, supplied by the site owner. The first four came as Icons8 "Windows 11 Color"
+icon files; `watsonx.webp` was supplied separately as an 80px PNG.
 
 **Two things to settle before this goes live:**
 
@@ -59,5 +60,6 @@ supplied by the site owner as Icons8 "Windows 11 Color" icon files.
 The OpenAI mark ships as mid-grey (rgb 97,97,97) and is illegible on an AMOLED background,
 so it was repainted white with its alpha preserved. The other three are unmodified.
 
-IBM watsonx Orchestrate has no supplied mark and keeps a drawn abstract shape — deliberately
-not an approximation of IBM's logo.
+All five platforms now carry a supplied mark. The drawn abstract fallback remains in
+`PlatformMark.jsx` for any platform added later without one — a guessed-at approximation of a
+trademark would be worse.
