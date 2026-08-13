@@ -17,12 +17,19 @@ These images illustrate collaborative working practices. They are not photograph
 Generated with Gemini (`gemini-3-pro-image`) and Veo (`veo-3.1-fast-generate-preview`).
 
 These are **stylised illustrations of the kind of interface each system produces**, not
-screenshots of a shipped product and not screenshots of any customer's environment. Every
-label in them is a blank placeholder bar rather than real text, deliberately — so nothing in
-the image can be read as a real metric, a real ticket, or a real customer's data.
+screenshots of a shipped product and not screenshots of any customer's environment.
 
-Three carry motion (`.mp4` + `.webm`): Incident Intelligence, Lead Engine, Social Autopilot.
-The rest are stills.
+They are populated with **invented but plausible data** — generic ticket and change IDs, made-up
+service names, no real company names and no real CVE numbers. Nothing in them is a real metric,
+a real incident or a real customer's data, and none of it should be quoted as evidence.
+
+All eight are stills. Motion was tried and dropped: Veo cannot render legible type, so an
+animated version could only show blank placeholder bars — which read as an unfinished
+wireframe — or invented words that come out misspelled.
+
+`advisory-map.webp` is the same kind of illustration for the advisory practice: a workflow
+map and a payback-versus-effort matrix. It replaced a photograph of a meeting, which showed
+the setting rather than the deliverable.
 
 ## Practice-area photography — `public/void/advisory-strategy.webp`, `enablement-workshops.webp`
 

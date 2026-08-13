@@ -9,7 +9,6 @@
 export const capabilities = [
   {
     slug: 'incident-intelligence',
-    media: 'video',
     parent: 'accelerators',
     parentLabel: 'Enterprise accelerators',
     name: 'Incident Intelligence',
@@ -23,7 +22,6 @@ export const capabilities = [
   },
   {
     slug: 'change-copilot',
-    media: 'video',
     parent: 'accelerators',
     parentLabel: 'Enterprise accelerators',
     name: 'Change Copilot',
@@ -63,7 +61,6 @@ export const capabilities = [
   },
   {
     slug: 'lead-engine',
-    media: 'video',
     parent: 'small-business',
     parentLabel: 'Small business systems',
     name: 'Lead Engine',

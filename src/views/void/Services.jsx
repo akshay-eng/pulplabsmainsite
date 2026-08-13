@@ -10,7 +10,7 @@ import CapCard from '@/components/void/CapCard'
 import { byParent } from '@/data/capabilities'
 
 const CAT = [
-  { id: 'advisory', n: '01', photo: 'advisory-strategy', alt: 'Consultants mapping a workflow on a glass wall during a discovery session.', k: 'Advisory & strategy', t: 'Find out where AI pays back — and where it does not.',
+  { id: 'advisory', n: '01', art: 'advisory-map', alt: 'An opportunity assessment: a workflow map with high-payback steps ringed, plotted against a payback-versus-effort matrix and a ranked shortlist.', more: ['/services/advisory', 'How we run an assessment'], k: 'Advisory & strategy', t: 'Find out where AI pays back — and where it does not.',
     b: 'We map your workflows, the data behind them and the constraints around them before anyone writes code. You get a written view of what is worth automating, what is not, and what has to change first.',
     items: [['AI readiness assessment', 'Where you actually are, not where a vendor says you are.'], ['Use-case discovery', 'Ranked by payback, not by novelty.'], ['Adoption roadmap', 'Sequenced so each phase funds the next.'], ['Governance & risk', 'The framework your auditors will ask for.']] },
   { id: 'accelerators', n: '02', k: 'Enterprise accelerators', t: 'Four systems for IT operations, already built.',
@@ -19,7 +19,7 @@ const CAT = [
   { id: 'small-business', n: '03', k: 'Small business systems', t: 'Live in about four weeks.',
     b: 'Growth and operations systems for small teams, tuned monthly. Every one keeps a human approval step you control — nothing sends or commits on your behalf unless you decide it should.',
     items: [['Lead Engine', 'Enquiries answered and qualified around the clock.'], ['Support Desk', 'First-line resolution with escalation you define.'], ['Marketing Studio', 'Campaign drafting against your own positioning.'], ['Social Autopilot', 'Scheduled, on-brand, always reviewable.']] },
-  { id: 'enablement', n: '04', photo: 'enablement-workshops', alt: 'An instructor working through a build alongside a cohort at their laptops.', k: 'Enablement & workshops', t: 'Capability transfer, not a training day.',
+  { id: 'enablement', n: '04', photo: 'enablement-workshops', alt: 'An instructor working through a build alongside a cohort at their laptops.', more: ['/services/enablement', 'Platforms, formats and curricula'], k: 'Enablement & workshops', t: 'Capability transfer, not a training day.',
     b: 'Certified instructors across Claude, OpenAI, Copilot Studio and IBM watsonx Orchestrate. Every session runs on your workflows and your data. Each cohort leaves with something in production.',
     items: [['Executive briefing', 'Half a day, for the people who approve the budget.'], ['Builder bootcamp', 'Two days, hands-on for the people who ship.'], ['Embedded enablement', 'Six weeks alongside your team, on live work.']] },
   { id: 'managed', n: '05', k: 'Managed operations', t: 'We run what we build.',
@@ -71,9 +71,9 @@ export default function Services() {
                         <p className="body cat-b">{c.b}</p>
                         {/* Advisory and enablement are people work. A diagram
                             would misrepresent what those engagements are. */}
-                        {c.photo && (
-                          <figure className="cat-photo">
-                            <img src={`/void/${c.photo}.webp`} alt={c.alt} loading="lazy" decoding="async" />
+                        {(c.photo || c.art) && (
+                          <figure className={`cat-photo${c.art ? ' is-art' : ''}`}>
+                            <img src={`/void/${c.photo ?? c.art}.webp`} alt={c.alt} loading="lazy" decoding="async" />
                           </figure>
                         )}
                         {byParent(c.id).length ? (
@@ -89,6 +89,15 @@ export default function Services() {
                               </li>
                             ))}
                           </ul>
+                        )}
+                        {c.more && (
+                          <Link href={c.more[0]} className="cat-more">
+                            {c.more[1]}
+                            <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true">
+                              <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.4" fill="none"
+                                strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </Link>
                         )}
                       </div>
                     </div>
