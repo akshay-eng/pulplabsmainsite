@@ -22,7 +22,7 @@ export const platforms = [
   },
   {
     id: 'openai',
-    name: 'OpenAI & Codex',
+    name: 'Codex & ChatGPT',
     vendor: 'OpenAI',
     tag: 'General assistants, code generation, realtime',
     blurb:
@@ -30,7 +30,7 @@ export const platforms = [
   },
   {
     id: 'copilot',
-    name: 'Microsoft Copilot',
+    name: 'Copilot',
     vendor: 'Microsoft',
     tag: 'M365, Power Platform, low-code agents',
     blurb:
