@@ -30,7 +30,7 @@ export const platforms = [
   },
   {
     id: 'copilot',
-    name: 'Copilot & Copilot Studio',
+    name: 'Microsoft Copilot',
     vendor: 'Microsoft',
     tag: 'M365, Power Platform, low-code agents',
     blurb:
