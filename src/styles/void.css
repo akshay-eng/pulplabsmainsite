@@ -3518,3 +3518,103 @@ textarea {
 @media (max-width: 780px) {
   .sol-head { grid-template-columns: 1fr; gap: 16px; padding-bottom: 22px; }
 }
+
+/* ─── Category tiles ──────────────────────────────────────────────────────
+   Flat pastel illustrations, in the manner of OpenAI's department cards. The
+   only place the site carries broad colour — it is doing a job here, giving
+   six otherwise-identical tiles something to tell them apart at a glance. */
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 20px 16px;
+  margin-top: 38px;
+  list-style: none;
+  padding: 0;
+}
+
+.tile-link { display: block; text-decoration: none; color: inherit; }
+
+.tile-art {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0d0d0d;
+  transition: transform 420ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.tile-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* The name is overlaid rather than baked into the illustration — crisp at any
+   size, selectable, translatable, and impossible to misspell. */
+.tile-chip {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 5px 11px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #111;
+  font-size: 13.5px;
+  letter-spacing: -0.012em;
+  line-height: 1.2;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.tile-body { display: block; padding: 13px 2px 0; }
+.tile-t { display: block; font-size: 15px; letter-spacing: -0.014em; }
+.tile-d { display: block; color: var(--w-2); font-size: 13px; line-height: 1.45; margin-top: 5px; }
+
+@media (hover: hover) {
+  .tile-link:hover .tile-art { transform: translateY(-3px) scale(1.012); }
+}
+.tile-link:active .tile-art { transform: translateY(0) scale(0.99); }
+.tile-link:focus-visible .tile-art { outline: 2px solid var(--w-1); outline-offset: 3px; }
+
+/* ─── Category page ───────────────────────────────────────────────────── */
+
+.cat-head { position: relative; padding: 148px 0 56px; overflow: hidden; }
+.cat-head-art {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(46%, 560px);
+  height: 100%;
+  pointer-events: none;
+}
+.cat-head-art img {
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: 0.5;
+  -webkit-mask-image: linear-gradient(100deg, transparent 8%, #000 78%);
+  mask-image: linear-gradient(100deg, transparent 8%, #000 78%);
+}
+.cat-head-in { position: relative; }
+.cat-h { max-width: 16ch; }
+.cat-tag { opacity: var(--w-3); margin-top: 18px; }
+.cat-l { color: var(--w-2); max-width: 52ch; margin-top: 18px; }
+
+.cat-note {
+  display: block;
+  margin-top: 30px;
+  padding: 18px 22px;
+  max-width: 60ch;
+  border: 1px solid var(--line-1);
+  border-left: 2px solid var(--line-3);
+  border-radius: 3px;
+  color: var(--w-2);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.cat-note .mono { display: block; opacity: var(--w-3); margin-bottom: 8px; }
+
+@media (max-width: 860px) {
+  .cat-head { padding-top: 124px; }
+  .cat-head-art { width: 100%; opacity: 0.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile-art { transition-duration: 1ms; }
+  .tile-link:hover .tile-art { transform: none; }
+}

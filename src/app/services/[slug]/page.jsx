@@ -53,9 +53,9 @@ export default async function CapabilityPage({ params }) {
 
           <div className="shell cdet-in">
             <p className="mono cdet-crumb">
-              <Link href="/solutions">Solutions</Link>
+              <Link href="/services">Capabilities</Link>
               <span aria-hidden="true">/</span>
-              <Link href={`/solutions#${cap.fn}`}>{getFunction(cap.fn)?.name}</Link>
+              <Link href={`/services/for/${cap.fn}`}>{getFunction(cap.fn)?.name}</Link>
               <span aria-hidden="true">/</span>
               {cap.parentLabel}
             </p>

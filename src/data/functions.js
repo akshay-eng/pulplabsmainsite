@@ -64,3 +64,72 @@ export const functions = [
 ]
 
 export const getFunction = (id) => functions.find((f) => f.id === id)
+
+/* Industries.
+ *
+ * Read these as "where this work lands", not "we are domain experts in your
+ * sector". The solutions underneath are the same ones — what changes is the
+ * constraint around them: a bank's audit position, a hospital's data rules,
+ * a manufacturer's maintenance window. That framing is honest and it is also
+ * the part that actually differs, so it is what each page leads with.
+ *
+ * `solutions` lists slugs already in the catalogue. Nothing sector-specific
+ * has been invented to fill a grid. */
+export const industries = [
+  {
+    id: 'financial',
+    name: 'Financial services',
+    tag: 'Regulated, audited, change-controlled',
+    blurb:
+      'Nothing ships without an audit trail somebody will be asked to defend. The work here is less about the model and more about proving, afterwards, exactly what it did and who approved it.',
+    note: 'Every engagement assumes your risk function reviews before production, not after.',
+    solutions: ['incident-intelligence', 'change-copilot', 'agent-migration', 'contract-review', 'invoice-recon', 'report-assembly', 'metric-explainer'],
+  },
+  {
+    id: 'healthcare',
+    name: 'Healthcare & life sciences',
+    tag: 'Data residency, consent, clinical safety',
+    blurb:
+      'The constraint is rarely capability, it is where the data may sit and who may see it. We deploy inside your boundary and design the approval step before anything else.',
+    note: 'We do not build clinical decision support. Everything here is operational or administrative.',
+    solutions: ['incident-intelligence', 'patch-orchestrator', 'support-desk', 'knowledge-gap', 'voice-triage', 'contract-review'],
+  },
+  {
+    id: 'manufacturing',
+    name: 'Manufacturing & industrial',
+    tag: 'Maintenance windows, legacy systems, uptime',
+    blurb:
+      'Estates full of systems older than the people running them, where a change lands in a four-hour window on a Sunday or it does not land at all. Sequencing matters more than speed.',
+    note: 'Nothing we build touches OT or control systems. IT estate and back office only.',
+    solutions: ['patch-orchestrator', 'change-copilot', 'incident-intelligence', 'agent-migration', 'invoice-recon', 'report-assembly'],
+  },
+  {
+    id: 'retail',
+    name: 'Retail & e-commerce',
+    tag: 'Volume, seasonality, customer contact',
+    blurb:
+      'High volume and sharp peaks. The systems that matter are the ones that hold up on the worst day of the year, and the ones that stop a customer waiting overnight for an answer.',
+    note: 'Peak-period behaviour is tested before launch, not assumed.',
+    solutions: ['support-desk', 'voice-triage', 'lead-engine', 'marketing-studio', 'social-autopilot', 'content-refresh', 'metric-explainer'],
+  },
+  {
+    id: 'professional',
+    name: 'Professional services',
+    tag: 'Billable time, proposals, contracts',
+    blurb:
+      'Capacity is people, so the return comes from taking low-value hours off senior staff — the proposal that starts from a blank page, the contract reread for the fourth time.',
+    note: 'Anything client-facing keeps a named human owner on the output.',
+    solutions: ['proposal-builder', 'pipeline-review', 'contract-review', 'lead-engine', 'report-assembly', 'knowledge-gap'],
+  },
+  {
+    id: 'public',
+    name: 'Public sector',
+    tag: 'Procurement, transparency, accountability',
+    blurb:
+      'Decisions have to be explainable to someone who was not in the room, sometimes years later. That rules out a good deal of what is currently marketed as AI, and we will say so early.',
+    note: 'Explainability and record-keeping are treated as requirements, not features.',
+    solutions: ['incident-intelligence', 'change-copilot', 'support-desk', 'knowledge-gap', 'contract-review', 'invoice-recon'],
+  },
+]
+
+export const getIndustry = (id) => industries.find((x) => x.id === id)

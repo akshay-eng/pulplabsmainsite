@@ -8,6 +8,8 @@ import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
 import CapCard from '@/components/void/CapCard'
 import { byParent } from '@/data/capabilities'
+import { functions, industries } from '@/data/functions'
+import CatTile from '@/components/void/CatTile'
 
 const CAT = [
   { id: 'advisory', n: '01', art: 'adv-board', alt: 'An assessment report: a workflow map with high-payback steps ringed, an opportunity scoring table, a readiness heatmap and effort estimates.', more: ['/services/advisory', 'How we run an assessment'], k: 'Advisory & strategy', t: 'Find out where AI pays back — and where it does not.',
@@ -60,6 +62,41 @@ export default function Services() {
 
         <section className="sec-sm">
           <div className="shell">
+            <header className="sec-head" data-r>
+              <h2 className="d3">Start with your team.</h2>
+              <p className="lede measure-w">
+                If you already know the function you are trying to fix, this is the shortest route in.
+              </p>
+            </header>
+            <ul className="tiles">
+              {functions.map((f, i) => <CatTile key={f.id} cat={f} kind="function" i={i} />)}
+            </ul>
+          </div>
+        </section>
+
+        <section className="sec-sm">
+          <div className="shell">
+            <header className="sec-head" data-r>
+              <h2 className="d3">Or your sector.</h2>
+              <p className="lede measure-w">
+                The same solutions, framed by the constraint around them — an audit position, a data-residency
+                rule, a four-hour maintenance window.
+              </p>
+            </header>
+            <ul className="tiles">
+              {industries.map((x, i) => <CatTile key={x.id} cat={x} kind="industry" i={i} />)}
+            </ul>
+          </div>
+        </section>
+
+        <section className="sec-sm">
+          <div className="shell">
+            <header className="sec-head" data-r>
+              <h2 className="d3">Or how we engage.</h2>
+              <p className="lede measure-w">
+                Five practice areas. Every engagement is scoped from discovery — no fixed menus, no rate cards.
+              </p>
+            </header>
             <ul className="cat">
               {CAT.map((c, i) => {
                 const isOpen = open === c.id

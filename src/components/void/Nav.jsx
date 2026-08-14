@@ -7,7 +7,6 @@ import { useScrolled } from '@/lib/apple-motion'
 
 const LINKS = [
   { href: '/', label: 'Overview' },
-  { href: '/solutions', label: 'Solutions' },
   { href: '/services', label: 'Capabilities' },
   { href: '/team', label: 'Team' },
   { href: '/contact', label: 'Contact' },
