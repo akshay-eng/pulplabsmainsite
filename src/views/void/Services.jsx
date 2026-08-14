@@ -8,11 +8,11 @@ import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
 import CapCard from '@/components/void/CapCard'
 import { byParent } from '@/data/capabilities'
-import { functions, industries } from '@/data/functions'
-import CatTile from '@/components/void/CatTile'
+import SolutionFinder from '@/components/void/SolutionFinder'
+import { allSolutions } from '@/data/capabilities'
 
 const CAT = [
-  { id: 'advisory', n: '01', art: 'adv-board', alt: 'An assessment report: a workflow map with high-payback steps ringed, an opportunity scoring table, a readiness heatmap and effort estimates.', more: ['/services/advisory', 'How we run an assessment'], k: 'Advisory & strategy', t: 'Find out where AI pays back — and where it does not.',
+  { id: 'advisory', count: '4 artefacts', n: '01', art: 'adv-board', alt: 'An assessment report: a workflow map with high-payback steps ringed, an opportunity scoring table, a readiness heatmap and effort estimates.', more: ['/services/advisory', 'How we run an assessment'], k: 'Advisory & strategy', t: 'Find out where AI pays back — and where it does not.',
     b: 'We map your workflows, the data behind them and the constraints around them before anyone writes code. You get a written view of what is worth automating, what is not, and what has to change first.',
     tracks: [
       ['AI readiness assessment', 'Artefact 01', 'Where you actually are, not where a vendor says you are.', 'readiness'],
@@ -20,13 +20,13 @@ const CAT = [
       ['Adoption roadmap', 'Artefact 03', 'Sequenced so each phase funds the next, with an abandon condition.', 'roadmap'],
       ['Governance & risk', 'Artefact 04', 'The framework your auditors will ask for, written for your risk function.', 'governance'],
     ] },
-  { id: 'accelerators', n: '02', k: 'Enterprise accelerators', t: 'Four systems for IT operations, already built.',
+  { id: 'accelerators', count: '6 systems', n: '02', k: 'Enterprise accelerators', t: 'Four systems for IT operations, already built.',
     b: 'Production-tested and deployed inside your estate rather than as multi-tenant SaaS, integrated with the ITSM and CMDB you already run. Your data does not leave your boundary for us to operate them.',
     items: [['Incident Intelligence', 'Triage, correlation and suggested remediation on your live queue.'], ['Change Copilot', 'Risk scoring and change-record drafting against your CAB rules.'], ['Patch Orchestrator', 'Sequencing with rollback paths, around your maintenance windows.'], ['Agent Migration', 'RPA and legacy bots onto modern runtimes, audit trail intact.']] },
-  { id: 'small-business', n: '03', k: 'Small business systems', t: 'Live in about four weeks.',
+  { id: 'small-business', count: '11 systems', n: '03', k: 'Small business systems', t: 'Live in about four weeks.',
     b: 'Growth and operations systems for small teams, tuned monthly. Every one keeps a human approval step you control — nothing sends or commits on your behalf unless you decide it should.',
     items: [['Lead Engine', 'Enquiries answered and qualified around the clock.'], ['Support Desk', 'First-line resolution with escalation you define.'], ['Marketing Studio', 'Campaign drafting against your own positioning.'], ['Social Autopilot', 'Scheduled, on-brand, always reviewable.']] },
-  { id: 'enablement', n: '04', photo: 'enablement-workshops', alt: 'An instructor working through a build alongside a cohort at their laptops.', more: ['/services/enablement', 'Platforms, formats and curricula'], k: 'Enablement & workshops', t: 'Capability transfer, not a training day.',
+  { id: 'enablement', count: '5 platforms', n: '04', photo: 'enablement-workshops', alt: 'An instructor working through a build alongside a cohort at their laptops.', more: ['/services/enablement', 'Platforms, formats and curricula'], k: 'Enablement & workshops', t: 'Capability transfer, not a training day.',
     b: 'Certified instructors across Claude, OpenAI, Copilot Studio and IBM watsonx Orchestrate. Every session runs on your workflows and your data. Each cohort leaves with something in production.',
     tracks: [
       ['Executive briefing', 'One day', 'For the people who approve the budget. One working artefact by the end.', 'one-day'],
@@ -34,7 +34,7 @@ const CAT = [
       ['Embedded enablement', 'One week', 'Alongside your team on live work, taking one workflow into production.', 'one-week'],
       ['Custom cohort', 'Scoped', 'Mixed platforms, a regulated estate, or roles split across separate tracks.', 'custom'],
     ] },
-  { id: 'managed', n: '05', k: 'Managed operations', t: 'We run what we build.',
+  { id: 'managed', count: '4 services', n: '05', k: 'Managed operations', t: 'We run what we build.',
     b: 'Monitoring, evaluation and tuning for as long as you want us. Handover is real — your code, your documentation, your trained team — and staying on is your option, not a dependency we engineer in.',
     items: [['Monitoring & alerting', 'On the behaviour that matters, not just uptime.'], ['Evaluation harnesses', 'Re-scored as your estate changes.'], ['Model & prompt tuning', 'Regression-checked before it ships.'], ['Quarterly review', 'What it saved, in your numbers.']] },
 ]
@@ -60,41 +60,17 @@ export default function Services() {
           </div>
         </section>
 
+        {/* The spine. Five ways to engage is the top-level abstraction —
+            everything else on this page is a way of narrowing inside two of
+            them, so it has to come first and read as an index. */}
         <section className="sec-sm">
           <div className="shell">
             <header className="sec-head" data-r>
-              <h2 className="d3">Start with your team.</h2>
+              <p className="mono step-k">Step one</p>
+              <h2 className="d3">How we engage.</h2>
               <p className="lede measure-w">
-                If you already know the function you are trying to fix, this is the shortest route in.
-              </p>
-            </header>
-            <ul className="tiles">
-              {functions.map((f, i) => <CatTile key={f.id} cat={f} kind="function" i={i} />)}
-            </ul>
-          </div>
-        </section>
-
-        <section className="sec-sm">
-          <div className="shell">
-            <header className="sec-head" data-r>
-              <h2 className="d3">Or your sector.</h2>
-              <p className="lede measure-w">
-                The same solutions, framed by the constraint around them — an audit position, a data-residency
-                rule, a four-hour maintenance window.
-              </p>
-            </header>
-            <ul className="tiles">
-              {industries.map((x, i) => <CatTile key={x.id} cat={x} kind="industry" i={i} />)}
-            </ul>
-          </div>
-        </section>
-
-        <section className="sec-sm">
-          <div className="shell">
-            <header className="sec-head" data-r>
-              <h2 className="d3">Or how we engage.</h2>
-              <p className="lede measure-w">
-                Five practice areas. Every engagement is scoped from discovery — no fixed menus, no rate cards.
+                Five practice areas. Two of them come with a catalogue of systems; the other three are the work
+                around it. Open one to see what is inside.
               </p>
             </header>
             <ul className="cat">
@@ -110,6 +86,7 @@ export default function Services() {
                           <span className="mono">{c.k}</span>
                           <span className="cat-t">{c.t}</span>
                         </span>
+                        {c.count && <span className="mono cat-count">{c.count}</span>}
                         <span className="cat-sign" aria-hidden="true"><span /><span /></span>
                       </button>
                     </h2>
@@ -171,6 +148,23 @@ export default function Services() {
                 )
               })}
             </ul>
+          </div>
+        </section>
+
+        {/* Step two: only two of the five contain a catalogue, so this is
+            explicitly scoped to them rather than presented as a peer. */}
+        <section className="sec-sm finder-sec">
+          <div className="shell">
+            <header className="sec-head" data-r>
+              <p className="mono step-k">Step two</p>
+              <h2 className="d3">Find the system you need.</h2>
+              <p className="lede measure-w">
+                {allSolutions.length} systems sit inside <strong>Enterprise accelerators</strong> and{' '}
+                <strong>Small business systems</strong>. Narrow them by the team that would use one, or by the
+                sector you are in — whichever you know first.
+              </p>
+            </header>
+            <SolutionFinder />
           </div>
         </section>
 
