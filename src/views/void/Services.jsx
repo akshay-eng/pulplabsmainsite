@@ -8,7 +8,7 @@ import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
 import CapCard from '@/components/void/CapCard'
 import { byParent } from '@/data/capabilities'
-import SolutionFinder from '@/components/void/SolutionFinder'
+import CategoryPicker from '@/components/void/CategoryPicker'
 import { allSolutions } from '@/data/capabilities'
 
 const CAT = [
@@ -160,11 +160,11 @@ export default function Services() {
               <h2 className="d3">Find the system you need.</h2>
               <p className="lede measure-w">
                 {allSolutions.length} systems sit inside <strong>Enterprise accelerators</strong> and{' '}
-                <strong>Small business systems</strong>. Narrow them by the team that would use one, or by the
-                sector you are in — whichever you know first.
+                <strong>Small business systems</strong>. Pick the team that would use one, or the sector you are
+                in — whichever you know first — and you will get just the ones that apply.
               </p>
             </header>
-            <SolutionFinder />
+            <CategoryPicker />
           </div>
         </section>
 
