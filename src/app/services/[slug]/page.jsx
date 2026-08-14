@@ -4,13 +4,14 @@ import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
-import { capabilities, getCapability } from '@/data/capabilities'
+import { allSolutions, getCapability } from '@/data/capabilities'
+import { getFunction } from '@/data/functions'
 
 /* Fully static — the content is in the repo, so every capability page is
    prerendered at build time and served as HTML. Crawlers get the copy without
    executing anything. */
 export function generateStaticParams() {
-  return capabilities.map((c) => ({ slug: c.slug }))
+  return allSolutions.map((c) => ({ slug: c.slug }))
 }
 
 export async function generateMetadata({ params }) {
@@ -37,7 +38,7 @@ export default async function CapabilityPage({ params }) {
 
   // Next/prev within the same practice area, so the pages chain rather than
   // dead-ending back at the catalogue every time.
-  const siblings = capabilities.filter((c) => c.parent === cap.parent)
+  const siblings = allSolutions.filter((c) => c.fn === cap.fn)
   const next = siblings[(siblings.findIndex((c) => c.slug === cap.slug) + 1) % siblings.length]
 
   return (
@@ -52,11 +53,18 @@ export default async function CapabilityPage({ params }) {
 
           <div className="shell cdet-in">
             <p className="mono cdet-crumb">
-              <Link href="/services">Capabilities</Link>
+              <Link href="/solutions">Solutions</Link>
+              <span aria-hidden="true">/</span>
+              <Link href={`/solutions#${cap.fn}`}>{getFunction(cap.fn)?.name}</Link>
               <span aria-hidden="true">/</span>
               {cap.parentLabel}
             </p>
             <h1 className="d2 cdet-h">{cap.name}</h1>
+            <p className={`sol-status is-${cap.status}`}>
+              {cap.status === 'production'
+                ? 'Accelerator — running in client estates today'
+                : 'Built to scope — a shape we have built before, fitted to your systems'}
+            </p>
             <p className="lede cdet-l">{cap.tagline}</p>
 
             <p className="cdet-metric">

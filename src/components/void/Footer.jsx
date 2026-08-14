@@ -20,6 +20,7 @@ export default function Footer() {
             <p className="mono">Services</p>
             <ul>
               <li><Link href="/services">Service catalogue</Link></li>
+              <li><Link href="/solutions">Solutions by function</Link></li>
               <li><Link href="/services#accelerators">Enterprise accelerators</Link></li>
               <li><Link href="/services#small-business">Small business solutions</Link></li>
               <li><Link href="/services#work">Case studies</Link></li>
