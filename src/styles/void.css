@@ -3109,16 +3109,109 @@ textarea {
 .adv-pillars { list-style: none; padding: 0; margin: 42px 0 0; display: flex; flex-direction: column; gap: 1px;
   background: #1c1c1c; border: 1px solid var(--line-1); border-radius: 14px; overflow: hidden; }
 .adv-pillars > li { background: var(--void); padding: clamp(24px, 3vw, 34px); }
-.adv-p-top { display: flex; gap: 16px; align-items: baseline; }
-.adv-p-n { opacity: var(--w-4); }
-.adv-p-top .mono { opacity: var(--w-3); }
-.adv-p-t { margin-top: 7px; }
-.adv-p-b { color: var(--w-2); margin: 16px 0 0 58px; max-width: 68ch; font-size: 15px; }
-.adv-p-out { list-style: none; padding: 0; margin: 18px 0 0 58px; display: flex; flex-wrap: wrap; gap: 10px 26px; }
+/* Two columns: a narrow rail naming the artefact and its reader, and the
+   claim beside it. The rail is what stops four artefacts reading as one long
+   undifferentiated wall, and it fills the right third the old single column
+   was leaving empty. */
+.adv-p-grid {
+  display: grid;
+  grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
+}
+
+.adv-p-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-right: clamp(16px, 2.4vw, 30px);
+  border-right: 1px solid var(--line-1);
+  min-height: 100%;
+}
+
+.adv-p-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.adv-p-n {
+  font-size: clamp(30px, 3.6vw, 42px);
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  color: var(--w-1);
+  opacity: 0.2;
+}
+
+.adv-p-k { opacity: var(--w-2-o, 0.62); color: var(--w-2); line-height: 1.5; }
+
+.adv-p-who {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-1);
+  width: 100%;
+}
+.adv-p-who .mono { opacity: var(--w-4); margin-bottom: 8px; }
+.adv-p-who .body { color: var(--w-1); font-size: 14px; line-height: 1.45; }
+
+.adv-p-role {
+  padding: 4px 10px;
+  border: 1px solid var(--line-2);
+  border-radius: 100px;
+  opacity: var(--w-3);
+  font-size: 10.5px;
+}
+
+.adv-p-t {
+  font-size: clamp(21px, 2.5vw, 30px);
+  letter-spacing: -0.028em;
+  line-height: 1.14;
+  margin: 0;
+  max-width: 20ch;
+}
+
+.adv-p-b {
+  color: var(--w-2);
+  margin: 18px 0 0;
+  max-width: 62ch;
+  font-size: 15px;
+  line-height: 1.62;
+}
+
+/* Outcomes run the full width beneath both columns, so the eye gets a
+   horizontal beat between one artefact and the next. */
+.adv-p-out {
+  list-style: none;
+  padding: 20px 0 0;
+  margin: 26px 0 0;
+  border-top: 1px solid var(--line-1);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 11px 26px;
+}
 .adv-p-out li { display: flex; gap: 9px; align-items: flex-start; }
 .adv-p-out svg { flex: none; margin-top: 3px; opacity: 0.66; }
-.adv-p-out .body { color: var(--w-2); font-size: 13.5px; }
-@media (max-width: 620px) { .adv-p-b, .adv-p-out { margin-left: 0; } }
+.adv-p-out .body { color: var(--w-2); font-size: 13.5px; line-height: 1.45; }
+
+@media (max-width: 780px) {
+  .adv-p-grid { grid-template-columns: 1fr; gap: 22px; }
+  .adv-p-rail {
+    flex-direction: row;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    padding-right: 0;
+    border-right: 0;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line-1);
+  }
+  .adv-p-head { margin-bottom: 0; }
+  .adv-p-n { font-size: 28px; }
+  .adv-p-who { margin-top: 0; padding-top: 0; border-top: 0; width: auto; }
+  .adv-p-who .mono { display: inline; margin-right: 7px; }
+  .adv-p-who .body { display: inline; }
+}
 
 .adv-run { list-style: none; padding: 0; margin: 38px 0 0; }
 .adv-run li {

@@ -18,6 +18,8 @@ const PILLARS = [
   {
     n: '01',
     id: 'readiness',
+    who: 'Your CTO, and whoever owns the data',
+    role: 'Engineering',
     k: 'AI readiness assessment',
     t: 'Where you actually are.',
     b: 'Not a maturity score out of five. We look at the data you hold and whether it is usable, the systems that would have to integrate, the permissions already sprawling inside your tenant, and whether anyone owns the workflow end to end. Most readiness problems turn out to be data and ownership problems wearing a different hat.',
@@ -26,6 +28,8 @@ const PILLARS = [
   {
     n: '02',
     id: 'discovery',
+    who: 'Whoever carries the P&L for the workflow',
+    role: 'Operations',
     k: 'Use-case discovery',
     t: 'Ranked by payback, not by novelty.',
     b: 'We map the workflow as it actually runs — including the steps nobody documented — and cost each one in hours, error rate and delay. Then every candidate gets plotted on payback against effort. The output is a shortlist, and just as usefully, a list of things to leave alone.',
@@ -34,6 +38,8 @@ const PILLARS = [
   {
     n: '03',
     id: 'roadmap',
+    who: 'Your CFO and the executive sponsor',
+    role: 'Finance',
     k: 'Adoption roadmap',
     t: 'Sequenced so each phase funds the next.',
     b: 'Nobody gets a two-year budget on faith. The roadmap is ordered so the first thing delivered is the thing that pays for the second — usually not the most exciting candidate, but the one with the shortest path to a number a CFO recognises. Each phase carries its own success criteria and its own abandon condition.',
@@ -42,6 +48,8 @@ const PILLARS = [
   {
     n: '04',
     id: 'governance',
+    who: 'Your risk, audit and compliance function',
+    role: 'Risk',
     k: 'Governance & risk',
     t: 'The framework your auditors will ask for.',
     b: 'Where a human has to approve, what gets logged, how a model change is reviewed before it reaches production, who is accountable when an agent gets it wrong, and what evidence exists afterwards. Written to be handed to your risk function rather than to impress a board.',
@@ -120,20 +128,33 @@ export default function Advisory() {
           <div className="shell adv-rel">
             <header className="sec-head" data-r>
               <h2 className="d3">What you get.</h2>
-              <p className="lede measure-w">Four artefacts, each written to be used by a different person in your organisation.</p>
+              <p className="lede measure-w">Four artefacts, each written for a different reader — the person who needs the readiness picture is not the one who has to sign off the risk position.</p>
             </header>
 
             <ul className="adv-pillars">
               {PILLARS.map((p, i) => (
                 <li key={p.k} id={p.id} data-r style={{ '--rd': `${i * 70}ms` }}>
-                  <div className="adv-p-top">
-                    <span className="mono adv-p-n">{p.n}</span>
-                    <div>
-                      <p className="mono">{p.k}</p>
-                      <h3 className="h4 adv-p-t">{p.t}</h3>
+                  {/* A left rail carrying the reader. The header promises each
+                      artefact is written for a different person; without this
+                      it never said who, and four identical slabs of prose had
+                      nothing to break them up. */}
+                  <div className="adv-p-grid">
+                    <div className="adv-p-rail">
+                      <span className="adv-p-head">
+                        <span className="adv-p-n">{p.n}</span>
+                        <span className="adv-p-role mono">{p.role}</span>
+                      </span>
+                      <p className="mono adv-p-k">{p.k}</p>
+                      <div className="adv-p-who">
+                        <p className="mono">Written for</p>
+                        <p className="body">{p.who}</p>
+                      </div>
+                    </div>
+                    <div className="adv-p-body">
+                      <h3 className="adv-p-t">{p.t}</h3>
+                      <p className="body adv-p-b">{p.b}</p>
                     </div>
                   </div>
-                  <p className="body adv-p-b">{p.b}</p>
                   <ul className="adv-p-out">
                     {p.out.map((o) => (
                       <li key={o}>
