@@ -2669,7 +2669,7 @@ textarea {
 .cap-art {
   display: block;
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--void);
   border-bottom: 1px solid var(--line-1);
@@ -2679,10 +2679,9 @@ textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* The artwork is drawn on black, so screen blending drops the plate edge
-     entirely and the linework floats on the card ground. */
-  mix-blend-mode: screen;
-  opacity: 0.86;
+  /* Full-bleed colour artwork now, so it keeps its own ground. Screen blending
+     (which the old linework-on-black needed) would blow these out. */
+  opacity: 0.94;
   transition: opacity 500ms cubic-bezier(0.23, 1, 0.32, 1),
               transform 700ms cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -2776,8 +2775,7 @@ textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  mix-blend-mode: screen;
-  opacity: 0.66;
+  opacity: 0.5;
   /* Faded at the left so the plate never cuts across the headline. */
   -webkit-mask-image: linear-gradient(100deg, transparent 4%, #000 62%);
   mask-image: linear-gradient(100deg, transparent 4%, #000 62%);
