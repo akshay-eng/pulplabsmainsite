@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { functions, industries } from '@/data/functions'
-import { byFunction } from '@/data/capabilities'
 
 /* Pick a category, then go and read it.
  *
@@ -12,13 +11,10 @@ import { byFunction } from '@/data/capabilities'
  * exactly the wall this section exists to avoid. So the tiles are links again
  * — the difference from the version before that is there is now ONE grid with
  * a lens toggle, rather than two grids stacked as competing taxonomies.
- *
- * Each tile carries its count, so the choice is informed before the click. */
+ */
 export default function CategoryPicker() {
   const [lens, setLens] = useState('team')
   const cats = lens === 'team' ? functions : industries
-
-  const count = (c) => (lens === 'team' ? byFunction(c.id).length : c.solutions.length)
 
   return (
     <div className="picker">
@@ -31,7 +27,6 @@ export default function CategoryPicker() {
             </button>
           ))}
         </div>
-        <p className="mono picker-hint">{cats.length} {lens === 'team' ? 'teams' : 'sectors'}</p>
       </div>
 
       <ul className="tiles" key={lens}>
@@ -45,7 +40,6 @@ export default function CategoryPicker() {
               <span className="tile-body">
                 <span className="tile-t">{c.name}</span>
                 <span className="body tile-d">{c.tag}</span>
-                <span className="mono tile-c">{count(c)} systems</span>
               </span>
             </Link>
           </li>

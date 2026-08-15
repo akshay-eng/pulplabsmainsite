@@ -73,7 +73,7 @@ export default async function Category({ params }) {
         <section className="sec-sm">
           <div className="shell">
             <header className="sec-head" data-r>
-              <h2 className="d3">{c.items.length} solutions.</h2>
+              <h2 className="d3">{c.kind === 'function' ? 'Built for this team.' : 'Built for this sector.'}</h2>
               <p className="lede measure-w">
                 Each one links through to what it does, what it plugs into, what it produces, and what it will not do.
               </p>

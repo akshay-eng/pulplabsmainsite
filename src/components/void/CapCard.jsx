@@ -21,10 +21,6 @@ export default function CapCard({ cap, i = 0 }) {
             </svg>
           </span>
           <span className="body cap-d">{cap.tagline}</span>
-          <span className="cap-metric">
-            <span className="mono">{cap.metric[0]}</span>
-            <span className="cap-v">{cap.metric[1]}</span>
-          </span>
         </span>
       </Link>
     </li>

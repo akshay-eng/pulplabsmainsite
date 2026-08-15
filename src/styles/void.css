@@ -2647,8 +2647,8 @@ textarea {
 
 .caps {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+  gap: 16px;
   margin-top: 30px;
   list-style: none;
   padding: 0;
@@ -2692,9 +2692,9 @@ textarea {
 .cap-body {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 8px;
   flex: 1;
-  padding: 15px 16px 14px;
+  padding: 17px 18px 18px;
 }
 
 .cap-head {
@@ -2715,27 +2715,10 @@ textarea {
 
 .cap-d {
   color: var(--w-2);
-  font-size: 13.5px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.52;
 }
 
-.cap-metric {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin-top: auto;
-  padding-top: 13px;
-  border-top: 1px solid var(--line-1);
-}
-
-.cap-metric .mono { opacity: var(--w-3); }
-
-.cap-v {
-  font-size: 15px;
-  letter-spacing: -0.02em;
-  color: var(--w-1);
-  margin-left: auto;
-}
 
 @media (hover: hover) {
   .cap-link:hover {
@@ -3506,9 +3489,11 @@ textarea {
 .sol-head-r .mono { opacity: var(--w-3); margin-bottom: 12px; }
 .sol-head-r .body { color: var(--w-2); font-size: 14.5px; line-height: 1.62; max-width: 64ch; }
 
+/* Wider than before: these grids are the only thing on their page, so the
+   cards can carry their artwork at a size where it actually reads. */
 .sols {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(304px, 1fr));
   gap: 14px;
   margin-top: 30px;
   list-style: none;
@@ -3625,13 +3610,6 @@ textarea {
 
 .step-k { opacity: var(--w-4); margin-bottom: 14px; }
 
-.cat-count {
-  opacity: var(--w-3);
-  margin-left: auto;
-  margin-right: 20px;
-  white-space: nowrap;
-}
-
 .finder-sec { border-top: 1px solid var(--line-1); }
 .picker { margin-top: 38px; }
 
@@ -3678,7 +3656,6 @@ textarea {
 .finder-clear:hover { border-color: var(--w-1); }
 
 .tiles { animation: exIn 420ms cubic-bezier(0.23, 1, 0.32, 1) both; }
-.tile-c { display: block; opacity: var(--w-4); margin-top: 9px; }
 
 
 .picker-bar {
@@ -3692,7 +3669,6 @@ textarea {
 }
 
 @media (max-width: 620px) {
-  .cat-count { display: none; }
   .picker-bar { justify-content: flex-start; }
 }
 
