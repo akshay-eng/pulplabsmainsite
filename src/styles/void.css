@@ -3939,3 +3939,67 @@ textarea {
   .cl-plate { transition-duration: 1ms; }
   .trust-logos li:hover .cl-plate { transform: none; }
 }
+
+/* A track card with artwork. The image sits full-bleed at the top and the
+   padding moves onto the text, so a card with a picture and one without still
+   line up on the same grid. */
+.track[data-art] { padding: 0; overflow: hidden; }
+.track-art { display: block; aspect-ratio: 4 / 3; overflow: hidden; background: #0d0d0d; }
+.track-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.94;
+  transition: opacity 500ms cubic-bezier(0.23, 1, 0.32, 1), transform 700ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.track[data-art] .track-top { padding: 17px 18px 0; }
+.track[data-art] .track-d { padding: 0 18px; }
+.track[data-art] .track-l { margin: auto 18px 0; padding-bottom: 15px; }
+@media (hover: hover) {
+  .track[data-art]:hover .track-art img { opacity: 1; transform: scale(1.045); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .track-art img { transition-duration: 1ms; }
+  .track[data-art]:hover .track-art img { transform: none; }
+}
+
+/* ─── Managed operations page ─────────────────────────────────────────── */
+
+.mo-list { list-style: none; padding: 0; margin: 44px 0 0; display: flex; flex-direction: column; gap: 1px;
+  background: #1c1c1c; border: 1px solid var(--line-1); border-radius: 16px; overflow: hidden; }
+
+.mo-list > li {
+  background: var(--void);
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.4fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  padding: clamp(24px, 3vw, 36px);
+  scroll-margin-top: 110px;
+  transition: background 600ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+/* Opaque, so a deep link lands somewhere obviously highlighted without the
+   section behind showing through. */
+.mo-list > li:target { background: #141414; }
+.mo-list > li:nth-child(even) .mo-art { order: 2; }
+
+.mo-art { border-radius: 14px; overflow: hidden; aspect-ratio: 4 / 3; background: #0d0d0d; }
+.mo-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.mo-k { display: flex; align-items: baseline; gap: 14px; opacity: var(--w-3); }
+.mo-n { opacity: var(--w-4); }
+.mo-t { font-size: clamp(19px, 2.1vw, 26px); letter-spacing: -0.024em; line-height: 1.18; margin: 12px 0 0; }
+.mo-b { color: var(--w-2); margin: 16px 0 0; font-size: 15px; line-height: 1.62; max-width: 62ch; }
+
+.mo-out { list-style: none; padding: 18px 0 0; margin: 20px 0 0; border-top: 1px solid var(--line-1);
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px 24px; }
+.mo-out li { display: flex; gap: 9px; align-items: flex-start; }
+.mo-out svg { flex: none; margin-top: 3px; opacity: 0.66; }
+.mo-out .body { color: var(--w-2); font-size: 13.5px; line-height: 1.45; }
+
+@media (max-width: 820px) {
+  .mo-list > li { grid-template-columns: 1fr; gap: 22px; }
+  .mo-list > li:nth-child(even) .mo-art { order: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .mo-list > li { transition-duration: 1ms; } }

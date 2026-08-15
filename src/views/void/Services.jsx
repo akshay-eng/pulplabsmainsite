@@ -34,9 +34,14 @@ const CAT = [
       ['Embedded enablement', 'One week', 'Alongside your team on live work, taking one workflow into production.', 'one-week'],
       ['Custom cohort', 'Scoped', 'Mixed platforms, a regulated estate, or roles split across separate tracks.', 'custom'],
     ] },
-  { id: 'managed', n: '05', k: 'Managed operations', t: 'We run what we build.',
+  { id: 'managed', n: '05', more: ['/services/managed', 'How we run it after handover'], k: 'Managed operations', t: 'We run what we build.',
     b: 'Monitoring, evaluation and tuning for as long as you want us. Handover is real — your code, your documentation, your trained team — and staying on is your option, not a dependency we engineer in.',
-    items: [['Monitoring & alerting', 'On the behaviour that matters, not just uptime.'], ['Evaluation harnesses', 'Re-scored as your estate changes.'], ['Model & prompt tuning', 'Regression-checked before it ships.'], ['Quarterly review', 'What it saved, in your numbers.']] },
+    tracks: [
+      ['Monitoring & alerting', 'Ongoing', 'On the behaviour that matters, not just uptime — quality, refusals and drift.', 'monitoring', 'mo-monitoring'],
+      ['Evaluation harnesses', 'Ongoing', 'Re-scored as your estate changes, so a passing suite still means something.', 'evaluation', 'mo-evaluation'],
+      ['Model & prompt tuning', 'On change', 'Regression-checked before it ships, never tuned straight into production.', 'tuning', 'mo-tuning'],
+      ['Quarterly review', 'Quarterly', 'What it saved, in your numbers — including the quarters where the answer is not much.', 'review', 'mo-review'],
+    ] },
 ]
 
 export default function Services() {
@@ -94,9 +99,16 @@ export default function Services() {
                         <p className="body cat-b">{c.b}</p>
                         {c.tracks && (
                           <ul className="tracks">
-                            {c.tracks.map(([t, len, d, f], j) => (
+                            {c.tracks.map(([t, len, d, f, art], j) => (
                               <li key={t} data-r style={{ '--rd': `${j * 60}ms` }}>
-                                <Link href={`${c.more[0]}#${f}`} className="track">
+                                <Link href={`${c.more[0]}#${f}`} className="track" data-art={art || undefined}>
+                                  {/* Optional: advisory and enablement tracks are
+                                      routes, managed ones are things with a face. */}
+                                  {art && (
+                                    <span className="track-art" aria-hidden="true">
+                                      <img src={`/void/managed/${art}.webp`} alt="" loading="lazy" decoding="async" />
+                                    </span>
+                                  )}
                                   <span className="track-top">
                                     <span className="h4">{t}</span>
                                     <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true">
