@@ -37,13 +37,6 @@ const TELEMETRY = [
 ]
 
 
-const STEPS = [
-  ['Discover', 'A structured audit of the workflow, the data behind it, and what a win would measurably look like.'],
-  ['Scope & propose', 'A fixed scope, timeline and estimate built from your requirement — not a rate card.'],
-  ['Build & evaluate', 'Weekly increments, with evaluation gates before anything touches production.'],
-  ['Hand over', 'Your code, your documentation, your trained team — with managed ops if you want it.'],
-]
-
 const VOICES = [
   [
     'Quotes that took our team two days now go out in twenty minutes. The PulpLabs team understood our pricing rules better than some of our own hires.',
@@ -184,44 +177,6 @@ export default function Home() {
         </section>
 
         <div className="flow">
-        {/* ── How we engage ────────────────────────────────────────────── */}
-        <section className="sec">
-          <div className="shell">
-            <header className="sec-h" data-r>
-              <p className="mono">How we engage</p>
-              <h2 className="d2">
-                Discover. Build. <span className="dim">Hand over.</span>
-              </h2>
-            </header>
-
-            <ol className="proc">
-              {STEPS.map(([t, b], i) => (
-                <li key={t} data-r style={{ '--rd': `${i * 65}ms` }}>
-                  <span className="mono proc-n">{String(i + 1).padStart(2, '0')}</span>
-                  <div>
-                    <h3 className="h4">{t}</h3>
-                    <p className="body">{b}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-
-            <div className="split proc-hand">
-              <div className="split-art" data-r aria-hidden="true">
-                <img src="/void/sec-handover.webp" alt="" loading="lazy" decoding="async" />
-              </div>
-              <div className="split-copy" data-r style={{ '--rd': '80ms' }}>
-                <p className="mono">Step four, in full</p>
-                <h3 className="d3">Handover is real.</h3>
-                <p className="body">
-                  Your code, your documentation, your trained team. Staying on afterwards is your option, not a
-                  dependency we engineer in — and we would rather you did not need us.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* ── Inside your estate ───────────────────────────────────────
             Two claims that were only ever made in prose: that this runs on the
             systems you already have, and that a human holds the approval. Both
@@ -277,6 +232,33 @@ export default function Home() {
             </div>
             <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
               <img src="/void/sec-approve.webp" alt="" loading="lazy" decoding="async" />
+            </div>
+          </div>
+        </section>
+
+        <section className="sec">
+          <div className="shell split is-flip">
+            <div className="split-copy" data-r>
+              <p className="mono">Handover</p>
+              <h2 className="d3">You are not left depending on us.</h2>
+              <p className="body">
+                Your code, your documentation, your trained team. Staying on afterwards is your option, not a
+                dependency we engineer in — and we would rather you did not need us.
+              </p>
+              <ul className="split-list">
+                {['The codebase, in your repository', 'Documentation your on-call can use', 'A team trained to extend it'].map((t) => (
+                  <li key={t}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                      <path d="M2.5 7.5l3 3 6-7" stroke="currentColor" strokeWidth="1.5" fill="none"
+                        strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
+              <img src="/void/sec-handover.webp" alt="" loading="lazy" decoding="async" />
             </div>
           </div>
         </section>
