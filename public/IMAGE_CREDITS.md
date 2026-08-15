@@ -80,6 +80,13 @@ Power & Pack flame, `rgb(248, 200, 8)` from the Urban Ethnographers ground.
 tall — deliberately smaller than the other. Scaled up it is only a bigger blur. A vector or a
 larger raster would let it sit at the same size as the Urban Ethnographers mark.
 
-**Before launch:** confirm both clients are happy to be named and quoted publicly. The quotes
-are currently attributed to "Name Surname" and need real names or explicit permission to stay
-anonymous.
+**Before launch, two things:**
+
+1. Confirm both clients are happy to be named and quoted publicly. Their quotes are currently
+   attributed to "Name Surname" and need real names, or explicit permission to stay anonymous.
+2. **Four of the six testimonials are placeholders** — written copy, not real quotes. They are
+   marked `placeholder: true` in `src/components/void/Voices.jsx` and render without a logo, with
+   only a role and a sector ("Head of IT Operations · Manufacturing · 1,200 staff"). They carry no
+   company name and no person's name deliberately, so none can be mistaken for a real reference.
+   Do not attach an invented company to one: an attributed testimonial that did not happen is a
+   fabricated reference, and it surfaces badly in due diligence.
