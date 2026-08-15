@@ -25,7 +25,8 @@ export function useRevealObserver() {
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (!entry.isIntersecting) continue
+          const passed = !entry.isIntersecting && entry.boundingClientRect.bottom < 0
+          if (!entry.isIntersecting && !passed) continue
           entry.target.setAttribute('data-reveal', 'in')
           io.unobserve(entry.target) // reveal is one-way; re-animating on scroll-up is nauseating
         }

@@ -6,6 +6,7 @@ import Chevron from '@/components/apple/Chevron'
 import EnablementExplorer from '@/components/void/EnablementExplorer'
 import PlatformMark from '@/components/void/PlatformMark'
 import { delivery, platforms, formats } from '@/data/enablement'
+import { LEARN_SITE_URL } from '@/lib/sites'
 
 export const metadata = {
   title: 'Enablement & workshops — PulpLabs',
@@ -136,6 +137,7 @@ export default function Enablement() {
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
               <Link href="/contact" className="btn">Plan a cohort <Chevron /></Link>
+              <a href={LEARN_SITE_URL} className="btn btn-ghost">Explore PulpLabs Learn</a>
             </div>
           </div>
         </section>

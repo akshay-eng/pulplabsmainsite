@@ -147,9 +147,9 @@ const KNOWLEDGE = [
   {
     id: 'contact',
     patterns: ['contact', 'email', 'reach', 'phone', 'get in touch', 'talk to', 'speak to', 'human'],
-    answer: `You can reach the team at **${BOOKING_EMAIL}**, use the contact form on the home page, or I can take your details right here.`,
+    answer: `You can reach the team at **${BOOKING_EMAIL}**, use the contact page, or I can take your details right here.`,
     chips: ['Book a call', 'Open contact form'],
-    action: { type: 'navigate', to: '/#contact', label: 'Open contact form' },
+    action: { type: 'navigate', to: '/contact', label: 'Open contact form' },
   },
 ]
 

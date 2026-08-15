@@ -5,12 +5,14 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Logo, { Wordmark } from './Logo'
 import { useStuck } from '../lib/motion'
+import { LEARN_SITE_URL } from '@/lib/sites'
 
 const LINKS = [
   { to: '/', label: 'Home' },
   { to: '/services', label: 'Services' },
   { to: '/team', label: 'Team' },
   { to: '/blog', label: 'Blog' },
+  { to: LEARN_SITE_URL, label: 'Learn' },
 ]
 
 /* NavLink's `end` prop is gone, so "/" needs an exact match while the others
@@ -64,7 +66,7 @@ export default function Navbar() {
         </div>
 
         <div className="nav-actions">
-          <Link href="/#contact" className="btn btn-primary btn-sm">
+          <Link href="/contact" className="btn btn-primary btn-sm">
             Book a call
           </Link>
 
@@ -100,7 +102,7 @@ export default function Navbar() {
                 {label}
               </Link>
             ))}
-            <Link href="/#contact" className="btn btn-primary nav-sheet-cta">
+            <Link href="/contact" className="btn btn-primary nav-sheet-cta">
               Book a call
             </Link>
           </div>

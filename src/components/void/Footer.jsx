@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { LEARN_SITE_URL } from '@/lib/sites'
 
 export default function Footer() {
   return (
@@ -31,6 +32,7 @@ export default function Footer() {
             <ul>
               <li><Link href="/team">Team</Link></li>
               <li><Link href="/blog">Blog</Link></li>
+              <li><a href={LEARN_SITE_URL}>PulpLabs Learn</a></li>
               <li>
                 <a href="https://github.com/pulplabs" target="_blank" rel="noreferrer">GitHub</a>
               </li>

@@ -38,6 +38,7 @@ export default async function BlogIndex({ searchParams }) {
     <div className="page">
       <Navbar />
 
+      <main id="main">
       <section className="hero">
         <div className="dots" />
         <div
@@ -151,6 +152,7 @@ export default async function BlogIndex({ searchParams }) {
           </div>
         )}
       </section>
+      </main>
 
       <FooterSlim />
     </div>

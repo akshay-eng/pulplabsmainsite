@@ -62,6 +62,7 @@ export default async function CaseStudyPage({ params }) {
       <Navbar />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
+      <main id="main">
       <article className="post">
         <header className="post-header" style={{ '--post-accent': c.accent }}>
           <div className="shell">
@@ -135,11 +136,12 @@ export default async function CaseStudyPage({ params }) {
               Thirty minutes with an engineer — you&apos;ll leave with a straight answer on whether AI helps here.
             </p>
           </div>
-          <Link href="/#contact" className="btn btn-lemon" style={{ position: 'relative' }}>
+          <Link href="/contact" className="btn btn-lemon" style={{ position: 'relative' }}>
             Book a consultation
           </Link>
         </div>
       </section>
+      </main>
 
       <FooterSlim />
     </div>

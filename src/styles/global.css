@@ -325,7 +325,7 @@ svg {
   letter-spacing: -0.03em;
 }
 .wordmark .dot-ai {
-  color: var(--tangerine);
+  color: var(--tangerine-dark);
 }
 
 .nav-links {
@@ -1682,7 +1682,7 @@ svg {
 
 .footer-slim-inner .copy {
   font-size: 13px;
-  color: var(--muted-warm);
+  color: var(--body-soft);
 }
 
 /* ==========================================================================

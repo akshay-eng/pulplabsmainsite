@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useScrolled } from '@/lib/apple-motion'
+import { LEARN_SITE_URL } from '@/lib/sites'
 
 const LINKS = [
   { href: '/', label: 'Overview' },
   { href: '/services', label: 'Capabilities' },
   { href: '/team', label: 'Team' },
   { href: '/contact', label: 'Contact' },
+  { href: LEARN_SITE_URL, label: 'Learn' },
 ]
 
 export default function Nav() {

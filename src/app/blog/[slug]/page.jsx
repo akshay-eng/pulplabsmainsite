@@ -95,6 +95,7 @@ export default async function PostPage({ params }) {
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
+      <main id="main">
       <article className="post">
         <header className="post-header" style={{ '--post-accent': accent.fg }}>
           <div className="shell">
@@ -185,6 +186,7 @@ export default async function PostPage({ params }) {
           </div>
         </div>
       </section>
+      </main>
 
       <FooterSlim />
     </div>

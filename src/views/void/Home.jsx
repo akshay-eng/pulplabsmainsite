@@ -75,7 +75,7 @@ export default function Home() {
             </p>
 
             <div className="hero-cta">
-              <Link href="#contact" className="btn">
+              <Link href="/contact" className="btn">
                 Book a 30-min consultation <Chevron />
               </Link>
               <Link href="/services" className="btn btn-ghost">
@@ -142,7 +142,7 @@ export default function Home() {
               <div className="tel-head">
                 <span className="mono tel-live">
                   <span className="tel-pip" />
-                  Live estate telemetry
+                  Deployment outcomes
                 </span>
                 <span className="mono">Aggregate · 8 deployments</span>
               </div>
@@ -294,4 +294,3 @@ export default function Home() {
     </div>
   )
 }
-

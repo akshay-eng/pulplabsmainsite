@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Logo, { Wordmark } from './Logo'
+import { LEARN_SITE_URL } from '@/lib/sites'
 
 // Four-column footer — used on the home page.
 export function FooterFull() {
@@ -29,6 +30,7 @@ export function FooterFull() {
           <div className="mono-note">Company</div>
           <Link href="/team">Team</Link>
           <Link href="/blog">Blog</Link>
+          <a href={LEARN_SITE_URL}>PulpLabs Learn</a>
           <a href="https://github.com/pulplabs" target="_blank" rel="noreferrer">
             GitHub
           </a>
@@ -36,7 +38,7 @@ export function FooterFull() {
 
         <div className="footer-col">
           <div className="mono-note">Contact</div>
-          <Link href="/#contact">Book a call</Link>
+          <Link href="/contact">Book a call</Link>
           <a className="mail" href="mailto:hello@pulplabs.ai">
             hello@pulplabs.ai
           </a>
@@ -66,6 +68,7 @@ export function FooterSlim() {
           <Link href="/services">Services</Link>
           <Link href="/team">Team</Link>
           <Link href="/blog">Blog</Link>
+          <a href={LEARN_SITE_URL}>Learn</a>
         </div>
 
         <span className="copy">© {new Date().getFullYear()} PulpLabs · hello@pulplabs.ai</span>

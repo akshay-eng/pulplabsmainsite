@@ -23,7 +23,11 @@ export function useReveal() {
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (!e.isIntersecting) continue
+          // A restored scroll position, anchor jump, or fast swipe can place an
+          // element above the viewport without it ever intersecting. Passed
+          // content must fail open instead of remaining permanently invisible.
+          const passed = !e.isIntersecting && e.boundingClientRect.bottom < 0
+          if (!e.isIntersecting && !passed) continue
           mark(e.target)
           io.unobserve(e.target)
         }
