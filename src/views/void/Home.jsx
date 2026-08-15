@@ -205,6 +205,79 @@ export default function Home() {
                 </li>
               ))}
             </ol>
+
+            <div className="split proc-hand">
+              <div className="split-art" data-r aria-hidden="true">
+                <img src="/void/sec-handover.webp" alt="" loading="lazy" decoding="async" />
+              </div>
+              <div className="split-copy" data-r style={{ '--rd': '80ms' }}>
+                <p className="mono">Step four, in full</p>
+                <h3 className="d3">Handover is real.</h3>
+                <p className="body">
+                  Your code, your documentation, your trained team. Staying on afterwards is your option, not a
+                  dependency we engineer in — and we would rather you did not need us.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Inside your estate ───────────────────────────────────────
+            Two claims that were only ever made in prose: that this runs on the
+            systems you already have, and that a human holds the approval. Both
+            are the reason enterprise buyers say yes, so both get the space. */}
+        <section className="sec">
+          <div className="shell split">
+            <div className="split-copy" data-r>
+              <p className="mono">Inside your estate</p>
+              <h2 className="d3">It runs on what you already have.</h2>
+              <p className="body">
+                Deployed inside your boundary rather than as multi-tenant SaaS, wired to the ITSM, CMDB and
+                line-of-business systems you already run. Your data does not leave for us to operate any of it.
+              </p>
+              <ul className="split-list">
+                {['ITSM and CMDB you already run', 'Your identity provider and access model', 'No data leaves your boundary'].map((t) => (
+                  <li key={t}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                        <path d="M2.5 7.5l3 3 6-7" stroke="currentColor" strokeWidth="1.5" fill="none"
+                          strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
+              <img src="/void/sec-connect.webp" alt="" loading="lazy" decoding="async" />
+            </div>
+          </div>
+        </section>
+
+        <section className="sec">
+          <div className="shell split is-flip">
+            <div className="split-copy" data-r>
+              <p className="mono">The approval step</p>
+              <h2 className="d3">Nothing irreversible happens on its own.</h2>
+              <p className="body">
+                Every system we build proposes; a person commits. That gate is not a limitation we ran out of time to
+                remove — it is the reason these survive a risk review, and the reason they are still running a year
+                later.
+              </p>
+              <ul className="split-list">
+                {['The agent proposes, with its reasoning shown', 'A named human approves', 'The action and the approver are both logged'].map((t) => (
+                  <li key={t}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                        <path d="M2.5 7.5l3 3 6-7" stroke="currentColor" strokeWidth="1.5" fill="none"
+                          strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
+              <img src="/void/sec-approve.webp" alt="" loading="lazy" decoding="async" />
+            </div>
           </div>
         </section>
 
