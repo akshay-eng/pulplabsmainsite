@@ -63,3 +63,23 @@ so it was repainted white with its alpha preserved. The other three are unmodifi
 All five platforms now carry a supplied mark. The drawn abstract fallback remains in
 `PlatformMark.jsx` for any platform added later without one — a guessed-at approximation of a
 trademark would be worse.
+
+
+## Client logos — `public/logos/client-*.webp`
+
+`client-pps.webp` (Power & Pack Solutions) and `client-ue.webp` (Urban Ethnographers) are the
+clients' own marks, supplied by the site owner. Both are shown **unmodified**, on their own
+background colour, with the plate behind them in CSS set to match — no knocking out, no
+recolouring. A trademark recoloured to fit a palette stops being the trademark, and keying a
+near-white ground out of a small raster leaves fringing on every antialiased edge.
+
+Each testimonial takes its accent from the client's brand: `rgb(222, 0, 13)` sampled from the
+Power & Pack flame, `rgb(248, 200, 8)` from the Urban Ethnographers ground.
+
+**Size note:** the Power & Pack source is only 143x39 after trimming, so it is rendered at 22px
+tall — deliberately smaller than the other. Scaled up it is only a bigger blur. A vector or a
+larger raster would let it sit at the same size as the Urban Ethnographers mark.
+
+**Before launch:** confirm both clients are happy to be named and quoted publicly. The quotes
+are currently attributed to "Name Surname" and need real names or explicit permission to stay
+anonymous.

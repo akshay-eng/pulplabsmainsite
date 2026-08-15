@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Voices from '@/components/void/Voices'
 import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
@@ -36,19 +37,6 @@ const TELEMETRY = [
   ['4', 'Platform certifications'],
 ]
 
-
-const VOICES = [
-  [
-    'Quotes that took our team two days now go out in twenty minutes. The PulpLabs team understood our pricing rules better than some of our own hires.',
-    'Name Surname',
-    'Director, Power & Pack Solutions',
-  ],
-  [
-    'Our researchers stopped tagging transcripts and started interpreting them. The coding framework is still ours — the machine just keeps up with it now.',
-    'Name Surname',
-    'Principal, Urban Ethnographers',
-  ],
-]
 
 
 
@@ -279,20 +267,12 @@ export default function Home() {
 
         {/* ── Voices ───────────────────────────────────────────────────── */}
         <section className="sec-sm">
-          <div className="shell-wide">
+          <div className="shell">
             <header className="sec-h" data-r>
               <p className="mono">What clients say</p>
+              <h2 className="d2">In their words.</h2>
             </header>
-            <ul className="voices">
-              {VOICES.map(([q, name, org], i) => (
-                <li key={org} data-r style={{ '--rd': `${i * 80}ms` }}>
-                  <p className="d3 voice-q">“{q}”</p>
-                  <p className="mono">
-                    {name} · {org}
-                  </p>
-                </li>
-              ))}
-            </ul>
+            <Voices />
           </div>
         </section>
 
