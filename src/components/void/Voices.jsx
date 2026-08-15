@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { getClient } from '@/data/clients'
 
 /* Client testimonials, two at a time.
  *
@@ -15,26 +16,22 @@ import { useCallback, useEffect, useRef, useState } from 'react'
  * out or recoloured; a trademark recoloured to fit a palette stops being the
  * trademark. */
 const VOICES = [
+  /* The client record is spread FIRST and the quote's own fields follow it —
+     the record carries `name` for the company, this carries `name` for the
+     person, and the person has to win. */
   {
+    ...getClient('pps'),
+    org: getClient('pps').name,
     q: 'Quotes that took our team two days now go out in twenty minutes. The PulpLabs team understood our pricing rules better than some of our own hires.',
     name: 'Name Surname',
     role: 'Director',
-    org: 'Power & Pack Solutions',
-    logo: '/logos/client-pps.webp',
-    ground: '#f8f8f8',
-    accent: '222, 0, 13',
-    // 143x39 in the source, so it is held small on purpose — scaled to match
-    // the other it would only be a bigger blur.
-    small: true,
   },
   {
+    ...getClient('ue'),
+    org: getClient('ue').name,
     q: 'Our researchers stopped tagging transcripts and started interpreting them. The coding framework is still ours — the machine just keeps up with it now.',
     name: 'Name Surname',
     role: 'Principal',
-    org: 'Urban Ethnographers',
-    logo: '/logos/client-ue.webp',
-    ground: '#f8c808',
-    accent: '248, 200, 8',
   },
 
   /* ── PLACEHOLDERS — replace before launch ──────────────────────────────

@@ -1973,13 +1973,7 @@ canvas {
   flex-wrap: wrap;
 }
 
-.trust-logos li {
-  padding: 7px 14px;
-  border: 1px solid var(--line-1);
-  border-radius: 8px;
-  font-size: 0.8125rem;
-  color: var(--w-2);
-}
+.trust-logos li { display: flex; }
 
 .trust-counts {
   list-style: none;
@@ -3920,3 +3914,28 @@ textarea {
 .vx-item[data-ph] .vx-wash { opacity: 0.5; }
 .vx-org { display: block; opacity: var(--w-4); margin-top: 4px; font-size: 10.5px; }
 .vx-item[data-ph] .vx-role { color: var(--w-1); opacity: var(--w-2-o, 0.62); }
+
+/* Client marks in the Trusted by row. Same treatment as the testimonial
+   plates: the logo keeps its own background and the plate matches it, so the
+   two read as one shape and no trademark is knocked out or recoloured. */
+.trust-logos { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; list-style: none; padding: 0; }
+
+.cl-plate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 320ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.cl-plate img { height: 24px; width: auto; display: block; }
+/* Source is 143px wide, so any larger is a blur rather than a bigger logo. */
+.cl-plate img.is-small { height: 16px; }
+
+@media (hover: hover) { .trust-logos li:hover .cl-plate { transform: translateY(-2px); } }
+@media (prefers-reduced-motion: reduce) {
+  .cl-plate { transition-duration: 1ms; }
+  .trust-logos li:hover .cl-plate { transform: none; }
+}

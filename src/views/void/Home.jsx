@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { clients } from '@/data/clients'
 import Voices from '@/components/void/Voices'
 import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
@@ -90,8 +91,14 @@ export default function Home() {
           <div className="shell-wide trust-in">
             <span className="mono">Trusted by</span>
             <ul className="trust-logos">
-              <li>Power &amp; Pack Solutions</li>
-              <li>Urban Ethnographers</li>
+              {clients.map((c) => (
+                <li key={c.id}>
+                  <span className="cl-plate" style={{ background: c.ground }}>
+                    <img src={c.logo} alt={c.name} className={c.small ? 'is-small' : undefined}
+                      loading="lazy" decoding="async" />
+                  </span>
+                </li>
+              ))}
             </ul>
             <ul className="trust-counts">
               {COUNTS.map(([n, l]) => (
