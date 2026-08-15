@@ -9,7 +9,14 @@
  * shown unmodified, never knocked out or recoloured, because a trademark
  * recoloured to fit a palette stops being the trademark.
  *
- * `small` means the source file is too low-resolution to render at full size.
+ * `shape` sizes the mark against the others. These lockups range from 1.6:1
+ * to 10:1, so matching them on height alone makes the square one tiny and the
+ * long one enormous — each is sized so they carry roughly equal weight:
+ *   wide    the default, a normal horizontal lockup
+ *   xwide   very long and thin, held shorter so it does not dominate a row
+ *   blocky  close to square, given more height so it is not a stamp
+ *   small   low-resolution source, held down because scaling it only blurs it
+ *
  * `accent` is sampled from the artwork, not guessed.
  */
 export const clients = [
@@ -20,7 +27,25 @@ export const clients = [
     ground: '#f8f8f8',
     accent: '222, 0, 13',
     // 143x39 after trimming — scaled up it is only a bigger blur.
-    small: true,
+    shape: 'small',
+  },
+  {
+    id: 'moveforward',
+    name: 'moveForward_',
+    logo: '/logos/client-moveforward.webp',
+    // Its own navy ground. The accent is the orange mark, not the ground —
+    // navy on an AMOLED page would be invisible.
+    ground: '#083868',
+    accent: '240, 144, 80',
+    shape: 'blocky', // 200x123, close to square
+  },
+  {
+    id: 'bluesea',
+    name: 'Blue Sea Powertech',
+    logo: '/logos/client-bluesea.webp',
+    ground: '#f8f8f8',
+    accent: '0, 116, 217',
+    shape: 'xwide', // 667x66, ten to one
   },
   {
     id: 'ue',

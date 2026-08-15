@@ -34,6 +34,28 @@ const VOICES = [
     role: 'Principal',
   },
 
+  /* DRAFT QUOTES — both clients are real and their logos are theirs, but these
+     words are ours, not theirs. Get each one confirmed in writing before this
+     goes live: a quote attributed to a named company that they did not say is
+     a fabricated reference, and it is worse than an anonymous placeholder
+     precisely because it looks credible. */
+  {
+    ...getClient('moveforward'),
+    org: getClient('moveforward').name,
+    q: 'They shipped the boring half first — the bit that cleaned up our data. It made everything after it cheaper, which nobody else had suggested.',
+    name: 'Name Surname',
+    role: 'Founder',
+    draft: true,
+  },
+  {
+    ...getClient('bluesea'),
+    org: getClient('bluesea').name,
+    q: 'Our field reports used to sit in an inbox for a week. They are summarised and routed the same day now, and the escalation rules are ones we wrote.',
+    name: 'Name Surname',
+    role: 'Operations Director',
+    draft: true,
+  },
+
   /* ── PLACEHOLDERS — replace before launch ──────────────────────────────
      These four are written copy, not real client quotes. They are here so the
      carousel has something to page to while real ones are collected.
@@ -56,18 +78,6 @@ const VOICES = [
     q: 'It went into our own environment, against our own ticketing system. Our security team signed it off in one session rather than three.',
     role: 'CTO',
     org: 'Financial services · 400 staff',
-    placeholder: true,
-  },
-  {
-    q: 'Six weeks in, two of our engineers were extending it without help. That was the actual deliverable — the tool was almost a side effect.',
-    role: 'Engineering Manager',
-    org: 'Professional services · 90 staff',
-    placeholder: true,
-  },
-  {
-    q: 'Every action still waits for one of us to approve it. That sounded like a limitation at first and turned out to be why it is still running.',
-    role: 'Service Delivery Lead',
-    org: 'Healthcare · 2,000 staff',
     placeholder: true,
   },
 ]
@@ -124,8 +134,7 @@ export default function Voices() {
                 <span className="vx-mark" aria-hidden="true" />
               ) : (
                 <span className="vx-plate" style={{ background: v.ground }}>
-                  <img src={v.logo} alt={v.org} className={v.small ? 'is-small' : undefined}
-                    loading="lazy" decoding="async" />
+                  <img src={v.logo} alt={v.org} data-shape={v.shape} loading="lazy" decoding="async" />
                 </span>
               )}
               <span className="vx-who">

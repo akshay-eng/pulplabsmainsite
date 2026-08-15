@@ -67,7 +67,8 @@ trademark would be worse.
 
 ## Client logos — `public/logos/client-*.webp`
 
-`client-pps.webp` (Power & Pack Solutions) and `client-ue.webp` (Urban Ethnographers) are the
+`client-pps.webp` (Power & Pack Solutions), `client-ue.webp` (Urban Ethnographers),
+`client-moveforward.webp` (moveForward_) and `client-bluesea.webp` (Blue Sea Powertech) are the
 clients' own marks, supplied by the site owner. Both are shown **unmodified**, on their own
 background colour, with the plate behind them in CSS set to match — no knocking out, no
 recolouring. A trademark recoloured to fit a palette stops being the trademark, and keying a
@@ -84,7 +85,11 @@ larger raster would let it sit at the same size as the Urban Ethnographers mark.
 
 1. Confirm both clients are happy to be named and quoted publicly. Their quotes are currently
    attributed to "Name Surname" and need real names, or explicit permission to stay anonymous.
-2. **Four of the six testimonials are placeholders** — written copy, not real quotes. They are
+2. **The moveForward_ and Blue Sea Powertech quotes are DRAFTS.** Those two clients are real and
+   the logos are theirs, but the words are ours. Get each confirmed in writing before launch — a
+   quote attributed to a named company that they did not say is a fabricated reference, and it is
+   worse than an anonymous placeholder precisely because it looks credible.
+3. **Two of the six testimonials are anonymous placeholders** — written copy, not real quotes. They are
    marked `placeholder: true` in `src/components/void/Voices.jsx` and render without a logo, with
    only a role and a sector ("Head of IT Operations · Manufacturing · 1,200 staff"). They carry no
    company name and no person's name deliberately, so none can be mistaken for a real reference.

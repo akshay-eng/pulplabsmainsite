@@ -3839,8 +3839,9 @@ textarea {
   overflow: hidden;
 }
 .vx-plate img { height: 30px; width: auto; display: block; }
-/* Held small on purpose: the source is 143px wide, so any more is a blur. */
-.vx-plate img.is-small { height: 20px; }
+.vx-plate img[data-shape='small'] { height: 20px; }
+.vx-plate img[data-shape='xwide'] { height: 21px; }
+.vx-plate img[data-shape='blocky'] { height: 42px; }
 
 .vx-name { display: block; font-size: 14.5px; letter-spacing: -0.012em; }
 .vx-role { display: block; opacity: var(--w-3); margin-top: 5px; font-size: 10.5px; }
@@ -3931,8 +3932,9 @@ textarea {
   transition: transform 320ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 .cl-plate img { height: 24px; width: auto; display: block; }
-/* Source is 143px wide, so any larger is a blur rather than a bigger logo. */
-.cl-plate img.is-small { height: 16px; }
+.cl-plate img[data-shape='small'] { height: 16px; }   /* 143px source; larger is just blur */
+.cl-plate img[data-shape='xwide'] { height: 17px; }   /* 10:1, would run away on height */
+.cl-plate img[data-shape='blocky'] { height: 36px; }  /* near-square, needs the height */
 
 @media (hover: hover) { .trust-logos li:hover .cl-plate { transform: translateY(-2px); } }
 @media (prefers-reduced-motion: reduce) {

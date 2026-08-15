@@ -25,3 +25,8 @@ yarn-error.log*
 # Next.js
 .next/
 next-env.d.ts
+
+# Agent skills installed by `npx skills add` — vendored third-party
+# instruction files, not this site's source.
+.agents/
+skills-lock.json

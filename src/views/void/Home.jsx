@@ -94,8 +94,7 @@ export default function Home() {
               {clients.map((c) => (
                 <li key={c.id}>
                   <span className="cl-plate" style={{ background: c.ground }}>
-                    <img src={c.logo} alt={c.name} className={c.small ? 'is-small' : undefined}
-                      loading="lazy" decoding="async" />
+                    <img src={c.logo} alt={c.name} data-shape={c.shape} loading="lazy" decoding="async" />
                   </span>
                 </li>
               ))}
