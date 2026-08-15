@@ -236,30 +236,44 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ── Blueprints ───────────────────────────────────────────────
+            The two we get asked about most, shown large enough that the
+            screen itself makes the argument. */}
         <section className="sec">
-          <div className="shell split is-flip">
-            <div className="split-copy" data-r>
-              <p className="mono">Handover</p>
-              <h2 className="d3">You are not left depending on us.</h2>
-              <p className="body">
-                Your code, your documentation, your trained team. Staying on afterwards is your option, not a
-                dependency we engineer in — and we would rather you did not need us.
-              </p>
-              <ul className="split-list">
-                {['The codebase, in your repository', 'Documentation your on-call can use', 'A team trained to extend it'].map((t) => (
-                  <li key={t}>
-                    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-                      <path d="M2.5 7.5l3 3 6-7" stroke="currentColor" strokeWidth="1.5" fill="none"
-                        strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
-              <img src="/void/sec-handover.webp" alt="" loading="lazy" decoding="async" />
-            </div>
+          <div className="shell">
+            <header className="sec-h" data-r>
+              <p className="mono">Blueprints</p>
+              <h2 className="d2">
+                What one actually looks like <span className="dim">in your queue.</span>
+              </h2>
+            </header>
+
+            <ul className="bps">
+              {[
+                ['bp-incident', 'incident-intelligence', 'Incident Intelligence',
+                 'Triage that opens with the correlated history and the runbook already attached.'],
+                ['bp-change', 'change-copilot', 'Change Copilot',
+                 'Change records drafted and risk-scored against the rules your CAB actually applies.'],
+              ].map(([img, slug, name, desc], i) => (
+                <li key={slug} data-r style={{ '--rd': `${i * 80}ms` }}>
+                  <Link href={`/services/${slug}`} className="bp">
+                    <span className="bp-art">
+                      <img src={`/void/${img}.webp`} alt="" loading="lazy" decoding="async" />
+                    </span>
+                    <span className="bp-body">
+                      <span className="bp-t">
+                        {name}
+                        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                          <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.4" fill="none"
+                            strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                      <span className="body bp-d">{desc}</span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
