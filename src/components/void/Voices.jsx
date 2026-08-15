@@ -2,18 +2,17 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-/* Client testimonials, two at a time.
+/* Client testimonials, one at a time.
  *
- * A scroll-snap track rather than index maths: it gives native touch swipe on
- * phones for free, and lets the same markup show two side by side on a wide
- * screen and one on a narrow one without the component knowing which.
+ * Each slide carries its client's brand: the logo on a plate in the company's
+ * own ground colour, and a wash of their accent behind the quote. That is the
+ * one place on this site where colour is not ours — which is the point, since
+ * the whole section is somebody else speaking.
  *
- * Each quote carries its client's brand — their mark on a plate in their own
- * ground colour, and a wash of their accent in the corner. That is the one
- * place colour on this site is not ours, which is the point: the section is
- * somebody else speaking. The logos are shown unmodified rather than knocked
- * out or recoloured; a trademark recoloured to fit a palette stops being the
- * trademark. */
+ * The logos are shown unmodified on their own background rather than knocked
+ * out or recoloured. A trademark recoloured to fit a palette stops being the
+ * trademark, and keying white out of a 150px JPEG-adjacent PNG leaves fringing
+ * on every antialiased edge. */
 const VOICES = [
   {
     q: 'Quotes that took our team two days now go out in twenty minutes. The PulpLabs team understood our pricing rules better than some of our own hires.',
@@ -23,8 +22,8 @@ const VOICES = [
     logo: '/logos/client-pps.webp',
     ground: '#f8f8f8',
     accent: '222, 0, 13',
-    // 143x39 in the source, so it is held small on purpose — scaled to match
-    // the other it would only be a bigger blur.
+    // 143x39 in the original, so it is held small deliberately — scaled up it
+    // would only be a bigger blur.
     small: true,
   },
   {
@@ -39,94 +38,89 @@ const VOICES = [
 ]
 
 export default function Voices() {
-  const track = useRef(null)
-  const [page, setPage] = useState(0)
-  const [pages, setPages] = useState(1)
+  const [i, setI] = useState(0)
+  const live = useRef(null)
+  const v = VOICES[i]
 
-  // How many pages there are depends on how many fit, which depends on the
-  // viewport — so it is measured rather than assumed.
-  const measure = useCallback(() => {
-    const el = track.current
-    if (!el) return
-    setPages(Math.max(1, Math.round(el.scrollWidth / el.clientWidth)))
-    setPage(Math.round(el.scrollLeft / el.clientWidth))
-  }, [])
+  const go = useCallback((n) => setI((c) => (n + VOICES.length) % VOICES.length), [])
+
+  // Left/right arrows work when the carousel itself has focus, which is what
+  // a keyboard user expects from a role="group" carousel.
+  const onKey = (e) => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(i + 1) }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(i - 1) }
+  }
 
   useEffect(() => {
-    const el = track.current
-    if (!el) return
-    measure()
-    const ro = new ResizeObserver(measure)
-    ro.observe(el)
-    el.addEventListener('scroll', measure, { passive: true })
-    return () => { ro.disconnect(); el.removeEventListener('scroll', measure) }
-  }, [measure])
-
-  const goTo = (n) => {
-    const el = track.current
-    if (!el) return
-    const clamped = Math.max(0, Math.min(n, pages - 1))
-    el.scrollTo({
-      left: clamped * el.clientWidth,
-      behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-    })
-  }
-
-  const onKey = (e) => {
-    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(page + 1) }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(page - 1) }
-  }
+    // No autoplay: a quote you cannot finish reading is worse than no quote.
+    // Announce changes instead, so a screen reader follows the manual moves.
+    if (live.current) live.current.textContent = `Testimonial ${i + 1} of ${VOICES.length}`
+  }, [i])
 
   return (
-    <div className="vx" role="group" aria-roledescription="carousel" aria-label="Client testimonials">
-      <div className="vx-track" ref={track} tabIndex={0} onKeyDown={onKey}>
-        {VOICES.map((v) => (
-          <blockquote className="vx-item" key={v.org} style={{ '--accent': v.accent }}>
-            <span className="vx-wash" aria-hidden="true" />
-            <p className="vx-q">{v.q}</p>
-            <footer className="vx-foot">
-              <span className="vx-plate" style={{ background: v.ground }}>
-                <img src={v.logo} alt={v.org} className={v.small ? 'is-small' : undefined}
-                  loading="lazy" decoding="async" />
-              </span>
-              <span className="vx-who">
-                <span className="vx-name">{v.name}</span>
-                <span className="mono vx-role">{v.role} · {v.org}</span>
-              </span>
-            </footer>
-          </blockquote>
-        ))}
+    <div
+      className="vx"
+      role="group"
+      aria-roledescription="carousel"
+      aria-label="Client testimonials"
+      tabIndex={0}
+      onKeyDown={onKey}
+      style={{ '--accent': v.accent }}
+    >
+      <div className="vx-wash" aria-hidden="true" />
+
+      <blockquote className="vx-slide" key={i}>
+        <p className="vx-q">{v.q}</p>
+
+        <footer className="vx-foot">
+          <span className="vx-plate" style={{ background: v.ground }}>
+            <img
+              src={v.logo}
+              alt={v.org}
+              className={v.small ? 'is-small' : undefined}
+              loading="lazy"
+              decoding="async"
+            />
+          </span>
+          <span className="vx-who">
+            <span className="vx-name">{v.name}</span>
+            <span className="mono vx-role">{v.role} · {v.org}</span>
+          </span>
+        </footer>
+      </blockquote>
+
+      <div className="vx-bar">
+        <div className="vx-dots">
+          {VOICES.map((x, n) => (
+            <button
+              key={x.org}
+              type="button"
+              className="vx-dot"
+              data-on={n === i || undefined}
+              aria-label={`Show testimonial from ${x.org}`}
+              aria-current={n === i ? 'true' : undefined}
+              onClick={() => setI(n)}
+            />
+          ))}
+        </div>
+
+        <div className="vx-nav">
+          <button type="button" className="vx-btn" aria-label="Previous testimonial" onClick={() => go(i - 1)}>
+            <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" fill="none"
+                strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <button type="button" className="vx-btn" aria-label="Next testimonial" onClick={() => go(i + 1)}>
+            <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" fill="none"
+                strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* Hidden when everything already fits — controls that page through one
-          page are furniture pretending to be a control. */}
-      {pages > 1 && (
-        <div className="vx-bar">
-          <div className="vx-dots">
-            {Array.from({ length: pages }, (_, n) => (
-              <button key={n} type="button" className="vx-dot" data-on={n === page || undefined}
-                aria-label={`Go to page ${n + 1} of ${pages}`} aria-current={n === page ? 'true' : undefined}
-                onClick={() => goTo(n)} />
-            ))}
-          </div>
-          <div className="vx-nav">
-            <button type="button" className="vx-btn" aria-label="Previous testimonials"
-              disabled={page === 0} onClick={() => goTo(page - 1)}>
-              <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
-                <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" fill="none"
-                  strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-            <button type="button" className="vx-btn" aria-label="Next testimonials"
-              disabled={page >= pages - 1} onClick={() => goTo(page + 1)}>
-              <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
-                <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" fill="none"
-                  strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      )}
+      <p ref={live} className="sr-only" aria-live="polite" />
     </div>
   )
 }
