@@ -5,14 +5,26 @@ with a SQLite-backed blog, an admin CMS and a REST API.
 
 ## Pages
 
-| Route       | Page     | What's on it                                                                                       |
-| ----------- | -------- | -------------------------------------------------------------------------------------------------- |
-| `/`         | Home     | Hero, trusted-by strip, practice-area preview, engagement steps, testimonials, enablement, contact |
-| `/services` | Services | Five-area catalogue, enterprise accelerators, case studies, CTA                                     |
-| `/team`     | Team     | Six-person roster, platform certifications, CTA                                                     |
-| `/blog`     | Blog     | Post index from the database, category and tag filters, newsletter                                 |
-| `/blog/[slug]` | Post  | Server-rendered article, table of contents, related posts, full SEO metadata                       |
-| `/admin`    | CMS      | Sign-in, post list, markdown editor. Gated by middleware, `noindex`                                 |
+The site is navigated on two axes — **capabilities × industries** — which is the structural
+difference between a consultancy and a product. See [PRODUCT.md](PRODUCT.md) for the positioning
+that governs this.
+
+| Route                    | Page       | What's on it                                                                       |
+| ------------------------ | ---------- | ---------------------------------------------------------------------------------- |
+| `/`                      | Home       | Hero, trust strip, accreditation row, industries grid, client work, engagement steps, voices, insights |
+| `/services`              | Capabilities | Five practices as an accordion, each cross-linked to the sectors it has been used in |
+| `/industries`            | Industries | Index of the four sectors we have delivered in                                     |
+| `/industries/[sector]`   | Sector     | What we see, what we do there, the client outcome, and the capabilities behind it   |
+| `/case-studies`          | Work       | Case-study index. Falls back to an honest empty state with attributed outcomes      |
+| `/case-studies/[slug]`   | Case study | Server-rendered write-up with metrics, related work, full SEO metadata              |
+| `/about`                 | About      | Engagement model, principles, roster, accreditation                                 |
+| `/contact`               | Contact    | Form, ending in a pre-filled `mailto:`                                              |
+| `/blog`                  | Insights   | Post index from the database, category and tag filters, newsletter                  |
+| `/blog/[slug]`           | Post       | Server-rendered article, table of contents, related posts, full SEO metadata        |
+| `/admin`                 | CMS        | Sign-in, post list, markdown editor. Gated by middleware, `noindex`                 |
+
+`/team` is a permanent redirect to `/about` — the roster moved there to sit with the engagement
+model and the accreditation.
 
 ## Running it
 
@@ -31,22 +43,30 @@ the admin is upserted and posts are matched on slug.
 
 ```
 src/
-├── components/     Navbar, footers, logo, icons, forms, shared bits
-├── data/           Page content — copy, colours and metrics live here, not in JSX
+├── components/
+│   ├── void/       Nav, Footer, NextPage, LoopVideo — the live chrome
+│   └── apple/      Chevron and Reveal are still used; the rest is dead
+├── data/           Page content — capabilities, industries, firm, team, blog
 ├── app/            Routes: marketing pages, /blog, /admin, /api, sitemap, robots, feed
-├── lib/            db.js, posts.js, markdown.js, auth.js, motion.js, assistant.js
-├── views/          Home, Services, Team — the marketing page bodies
-└── styles/         global → refined → components → blog → ai-dock (load order matters)
-
-`views/` rather than `pages/` on purpose: `pages/` is reserved by Next and these components
-would be picked up as Pages Router routes.
+├── lib/            db.js, posts.js, cases.js, markdown.js, auth.js, llm.js, assistant.js
+├── views/
+│   └── void/       Home, Services, Industries, Industry, Work, About, Contact — LIVE
+└── styles/         void.css (live) + ai-dock.css, loaded in app/layout.jsx
 ```
 
-Content is separated from markup on purpose: to change a service blurb, a team member or a blog
-post, edit the matching file in `src/data/` — no JSX changes needed.
+`views/` rather than `pages/` on purpose: `pages/` is reserved by Next and these components would
+be picked up as Pages Router routes.
 
-Stylesheets load in that order and each layer builds on the one before, so `refined.css` can
-override `global.css` without specificity hacks. Tokens live at the top of the first two.
+**Three design systems exist; only one is live.** Every marketing route renders `views/void/*`
+against `styles/void.css`. `views/*.jsx` (the "fruit" system) and `views/apple/*` are dead code
+kept for reference, along with `global.css`, `refined.css`, `components.css` and `apple.css`.
+`/blog` is the last route still loading the legacy light stylesheets — converting it to void is
+the outstanding piece of the dark redesign.
+
+Content is separated from markup on purpose: to change a practice blurb, a sector, a team member
+or a blog post, edit the matching file in `src/data/` — no JSX changes needed. `capabilities.js`
+and `industries.js` cross-reference each other by id, which is what makes the two axes navigable
+in both directions.
 
 ## Assistant dock
 
@@ -144,11 +164,13 @@ LLM_REASONING_EFFORT=low                      # low suits simple grounded lookup
 - The contact and newsletter forms validate and acknowledge locally. Point `ContactForm` and
   `NewsletterForm` at a real endpoint before launch.
 - The assistant dock cannot actually book anything — see "Assistant dock" above.
-- The telemetry panel is headed "Live estate telemetry"; the figures are static values from
-  `src/views/Home.jsx`, not a live feed. Reword if that framing overstates it.
-- Team names, bios, photos and social links in `src/data/team.js` are placeholders.
+- **No case studies are published.** `/case-studies` renders an honest empty state that points at
+  the two attributed client outcomes on the industry pages. Seed real work through `/admin/cases`
+  and the index, the home page and the sitemap all pick it up automatically.
+- Team names, bios, photos and social links in `src/data/team.js` are placeholders. The roster on
+  `/about` says "name pending" rather than inventing six people.
 - The seeded blog posts are stubs — the originals were titles and excerpts only. Rewrite them in
   the admin.
-- Case-study copy on `/services` is still placeholder.
+- `/blog` still loads the legacy light stylesheets, so Insights jars against the dark site.
 - Set `NEXT_PUBLIC_SITE_URL` in production, or every canonical URL, OG tag, sitemap entry and RSS
   link will point at localhost.

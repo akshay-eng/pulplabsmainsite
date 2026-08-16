@@ -7,60 +7,20 @@ import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
 import LoopVideo from '@/components/void/LoopVideo'
 import { useScrollProgress } from '@/lib/apple-motion'
+import { industries } from '@/data/industries'
+import { engagementSteps, alliances, voices } from '@/data/firm'
 
-
+/* Firm-shaped figures, not inventory. The previous set counted "accelerators in
+   production", which is how a vendor describes a product line. */
 const COUNTS = [
-  ['8+', 'accelerators'],
-  ['4', 'certifications'],
+  ['4', 'sectors delivered in'],
+  ['4', 'platforms accredited'],
   ['6', 'people'],
 ]
 
-/* Capability names, looped. Not client logos — inventing those would put
-   claimed customers on a live site. The two real client names stay in the
-   trust strip above. */
-const CAPABILITIES = [
-  'Incident Intelligence',
-  'Change Copilot',
-  'Patch Orchestrator',
-  'Agent Migration',
-  'Lead Engine',
-  'Support Desk',
-  'Marketing Studio',
-  'Social Autopilot',
-]
-
-const TELEMETRY = [
-  ['4×', 'Faster quote turnaround'],
-  ['4', 'Weeks to first system live'],
-  ['8+', 'Accelerators in production'],
-  ['4', 'Platform certifications'],
-]
-
-
-const STEPS = [
-  ['Discover', 'A structured audit of the workflow, the data behind it, and what a win would measurably look like.'],
-  ['Scope & propose', 'A fixed scope, timeline and estimate built from your requirement — not a rate card.'],
-  ['Build & evaluate', 'Weekly increments, with evaluation gates before anything touches production.'],
-  ['Hand over', 'Your code, your documentation, your trained team — with managed ops if you want it.'],
-]
-
-const VOICES = [
-  [
-    'Quotes that took our team two days now go out in twenty minutes. The PulpLabs team understood our pricing rules better than some of our own hires.',
-    'Name Surname',
-    'Director, Power & Pack Solutions',
-  ],
-  [
-    'Our researchers stopped tagging transcripts and started interpreting them. The coding framework is still ours — the machine just keeps up with it now.',
-    'Name Surname',
-    'Principal, Urban Ethnographers',
-  ],
-]
-
-
-
-export default function Home() {
+export default function Home({ posts = [] }) {
   const plate = useScrollProgress()
+  const proven = industries.filter((i) => i.proof)
 
   return (
     <div className="grain">
@@ -88,19 +48,18 @@ export default function Home() {
             </h1>
 
             <p className="lede hero-l measure-w">
-              PulpLabs is an AI consultancy and engineering firm. Operational accelerators for enterprises, growth
-              solutions for small teams, and the hands-on enablement that makes both stick.
+              PulpLabs is an AI consultancy and engineering firm. We scope from discovery, build in weekly increments
+              and hand over what we build — for enterprise operations teams and for small businesses.
             </p>
 
             <div className="hero-cta">
-              <Link href="#contact" className="btn">
+              <Link href="/contact" className="btn">
                 Book a 30-min consultation <Chevron />
               </Link>
-              <Link href="/services" className="btn btn-ghost">
-                View service catalogue
+              <Link href="/industries" className="btn btn-ghost">
+                Who we work with
               </Link>
             </div>
-
           </div>
         </section>
 
@@ -121,122 +80,168 @@ export default function Home() {
             </ul>
           </div>
 
-          {/* What we ship, on a loop */}
-          <div className="marq" aria-hidden="true">
-            <div className="marq-track">
-              {[0, 1].map((copy) => (
-                <div className="marq-group" key={copy}>
-                  {CAPABILITIES.map((c) => (
-                    <span className="marq-item" key={c}>
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── Measured outcomes ────────────────────────────────────────── */}
-        <section className="sec" ref={plate}>
-          <div className="shell-wide">
-            <header className="sec-h" data-r>
-              <p className="mono">Measured outcomes</p>
-              <h2 className="d2">
-                We ship against numbers, <span className="dim">not adjectives.</span>
-              </h2>
-            </header>
-
-            <div className="tel" data-r>
-              <div className="tel-img" aria-hidden="true">
-                <img src="/void/aperture-glow.webp" alt="" loading="lazy" decoding="async" />
-              </div>
-
-              <div className="tel-head">
-                <span className="mono tel-live">
-                  <span className="tel-pip" />
-                  Live estate telemetry
-                </span>
-                <span className="mono">Aggregate · 8 deployments</span>
-              </div>
-
-              <div className="tel-body">
-                <article className="tel-lead">
-                  <span className="tel-n">−38%</span>
-                  <p className="mono">Mean time to resolution</p>
-                  <p className="body">
-                    Incident Intelligence triages and correlates against your live queue, so the first responder opens
-                    with context instead of a blank search box.
-                  </p>
-                </article>
-
-                <ul className="tel-grid">
-                  {TELEMETRY.map(([n, l]) => (
-                    <li key={l}>
-                      <span className="tel-n sm">{n}</span>
-                      <span className="mono">{l}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="flow">
-        {/* ── How we engage ────────────────────────────────────────────── */}
-        <section className="sec">
-          <div className="shell">
-            <header className="sec-h" data-r>
-              <p className="mono">How we engage</p>
-              <h2 className="d2">
-                Discover. Build. <span className="dim">Hand over.</span>
-              </h2>
-            </header>
-
-            <ol className="proc">
-              {STEPS.map(([t, b], i) => (
-                <li key={t} data-r style={{ '--rd': `${i * 65}ms` }}>
-                  <span className="mono proc-n">{String(i + 1).padStart(2, '0')}</span>
-                  <div>
-                    <h3 className="h4">{t}</h3>
-                    <p className="body">{b}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        {/* ── Voices ───────────────────────────────────────────────────── */}
-        <section className="sec-sm">
-          <div className="shell-wide">
-            <header className="sec-h" data-r>
-              <p className="mono">What clients say</p>
-            </header>
-            <ul className="voices">
-              {VOICES.map(([q, name, org], i) => (
-                <li key={org} data-r style={{ '--rd': `${i * 80}ms` }}>
-                  <p className="d3 voice-q">“{q}”</p>
-                  <p className="mono">
-                    {name} · {org}
-                  </p>
+          {/* Accreditation as a static row. The previous version looped eight
+              capitalised system names past the reader, which is how a platform
+              shows its modules — the single strongest product signal on the
+              page. These four are formal, verifiable and belong to somebody
+              else, which is what makes them worth showing. */}
+          <div className="shell-wide alli">
+            <span className="mono alli-k">Accredited on</span>
+            <ul className="alli-list">
+              {alliances.map(([n, issuer]) => (
+                <li key={n}>
+                  <span className="alli-n">{n}</span>
+                  <span className="mono alli-i">{issuer}</span>
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
+        {/* ── Industries ───────────────────────────────────────────────── */}
+        {/* The second axis, surfaced high. A buyer's first question is whether
+            you have seen their problem before, not what your product does. */}
+        <section className="sec" ref={plate}>
+          <div className="shell-wide">
+            <header className="sec-h" data-r>
+              <p className="mono">Industries</p>
+              <h2 className="d2">
+                We work where we have <span className="dim">shipped before.</span>
+              </h2>
+            </header>
+
+            <ul className="ind-grid">
+              {industries.map((ind, i) => (
+                <li key={ind.slug} data-r style={{ '--rd': `${i * 60}ms` }}>
+                  <Link href={`/industries/${ind.slug}`}>
+                    <span className="mono ind-grid-k">{ind.kicker}</span>
+                    <span className="d3 ind-grid-n">{ind.name}</span>
+                    <span className="body ind-grid-b">{ind.title}</span>
+                    <span className="ind-grid-go" aria-hidden="true"><Chevron /></span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <div className="flow">
+          {/* ── Client work ────────────────────────────────────────────── */}
+          {/* Replaces the "Live estate telemetry" panel, which looked like a
+              live dashboard but was hardcoded. These figures belong to named
+              clients and are checkable. */}
+          <section className="sec">
+            <div className="shell-wide">
+              <header className="sec-h" data-r>
+                <p className="mono">Client work</p>
+                <h2 className="d2">
+                  We ship against numbers, <span className="dim">not adjectives.</span>
+                </h2>
+              </header>
+
+              <ul className="cw">
+                {proven.map((ind, i) => (
+                  <li key={ind.slug} data-r style={{ '--rd': `${i * 80}ms` }}>
+                    <Link href={`/industries/${ind.slug}`}>
+                      <span className="mono cw-k">{ind.proof.client} · {ind.name}</span>
+                      <span className="d3 cw-t">{ind.title}</span>
+                      <span className="cw-out">
+                        {ind.proof.outcomes.map(([fig, cap]) => (
+                          <span key={cap}>
+                            <b>{fig}</b>
+                            <i className="mono">{cap}</i>
+                          </span>
+                        ))}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="mono cw-note" data-r>
+                <Link href="/case-studies">All client work →</Link>
+              </p>
+            </div>
+          </section>
+
+          {/* ── How we engage ──────────────────────────────────────────── */}
+          <section className="sec">
+            <div className="shell">
+              <header className="sec-h" data-r>
+                <p className="mono">How we engage</p>
+                <h2 className="d2">
+                  Discover. Build. <span className="dim">Hand over.</span>
+                </h2>
+              </header>
+
+              <ol className="proc">
+                {engagementSteps.map(([t, b], i) => (
+                  <li key={t} data-r style={{ '--rd': `${i * 65}ms` }}>
+                    <span className="mono proc-n">{String(i + 1).padStart(2, '0')}</span>
+                    <div>
+                      <h3 className="h4">{t}</h3>
+                      <p className="body">{b}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </section>
+
+          {/* ── Voices ─────────────────────────────────────────────────── */}
+          <section className="sec-sm">
+            <div className="shell-wide">
+              <header className="sec-h" data-r>
+                <p className="mono">What clients say</p>
+              </header>
+              <ul className="voices">
+                {voices.map(([q, name, org], i) => (
+                  <li key={org} data-r style={{ '--rd': `${i * 80}ms` }}>
+                    <p className="d3 voice-q">&ldquo;{q}&rdquo;</p>
+                    <p className="mono">
+                      {name} · {org}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
         </div>
 
-        <NextPage
-          href="/services"
-          title="Capabilities"
-        />
+        {/* ── Insights ─────────────────────────────────────────────────── */}
+        {/* The credibility engine on both reference sites. A firm publishes a
+            point of view; a product publishes a changelog. */}
+        {posts.length > 0 && (
+          <section className="sec">
+            <div className="shell-wide">
+              <header className="sec-h" data-r>
+                <p className="mono">Insights</p>
+                <h2 className="d2 measure">What we are working out in the open.</h2>
+              </header>
+
+              <ul className="ins">
+                {posts.map((p, i) => (
+                  <li key={p.slug} data-r style={{ '--rd': `${i * 60}ms` }}>
+                    <Link href={`/blog/${p.slug}`}>
+                      {p.category && <span className="mono ins-k">{p.category}</span>}
+                      <span className="h4 ins-t">{p.title}</span>
+                      {p.excerpt && <span className="body ins-b">{p.excerpt}</span>}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="mono cw-note" data-r>
+                <Link href="/blog">All insights →</Link>
+              </p>
+            </div>
+          </section>
+        )}
+
+        <NextPage href="/services" title="Capabilities" />
       </main>
 
       <Footer />
     </div>
   )
 }
-

@@ -5,11 +5,16 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useScrolled } from '@/lib/apple-motion'
 
+/* Two axes, not one. A services firm is navigated by what it does AND who it
+   serves; a product is navigated by what the thing is. Adding Industries
+   alongside Capabilities is the clearest structural signal of the difference.
+   Contact is not listed — the CTA beside these links already goes there. */
 const LINKS = [
-  { href: '/', label: 'Overview' },
   { href: '/services', label: 'Capabilities' },
-  { href: '/team', label: 'Team' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/industries', label: 'Industries' },
+  { href: '/case-studies', label: 'Work' },
+  { href: '/blog', label: 'Insights' },
+  { href: '/about', label: 'About' },
 ]
 
 export default function Nav() {

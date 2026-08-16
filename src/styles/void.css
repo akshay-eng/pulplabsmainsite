@@ -950,7 +950,7 @@ canvas {
 
 .ft-cols {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 28px;
   padding-block: clamp(30px, 4vw, 44px);
 }
@@ -984,9 +984,16 @@ canvas {
   border-top: 1px solid var(--line-1);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
   .ft-cols {
     grid-template-columns: 1fr 1fr;
+    gap: 32px 28px;
+  }
+}
+
+@media (max-width: 460px) {
+  .ft-cols {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1994,202 +2001,270 @@ canvas {
   font-weight: 500;
 }
 
-/* ---- marquee ---- */
+/* ---- accreditation row ----
+   Replaces the capability marquee. Eight branded system names scrolling past
+   the reader is how a platform shows its modules; these four are formal
+   accreditations issued by somebody else, which is why they can sit still and
+   be read rather than needing motion to seem impressive. */
 
-.marq {
-  overflow: hidden;
+.alli {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  gap: 16px 34px;
+  align-items: start;
   border-top: 1px solid var(--line-1);
-  padding-block: 16px;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  padding-block: clamp(20px, 2.4vw, 28px);
 }
 
-.marq-track {
-  display: flex;
-  width: max-content;
-  /* Two copies translating exactly -50% — the second lands where the first
-     began, so the seam is invisible. */
-  animation: marq 46s linear infinite;
-}
-
-.marq:hover .marq-track {
-  animation-play-state: paused;
-}
-
-.marq-group {
-  display: flex;
-  gap: 12px;
-  padding-right: 12px;
-}
-
-.marq-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
+.alli-k {
+  padding-top: 0.35em;
   white-space: nowrap;
-  padding: 8px 16px;
-  border: 1px solid var(--line-1);
-  border-radius: 100px;
-  font-size: 0.8125rem;
-  color: var(--w-3);
 }
 
-.marq-item::before {
-  content: '';
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--w-2);
-  flex: none;
-}
-
-@keyframes marq {
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marq-track {
-    animation: none;
-  }
-  .marq {
-    overflow-x: auto;
-  }
-}
-
-/* ---- telemetry ---- */
-
-.tel {
-  position: relative;
-  border: 1px solid var(--line-1);
-  border-radius: 20px;
-  overflow: hidden;
-  isolation: isolate;
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.tel-img {
-  position: absolute;
-  right: -10%;
-  top: -40%;
-  width: 60%;
-  height: 180%;
-  z-index: -1;
-  mix-blend-mode: screen;
-  opacity: 0.4;
-  -webkit-mask-image: radial-gradient(55% 55% at 50% 50%, #000, transparent 78%);
-  mask-image: radial-gradient(55% 55% at 50% 50%, #000, transparent 78%);
-}
-
-.tel-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.tel-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding: 18px clamp(20px, 2.6vw, 32px);
-  border-bottom: 1px solid var(--line-1);
-}
-
-.tel-live {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: var(--w-1);
-}
-
-.tel-pip {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--w-1);
-  animation: pip 2.6s var(--ease-out) infinite;
-}
-
-@keyframes pip {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
-  }
-  70%,
-  100% {
-    box-shadow: 0 0 0 9px rgba(255, 255, 255, 0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .tel-pip {
-    animation: none;
-  }
-}
-
-.tel-body {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 1px;
-  background: var(--line-1);
-}
-
-.tel-lead {
-  background: transparent;
-  padding: clamp(26px, 3vw, 40px);
-  display: grid;
-  gap: 10px;
-  align-content: start;
-}
-
-.tel-n {
-  font-size: clamp(3rem, 6vw, 4.75rem);
-  line-height: 1;
-  letter-spacing: -0.045em;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-}
-
-.tel-n.sm {
-  font-size: clamp(1.75rem, 3vw, 2.375rem);
-}
-
-.tel-lead .body {
-  margin-top: 6px;
-  max-width: 46ch;
-}
-
-.tel-grid {
+.alli-list {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--line-1);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px 24px;
 }
 
-.tel-grid li {
-  background: #000;
-  padding: clamp(20px, 2.4vw, 28px);
+.alli-list li {
   display: grid;
-  gap: 8px;
-  align-content: center;
+  gap: 3px;
+  padding-left: 15px;
+  border-left: 1px solid var(--line-1);
+}
+
+.alli-n {
+  font-size: 0.875rem;
+  color: var(--w-1);
+  letter-spacing: -0.008em;
+}
+
+.alli-i {
+  color: var(--w-4);
 }
 
 @media (max-width: 860px) {
-  .tel-body {
+  .alli {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .alli-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .alli-list {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 520px) {
-  .tel-grid {
+/* ---- client work ----
+   Replaces the "Live estate telemetry" panel. That panel had a pulsing live
+   pip and a "8 deployments" readout over figures hardcoded in the view — a
+   status dashboard is a product's furniture, and a fabricated one is worse.
+   These figures belong to named clients and link through to the engagement. */
+
+.cw {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line-1);
+  border: 1px solid var(--line-1);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.cw li {
+  background: var(--void);
+  transition: background-color var(--t-hover) var(--ease-out);
+}
+
+.cw li > a {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  height: 100%;
+  padding: clamp(26px, 3vw, 38px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cw li:hover {
+    background: var(--raise-1);
+  }
+}
+
+.cw-k {
+  color: var(--w-4);
+}
+
+.cw-t {
+  max-width: 22ch;
+}
+
+.cw-out {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin-top: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-1);
+}
+
+.cw-out > span {
+  display: grid;
+  gap: 2px;
+}
+
+.cw-out b {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cw-out i {
+  font-style: normal;
+  color: var(--w-4);
+}
+
+.cw-note {
+  margin: 22px 0 0;
+  color: var(--w-3);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cw-note a:hover {
+    color: var(--w-1);
+  }
+}
+
+@media (max-width: 760px) {
+  .cw {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---- industries grid (home) ---- */
+
+.ind-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line-1);
+  border: 1px solid var(--line-1);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.ind-grid li {
+  background: var(--void);
+  transition: background-color var(--t-hover) var(--ease-out);
+}
+
+.ind-grid li > a {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  height: 100%;
+  padding: clamp(24px, 2.6vw, 32px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ind-grid li:hover {
+    background: var(--raise-1);
+  }
+  .ind-grid li:hover .ind-grid-go {
+    transform: translateX(3px);
+    color: var(--w-1);
+  }
+}
+
+.ind-grid-k {
+  color: var(--w-4);
+}
+
+.ind-grid-b {
+  max-width: 26ch;
+}
+
+.ind-grid-go {
+  margin-top: 6px;
+  color: var(--w-3);
+  transition:
+    transform var(--t-hover) var(--ease-out),
+    color var(--t-hover) var(--ease-out);
+}
+
+@media (max-width: 1000px) {
+  .ind-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .ind-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- insights teaser ---- */
+
+.ins {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line-1);
+  border-block: 1px solid var(--line-1);
+}
+
+.ins li {
+  background: var(--void);
+  transition: background-color var(--t-hover) var(--ease-out);
+}
+
+.ins li > a {
+  display: grid;
+  gap: 9px;
+  align-content: start;
+  height: 100%;
+  padding: clamp(24px, 2.6vw, 32px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ins li:hover {
+    background: var(--raise-1);
+  }
+}
+
+.ins-k {
+  color: var(--w-4);
+}
+
+.ins-b {
+  max-width: 40ch;
+}
+
+@media (max-width: 860px) {
+  .ins {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 /* ---- section head with a trailing link ---- */
 
@@ -2361,9 +2436,10 @@ canvas {
   max-width: 42ch;
 }
 
-.ft-cols {
-  grid-template-columns: repeat(3, 1fr);
-}
+/* The column count lives with the base .ft-cols rule and its breakpoints
+   further up. Restating it here — unconditionally, after those media queries —
+   overrode every one of them, so the footer kept its desktop column count all
+   the way down to mobile. */
 
 /* The page head's bottom padding and the next section's top padding stacked
    into a gap wide enough to read as a missing element. */
@@ -2625,4 +2701,589 @@ canvas {
     backdrop-filter: none !important;
     text-shadow: none;
   }
+}
+
+/* ==========================================================================
+   Industries — the second navigation axis
+
+   A services firm is navigated by what it does AND who it serves. These
+   surfaces carry the "who", and every one of them links back to the "what".
+   ========================================================================== */
+
+/* ---- index rows ---- */
+
+.ind-ix {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line-1);
+}
+
+.ind-ix li {
+  border-bottom: 1px solid var(--line-1);
+  transition: background-color var(--t-hover) var(--ease-out);
+}
+
+.ind-row {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 260px 24px;
+  gap: 24px;
+  align-items: center;
+  padding-block: clamp(26px, 3vw, 38px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ind-ix li:hover {
+    background: var(--raise-1);
+  }
+  .ind-ix li:hover .ind-arrow {
+    transform: translateX(4px);
+    color: var(--w-1);
+  }
+}
+
+.ind-n {
+  color: var(--w-4);
+}
+
+.ind-body {
+  display: grid;
+  gap: 7px;
+}
+
+.ind-lede {
+  max-width: 46ch;
+}
+
+.ind-tags {
+  color: var(--w-4);
+  line-height: 1.7;
+}
+
+.ind-arrow {
+  color: var(--w-3);
+  transition:
+    transform var(--t-hover) var(--ease-out),
+    color var(--t-hover) var(--ease-out);
+}
+
+@media (max-width: 1000px) {
+  .ind-row {
+    grid-template-columns: 44px minmax(0, 1fr) 24px;
+  }
+  .ind-tags {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 560px) {
+  .ind-row {
+    grid-template-columns: 34px minmax(0, 1fr);
+    align-items: start;
+  }
+  .ind-arrow {
+    display: none;
+  }
+}
+
+/* ---- breadcrumb ---- */
+
+.ind-crumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: var(--w-4);
+  margin-bottom: 20px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ind-crumb a:hover {
+    color: var(--w-1);
+  }
+}
+
+/* ---- what we do here ---- */
+
+.ind-work {
+  padding-bottom: 0;
+}
+
+/* ---- outcome figures ---- */
+
+.ind-out {
+  list-style: none;
+  margin: 30px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px 52px;
+}
+
+.ind-out li {
+  display: grid;
+  gap: 4px;
+}
+
+.ind-fig {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- capabilities behind a sector ---- */
+
+.ind-caps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line-1);
+  border: 1px solid var(--line-1);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.ind-caps li {
+  background: var(--void);
+  transition: background-color var(--t-hover) var(--ease-out);
+}
+
+.ind-caps li > a {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  height: 100%;
+  padding: clamp(24px, 2.6vw, 32px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ind-caps li:hover {
+    background: var(--raise-1);
+  }
+}
+
+@media (max-width: 860px) {
+  .ind-caps {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- capability -> sectors, on /services ---- */
+
+.cat-ind {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 16px;
+  padding: 18px 0 clamp(26px, 3vw, 36px);
+  color: var(--w-3);
+}
+
+.cat-ind-k {
+  color: var(--w-4);
+}
+
+.cat-ind a {
+  border-bottom: 1px solid var(--line-2);
+  padding-bottom: 1px;
+  transition:
+    color var(--t-hover) var(--ease-out),
+    border-color var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cat-ind a:hover {
+    color: var(--w-1);
+    border-bottom-color: var(--w-1);
+  }
+}
+
+/* ==========================================================================
+   Client work — index, empty state and the case-study page
+   ========================================================================== */
+
+.work-ix {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line-1);
+}
+
+.work-ix li {
+  border-bottom: 1px solid var(--line-1);
+  transition: background-color var(--t-hover) var(--ease-out);
+}
+
+.work-row {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 24px;
+  gap: clamp(20px, 3vw, 40px);
+  align-items: center;
+  padding-block: clamp(24px, 2.8vw, 34px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .work-ix li:hover {
+    background: var(--raise-1);
+  }
+  .work-ix li:hover .work-arrow {
+    transform: translateX(4px);
+    color: var(--w-1);
+  }
+}
+
+.work-art {
+  display: block;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line-1);
+  background: var(--raise-1);
+}
+
+.work-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+  opacity: 0.82;
+}
+
+.work-body {
+  display: grid;
+  gap: 8px;
+}
+
+.work-client {
+  color: var(--w-4);
+}
+
+.work-title {
+  max-width: 26ch;
+}
+
+.work-sum {
+  max-width: 62ch;
+}
+
+.work-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 32px;
+  margin-top: 8px;
+}
+
+.work-metrics > span {
+  display: grid;
+  gap: 2px;
+}
+
+.work-metrics b {
+  font-size: 1.375rem;
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.work-metrics i {
+  font-style: normal;
+  color: var(--w-4);
+}
+
+.work-arrow {
+  color: var(--w-3);
+  transition:
+    transform var(--t-hover) var(--ease-out),
+    color var(--t-hover) var(--ease-out);
+}
+
+@media (max-width: 800px) {
+  .work-row {
+    grid-template-columns: 120px minmax(0, 1fr);
+  }
+  .work-arrow {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .work-row {
+    grid-template-columns: 1fr;
+  }
+  .work-art {
+    max-width: 200px;
+  }
+}
+
+/* ---- empty state ----
+   Reads as a deliberate statement rather than a grid waiting to be filled:
+   why it is empty, then the real attributed outcomes anyway. */
+
+.work-empty {
+  display: grid;
+  gap: 14px;
+  padding: clamp(30px, 4vw, 48px);
+  border: 1px solid var(--line-1);
+  border-radius: 18px;
+  background: var(--raise-1);
+}
+
+.work-empty-h {
+  max-width: 34ch;
+}
+
+.work-empty-b {
+  max-width: 62ch;
+}
+
+.work-attr {
+  list-style: none;
+  margin: clamp(28px, 3vw, 40px) 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1px;
+  background: var(--line-1);
+  border: 1px solid var(--line-1);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.work-attr li {
+  background: var(--void);
+  transition: background-color var(--t-hover) var(--ease-out);
+}
+
+.work-attr li > a {
+  display: grid;
+  gap: 9px;
+  padding: clamp(24px, 2.8vw, 34px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .work-attr li:hover {
+    background: var(--raise-1);
+  }
+}
+
+.work-attr-k {
+  color: var(--w-4);
+}
+
+.work-attr-t {
+  max-width: 36ch;
+}
+
+.work-attr-out {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 34px;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-1);
+}
+
+.work-attr-out > span {
+  display: grid;
+  gap: 2px;
+}
+
+.work-attr-out b {
+  font-size: 1.5rem;
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.work-attr-out i {
+  font-style: normal;
+  color: var(--w-4);
+}
+
+/* ---- case-study page ---- */
+
+.cs-client {
+  margin-bottom: 14px;
+  color: var(--w-3);
+}
+
+.cs-metrics {
+  list-style: none;
+  margin: clamp(30px, 4vw, 46px) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px 52px;
+}
+
+.cs-metrics li {
+  display: grid;
+  gap: 4px;
+}
+
+.cs-cover {
+  margin: clamp(30px, 4vw, 48px) 0 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line-1);
+  aspect-ratio: 16 / 8;
+}
+
+.cs-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.04);
+  opacity: 0.86;
+}
+
+.cs-body {
+  padding-block: clamp(48px, 6vw, 84px);
+}
+
+/* ==========================================================================
+   Prose — long-form article body on black
+
+   Written against the same tokens as the rest of the system so a case study
+   reads as part of the site rather than a document pasted into it. Body drops
+   to --w-2 for the same reason it does elsewhere: pure white at reading size
+   on true black blooms at the edges.
+   ========================================================================== */
+
+.prose {
+  max-width: 68ch;
+  color: var(--w-2);
+  font-size: 1.0625rem;
+  line-height: 1.72;
+  letter-spacing: -0.009em;
+}
+
+.prose > * + * {
+  margin-top: 1.15em;
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--w-1);
+  font-weight: 500;
+  letter-spacing: -0.024em;
+  line-height: 1.2;
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+}
+
+.prose h2 {
+  font-size: clamp(1.5rem, 2.6vw, 1.95rem);
+}
+
+.prose h3 {
+  font-size: 1.25rem;
+}
+
+.prose h4 {
+  font-size: 1.0625rem;
+}
+
+.prose a {
+  color: var(--w-1);
+  border-bottom: 1px solid var(--line-3);
+  transition: border-color var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .prose a:hover {
+    border-bottom-color: var(--w-1);
+  }
+}
+
+.prose strong {
+  color: var(--w-1);
+  font-weight: 500;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.3em;
+  display: grid;
+  gap: 0.5em;
+}
+
+.prose li::marker {
+  color: var(--w-4);
+}
+
+.prose blockquote {
+  margin: 1.8em 0;
+  padding: 4px 0 4px 24px;
+  border-left: 1px solid var(--line-2);
+  color: var(--w-1);
+  font-size: 1.1875rem;
+  line-height: 1.5;
+  letter-spacing: -0.016em;
+}
+
+.prose blockquote p {
+  margin: 0;
+}
+
+.prose code {
+  font-family: 'Berkeley Mono', ui-monospace, 'SF Mono', 'JetBrains Mono', monospace;
+  font-size: 0.875em;
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+  background: var(--raise-2);
+  color: var(--w-1);
+}
+
+.prose pre {
+  overflow-x: auto;
+  padding: 20px 22px;
+  border-radius: 14px;
+  border: 1px solid var(--line-1);
+  background: var(--raise-1);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+}
+
+.prose img {
+  border-radius: 14px;
+  border: 1px solid var(--line-1);
+}
+
+.prose hr {
+  height: 1px;
+  border: 0;
+  background: var(--line-1);
+  margin-block: 2.4em;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.prose th,
+.prose td {
+  text-align: left;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line-1);
+}
+
+.prose th {
+  color: var(--w-1);
+  font-weight: 500;
 }

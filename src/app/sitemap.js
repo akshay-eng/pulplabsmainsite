@@ -1,16 +1,31 @@
 import { listPublished } from '@/lib/posts'
 import { listPublishedCases } from '@/lib/cases'
+import { industries } from '@/data/industries'
 import { SITE_URL } from './layout'
 
 /* Next generates /sitemap.xml from this. Posts carry their real lastModified
-   so crawlers can tell an edit from a no-op. */
+   so crawlers can tell an edit from a no-op.
+
+   /team is deliberately absent — it is a permanent redirect to /about, and
+   listing a 308 in a sitemap just spends crawl budget to be told to go
+   somewhere else. */
 export default function sitemap() {
   const staticPages = [
     { url: '/', priority: 1.0, changeFrequency: 'monthly' },
     { url: '/services', priority: 0.9, changeFrequency: 'monthly' },
-    { url: '/team', priority: 0.7, changeFrequency: 'monthly' },
+    { url: '/industries', priority: 0.9, changeFrequency: 'monthly' },
+    { url: '/case-studies', priority: 0.8, changeFrequency: 'monthly' },
+    { url: '/about', priority: 0.7, changeFrequency: 'monthly' },
+    { url: '/contact', priority: 0.7, changeFrequency: 'yearly' },
     { url: '/blog', priority: 0.9, changeFrequency: 'weekly' },
   ].map((p) => ({ ...p, url: `${SITE_URL}${p.url}`, lastModified: new Date() }))
+
+  const sectors = industries.map((i) => ({
+    url: `${SITE_URL}/industries/${i.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.8,
+  }))
 
   const posts = listPublished({ limit: 1000 }).map((p) => ({
     url: `${SITE_URL}/blog/${p.slug}`,
@@ -26,5 +41,5 @@ export default function sitemap() {
     priority: 0.8,
   }))
 
-  return [...staticPages, ...posts, ...cases]
+  return [...staticPages, ...sectors, ...posts, ...cases]
 }

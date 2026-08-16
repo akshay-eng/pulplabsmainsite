@@ -36,7 +36,7 @@ const KNOWLEDGE = [
     id: 'accelerators',
     patterns: ['accelerator', 'accelerators', 'incident', 'change copilot', 'patch', 'migration', 'itsm', 'cmdb'],
     answer:
-      'Four accelerators ship today, all deployed inside your estate rather than as a hosted SaaS:\n\n' +
+      'Four systems we bring into an engagement and then shape to your estate — a starting point rather than a blank page, and not something you buy off the page:\n\n' +
       '**Incident Intelligence** — triage, correlation and suggested remediation on your live queue.\n' +
       '**Change Copilot** — risk scoring and change-record drafting against your CAB rules.\n' +
       '**Patch Orchestrator** — patch sequencing with rollback paths.\n' +
@@ -80,11 +80,12 @@ const KNOWLEDGE = [
     id: 'team',
     patterns: ['team', 'who are you', 'people', 'founder', 'staff', 'certified', 'certification', 'credentials'],
     answer:
-      'A six-person team — AI architects, delivery leads and ML engineers — certified across four platforms: ' +
+      'A six-person team — AI architects, delivery leads and ML engineers — formally accredited on four platforms: ' +
       '**Claude**, **OpenAI**, **Copilot Studio** and **IBM watsonx Orchestrate**.\n\n' +
-      'You can see the full roster on the Team page.',
+      'There are no account managers between you and the engineer. The roster, the engagement model and the ' +
+      'accreditation are all on the About page.',
     chips: ['See the team', 'Book a call'],
-    action: { type: 'navigate', to: '/team', label: 'See the team' },
+    action: { type: 'navigate', to: '/about', label: 'See the team' },
   },
   {
     id: 'pricing',
@@ -119,17 +120,40 @@ const KNOWLEDGE = [
   {
     id: 'results',
     patterns: ['result', 'results', 'roi', 'case study', 'proof', 'evidence', 'outcome', 'metrics', 'mttr'],
+    /* Only outcomes a named client has agreed to. The previous answer cited an
+       "MTTR down 38%" figure that came from a hardcoded panel on the home page
+       rather than from any engagement, and counted accelerators as if they
+       were inventory. */
     answer:
-      'Representative numbers from deployed work: **MTTR down 38%**, **quote turnaround 4× faster**, and **8+ accelerators** in production.\n\n' +
-      'Case studies are on the Services page. Happy to walk through a comparable engagement on a call.',
-    chips: ['See case studies', 'Book a call'],
-    action: { type: 'navigate', to: '/services', label: 'See case studies' },
+      'Two engagements we can put numbers to:\n\n' +
+      '**Power & Pack Solutions** (manufacturing) — quote turnaround **4× faster**, **62%** of enquiries handled ' +
+      'without a person, **9 hours** returned per week.\n' +
+      '**Urban Ethnographers** (research) — **70%** less manual coding, **3×** the interviews per study, a draft ' +
+      'insight deck in **one day**.\n\n' +
+      'The long-form write-ups are with those clients for sign-off, so the work page is short for now. Happy to walk ' +
+      'through either one properly on a call.',
+    chips: ['See client work', 'Book a call'],
+    action: { type: 'navigate', to: '/case-studies', label: 'See client work' },
+  },
+  {
+    id: 'industries',
+    patterns: ['industry', 'industries', 'sector', 'sectors', 'vertical', 'manufacturing', 'research', 'it operations', 'who do you work with', 'clients'],
+    answer:
+      'Four sectors, and we only list the ones we have actually shipped in:\n\n' +
+      '**IT operations** — incident, change and patch work inside enterprise ITSM and CMDB.\n' +
+      '**Manufacturing** — quoting and enquiry handling where pricing rules live in someone\'s head.\n' +
+      '**Research & insight** — transcript coding and theme clustering against a team\'s own framework.\n' +
+      '**Small business** — leads, support, marketing and social for teams without an IT department.\n\n' +
+      'If yours is not on that list it means we have not shipped in it yet, not that we cannot — the method travels ' +
+      'further than the sector list does.',
+    chips: ['See the industries', 'Book a call'],
+    action: { type: 'navigate', to: '/industries', label: 'See the industries' },
   },
   {
     id: 'security',
     patterns: ['security', 'secure', 'data', 'privacy', 'compliance', 'gdpr', 'audit', 'governance', 'risk', 'on-prem', 'onprem'],
     answer:
-      'Accelerators are deployed **inside your estate**, not as a multi-tenant SaaS — your data does not leave your boundary for us to operate them.\n\n' +
+      'Accelerators are deployed **inside your estate** — your data does not leave your boundary, including while we operate them.\n\n' +
       'Advisory engagements include a governance and risk framework, and the Agent Migration accelerator exists specifically to move RPA flows to agents ' +
       'without breaking your audit trail.\n\n' +
       'For a specific compliance regime, a call with an architect is the right next step.',
@@ -139,17 +163,17 @@ const KNOWLEDGE = [
     id: 'blog',
     patterns: ['blog', 'article', 'writing', 'post', 'posts', 'read', 'newsletter', 'open source'],
     answer:
-      'The blog covers engineering field notes and playbooks — recent pieces include why incident bots keep guessing and how evals fix it, ' +
+      'Insights covers engineering field notes and playbooks — recent pieces include why incident bots keep guessing and how evals fix it, ' +
       'and migrating RPA flows to agents without breaking audit.',
-    chips: ['Read the blog', 'Book a call'],
-    action: { type: 'navigate', to: '/blog', label: 'Read the blog' },
+    chips: ['Read the insights', 'Book a call'],
+    action: { type: 'navigate', to: '/blog', label: 'Read the insights' },
   },
   {
     id: 'contact',
     patterns: ['contact', 'email', 'reach', 'phone', 'get in touch', 'talk to', 'speak to', 'human'],
-    answer: `You can reach the team at **${BOOKING_EMAIL}**, use the contact form on the home page, or I can take your details right here.`,
+    answer: `You can reach the team at **${BOOKING_EMAIL}**, use the contact page, or I can take your details right here.`,
     chips: ['Book a call', 'Open contact form'],
-    action: { type: 'navigate', to: '/#contact', label: 'Open contact form' },
+    action: { type: 'navigate', to: '/contact', label: 'Open contact form' },
   },
 ]
 

@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { capabilities } from '@/data/capabilities'
+import { industries } from '@/data/industries'
 
 export default function Footer() {
   return (
@@ -8,29 +10,43 @@ export default function Footer() {
           <div>
             <p className="d3 ft-line">pulplabs.ai</p>
             <p className="body ft-blurb">
-              AI consultancy and engineering. Accelerators, solutions and enablement for enterprises and small
-              businesses.
+              An AI consultancy and engineering firm. We scope from discovery, build in weekly increments, and hand
+              over what we build.
             </p>
           </div>
-          <Link href="/contact" className="btn">Book a call</Link>
+          <Link href="/contact" className="btn">Start a project</Link>
         </div>
 
+        {/* The two axes carry into the footer: what we do, who we serve. */}
         <div className="ft-cols">
-          <nav aria-label="Services">
-            <p className="mono">Services</p>
+          <nav aria-label="Capabilities">
+            <p className="mono">Capabilities</p>
             <ul>
-              <li><Link href="/services">Service catalogue</Link></li>
-              <li><Link href="/services#accelerators">Enterprise accelerators</Link></li>
-              <li><Link href="/services#small-business">Small business solutions</Link></li>
-              <li><Link href="/services#work">Case studies</Link></li>
+              {capabilities.map((c) => (
+                <li key={c.id}>
+                  <Link href={`/services#${c.id}`}>{c.k}</Link>
+                </li>
+              ))}
             </ul>
           </nav>
 
-          <nav aria-label="Company">
-            <p className="mono">Company</p>
+          <nav aria-label="Industries">
+            <p className="mono">Industries</p>
             <ul>
-              <li><Link href="/team">Team</Link></li>
-              <li><Link href="/blog">Blog</Link></li>
+              {industries.map((i) => (
+                <li key={i.slug}>
+                  <Link href={`/industries/${i.slug}`}>{i.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-label="Firm">
+            <p className="mono">Firm</p>
+            <ul>
+              <li><Link href="/about">About</Link></li>
+              <li><Link href="/case-studies">Client work</Link></li>
+              <li><Link href="/blog">Insights</Link></li>
               <li>
                 <a href="https://github.com/pulplabs" target="_blank" rel="noreferrer">GitHub</a>
               </li>
@@ -40,7 +56,7 @@ export default function Footer() {
           <div>
             <p className="mono">Contact</p>
             <ul>
-              <li><Link href="/contact">Book a call</Link></li>
+              <li><Link href="/contact">Start a project</Link></li>
               <li><a href="mailto:hello@pulplabs.ai">hello@pulplabs.ai</a></li>
             </ul>
           </div>
@@ -48,7 +64,7 @@ export default function Footer() {
 
         <div className="ft-base">
           <p className="mono">© {new Date().getFullYear()} PulpLabs. All rights reserved.</p>
-          <p className="mono">Deployed inside your estate</p>
+          <p className="mono">Scoped from discovery</p>
         </div>
       </div>
     </footer>
