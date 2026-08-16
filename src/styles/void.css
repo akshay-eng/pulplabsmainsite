@@ -4153,3 +4153,13 @@ textarea {
     margin-left: 0;
   }
 }
+
+/* Buttons under a split section's copy. */
+.split-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 22px;
+  margin-top: 30px;
+}
+.split-cta .link { display: inline-flex; align-items: center; gap: 7px; }

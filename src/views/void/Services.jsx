@@ -164,7 +164,7 @@ export default function Services() {
 
         {/* Step two: only two of the five contain a catalogue, so this is
             explicitly scoped to them rather than presented as a peer. */}
-        <section className="sec-sm finder-sec">
+        <section className="sec-sm finder-sec" id="catalogue">
           <div className="shell">
             <header className="sec-head" data-r>
               <p className="mono step-k">Step two</p>

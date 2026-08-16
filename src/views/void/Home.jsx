@@ -106,6 +106,48 @@ export default function Home({ cases = [] }) {
           </div>
         </section>
 
+        <div className="flow">
+        {/* ── Advisory and enablement ──────────────────────────────────
+            What comes before a build: the assessment that decides whether to
+            build at all, and the instruction that means your team can keep it
+            once we go. */}
+        <section className="sec">
+          <div className="shell split">
+            <div className="split-copy" data-r>
+              <p className="mono">Where it starts</p>
+              <h2 className="d3">Before anyone writes code.</h2>
+              <p className="body">
+                We map the workflow as it actually runs, cost each step in hours and error rate, and rank what is
+                worth automating against what is not. Then we teach your team to run it — certified instruction on
+                Claude, OpenAI, Copilot, Gemini and watsonx Orchestrate, every session on your own workflows rather
+                than a generic exercise.
+              </p>
+              <ul className="split-list">
+                {[
+                  'A four-week assessment that names what not to build',
+                  'One-day, three-day and one-week cohorts, on-site or online',
+                  'Each cohort leaves with something in production',
+                ].map((t) => (
+                  <li key={t}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                      <path d="M2.5 7.5l3 3 6-7" stroke="currentColor" strokeWidth="1.5" fill="none"
+                        strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="split-cta">
+                <Link href="/services/advisory" className="btn">How an assessment runs</Link>
+                <Link href="/services/enablement" className="link">Platforms and curricula <Chevron /></Link>
+              </div>
+            </div>
+            <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
+              <img src="/void/sec-connect.webp" alt="" loading="lazy" decoding="async" />
+            </div>
+          </div>
+        </section>
+
         {/* ── Function explorer ────────────────────────────────────────
             The catalogue cut by the function that owns the queue, because
             that is how buyers arrive: "I run IT operations", not "I would
@@ -123,59 +165,38 @@ export default function Home({ cases = [] }) {
           </div>
         </section>
 
-        <div className="flow">
-        {/* ── Inside your estate ───────────────────────────────────────
-            Two claims that were only ever made in prose: that this runs on the
-            systems you already have, and that a human holds the approval. Both
-            are the reason enterprise buyers say yes, so both get the space. */}
-        <section className="sec">
-          <div className="shell split">
-            <div className="split-copy" data-r>
-              <p className="mono">Inside your estate</p>
-              <h2 className="d3">It runs on what you already have.</h2>
-              <p className="body">
-                Deployed inside your boundary rather than as multi-tenant SaaS, wired to the ITSM, CMDB and
-                line-of-business systems you already run. Your data does not leave for us to operate any of it.
-              </p>
-              <ul className="split-list">
-                {['ITSM and CMDB you already run', 'Your identity provider and access model', 'No data leaves your boundary'].map((t) => (
-                  <li key={t}>
-                    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-                        <path d="M2.5 7.5l3 3 6-7" stroke="currentColor" strokeWidth="1.5" fill="none"
-                          strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
-              <img src="/void/sec-connect.webp" alt="" loading="lazy" decoding="async" />
-            </div>
-          </div>
-        </section>
-
+        {/* ── Accelerators and solutions ───────────────────────────────
+            What already exists, and the claim that gets it past a security
+            review: it runs inside your boundary, not ours. */}
         <section className="sec">
           <div className="shell split is-flip">
             <div className="split-copy" data-r>
-              <p className="mono">The approval step</p>
-              <h2 className="d3">Nothing irreversible happens on its own.</h2>
+              <p className="mono">What is already built</p>
+              <h2 className="d3">Systems we have run before.</h2>
               <p className="body">
-                Every system we build proposes; a person commits. That gate is not a limitation we ran out of time to
-                remove — it is the reason these survive a risk review, and the reason they are still running a year
-                later.
+                Production-tested accelerators for IT operations — incident triage, change drafting, patch
+                sequencing, agent migration — and growth systems for smaller teams that go live in about four weeks.
+                All of it deployed inside your boundary rather than as multi-tenant SaaS, wired to the ITSM, CMDB and
+                line-of-business systems you already run.
               </p>
               <ul className="split-list">
-                {['The agent proposes, with its reasoning shown', 'A named human approves', 'The action and the approver are both logged'].map((t) => (
+                {[
+                  'Wired to the ITSM and CMDB you already run',
+                  'Your identity provider and your access model',
+                  'Nothing irreversible happens without a named human approving it',
+                ].map((t) => (
                   <li key={t}>
                     <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-                        <path d="M2.5 7.5l3 3 6-7" stroke="currentColor" strokeWidth="1.5" fill="none"
-                          strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      <path d="M2.5 7.5l3 3 6-7" stroke="currentColor" strokeWidth="1.5" fill="none"
+                        strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                     <span>{t}</span>
                   </li>
                 ))}
               </ul>
+              <div className="split-cta">
+                <Link href="/services#catalogue" className="btn">See the catalogue</Link>
+              </div>
             </div>
             <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
               <img src="/void/sec-approve.webp" alt="" loading="lazy" decoding="async" />
