@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import * as Tabs from '@radix-ui/react-tabs'
 import Chevron from '@/components/apple/Chevron'
@@ -56,6 +56,26 @@ export default function FunctionExplorer() {
      arrive wanting to know what we do for them, and the two open-source tabs
      are there for the reader who wants proof, not as the lead. */
   const [active, setActive] = useState('it-operations')
+  const listRef = useRef(null)
+
+  /* Below 900px the rail collapses to a horizontal scroller, and the default
+     tab is the third chip — so it starts off-screen and a visitor sees two
+     chips that do NOT match the panel underneath them. Bring the active chip
+     into view.
+
+     scrollLeft rather than scrollIntoView: the latter also scrolls the
+     document, which would yank the page on load. */
+  useEffect(() => {
+    const list = listRef.current
+    if (!list || list.scrollWidth <= list.clientWidth) return
+
+    const chip = list.querySelector('[data-state="active"]')
+    if (!chip) return
+
+    const left = chip.offsetLeft - (list.clientWidth - chip.offsetWidth) / 2
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    list.scrollTo({ left: Math.max(0, left), behavior: reduced ? 'auto' : 'smooth' })
+  }, [active])
 
   return (
     <Tabs.Root
@@ -68,7 +88,7 @@ export default function FunctionExplorer() {
       <aside className="xp-rail" data-r>
         <p className="mono xp-hint">Use tabs to explore more</p>
 
-        <Tabs.List className="xp-tabs" aria-label="What PulpLabs builds">
+        <Tabs.List className="xp-tabs" aria-label="What PulpLabs builds" ref={listRef}>
           <span className="mono xp-group" aria-hidden="true">Built here</span>
           {OPEN_TABS.map((t) => (
             <Tabs.Trigger key={t.id} value={t.id} className="mono xp-tab">
