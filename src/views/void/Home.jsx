@@ -1,6 +1,8 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Marquee from 'react-fast-marquee'
 import { clients } from '@/data/clients'
 import Voices from '@/components/void/Voices'
 import Nav from '@/components/void/Nav'
@@ -8,41 +10,21 @@ import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
 import LoopVideo from '@/components/void/LoopVideo'
-import { useScrollProgress } from '@/lib/apple-motion'
+import FunctionExplorer from '@/components/void/FunctionExplorer'
+import CaseStudies from '@/components/void/CaseStudies'
 
-
-const COUNTS = [
-  ['8+', 'accelerators'],
-  ['4', 'certifications'],
-  ['6', 'people'],
-]
-
-/* Capability names, looped. Not client logos — inventing those would put
-   claimed customers on a live site. The two real client names stay in the
-   trust strip above. */
-const CAPABILITIES = [
-  'Incident Intelligence',
-  'Change Copilot',
-  'Patch Orchestrator',
-  'Agent Migration',
-  'Lead Engine',
-  'Support Desk',
-  'Marketing Studio',
-  'Social Autopilot',
-]
-
-const TELEMETRY = [
-  ['4×', 'Faster quote turnaround'],
-  ['4', 'Weeks to first system live'],
-  ['8+', 'Accelerators in production'],
-  ['4', 'Platform certifications'],
-]
-
-
-
-
-export default function Home() {
-  const plate = useScrollProgress()
+export default function Home({ cases = [] }) {
+  /* The logo belt is an enhancement over the static row, gated the same way
+     LoopVideo gates autoplay: server and first client render show the static
+     row (so hydration always matches), and the belt mounts only for visitors
+     who have not asked for reduced motion. react-fast-marquee does not check
+     the preference itself, and a paused autoFill belt would show duplicate
+     logos — the static row is the correct fallback, not a stopped belt. */
+  const [belt, setBelt] = useState(false)
+  useEffect(() => {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
+    setBelt(true)
+  }, [])
 
   return (
     <div className="grain">
@@ -90,83 +72,54 @@ export default function Home() {
         <section className="trust">
           <div className="shell-wide trust-in">
             <span className="mono">Trusted by</span>
-            <ul className="trust-logos">
-              {clients.map((c) => (
-                <li key={c.id}>
-                  <span className="cl-plate" style={{ background: c.ground }}>
-                    <img src={c.logo} alt={c.name} data-shape={c.shape} loading="lazy" decoding="async" />
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <ul className="trust-counts">
-              {COUNTS.map(([n, l]) => (
-                <li key={l}>
-                  <b>{n}</b> {l}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* What we ship, on a loop */}
-          <div className="marq" aria-hidden="true">
-            <div className="marq-track">
-              {[0, 1].map((copy) => (
-                <div className="marq-group" key={copy}>
-                  {CAPABILITIES.map((c) => (
-                    <span className="marq-item" key={c}>
-                      {c}
-                    </span>
-                  ))}
+            {belt ? (
+              /* Belt is aria-hidden — autoFill clones every plate to fill the
+                 width, and a screen reader should not announce the same four
+                 clients on repeat. The sr-only list carries the names once. */
+              <>
+                <div className="trust-belt" aria-hidden="true">
+                  <Marquee autoFill pauseOnHover speed={35}>
+                    {clients.map((c) => (
+                      <span className="cl-plate" key={c.id} style={{ background: c.ground }}>
+                        <img src={c.logo} alt="" data-shape={c.shape} loading="lazy" decoding="async" />
+                      </span>
+                    ))}
+                  </Marquee>
                 </div>
-              ))}
-            </div>
+                <ul className="sr-only">
+                  {clients.map((c) => (
+                    <li key={c.id}>{c.name}</li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <ul className="trust-logos">
+                {clients.map((c) => (
+                  <li key={c.id}>
+                    <span className="cl-plate" style={{ background: c.ground }}>
+                      <img src={c.logo} alt={c.name} data-shape={c.shape} loading="lazy" decoding="async" />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </section>
 
-        {/* ── Measured outcomes ────────────────────────────────────────── */}
-        <section className="sec" ref={plate}>
+        {/* ── Function explorer ────────────────────────────────────────
+            The catalogue cut by the function that owns the queue, because
+            that is how buyers arrive: "I run IT operations", not "I would
+            like to browse practice areas". */}
+        <section className="sec">
           <div className="shell-wide">
             <header className="sec-h" data-r>
-              <p className="mono">Measured outcomes</p>
+              <p className="mono">Purpose-built</p>
               <h2 className="d2">
-                We ship against numbers, <span className="dim">not adjectives.</span>
+                Built for the queue <span className="dim">you actually run.</span>
               </h2>
             </header>
 
-            <div className="tel" data-r>
-              <div className="tel-img" aria-hidden="true">
-                <img src="/void/aperture-glow.webp" alt="" loading="lazy" decoding="async" />
-              </div>
-
-              <div className="tel-head">
-                <span className="mono tel-live">
-                  <span className="tel-pip" />
-                  Deployment outcomes
-                </span>
-                <span className="mono">Aggregate · 8 deployments</span>
-              </div>
-
-              <div className="tel-body">
-                <article className="tel-lead">
-                  <span className="tel-n">−38%</span>
-                  <p className="mono">Mean time to resolution</p>
-                  <p className="body">
-                    Incident Intelligence triages and correlates against your live queue, so the first responder opens
-                    with context instead of a blank search box.
-                  </p>
-                </article>
-
-                <ul className="tel-grid">
-                  {TELEMETRY.map(([n, l]) => (
-                    <li key={l}>
-                      <span className="tel-n sm">{n}</span>
-                      <span className="mono">{l}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            <FunctionExplorer />
           </div>
         </section>
 
@@ -281,6 +234,19 @@ export default function Home() {
             <Voices />
           </div>
         </section>
+
+        {/* ── Case studies ─────────────────────────────────────────────── */}
+        {cases.length > 0 && (
+          <section className="sec-sm">
+            <div className="shell-wide">
+              <header className="sec-h cse-head" data-r>
+                <p className="mono">Where this has already run</p>
+                <h2 className="d2">Case studies</h2>
+              </header>
+              <CaseStudies cases={cases} />
+            </div>
+          </section>
+        )}
 
         </div>
 

@@ -1906,7 +1906,7 @@ canvas {
 }
 
 /* ==========================================================================
-   Home — hero chips, trust strip, marquee, telemetry, contact, newsletter
+   Home — trust strip and client logo belt
    ========================================================================== */
 
 .hero-pill-line {
@@ -1953,7 +1953,9 @@ canvas {
 
 .trust {
   border-block: 1px solid var(--line-1);
-  padding-block: 24px 0;
+  /* Symmetric again: the zero bottom padding existed for the pill marquee,
+     which carried its own padding and closed the section. */
+  padding-block: 24px;
 }
 
 .trust-in {
@@ -1961,7 +1963,8 @@ canvas {
   align-items: center;
   gap: 20px 28px;
   flex-wrap: wrap;
-  padding-bottom: 22px;
+  /* The old bottom padding separated this row from the pill marquee's
+     border-top; the section's own padding covers it now. */
 }
 
 .trust-logos {
@@ -1991,199 +1994,159 @@ canvas {
   font-weight: 500;
 }
 
-/* ---- marquee ---- */
+/* ---- client logo belt ----
+   The scrolling variant of .trust-logos, driven by react-fast-marquee, with
+   an edge mask so the loop fades out instead of clipping.
+   The static .trust-logos row remains the reduced-motion (and pre-mount)
+   rendering — see the gate in views/void/Home.jsx. */
 
-.marq {
+.trust-belt {
+  flex: 1;
+  /* Below this the belt wraps onto its own line instead of crushing the
+     label and counts beside it. */
+  min-width: 260px;
   overflow: hidden;
-  border-top: 1px solid var(--line-1);
-  padding-block: 16px;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
-.marq-track {
-  display: flex;
-  width: max-content;
-  /* Two copies translating exactly -50% — the second lands where the first
-     began, so the seam is invisible. */
-  animation: marq 46s linear infinite;
-}
-
-.marq:hover .marq-track {
-  animation-play-state: paused;
-}
-
-.marq-group {
-  display: flex;
-  gap: 12px;
-  padding-right: 12px;
-}
-
-.marq-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  white-space: nowrap;
-  padding: 8px 16px;
-  border: 1px solid var(--line-1);
-  border-radius: 100px;
-  font-size: 0.8125rem;
-  color: var(--w-3);
-}
-
-.marq-item::before {
-  content: '';
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--w-2);
+.trust-belt .cl-plate {
+  margin-right: 14px;
   flex: none;
 }
 
-@keyframes marq {
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
+/* ---- function explorer ----
+   Left rail of function tabs, right panel of that function's solutions.
+   Structure borrowed from the tab-rail-plus-cards pattern; every visual
+   decision is the void system's own. Radix Tabs supplies the roles, the
+   roving focus and the arrow-key navigation, and styles nothing — state
+   arrives as data-state="active" on the trigger. */
+
+.xp {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 72px);
+  align-items: start;
+  margin-top: 34px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .marq-track {
-    animation: none;
-  }
-  .marq {
-    overflow-x: auto;
-  }
+.xp-rail {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  display: grid;
+  gap: 14px;
 }
 
-/* ---- telemetry ---- */
-
-.tel {
-  position: relative;
-  border: 1px solid var(--line-1);
-  border-radius: 20px;
-  overflow: hidden;
-  isolation: isolate;
-  background: rgba(255, 255, 255, 0.02);
+.xp-hint {
+  color: var(--w-4);
 }
 
-.tel-img {
-  position: absolute;
-  right: -10%;
-  top: -40%;
-  width: 60%;
-  height: 180%;
-  z-index: -1;
-  mix-blend-mode: screen;
-  opacity: 0.4;
-  -webkit-mask-image: radial-gradient(55% 55% at 50% 50%, #000, transparent 78%);
-  mask-image: radial-gradient(55% 55% at 50% 50%, #000, transparent 78%);
+.xp-tabs {
+  display: grid;
+  gap: 10px;
 }
 
-.tel-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.tel-head {
+.xp-tab {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding: 18px clamp(20px, 2.6vw, 32px);
-  border-bottom: 1px solid var(--line-1);
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 15px 16px;
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  background: none;
+  color: var(--w-3);
+  cursor: pointer;
+  transition:
+    background-color var(--t-hover) var(--ease-out),
+    border-color var(--t-hover) var(--ease-out),
+    color var(--t-hover) var(--ease-out);
 }
 
-.tel-live {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: var(--w-1);
+@media (hover: hover) and (pointer: fine) {
+  .xp-tab:hover {
+    color: var(--w-1);
+    background: var(--raise-1);
+  }
 }
 
-.tel-pip {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+/* The void inversion of a dark active tab on a light page: the active row is
+   the one solid-white surface in the rail, with a dot as its live mark. */
+.xp-tab[data-state='active'] {
   background: var(--w-1);
-  animation: pip 2.6s var(--ease-out) infinite;
+  border-color: var(--w-1);
+  color: #000;
 }
 
-@keyframes pip {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
-  }
-  70%,
-  100% {
-    box-shadow: 0 0 0 9px rgba(255, 255, 255, 0);
-  }
+.xp-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+  opacity: 0;
+  transition: opacity var(--t-hover) var(--ease-out);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .tel-pip {
-    animation: none;
-  }
+.xp-tab[data-state='active'] .xp-dot {
+  opacity: 1;
 }
 
-.tel-body {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 1px;
-  background: var(--line-1);
+.xp-h {
+  max-width: 24ch;
 }
 
-.tel-lead {
-  background: transparent;
-  padding: clamp(26px, 3vw, 40px);
-  display: grid;
-  gap: 10px;
-  align-content: start;
+.xp-blurb {
+  margin-top: 10px;
+  max-width: 60ch;
 }
 
-.tel-n {
-  font-size: clamp(3rem, 6vw, 4.75rem);
-  line-height: 1;
-  letter-spacing: -0.045em;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
+/* Inside the panel the catalogue's auto-fill grid becomes a strict two-up —
+   four cards read as a quad, two as a pair, never a ragged auto-fit row.
+   Compound selector on purpose: the base .caps rule sits later in this file,
+   so a bare .xp-caps would lose the source-order tiebreak. */
+.caps.xp-caps {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 26px;
 }
 
-.tel-n.sm {
-  font-size: clamp(1.75rem, 3vw, 2.375rem);
+.xp-more {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
 }
 
-.tel-lead .body {
-  margin-top: 6px;
-  max-width: 46ch;
-}
-
-.tel-grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--line-1);
-}
-
-.tel-grid li {
-  background: #000;
-  padding: clamp(20px, 2.4vw, 28px);
-  display: grid;
-  gap: 8px;
-  align-content: center;
-}
-
-@media (max-width: 860px) {
-  .tel-body {
+@media (max-width: 900px) {
+  .xp {
     grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* The rail becomes a scrollable row of chips above the panel. */
+  .xp-rail {
+    position: static;
+  }
+
+  .xp-tabs {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .xp-tab {
+    width: auto;
+    white-space: nowrap;
+    padding: 11px 14px;
+    flex: none;
   }
 }
 
-@media (max-width: 520px) {
-  .tel-grid {
+@media (max-width: 640px) {
+  .caps.xp-caps {
     grid-template-columns: 1fr;
   }
 }
@@ -3925,16 +3888,18 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
-  padding: 0 14px;
-  border-radius: 10px;
+  height: 58px;
+  padding: 0 18px;
+  border-radius: 12px;
   overflow: hidden;
   transition: transform 320ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-.cl-plate img { height: 24px; width: auto; display: block; }
-.cl-plate img[data-shape='small'] { height: 16px; }   /* 143px source; larger is just blur */
-.cl-plate img[data-shape='xwide'] { height: 17px; }   /* 10:1, would run away on height */
-.cl-plate img[data-shape='blocky'] { height: 36px; }  /* near-square, needs the height */
+.cl-plate img { height: 32px; width: auto; display: block; }
+/* 'small' barely moves with the larger plates: the 143px source is the
+   ceiling, and 18px is as far as it goes before retina rendering outruns it. */
+.cl-plate img[data-shape='small'] { height: 18px; }
+.cl-plate img[data-shape='xwide'] { height: 22px; }   /* 10:1, would run away on height */
+.cl-plate img[data-shape='blocky'] { height: 46px; }  /* near-square, needs the height */
 
 @media (hover: hover) { .trust-logos li:hover .cl-plate { transform: translateY(-2px); } }
 @media (prefers-reduced-motion: reduce) {
@@ -4005,3 +3970,186 @@ textarea {
   .mo-list > li:nth-child(even) .mo-art { order: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .mo-list > li { transition-duration: 1ms; } }
+
+/* ==========================================================================
+   Case studies — tab strip over a full-bleed stage
+
+   Structure: a centred row of client tabs, one wide media panel below, and
+   the story card overlaid on the panel's left edge, hanging slightly past
+   its bottom — the overlap is what makes the card read as sitting on the
+   image rather than beside it. Radix Tabs again; state via data-state.
+   ========================================================================== */
+
+.cse-head {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.cse-tabs {
+  display: flex;
+  justify-content: center;
+  gap: clamp(4px, 1.6vw, 18px);
+  margin-top: 20px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cse-tab {
+  font: inherit;
+  font-size: 0.9375rem;
+  letter-spacing: -0.008em;
+  white-space: nowrap;
+  padding: 10px 14px 12px;
+  background: none;
+  border: 0;
+  /* The underline is the active mark, so it exists on every tab and only
+     gains colour when selected — the row never shifts vertically. */
+  border-bottom: 1.5px solid transparent;
+  color: var(--w-3);
+  cursor: pointer;
+  transition:
+    color var(--t-hover) var(--ease-out),
+    border-color var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cse-tab:hover {
+    color: var(--w-1);
+  }
+}
+
+.cse-tab[data-state='active'] {
+  color: var(--w-1);
+  border-bottom-color: var(--w-1);
+}
+
+/* Stage: media and card share the grid cell; the card translates down past
+   the media's bottom edge, and the stage's margin makes room for it. */
+.cse-stage {
+  display: grid;
+  margin-top: 20px;
+}
+
+.cse-stage[data-state='active'] {
+  margin-bottom: 32px;
+}
+
+.cse-media {
+  grid-area: 1 / 1;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line-1);
+  min-height: clamp(280px, 32vw, 420px);
+  background: var(--raise-1);
+}
+
+.cse-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* No grayscale here: this art is generated for the void system (dark
+     ground, one spectral band), and that band is the only colour the system
+     allows itself — flattening it would defeat the point of the artwork. */
+}
+
+.cse-card {
+  grid-area: 1 / 1;
+  align-self: end;
+  justify-self: start;
+  transform: translateY(32px);
+  width: min(400px, calc(100% - 2 * clamp(18px, 4vw, 56px)));
+  margin-left: clamp(18px, 4vw, 56px);
+  padding: clamp(20px, 2.6vw, 30px);
+  border-radius: 16px;
+  background: #0b0b0c;
+  border: 1px solid var(--line-2);
+  display: grid;
+  gap: 10px;
+}
+
+.cse-k {
+  color: var(--w-4);
+}
+
+.cse-s {
+  max-width: 46ch;
+}
+
+.cse-out {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--line-1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 30px;
+}
+
+.cse-out li {
+  display: grid;
+  gap: 2px;
+}
+
+.cse-out b {
+  font-size: 1.25rem;
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cse-out .mono {
+  color: var(--w-4);
+}
+
+.cse-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  margin-top: 6px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--w-1);
+  width: fit-content;
+  border-bottom: 1px solid var(--line-3);
+  padding-bottom: 2px;
+  transition: border-color var(--t-hover) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cse-more:hover {
+    border-bottom-color: var(--w-1);
+  }
+}
+
+@media (max-width: 760px) {
+  /* No overlay at phone widths: the card stacks under the image at full
+     width, and nothing hangs or translates. */
+  .cse-tabs {
+    justify-content: flex-start;
+  }
+
+  .cse-stage {
+    gap: 14px;
+  }
+
+  .cse-stage[data-state='active'] {
+    margin-bottom: 0;
+  }
+
+  .cse-media {
+    grid-area: auto;
+    /* min-height would transfer through the aspect ratio into a min-WIDTH
+       (220px × 16/9 = 391px) and push the panel past the viewport — the
+       ratio alone sizes the height from the column width. */
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+
+  .cse-card {
+    grid-area: auto;
+    transform: none;
+    width: 100%;
+    margin-left: 0;
+  }
+}

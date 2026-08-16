@@ -21,7 +21,7 @@ const CASES = [
     client: 'Power & Pack Solutions',
     industry: 'Manufacturing',
     accent: '#FF6B1A',
-    cover_image: '/art/case-manufacturing.webp',
+    cover_image: '/void/cases/manufacturing.webp',
     position: 0,
     summary:
       'We connected their product catalogue and pricing rules to an AI quoting assistant, and put a support agent on WhatsApp and the website so enquiries stop dying overnight.',
@@ -52,7 +52,7 @@ _Body copy carried over from the original site — edit it in the admin._`,
     client: 'Urban Ethnographers',
     industry: 'Research',
     accent: '#F0384B',
-    cover_image: '/art/case-research.webp',
+    cover_image: '/void/cases/research.webp',
     position: 1,
     summary:
       "Field recordings now transcribe, code and cluster themselves against the team's own framework — researchers spend their time on interpretation instead of tagging.",
