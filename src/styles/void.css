@@ -4153,3 +4153,403 @@ textarea {
     margin-left: 0;
   }
 }
+
+/* ==========================================================================
+   Explorer — rail groups
+
+   The rail now carries two kinds of tab: what we built and published, and
+   what we build for a client. A caption above each run is what makes that a
+   hierarchy rather than five peers, which was the whole problem with six.
+   ========================================================================== */
+
+.xp-group {
+  color: var(--w-4);
+  padding: 4px 2px 2px;
+}
+
+/* First caption has no run above it to separate from. */
+.xp-group:first-child {
+  padding-top: 0;
+}
+
+.xp-group + .xp-tab {
+  margin-top: 2px;
+}
+
+/* Horizontal rail below 900px: the captions would break the scroll row into
+   fragments, so they collapse out and the tabs read as one list. */
+@media (max-width: 900px) {
+  .xp-group {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Assurances — the claims that used to be full-width sections
+   ========================================================================== */
+
+.xp-assure {
+  list-style: none;
+  margin: 30px 0 0;
+  padding: 22px 24px;
+  display: grid;
+  gap: 18px;
+  border: 1px solid var(--line-1);
+  border-radius: 14px;
+  background: var(--raise-1);
+}
+
+.xp-assure li {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.xp-assure svg {
+  margin-top: 4px;
+  opacity: 0.66;
+}
+
+.xp-assure li > span {
+  display: grid;
+  gap: 5px;
+}
+
+.xp-assure .body {
+  max-width: 62ch;
+}
+
+/* ==========================================================================
+   Project cards — open repositories
+
+   Wider than a SolCard and laid out side-on, because these carry a stack row
+   and two or three links rather than a single tagline. Not a link element
+   itself: it holds several distinct destinations, and a card-wide anchor with
+   more anchors inside it is invalid and unusable by keyboard.
+   ========================================================================== */
+
+.projs {
+  list-style: none;
+  margin: 26px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.proj {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line-1);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.014);
+  transition:
+    border-color var(--t-panel) var(--ease-out),
+    background-color var(--t-panel) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .proj:hover {
+    border-color: var(--line-2);
+    background: var(--raise-1);
+  }
+}
+
+.proj-art {
+  display: block;
+  position: relative;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+  background: var(--void);
+  border-bottom: 1px solid var(--line-1);
+}
+
+.proj-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.proj-body {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 20px;
+  flex: 1;
+}
+
+.proj-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.proj-n {
+  display: block;
+}
+
+.proj-tag {
+  color: var(--w-1);
+}
+
+.proj-d {
+  max-width: 54ch;
+}
+
+.proj-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 3px;
+}
+
+.proj-chip {
+  padding: 4px 10px;
+  border: 1px solid var(--line-1);
+  border-radius: 100px;
+  font-size: 0.75rem;
+  color: var(--w-3);
+}
+
+/* Pushed to the bottom so the link row sits on one baseline across a pair of
+   cards with different amounts of copy. */
+.proj-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.proj-link {
+  font-size: 0.8125rem;
+}
+
+.proj-link.is-dim {
+  color: var(--w-3);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .proj-link:hover {
+    color: var(--w-1);
+  }
+  .proj-link:hover svg {
+    transform: translate(2px, -2px);
+  }
+}
+
+@media (max-width: 1080px) {
+  .projs {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Spotlight — writing that lives on PulpLabs Learn
+   ========================================================================== */
+
+.spot {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.spot-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--line-1);
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.014);
+  color: inherit;
+  transition:
+    border-color var(--t-panel) var(--ease-out),
+    background-color var(--t-panel) var(--ease-out),
+    transform var(--t-panel) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .spot-card:hover {
+    border-color: var(--line-2);
+    background: var(--raise-1);
+    transform: translateY(-2px);
+  }
+  .spot-card:hover .spot-go svg {
+    transform: translate(2px, -2px);
+  }
+  .spot-card:hover .spot-art img {
+    transform: scale(1.03);
+  }
+}
+
+.spot-card:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.spot-art {
+  display: block;
+  position: relative;
+  aspect-ratio: 16 / 8;
+  overflow: hidden;
+  background: var(--void);
+  border-bottom: 1px solid var(--line-1);
+}
+
+.spot-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms var(--ease-out);
+}
+
+.spot-body {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 22px clamp(20px, 2.4vw, 26px) 20px;
+  flex: 1;
+}
+
+.spot-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spot-kind {
+  color: var(--w-1);
+}
+
+.spot-dot {
+  color: var(--w-4);
+}
+
+.spot-t {
+  display: block;
+  max-width: 26ch;
+}
+
+.spot-d {
+  max-width: 52ch;
+}
+
+.spot-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-1);
+}
+
+.spot-src {
+  color: var(--w-4);
+}
+
+.spot-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: var(--w-1);
+}
+
+.spot-go svg {
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+.spot-all {
+  margin-top: 22px;
+}
+
+.spot-all .link {
+  font-size: 0.8125rem;
+  color: var(--w-3);
+  gap: 7px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .spot-all .link:hover {
+    color: var(--w-1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spot-card,
+  .spot-art img,
+  .spot-go svg,
+  .proj-link svg {
+    transition: none;
+  }
+  .spot-card:hover {
+    transform: none;
+  }
+  .spot-card:hover .spot-art img {
+    transform: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .spot {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* One project in the panel: side-on rather than a half-empty row. The art
+   takes the left column at a fixed fraction so the copy keeps a sane measure
+   instead of stretching to the full shell width. */
+.projs[data-single] {
+  grid-template-columns: 1fr;
+}
+
+.projs[data-single] .proj {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.projs[data-single] .proj-art {
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 260px;
+  border-bottom: 0;
+  border-right: 1px solid var(--line-1);
+}
+
+/* The side-on column is far narrower than the plate's 16:7, so `cover` crops
+   the sides hard. The plate used here is composed symmetrically for exactly
+   this reason (see motifBridge in scripts/generate-project-art.mjs), so a
+   centre crop keeps the whole composition. */
+.projs[data-single] .proj-art img {
+  object-position: center;
+}
+
+.projs[data-single] .proj-body {
+  padding: clamp(22px, 2.4vw, 30px);
+}
+
+.projs[data-single] .proj-d {
+  max-width: 58ch;
+}
+
+@media (max-width: 860px) {
+  .projs[data-single] .proj {
+    grid-template-columns: 1fr;
+  }
+  .projs[data-single] .proj-art {
+    aspect-ratio: 16 / 7;
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line-1);
+  }
+}

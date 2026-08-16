@@ -1,3 +1,5 @@
+import { coveredBy } from './functions'
+
 /* The concrete things we ship, one level below the five practice areas.
  *
  * Each has its own page, so the copy here is the whole story: what it does,
@@ -275,7 +277,16 @@ export const buildToScope = [
 /* One list for the routes and lookups; the split above is only for authoring. */
 export const allSolutions = [...capabilities, ...buildToScope]
 
-export const byFunction = (fn) => allSolutions.filter((c) => c.fn === fn)
+/* Accepts a category id from data/functions.js or one of the finer-grained
+ * `fn` values still carried on each solution. Production accelerators sort
+ * first: a category whose built systems are buried under scoped ones reads as
+ * a wish list. */
+export const byFunction = (fn) => {
+  const ids = coveredBy(fn)
+  return allSolutions
+    .filter((c) => ids.includes(c.fn))
+    .sort((a, b) => (a.status === b.status ? 0 : a.status === 'production' ? -1 : 1))
+}
 export const getSolution = (slug) => allSolutions.find((c) => c.slug === slug)
 
 export const byParent = (parent) => capabilities.filter((c) => c.parent === parent)

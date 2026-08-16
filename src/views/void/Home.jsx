@@ -12,6 +12,7 @@ import Chevron from '@/components/apple/Chevron'
 import LoopVideo from '@/components/void/LoopVideo'
 import FunctionExplorer from '@/components/void/FunctionExplorer'
 import CaseStudies from '@/components/void/CaseStudies'
+import Spotlight from '@/components/void/Spotlight'
 
 export default function Home({ cases = [] }) {
   /* The logo belt is an enhancement over the static row, gated the same way
@@ -106,17 +107,23 @@ export default function Home({ cases = [] }) {
           </div>
         </section>
 
-        {/* ── Function explorer ────────────────────────────────────────
-            The catalogue cut by the function that owns the queue, because
-            that is how buyers arrive: "I run IT operations", not "I would
-            like to browse practice areas". */}
+        {/* ── Explorer ─────────────────────────────────────────────────
+            Two cuts in one rail: what we have built and published, then the
+            client catalogue by the team that owns the queue — because that is
+            how buyers arrive ("I run IT operations", not "I would like to
+            browse practice areas"). */}
         <section className="sec">
           <div className="shell-wide">
             <header className="sec-h" data-r>
-              <p className="mono">Purpose-built</p>
+              <p className="mono">What we build</p>
               <h2 className="d2">
-                Built for the queue <span className="dim">you actually run.</span>
+                Read the code, <span className="dim">then the catalogue.</span>
               </h2>
+              <p className="lede">
+                Our own products and accelerators are open — start there if you want to know whether we can engineer,
+                rather than whether we can present. The client catalogue sits underneath, cut by the team that owns
+                the queue.
+              </p>
             </header>
 
             <FunctionExplorer />
@@ -124,103 +131,25 @@ export default function Home({ cases = [] }) {
         </section>
 
         <div className="flow">
-        {/* ── Inside your estate ───────────────────────────────────────
-            Two claims that were only ever made in prose: that this runs on the
-            systems you already have, and that a human holds the approval. Both
-            are the reason enterprise buyers say yes, so both get the space. */}
+        {/* ── Spotlight ────────────────────────────────────────────────
+            Long-form writing lives on PulpLabs Learn, so this links across
+            rather than duplicating it here. Two entries only: a spotlight
+            that lists everything is an index, and an index does not persuade
+            anybody to read the first one. */}
         <section className="sec">
-          <div className="shell split">
-            <div className="split-copy" data-r>
-              <p className="mono">Inside your estate</p>
-              <h2 className="d3">It runs on what you already have.</h2>
-              <p className="body">
-                Deployed inside your boundary rather than as multi-tenant SaaS, wired to the ITSM, CMDB and
-                line-of-business systems you already run. Your data does not leave for us to operate any of it.
-              </p>
-              <ul className="split-list">
-                {['ITSM and CMDB you already run', 'Your identity provider and access model', 'No data leaves your boundary'].map((t) => (
-                  <li key={t}>
-                    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-                        <path d="M2.5 7.5l3 3 6-7" stroke="currentColor" strokeWidth="1.5" fill="none"
-                          strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
-              <img src="/void/sec-connect.webp" alt="" loading="lazy" decoding="async" />
-            </div>
-          </div>
-        </section>
-
-        <section className="sec">
-          <div className="shell split is-flip">
-            <div className="split-copy" data-r>
-              <p className="mono">The approval step</p>
-              <h2 className="d3">Nothing irreversible happens on its own.</h2>
-              <p className="body">
-                Every system we build proposes; a person commits. That gate is not a limitation we ran out of time to
-                remove — it is the reason these survive a risk review, and the reason they are still running a year
-                later.
-              </p>
-              <ul className="split-list">
-                {['The agent proposes, with its reasoning shown', 'A named human approves', 'The action and the approver are both logged'].map((t) => (
-                  <li key={t}>
-                    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-                        <path d="M2.5 7.5l3 3 6-7" stroke="currentColor" strokeWidth="1.5" fill="none"
-                          strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
-              <img src="/void/sec-approve.webp" alt="" loading="lazy" decoding="async" />
-            </div>
-          </div>
-        </section>
-
-        {/* ── Blueprints ───────────────────────────────────────────────
-            The two we get asked about most, shown large enough that the
-            screen itself makes the argument. */}
-        <section className="sec">
-          <div className="shell">
+          <div className="shell-wide">
             <header className="sec-h" data-r>
-              <p className="mono">Blueprints</p>
+              <p className="mono">From PulpLabs Learn</p>
               <h2 className="d2">
-                What one actually looks like <span className="dim">in your queue.</span>
+                The work, written up <span className="dim">in full.</span>
               </h2>
+              <p className="lede">
+                What the discovery actually found, what got built, and what we deliberately did not automate — at the
+                length the decision deserves rather than the length a home page allows.
+              </p>
             </header>
 
-            <ul className="bps">
-              {[
-                ['bp-incident', 'incident-intelligence', 'Incident Intelligence',
-                 'Triage that opens with the correlated history and the runbook already attached.'],
-                ['bp-change', 'change-copilot', 'Change Copilot',
-                 'Change records drafted and risk-scored against the rules your CAB actually applies.'],
-              ].map(([img, slug, name, desc], i) => (
-                <li key={slug} data-r style={{ '--rd': `${i * 80}ms` }}>
-                  <Link href={`/services/${slug}`} className="bp">
-                    <span className="bp-art">
-                      <img src={`/void/${img}.webp`} alt="" loading="lazy" decoding="async" />
-                    </span>
-                    <span className="bp-body">
-                      <span className="bp-t">
-                        {name}
-                        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-                          <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.4" fill="none"
-                            strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </span>
-                      <span className="body bp-d">{desc}</span>
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <Spotlight />
           </div>
         </section>
 

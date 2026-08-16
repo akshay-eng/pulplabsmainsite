@@ -55,7 +55,9 @@ export default async function CapabilityPage({ params }) {
             <p className="mono cdet-crumb">
               <Link href="/services">Capabilities</Link>
               <span aria-hidden="true">/</span>
-              <Link href={`/services/for/${cap.fn}`}>{getFunction(cap.fn)?.name}</Link>
+              {/* cap.fn is the fine-grained department; getFunction resolves it
+                  to the category actually published at /services/for/. */}
+              <Link href={`/services/for/${getFunction(cap.fn)?.id}`}>{getFunction(cap.fn)?.name}</Link>
               <span aria-hidden="true">/</span>
               {cap.parentLabel}
             </p>

@@ -18,52 +18,75 @@
  * Never promote something to 'production' that is not.
  */
 
+/* Three categories, not six.
+ *
+ * The catalogue used to present six departments side by side. Six peers with
+ * no hierarchy is a wall: a visitor has to read all of them before knowing
+ * which one is theirs, and four of the six held two or three items each. These
+ * three are the coarsest split that still tells a reader something — the shape
+ * of the work genuinely differs across them, which is what makes it a category
+ * rather than a bucket.
+ *
+ * `covers` lists the finer-grained `fn` values still carried on each solution
+ * in capabilities.js. That field stays granular on purpose: it is accurate,
+ * and it means the presentation can be re-cut again without touching all
+ * seventeen entries. byFunction() and getFunction() both resolve through
+ * `covers`, so a legacy id like 'sales' still lands on the right category.
+ *
+ * `assurances` are the two claims that used to occupy their own full-width
+ * sections on the home page — that this runs inside your estate, and that a
+ * human holds the approval. They were general statements sitting a long way
+ * from anything concrete. Attached to a category they are read at the moment
+ * a visitor is looking at the systems they apply to, and each one is worded
+ * for that category rather than repeated verbatim.
+ */
 export const functions = [
   {
     id: 'it-operations',
-    name: 'IT Operations',
-    tag: 'Incident, change, patch and automation',
+    name: 'IT & Engineering',
+    tag: 'Incident, change, patch and migration',
+    covers: ['it-operations'],
     blurb:
       'Where our accelerators are strongest, because it is where we have run the most. All four are deployed inside your estate against the ITSM and CMDB you already run — your data never leaves your boundary for us to operate them.',
+    assurances: [
+      ['Runs inside your estate', 'Wired to the ITSM, CMDB and identity provider you already run, not a multi-tenant tenant of ours.'],
+      ['Nothing irreversible happens on its own', 'The agent proposes with its reasoning shown; a named human commits, and both the action and the approver are logged.'],
+    ],
   },
   {
-    id: 'sales',
-    name: 'Sales',
-    tag: 'Enquiry handling, proposals, pipeline',
+    id: 'revenue-customer',
+    name: 'Revenue & Customer',
+    tag: 'Enquiries, proposals, support and campaigns',
+    covers: ['sales', 'support', 'marketing'],
     blurb:
-      'The unglamorous end of revenue work: nothing sitting unanswered overnight, proposals that start from your last win rather than a blank page, and a straight read on which deals have gone quiet.',
+      'The unglamorous end of revenue and service work: nothing sitting unanswered overnight, proposals that start from your last win rather than a blank page, answers drawn from your own material with the sources attached, and campaign drafts written against your positioning instead of a generic template.',
+    assurances: [
+      ['It answers from your material', 'Your positioning, your past wins, your documentation — with sources attached, so an answer can be checked rather than trusted.'],
+      ['Everything customer-facing is a draft', 'Nothing sends, commits or publishes on your behalf. A person approves, which is the only way it stays in your voice.'],
+    ],
   },
   {
-    id: 'support',
-    name: 'Customer Support',
-    tag: 'First-line resolution and escalation',
+    id: 'finance-data',
+    name: 'Finance & Data',
+    tag: 'Reconciliation, contracts, reporting, variance',
+    covers: ['finance', 'data'],
     blurb:
-      'Answering from your own material with the sources attached, escalating on rules you set rather than a confidence threshold nobody can explain, and telling you which questions your documentation keeps failing to answer.',
-  },
-  {
-    id: 'marketing',
-    name: 'Marketing',
-    tag: 'Campaigns, scheduling, content upkeep',
-    blurb:
-      'Drafting against your own positioning and your own past work, never a generic template. Everything arrives as a draft for a human to edit, which is the only way it stays in your voice.',
-  },
-  {
-    id: 'finance',
-    name: 'Finance & Back office',
-    tag: 'Reconciliation, contracts, expenses',
-    blurb:
-      'High-volume matching and extraction where the work is exacting, repetitive and currently done by someone far too senior for it. Every one of these keeps a human on the exceptions.',
-  },
-  {
-    id: 'data',
-    name: 'Data & Reporting',
-    tag: 'Recurring reports, variance, quality',
-    blurb:
-      'The reports that get rebuilt by hand every month, the "why did this number move" question that eats an analyst’s afternoon, and the upstream breakage nobody notices until a board pack is wrong.',
+      'High-volume matching and extraction where the work is exacting, repetitive and currently done by someone far too senior for it — plus the reports rebuilt by hand every month and the "why did this number move" question that eats an analyst’s afternoon.',
+    assurances: [
+      ['Exceptions go to a human', 'The system handles the volume it is certain about and routes everything else to a person, rather than guessing to keep a completion rate up.'],
+      ['Every figure keeps its provenance', 'Any number it produces can be traced back to the record it came from, because a finance output nobody can audit is not usable.'],
+    ],
   },
 ]
 
-export const getFunction = (id) => functions.find((f) => f.id === id)
+/* Resolves a category id, and also the legacy per-department ids still carried
+ * on each solution — getFunction('sales') returns Revenue & Customer, which is
+ * what a breadcrumb built from `solution.fn` needs. */
+export const getFunction = (id) =>
+  functions.find((f) => f.id === id) || functions.find((f) => f.covers.includes(id))
+
+/** The finer-grained `fn` values a category contains. */
+export const coveredBy = (id) => getFunction(id)?.covers ?? [id]
 
 /* Industries.
  *
