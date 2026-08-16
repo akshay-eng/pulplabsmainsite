@@ -123,8 +123,8 @@ start `gsk_`. Grok is xAI's model, keys start `xai-`. Different companies.)
 
 The route is public and unauthenticated, because it powers the site chat. That makes it
 a paid API anyone can call, so it is rate limited to 12 messages per IP per minute and
-capped at 1000 characters per message. The limiter is in-memory, which is fine while
-`fly.toml` pins one always-on machine; past that it needs to move to SQLite or Redis.
+capped at 1000 characters per message. The limiter is in-memory, which is fine for a
+single always-on instance; behind more than one it needs to move to SQLite or Redis.
 
 If the model is unreachable — no credits, bad key, wrong model name, timeout — the route
 falls back to the local intent matcher in [`src/lib/assistant.js`](src/lib/assistant.js)

@@ -14,9 +14,9 @@ const WINDOW_MS = 60_000
 const MAX_PER_WINDOW = 12
 const MAX_MESSAGE = 1000
 
-/* In-memory sliding window. Adequate because fly.toml pins this to a single
-   always-on machine; if that ever scales past one, this needs to move to
-   SQLite or Redis or each machine will allow the full quota independently. */
+/* In-memory sliding window. Adequate only while this runs as a single
+   always-on instance; behind more than one, each would allow the full quota
+   independently and this needs to move to SQLite or Redis. */
 const hits = new Map()
 
 function rateLimited(ip) {
@@ -53,8 +53,8 @@ function localAnswer(message) {
 
 export async function POST(request) {
   const ip =
-    request.headers.get('fly-client-ip') ||
     request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+    request.headers.get('x-real-ip') ||
     'unknown'
 
   if (rateLimited(ip)) {

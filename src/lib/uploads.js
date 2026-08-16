@@ -6,14 +6,13 @@ import { randomBytes } from 'node:crypto'
 /* ==========================================================================
    Cover-image uploads.
 
-   Files go to a directory on the same persistent volume as the database, not
-   into public/. public/ is baked into the Docker image at build time — writes
-   there vanish on the next deploy, and in the standalone output it isn't even
-   writable.
+   Files go to a directory alongside the database, not into public/. public/ is
+   part of the build output — writes there are not durable across a rebuild, and
+   on a read-only deploy target it is not writable at all.
    ========================================================================== */
 
-/* Absolute, for the same reason as DATABASE_PATH — see src/lib/db.js. Under
-   `output: standalone` a relative path resolves against .next/standalone/. */
+/* Absolute, for the same reason as DATABASE_PATH — see src/lib/db.js. A
+   relative path would resolve against whatever cwd the server was started in. */
 export const UPLOAD_DIR = resolve(process.env.UPLOAD_DIR || '.data/uploads')
 
 /** 1200×630 — the Open Graph standard. Cover art doubles as the social card,

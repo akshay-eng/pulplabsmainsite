@@ -11,11 +11,11 @@ import { dirname, resolve } from 'node:path'
    ========================================================================== */
 
 /* Resolved to an absolute path against the process cwd, and logged, because a
-   relative path is a silent-failure trap: `output: standalone` starts the
-   server from .next/standalone/, so `.data/pulplabs.db` resolved to a
-   DIFFERENT directory, SQLite happily created an empty database there, and
-   the site served 200s with no posts and no case studies. Always set an
-   absolute DATABASE_PATH in production. */
+   relative path is a silent-failure trap: when the server is started from a
+   different working directory, `.data/pulplabs.db` resolves to a DIFFERENT
+   directory, SQLite happily creates an empty database there, and the site
+   serves 200s with no posts and no case studies. Always set an absolute
+   DATABASE_PATH in production. */
 const DB_PATH = resolve(process.env.DATABASE_PATH || '.data/pulplabs.db')
 
 /* Next dev reloads modules on every edit; without a global singleton each
