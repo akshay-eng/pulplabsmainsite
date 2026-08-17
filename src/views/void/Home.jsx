@@ -143,25 +143,8 @@ export default function Home({ cases = [] }) {
               </div>
             </div>
             <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
-              <img src="/void/sec-connect.webp" alt="" loading="lazy" decoding="async" />
+              <LoopVideo src="/void/loop-connect" poster="/void/loop-connect.webp" className="split-loop" />
             </div>
-          </div>
-        </section>
-
-        {/* ── Function explorer ────────────────────────────────────────
-            The catalogue cut by the function that owns the queue, because
-            that is how buyers arrive: "I run IT operations", not "I would
-            like to browse practice areas". */}
-        <section className="sec">
-          <div className="shell-wide">
-            <header className="sec-h" data-r>
-              <p className="mono">Purpose-built</p>
-              <h2 className="d2">
-                Built for the queue <span className="dim">you actually run.</span>
-              </h2>
-            </header>
-
-            <FunctionExplorer />
           </div>
         </section>
 
@@ -199,8 +182,25 @@ export default function Home({ cases = [] }) {
               </div>
             </div>
             <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
-              <img src="/void/sec-approve.webp" alt="" loading="lazy" decoding="async" />
+              <LoopVideo src="/void/loop-approve" poster="/void/loop-approve.webp" className="split-loop" />
             </div>
+          </div>
+        </section>
+
+        {/* ── Function explorer ────────────────────────────────────────
+            The catalogue cut by the function that owns the queue, because
+            that is how buyers arrive: "I run IT operations", not "I would
+            like to browse practice areas". */}
+        <section className="sec">
+          <div className="shell-wide">
+            <header className="sec-h" data-r>
+              <p className="mono">Purpose-built</p>
+              <h2 className="d2">
+                Built for the queue <span className="dim">you actually run.</span>
+              </h2>
+            </header>
+
+            <FunctionExplorer />
           </div>
         </section>
 
