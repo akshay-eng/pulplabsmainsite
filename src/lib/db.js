@@ -52,6 +52,13 @@ function connect() {
 }
 
 function migrate(db) {
+  /* Added after the table shipped, so existing databases need it explicitly —
+     CREATE TABLE IF NOT EXISTS leaves an existing table alone. */
+  const caseCols = db.prepare(`PRAGMA table_info(case_studies)`).all().map((c) => c.name)
+  if (caseCols.length && !caseCols.includes('loop_video')) {
+    db.exec(`ALTER TABLE case_studies ADD COLUMN loop_video TEXT`)
+  }
+
   db.exec(`
     CREATE TABLE IF NOT EXISTS posts (
       id           INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -87,6 +94,10 @@ function migrate(db) {
       -- together — a metrics table would be three joins for no benefit.
       metrics      TEXT    NOT NULL DEFAULT '[]',
       cover_image  TEXT,
+      -- Path WITHOUT extension: LoopVideo appends .webm and .mp4 itself, and
+      -- cover_image doubles as the poster. Null means the card falls back to
+      -- the still, which is also what every suppressed playback path shows.
+      loop_video   TEXT,
       accent       TEXT    NOT NULL DEFAULT '#FF6B1A',
       status       TEXT    NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','published')),
       -- Manual ordering: the newest case study is not always the best one to

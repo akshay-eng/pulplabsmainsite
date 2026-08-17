@@ -3988,180 +3988,117 @@ textarea {
   margin-inline: auto;
 }
 
-.cse-tabs {
-  display: flex;
-  justify-content: center;
-  gap: clamp(4px, 1.6vw, 18px);
-  margin-top: 20px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
+/* ─── Case studies ───────────────────────────────────────────────────────
+   Two cards side by side. Real footage of the client's environment under a
+   scrim, copy over it, outcomes beneath. */
 
-.cse-tab {
-  font: inherit;
-  font-size: 0.9375rem;
-  letter-spacing: -0.008em;
-  white-space: nowrap;
-  padding: 10px 14px 12px;
-  background: none;
-  border: 0;
-  /* The underline is the active mark, so it exists on every tab and only
-     gains colour when selected — the row never shifts vertically. */
-  border-bottom: 1.5px solid transparent;
-  color: var(--w-3);
-  cursor: pointer;
-  transition:
-    color var(--t-hover) var(--ease-out),
-    border-color var(--t-hover) var(--ease-out);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .cse-tab:hover {
-    color: var(--w-1);
-  }
-}
-
-.cse-tab[data-state='active'] {
-  color: var(--w-1);
-  border-bottom-color: var(--w-1);
-}
-
-/* Stage: media and card share the grid cell; the card translates down past
-   the media's bottom edge, and the stage's margin makes room for it. */
-.cse-stage {
+.cse {
   display: grid;
-  margin-top: 20px;
-}
-
-.cse-stage[data-state='active'] {
-  margin-bottom: 32px;
-}
-
-.cse-media {
-  grid-area: 1 / 1;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid var(--line-1);
-  /* A definite height, not min-height: the image inside is height:100%, which
-     resolves to auto against an indefinite parent — so the stage was rendering
-     at the artwork's full intrinsic height, around 950px at this width. */
-  height: clamp(230px, 25vw, 360px);
-  background: var(--raise-1);
-}
-
-.cse-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* The art is composed with its subject in the right half and the left third
-     deliberately empty for the story card, so hold the crop to the right. */
-  object-position: 72% 50%;
-  /* No grayscale here: this art is generated for the void system (dark
-     ground, one spectral band), and that band is the only colour the system
-     allows itself — flattening it would defeat the point of the artwork. */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(18px, 2.6vw, 28px);
+  margin-top: 40px;
+  list-style: none;
+  padding: 0;
 }
 
 .cse-card {
-  grid-area: 1 / 1;
-  align-self: end;
-  justify-self: start;
-  transform: translateY(32px);
-  width: min(400px, calc(100% - 2 * clamp(18px, 4vw, 56px)));
-  margin-left: clamp(18px, 4vw, 56px);
-  padding: clamp(18px, 2vw, 24px);
-  border-radius: 16px;
-  background: #0b0b0c;
-  border: 1px solid var(--line-2);
-  display: grid;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--line-1);
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.014);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 420ms cubic-bezier(0.23, 1, 0.32, 1),
+              background 420ms cubic-bezier(0.23, 1, 0.32, 1),
+              transform 420ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.cse-k {
-  color: var(--w-4);
+.cse-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #060606;
+}
+.cse-media img,
+.cse-loop video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cse-loop { position: absolute; inset: 0; }
+
+/* Weighted to the bottom, where the copy sits, and strong enough to hold
+   through the brightest frame of the loop rather than the average one. */
+.cse-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 4%, rgba(0, 0, 0, 0.55) 42%, rgba(0, 0, 0, 0.12) 100%);
 }
 
-.cse-s {
-  max-width: 46ch;
+.cse-over {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: clamp(18px, 2.2vw, 26px);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
 }
+.cse-k { opacity: var(--w-3); }
+.cse-t {
+  font-size: clamp(19px, 1.9vw, 24px);
+  letter-spacing: -0.024em;
+  line-height: 1.16;
+  max-width: 20ch;
+}
+
+.cse-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+  padding: clamp(18px, 2.2vw, 26px);
+}
+.cse-s { color: var(--w-2); font-size: 14.5px; line-height: 1.6; }
 
 .cse-out {
-  list-style: none;
-  margin: 6px 0 0;
-  padding: 14px 0 0;
-  border-top: 1px solid var(--line-1);
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 30px;
+  gap: 10px 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-1);
 }
-
-.cse-out li {
-  display: grid;
-  gap: 2px;
-}
-
-.cse-out b {
-  font-size: 1.25rem;
-  line-height: 1.1;
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-}
-
-.cse-out .mono {
-  color: var(--w-4);
-}
+.cse-out > span { display: flex; flex-direction: column; gap: 4px; }
+.cse-out b { font-size: clamp(20px, 2vw, 25px); letter-spacing: -0.03em; font-weight: 400; line-height: 1; }
+.cse-out .mono { opacity: var(--w-4); }
 
 .cse-more {
   display: inline-flex;
   align-items: center;
-  gap: 0.45em;
-  margin-top: 6px;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--w-1);
-  width: fit-content;
-  border-bottom: 1px solid var(--line-3);
-  padding-bottom: 2px;
-  transition: border-color var(--t-hover) var(--ease-out);
+  gap: 8px;
+  margin-top: auto;
+  font-size: 14.5px;
+}
+.cse-more svg { opacity: var(--w-4); transition: opacity 320ms, transform 320ms; }
+
+@media (hover: hover) {
+  .cse-card:hover { border-color: var(--line-3); background: rgba(255, 255, 255, 0.038); transform: translateY(-3px); }
+  .cse-card:hover .cse-more svg { opacity: 1; transform: translate(2px, -2px); }
+}
+.cse-card:active { transform: translateY(0) scale(0.994); }
+.cse-card:focus-visible { outline: 2px solid var(--w-1); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cse-card, .cse-more svg { transition-duration: 1ms; }
+  .cse-card:hover { transform: none; }
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .cse-more:hover {
-    border-bottom-color: var(--w-1);
-  }
-}
-
-@media (max-width: 760px) {
-  /* No overlay at phone widths: the card stacks under the image at full
-     width, and nothing hangs or translates. */
-  .cse-tabs {
-    justify-content: flex-start;
-  }
-
-  .cse-stage {
-    gap: 14px;
-  }
-
-  .cse-stage[data-state='active'] {
-    margin-bottom: 0;
-  }
-
-  .cse-media {
-    grid-area: auto;
-    /* min-height would transfer through the aspect ratio into a min-WIDTH
-       (220px × 16/9 = 391px) and push the panel past the viewport — the
-       ratio alone sizes the height from the column width. */
-    min-height: 0;
-    aspect-ratio: 16 / 9;
-  }
-
-  .cse-card {
-    grid-area: auto;
-    transform: none;
-    width: 100%;
-    margin-left: 0;
-  }
-}
 
 /* Buttons under a split section's copy. */
 .split-cta {

@@ -7,7 +7,7 @@ const db = new Database(process.env.DATABASE_PATH || '.data/pulplabs.db')
 db.exec(`CREATE TABLE IF NOT EXISTS case_studies (
   id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT NOT NULL UNIQUE, title TEXT NOT NULL,
   client TEXT NOT NULL DEFAULT '', industry TEXT NOT NULL DEFAULT '', summary TEXT NOT NULL DEFAULT '',
-  body TEXT NOT NULL DEFAULT '', metrics TEXT NOT NULL DEFAULT '[]', cover_image TEXT,
+  body TEXT NOT NULL DEFAULT '', metrics TEXT NOT NULL DEFAULT '[]', cover_image TEXT, loop_video TEXT,
   accent TEXT NOT NULL DEFAULT '#FF6B1A',
   status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','published')),
   position INTEGER NOT NULL DEFAULT 0, published_at TEXT,
@@ -22,6 +22,7 @@ const CASES = [
     industry: 'Manufacturing',
     accent: '#FF6B1A',
     cover_image: '/void/cases/manufacturing.webp',
+    loop_video: '/void/cases/manufacturing',
     position: 0,
     summary:
       'We connected their product catalogue and pricing rules to an AI quoting assistant, and put a support agent on WhatsApp and the website so enquiries stop dying overnight.',
@@ -53,6 +54,7 @@ _Body copy carried over from the original site — edit it in the admin._`,
     industry: 'Research',
     accent: '#F0384B',
     cover_image: '/void/cases/research.webp',
+    loop_video: '/void/cases/research',
     position: 1,
     summary:
       "Field recordings now transcribe, code and cluster themselves against the team's own framework — researchers spend their time on interpretation instead of tagging.",
@@ -78,8 +80,8 @@ _Body copy carried over from the original site — edit it in the admin._`,
 ]
 
 const stmt = db.prepare(
-  `INSERT INTO case_studies (slug,title,client,industry,summary,body,metrics,cover_image,accent,status,position,published_at)
-   VALUES (@slug,@title,@client,@industry,@summary,@body,@metrics,@cover_image,@accent,'published',@position,@published_at)
+  `INSERT INTO case_studies (slug,title,client,industry,summary,body,metrics,cover_image,loop_video,accent,status,position,published_at)
+   VALUES (@slug,@title,@client,@industry,@summary,@body,@metrics,@cover_image,@loop_video,@accent,'published',@position,@published_at)
    ON CONFLICT(slug) DO NOTHING`,
 )
 
