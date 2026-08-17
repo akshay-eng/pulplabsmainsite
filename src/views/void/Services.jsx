@@ -7,15 +7,17 @@ import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
 import CapCard from '@/components/void/CapCard'
 import CategoryPicker from '@/components/void/CategoryPicker'
+import PracticeMark from '@/components/void/PracticeMark'
 import { catalogue } from '@/data/capabilities'
 
 /* Four practice areas. Enterprise accelerators and small business systems
  * were the same practice sold to two buyer sizes, so they are one now.
  *
- * Every area is a band: the claim on the left, its parts on the right, all on
- * one grid. Nothing collapses and nothing is indented differently from its
- * neighbour — the accordion hid content, and the pass after it left the two
- * rows on different margins.
+ * Four equal cards in a two-by-two grid, not four full-width bands. The bands
+ * were the same shape repeated four times at nearly a screen each: everything
+ * was visible, but reaching the fourth practice meant scrolling past three
+ * identical layouts. A card grid puts the whole catalogue in about one screen
+ * and lets the eye compare across it, which is what a catalogue is for.
  *
  * Monochrome throughout. Presence comes from structure — an index rail, a
  * matrix with registration ticks, hard contrast between display type and mono
@@ -23,14 +25,14 @@ import { catalogue } from '@/data/capabilities'
  * flagship products and nowhere else on the site. */
 const AREAS = [
   {
-    id: 'build', art: 'bd-build', n: '01', k: 'Systems we build',
+    id: 'build', n: '01', k: 'Systems we build',
     t: 'Production-tested, and deployed inside your estate.',
     b: 'Accelerators for IT operations and growth systems for smaller teams — the same practice, sized to the estate. Everything runs inside your boundary rather than as multi-tenant SaaS, wired to the systems you already own, and every irreversible action waits for a named human.',
     href: '/services#catalogue', cta: 'Browse all systems',
     examples: ['incident-intelligence', 'lead-engine'],
   },
   {
-    id: 'advisory', art: 'bd-advisory', n: '02', k: 'Advisory & strategy',
+    id: 'advisory', n: '02', k: 'Advisory & strategy',
     t: 'Find out where AI pays back — and where it does not.',
     b: 'Four weeks, four artefacts, one answer. We map the workflow as it actually runs, cost every step in hours and error rate, and rank what is worth automating against what is not — including the row that says do not automate this.',
     href: '/services/advisory', cta: 'How an assessment runs',
@@ -42,7 +44,7 @@ const AREAS = [
     ],
   },
   {
-    id: 'enablement', art: 'bd-enablement', n: '03', k: 'Enablement & workshops',
+    id: 'enablement', n: '03', k: 'Enablement & workshops',
     t: 'Capability transfer, not a training day.',
     b: 'Certified instruction across Claude, Codex, Copilot, Gemini and watsonx Orchestrate, in three fixed lengths plus custom. Every session runs on your workflows and your data rather than a generic exercise, and every cohort leaves with something in production.',
     href: '/services/enablement', cta: 'Platforms and curricula',
@@ -54,7 +56,7 @@ const AREAS = [
     ],
   },
   {
-    id: 'managed', art: 'bd-managed', n: '04', k: 'Managed operations',
+    id: 'managed', n: '04', k: 'Managed operations',
     t: 'We run what we build.',
     b: 'Monitoring on behaviour rather than uptime, evaluation sets re-scored as your estate changes, and tuning that ships behind a flag. Handover happens first — staying on afterwards is your option, not a dependency we engineer in.',
     href: '/services/managed', cta: 'How we run it after handover',
@@ -100,66 +102,58 @@ export default function Services() {
                 deciding what to build, teaching your team, and keeping it honest afterwards.
               </p>
             </header>
-            <ul className="areas">
-              {AREAS.map((a, i) => (
-                <li key={a.id} data-r style={{ '--rd': `${i * 60}ms` }}>
-                  <span className="area-bg" aria-hidden="true">
-                    <img src={`/void/${a.art}.webp`} alt="" loading="lazy" decoding="async" />
-                  </span>
-                  <span className="area-ghost" aria-hidden="true">{a.n}</span>
-                  <span className="area-rail" aria-hidden="true" />
+            <ul className="pr">
+              {AREAS.map((a, i) => {
+                /* The build practice lists two systems and the route to the
+                   rest; the others list their parts. Same row shape either
+                   way, so the four cards stay comparable. */
+                const rows = a.examples
+                  ? a.examples
+                      .map((slug) => catalogue.find((c) => c.slug === slug))
+                      .filter(Boolean)
+                      .map((c) => [c.name, c.tagline, `/services/${c.slug}`])
+                      .concat([[`All ${catalogue.length} systems`, 'Across six teams and six sectors.', '#catalogue']])
+                  : a.items.map(([t, tag, d, href]) => [t, d, href, tag])
 
-                  <div className="area-copy">
-                    <p className="mono area-n">{a.n}</p>
-                    <p className="mono area-k">{a.k}</p>
-                    <h3 className="area-t">{a.t}</h3>
-                    <p className="body area-b">{a.b}</p>
-                    <Link href={a.href} className="area-cta">
+                return (
+                  <li key={a.id} data-r style={{ '--rd': `${i * 70}ms` }}>
+                    <div className="pr-head">
+                      <p className="mono pr-n">{a.n}</p>
+                      <PracticeMark id={a.id} />
+                    </div>
+
+                    <p className="mono pr-k">{a.k}</p>
+                    <h3 className="pr-t">{a.t}</h3>
+                    <p className="body pr-b">{a.b}</p>
+
+                    <ul className="pr-rows">
+                      {rows.map(([t, d, href, tag]) => (
+                        <li key={t}>
+                          <Link href={href}>
+                            <span className="pr-r-t">
+                              {t}
+                              {tag && <span className="mono pr-r-tag">{tag}</span>}
+                            </span>
+                            <span className="pr-r-d">{d}</span>
+                            <svg className="pr-r-x" width="13" height="13" viewBox="0 0 14 14" aria-hidden="true">
+                              <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.4"
+                                fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Link href={a.href} className="pr-cta">
                       {a.cta}
                       <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
                         <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.4" fill="none"
                           strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </Link>
-                  </div>
-
-                  {a.examples ? (
-                    <ul className="area-eg">
-                      {a.examples.map((slug, j) => {
-                        const cap = catalogue.find((c) => c.slug === slug)
-                        return cap ? <CapCard key={slug} cap={cap} i={j} /> : null
-                      })}
-                      <li className="area-all">
-                        <a href="#catalogue" className="area-all-in">
-                          <span className="area-all-n">{catalogue.length}</span>
-                          <span className="body">systems in total, across six teams and six sectors.</span>
-                          <span className="area-all-cta">
-                            View them all
-                            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-                              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.4" fill="none"
-                                strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </span>
-                        </a>
-                      </li>
-                    </ul>
-                  ) : (
-                    <ul className="area-items">
-                      {a.items.map(([t, tag, d, href]) => (
-                        <li key={t}>
-                          <Link href={href}>
-                            <span className="area-i-top">
-                              <span className="area-i-t">{t}</span>
-                              <span className="mono area-i-tag">{tag}</span>
-                            </span>
-                            <span className="body area-i-d">{d}</span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
+                  </li>
+                )
+              })}
             </ul>
           </div>
         </section>
