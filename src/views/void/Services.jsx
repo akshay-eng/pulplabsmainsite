@@ -23,14 +23,14 @@ import { catalogue } from '@/data/capabilities'
  * flagship products and nowhere else on the site. */
 const AREAS = [
   {
-    id: 'build', n: '01', k: 'Systems we build',
+    id: 'build', art: 'bd-build', n: '01', k: 'Systems we build',
     t: 'Production-tested, and deployed inside your estate.',
     b: 'Accelerators for IT operations and growth systems for smaller teams — the same practice, sized to the estate. Everything runs inside your boundary rather than as multi-tenant SaaS, wired to the systems you already own, and every irreversible action waits for a named human.',
     href: '/services#catalogue', cta: 'Browse all systems',
     examples: ['incident-intelligence', 'lead-engine'],
   },
   {
-    id: 'advisory', n: '02', k: 'Advisory & strategy',
+    id: 'advisory', art: 'bd-advisory', n: '02', k: 'Advisory & strategy',
     t: 'Find out where AI pays back — and where it does not.',
     b: 'Four weeks, four artefacts, one answer. We map the workflow as it actually runs, cost every step in hours and error rate, and rank what is worth automating against what is not — including the row that says do not automate this.',
     href: '/services/advisory', cta: 'How an assessment runs',
@@ -42,7 +42,7 @@ const AREAS = [
     ],
   },
   {
-    id: 'enablement', n: '03', k: 'Enablement & workshops',
+    id: 'enablement', art: 'bd-enablement', n: '03', k: 'Enablement & workshops',
     t: 'Capability transfer, not a training day.',
     b: 'Certified instruction across Claude, Codex, Copilot, Gemini and watsonx Orchestrate, in three fixed lengths plus custom. Every session runs on your workflows and your data rather than a generic exercise, and every cohort leaves with something in production.',
     href: '/services/enablement', cta: 'Platforms and curricula',
@@ -54,7 +54,7 @@ const AREAS = [
     ],
   },
   {
-    id: 'managed', n: '04', k: 'Managed operations',
+    id: 'managed', art: 'bd-managed', n: '04', k: 'Managed operations',
     t: 'We run what we build.',
     b: 'Monitoring on behaviour rather than uptime, evaluation sets re-scored as your estate changes, and tuning that ships behind a flag. Handover happens first — staying on afterwards is your option, not a dependency we engineer in.',
     href: '/services/managed', cta: 'How we run it after handover',
@@ -103,6 +103,9 @@ export default function Services() {
             <ul className="areas">
               {AREAS.map((a, i) => (
                 <li key={a.id} data-r style={{ '--rd': `${i * 60}ms` }}>
+                  <span className="area-bg" aria-hidden="true">
+                    <img src={`/void/${a.art}.webp`} alt="" loading="lazy" decoding="async" />
+                  </span>
                   <span className="area-ghost" aria-hidden="true">{a.n}</span>
                   <span className="area-rail" aria-hidden="true" />
 
