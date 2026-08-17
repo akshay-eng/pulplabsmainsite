@@ -9,7 +9,7 @@ import Chevron from '@/components/apple/Chevron'
 import CapCard from '@/components/void/CapCard'
 import { byParent } from '@/data/capabilities'
 import CategoryPicker from '@/components/void/CategoryPicker'
-import { allSolutions } from '@/data/capabilities'
+import { catalogue } from '@/data/capabilities'
 
 const CAT = [
   { id: 'advisory', n: '01', art: 'adv-board', alt: 'An assessment report: a workflow map with high-payback steps ringed, an opportunity scoring table, a readiness heatmap and effort estimates.', more: ['/services/advisory', 'How we run an assessment'], k: 'Advisory & strategy', t: 'Find out where AI pays back — and where it does not.',
@@ -170,7 +170,7 @@ export default function Services() {
               <p className="mono step-k">Step two</p>
               <h2 className="d3">Find the system you need.</h2>
               <p className="lede measure-w">
-                {allSolutions.length} systems sit inside <strong>Enterprise accelerators</strong> and{' '}
+                {catalogue.length} systems sit inside <strong>Enterprise accelerators</strong> and{' '}
                 <strong>Small business systems</strong>. Pick the team that would use one, or the sector you are
                 in — whichever you know first — and you will get just the ones that apply.
               </p>

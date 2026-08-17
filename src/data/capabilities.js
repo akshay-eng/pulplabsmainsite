@@ -311,8 +311,11 @@ export const buildToScope = [
 /* One list for the routes and lookups; the split above is only for authoring. */
 export const allSolutions = [...flagships, ...capabilities, ...buildToScope]
 
-export const byFunction = (fn) => allSolutions.filter((c) => c.fn === fn)
+/* Everything a visitor can browse to. Flagships are promoted separately. */
+export const catalogue = [...capabilities, ...buildToScope]
+
+export const byFunction = (fn) => catalogue.filter((c) => c.fn === fn)
 export const getSolution = (slug) => allSolutions.find((c) => c.slug === slug)
 
-export const byParent = (parent) => capabilities.filter((c) => c.parent === parent)
+export const byParent = (parent) => catalogue.filter((c) => c.parent === parent)
 export const getCapability = (slug) => allSolutions.find((c) => c.slug === slug)
