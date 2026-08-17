@@ -27,13 +27,16 @@ const BUILD = {
 
 const PRACTICES = [
   { id: 'advisory', n: '02', k: 'Advisory & strategy', t: 'Find out where AI pays back — and where it does not.',
-    href: '/services/advisory', cta: 'How an assessment runs',
-    items: ['AI readiness assessment', 'Use-case discovery, ranked by payback', 'Adoption roadmap', 'Governance & risk framework'] },
+    tone: 'amber', art: 'pa-advisory', href: '/services/advisory', cta: 'How an assessment runs',
+    b: 'Four weeks, four artefacts, one answer. We map the workflow as it actually runs, cost every step in hours and error rate, and rank what is worth automating against what is not — including the row that says do not automate this.',
+    items: ['AI readiness assessment', 'Use-case discovery, ranked by payback', 'Adoption roadmap with an abandon condition', 'Governance & risk framework'] },
   { id: 'enablement', n: '03', k: 'Enablement & workshops', t: 'Capability transfer, not a training day.',
-    href: '/services/enablement', cta: 'Platforms and curricula',
-    items: ['Claude, OpenAI, Copilot, Gemini, watsonx', 'One-day, three-day and one-week cohorts', 'On-site, online or hybrid', 'Each cohort ships something'] },
+    tone: 'violet', art: 'pa-enablement', href: '/services/enablement', cta: 'Platforms and curricula',
+    b: 'Certified instruction across five platforms in three fixed lengths, plus custom. Every session runs on your workflows and your data rather than a generic exercise, and every cohort leaves with something in production.',
+    items: ['Claude, Codex, Copilot, Gemini, watsonx', 'One-day, three-day and one-week cohorts', 'On-site, online or hybrid', 'Each cohort ships something'] },
   { id: 'managed', n: '04', k: 'Managed operations', t: 'We run what we build.',
-    href: '/services/managed', cta: 'How we run it after handover',
+    tone: 'green', art: 'pa-managed', href: '/services/managed', cta: 'How we run it after handover',
+    b: 'Monitoring on behaviour rather than uptime, evaluation sets re-scored as your estate changes, and tuning that ships behind a flag. Handover happens first — staying on is your option, not a dependency we engineer in.',
     items: ['Monitoring on behaviour, not uptime', 'Evaluation harnesses, re-scored', 'Tuning behind a flag', 'Quarterly review in your numbers'] },
 ]
 
@@ -100,10 +103,14 @@ export default function Services() {
 
             <ul className="pa-rest">
               {PRACTICES.map((c, i) => (
-                <li key={c.id} data-r style={{ '--rd': `${i * 70}ms` }}>
+                <li key={c.id} data-r style={{ '--rd': `${i * 70}ms` }} data-tone={c.tone}>
+                  <span className="pa-art" aria-hidden="true">
+                    <img src={`/void/${c.art}.webp`} alt="" loading="lazy" decoding="async" />
+                  </span>
                   <p className="mono pa-n">{c.n}</p>
                   <p className="mono pa-k">{c.k}</p>
                   <h3 className="pa-t">{c.t}</h3>
+                  <p className="body pa-b">{c.b}</p>
                   <ul className="pa-items">
                     {c.items.map((t) => (
                       <li key={t}>

@@ -4430,3 +4430,35 @@ textarea {
 @media (prefers-reduced-motion: reduce) {
   .pa-more-in, .pa-more-cta svg { transition-duration: 1ms; }
 }
+
+/* Neon art on the practice cards. One hue each, so the row is scannable by
+   colour before it is read — and the aura sits behind the card rather than
+   inside it, so the glow reads as the work casting light onto the page. */
+.pa-rest > li { position: relative; isolation: isolate; overflow: hidden; padding-top: 0; }
+
+.pa-art { display: block; margin: 0 calc(-1 * clamp(22px, 2.6vw, 30px)) clamp(20px, 2.4vw, 26px); }
+.pa-art img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+
+.pa-rest > li::after {
+  content: '';
+  position: absolute;
+  inset: -30% -20% 40%;
+  z-index: -1;
+  filter: blur(60px);
+  opacity: 0;
+  background: var(--aura);
+  transition: opacity 560ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.pa-rest > li[data-tone='amber']  { --aura: radial-gradient(circle at 30% 70%, rgba(251, 146, 60, 0.7), transparent 68%); --edge: rgba(251, 146, 60, 0.55); }
+.pa-rest > li[data-tone='violet'] { --aura: radial-gradient(circle at 70% 30%, rgba(167, 139, 250, 0.7), transparent 68%); --edge: rgba(167, 139, 250, 0.55); }
+.pa-rest > li[data-tone='green']  { --aura: radial-gradient(circle at 70% 70%, rgba(52, 211, 153, 0.7), transparent 68%); --edge: rgba(52, 211, 153, 0.55); }
+
+.pa-b { color: var(--w-2); font-size: 13.5px; line-height: 1.6; margin: 14px 0 0; }
+.pa-rest .pa-n { padding: clamp(20px, 2.4vw, 26px) 0 12px; }
+
+@media (hover: hover) {
+  .pa-rest > li:hover::after { opacity: 0.5; }
+  .pa-rest > li:hover .cat-more { border-color: var(--edge); }
+}
+
+@media (prefers-reduced-motion: reduce) { .pa-rest > li::after { transition-duration: 1ms; } }
