@@ -204,39 +204,57 @@ export default function Home({ cases = [] }) {
           </div>
         </section>
 
-        {/* ── Blueprints ───────────────────────────────────────────────
-            The two we get asked about most, shown large enough that the
-            screen itself makes the argument. */}
-        <section className="sec">
+        {/* ── Products ─────────────────────────────────────────────────
+            The only neon on the site. Everywhere else colour arrives as light
+            and nothing else; here the ground is a saturated bloom, because
+            this section has exactly one job — get the click. */}
+        <section className="sec prods">
           <div className="shell">
             <header className="sec-h" data-r>
-              <p className="mono">Blueprints</p>
+              <p className="mono">Our products</p>
               <h2 className="d2">
-                What one actually looks like <span className="dim">in your queue.</span>
+                Two we built for ourselves <span className="dim">first.</span>
               </h2>
             </header>
 
-            <ul className="bps">
+            <ul className="prod-grid">
               {[
-                ['bp-incident', 'incident-intelligence', 'Incident Intelligence',
-                 'Triage that opens with the correlated history and the runbook already attached.'],
-                ['bp-change', 'change-copilot', 'Change Copilot',
-                 'Change records drafted and risk-scored against the rules your CAB actually applies.'],
-              ].map(([img, slug, name, desc], i) => (
-                <li key={slug} data-r style={{ '--rd': `${i * 80}ms` }}>
-                  <Link href={`/services/${slug}`} className="bp">
-                    <span className="bp-art">
-                      <img src={`/void/${img}.webp`} alt="" loading="lazy" decoding="async" />
+                {
+                  slug: 'evals', img: 'prod-evals', name: 'Evals', tone: 'violet',
+                  kicker: 'Observability',
+                  d: 'Watch what actually degrades — answer quality, drift, refusals, cost per run. A model that is up and answering badly passes every check you own.',
+                  tags: ['Live scoring', 'Drift alerts', 'CI regression gate'],
+                },
+                {
+                  slug: 'devops-copilot', img: 'prod-devops', name: 'DevOps Copilot', tone: 'green',
+                  kicker: 'Delivery',
+                  d: 'Real failure told from flaky test, change impact summarised, rollback drafted before you merge. It proposes; the merge stays yours.',
+                  tags: ['Pipeline triage', 'PR review', 'Rollback plans'],
+                },
+              ].map((x, i) => (
+                <li key={x.slug} data-r style={{ '--rd': `${i * 90}ms` }}>
+                  <Link href={`/services/${x.slug}`} className="prod" data-tone={x.tone}>
+                    <span className="prod-art">
+                      <img src={`/void/${x.img}.webp`} alt="" loading="lazy" decoding="async" />
+                      <span className="prod-sheen" aria-hidden="true" />
                     </span>
-                    <span className="bp-body">
-                      <span className="bp-t">
-                        {name}
-                        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+
+                    <span className="prod-body">
+                      <span className="prod-kick mono">
+                        <span className="prod-dot" aria-hidden="true" />
+                        {x.kicker}
+                      </span>
+                      <span className="prod-name">
+                        {x.name}
+                        <svg width="16" height="16" viewBox="0 0 14 14" aria-hidden="true">
                           <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.4" fill="none"
                             strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </span>
-                      <span className="body bp-d">{desc}</span>
+                      <span className="body prod-d">{x.d}</span>
+                      <span className="prod-tags">
+                        {x.tags.map((t) => <span className="mono" key={t}>{t}</span>)}
+                      </span>
                     </span>
                   </Link>
                 </li>

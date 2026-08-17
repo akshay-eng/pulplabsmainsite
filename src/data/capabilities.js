@@ -134,6 +134,42 @@ export const capabilities = [
  * scoped and built against your systems, which is what `status: 'scope'`
  * means. That distinction is the difference between a catalogue and a
  * promise, so it must never be blurred to make a grid look fuller. */
+/* The two flagship products. They sit in the catalogue like everything else,
+ * so they get a detail page for free — and they are the only entries the
+ * homepage promotes by name. */
+export const flagships = [
+  {
+    slug: 'evals',
+    fn: 'it-operations',
+    status: 'production',
+    parent: 'accelerators',
+    parentLabel: 'Enterprise accelerators',
+    name: 'Evals',
+    tagline: 'Agent and model observability, on behaviour rather than uptime.',
+    metric: ['Drift caught', 'Same day'],
+    body:
+      'A model that is up and answering badly passes every infrastructure check you own. Evals watches the things that actually degrade — answer quality against a held-out set, refusal and escalation rates, retrieval hit rate, latency and cost per run — and alerts when they move. It runs continuously against live traffic, adds new cases from what it sees, and gates prompt and model changes in CI so nothing ships on a hunch.',
+    inputs: ['Live traffic from your agents and assistants', 'A held-out evaluation set', 'Your CI pipeline', 'Cost and latency telemetry'],
+    outputs: ['Quality, refusal and drift tracked against a baseline', 'Regression gate on every prompt or model change', 'Alerts routed into your existing on-call', 'Per-run cost and latency'],
+    limits: 'It measures and reports. It will not tune a prompt or roll back a model on its own — every change stays a decision a person makes.',
+  },
+  {
+    slug: 'devops-copilot',
+    fn: 'it-operations',
+    status: 'production',
+    parent: 'accelerators',
+    parentLabel: 'Enterprise accelerators',
+    name: 'DevOps Copilot',
+    tagline: 'Pipeline triage, change review and a rollback plan before you merge.',
+    metric: ['Failed deploys', '−54%'],
+    body:
+      'DevOps Copilot reads the pipeline the way a senior engineer does. It tells a real failure from a flaky test, summarises what a pull request actually changes and what it touches downstream, drafts the rollback path, and says plainly whether the change is safe for the window you have. It proposes; the merge stays yours.',
+    inputs: ['Your CI/CD pipelines and build history', 'Pull requests and diffs', 'Deployment and incident history', 'Your change policy'],
+    outputs: ['Real failure separated from flaky test', 'Change summary with downstream impact', 'Rollback plan drafted before merge', 'A go or no-go on the window'],
+    limits: 'It never merges, never deploys, and never overrides a required check. Every irreversible action waits for a named human.',
+  },
+]
+
 export const buildToScope = [
   {
     slug: 'proposal-builder',
@@ -273,7 +309,7 @@ export const buildToScope = [
 ]
 
 /* One list for the routes and lookups; the split above is only for authoring. */
-export const allSolutions = [...capabilities, ...buildToScope]
+export const allSolutions = [...flagships, ...capabilities, ...buildToScope]
 
 export const byFunction = (fn) => allSolutions.filter((c) => c.fn === fn)
 export const getSolution = (slug) => allSolutions.find((c) => c.slug === slug)

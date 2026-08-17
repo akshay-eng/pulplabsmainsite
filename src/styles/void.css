@@ -4166,3 +4166,151 @@ textarea {
   margin-top: 30px;
 }
 .split-cta .link { display: inline-flex; align-items: center; gap: 7px; }
+
+/* ─── Flagship products ───────────────────────────────────────────────────
+   The one section allowed saturated colour. Each card carries a neon aura
+   that lives outside the frame, so the glow reads as the product emitting
+   light onto the page rather than a coloured box sitting on it. */
+
+.prods { position: relative; }
+
+.prod-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: clamp(22px, 3.4vw, 40px);
+  margin-top: 46px;
+  list-style: none;
+  padding: 0;
+}
+
+.prod {
+  position: relative;
+  display: block;
+  border-radius: 20px;
+  text-decoration: none;
+  color: inherit;
+  isolation: isolate;
+  transition: transform 520ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* The aura. Sits behind and larger than the card, blurred, animated. */
+.prod::before {
+  content: '';
+  position: absolute;
+  inset: -14% -8% -6%;
+  z-index: -1;
+  border-radius: 40px;
+  filter: blur(46px);
+  opacity: 0.5;
+  background: var(--aura);
+  transition: opacity 520ms cubic-bezier(0.23, 1, 0.32, 1);
+  animation: auraDrift 14s ease-in-out infinite;
+}
+.prod[data-tone='violet'] {
+  --aura: radial-gradient(60% 60% at 20% 80%, rgba(138, 92, 246, 0.85), transparent 70%),
+          radial-gradient(55% 55% at 75% 30%, rgba(34, 211, 238, 0.6), transparent 70%);
+  --edge: rgba(167, 139, 250, 0.5);
+}
+.prod[data-tone='green'] {
+  --aura: radial-gradient(60% 60% at 80% 75%, rgba(52, 211, 153, 0.85), transparent 70%),
+          radial-gradient(55% 55% at 25% 30%, rgba(34, 211, 238, 0.55), transparent 70%);
+  --edge: rgba(52, 211, 153, 0.5);
+}
+
+@keyframes auraDrift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(2%, -2%, 0) scale(1.06); }
+}
+
+.prod-art {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line-2);
+  background: #050505;
+  transition: border-color 520ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.prod-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 900ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* A slow specular pass across the glass, so the card is never quite still. */
+.prod-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(104deg, transparent 38%, rgba(255, 255, 255, 0.07) 50%, transparent 62%);
+  background-size: 260% 100%;
+  animation: sheen 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes sheen {
+  0%   { background-position: 160% 0; }
+  55%  { background-position: -60% 0; }
+  100% { background-position: -60% 0; }
+}
+
+.prod-body { display: block; padding: 22px 4px 0; }
+
+.prod-kick {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  opacity: var(--w-3);
+  margin-bottom: 12px;
+}
+.prod-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--edge);
+  box-shadow: 0 0 0 0 var(--edge);
+  animation: livePulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 var(--edge); opacity: 1; }
+  70%  { box-shadow: 0 0 0 7px transparent; opacity: 0.75; }
+  100% { box-shadow: 0 0 0 0 transparent; opacity: 1; }
+}
+
+.prod-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(21px, 2.2vw, 28px);
+  letter-spacing: -0.028em;
+  line-height: 1.1;
+}
+.prod-name svg { opacity: var(--w-4); transition: opacity 340ms, transform 340ms; }
+
+.prod-d { display: block; color: var(--w-2); margin-top: 12px; max-width: 46ch; font-size: 15px; line-height: 1.6; }
+
+.prod-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.prod-tags .mono {
+  padding: 5px 11px;
+  border: 1px solid var(--line-2);
+  border-radius: 100px;
+  opacity: var(--w-3);
+}
+
+@media (hover: hover) {
+  .prod:hover { transform: translateY(-6px); }
+  .prod:hover::before { opacity: 0.92; }
+  .prod:hover .prod-art { border-color: var(--edge); }
+  .prod:hover .prod-art img { transform: scale(1.035); }
+  .prod:hover .prod-name svg { opacity: 1; transform: translate(3px, -3px); }
+}
+.prod:active { transform: translateY(-2px) scale(0.995); }
+.prod:focus-visible .prod-art { outline: 2px solid var(--w-1); outline-offset: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .prod, .prod::before, .prod-art img, .prod-name svg { transition-duration: 1ms; }
+  .prod::before, .prod-sheen, .prod-dot { animation: none; }
+  .prod:hover { transform: none; }
+  .prod:hover .prod-art img { transform: none; }
+}
