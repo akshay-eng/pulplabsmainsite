@@ -4354,9 +4354,10 @@ textarea {
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.7fr);
   gap: clamp(28px, 5vw, 72px);
-  padding: clamp(34px, 4vw, 52px) 0;
+  padding: clamp(56px, 7vw, 104px) 0;
   border-top: 1px solid var(--line-1);
   position: relative;
+  isolation: isolate;
 }
 /* A short accent stub on the rule — enough to colour-code the band without
    putting a saturated field behind the copy. */
@@ -4373,14 +4374,16 @@ textarea {
 .area-copy { position: relative; }
 .area-n { opacity: var(--w-4); margin-bottom: 16px; }
 .area-k { color: rgb(var(--accent)); opacity: 0.9; }
+/* Display scale. These are the four sentences the page exists to make, and
+   they were sitting at list-item size. */
 .area-t {
-  font-size: clamp(20px, 2.1vw, 27px);
-  letter-spacing: -0.026em;
-  line-height: 1.16;
-  margin: 10px 0 0;
-  max-width: 18ch;
+  font-size: clamp(28px, 3.6vw, 46px);
+  letter-spacing: -0.036em;
+  line-height: 1.04;
+  margin: 12px 0 0;
+  max-width: 15ch;
 }
-.area-b { color: var(--w-2); margin: 16px 0 0; font-size: 14.5px; line-height: 1.62; max-width: 46ch; }
+.area-b { color: var(--w-2); margin: 22px 0 0; font-size: 15.5px; line-height: 1.66; max-width: 44ch; }
 
 .area-cta {
   display: inline-flex;
@@ -4420,15 +4423,15 @@ textarea {
   flex-direction: column;
   gap: 8px;
   height: 100%;
-  padding: 18px 20px 20px;
+  padding: 24px 26px 26px;
   text-decoration: none;
   color: inherit;
   transition: background 300ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 .area-i-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-.area-i-t { font-size: 15px; letter-spacing: -0.014em; }
+.area-i-t { font-size: 16.5px; letter-spacing: -0.016em; }
 .area-i-tag { opacity: var(--w-4); white-space: nowrap; }
-.area-i-d { color: var(--w-2); font-size: 13px; line-height: 1.5; }
+.area-i-d { color: var(--w-2); font-size: 14px; line-height: 1.55; }
 .area-items a:hover { background: rgba(var(--accent), 0.08); }
 .area-items a:focus-visible { outline: 2px solid var(--w-1); outline-offset: -2px; }
 
@@ -4474,3 +4477,59 @@ textarea {
 @media (prefers-reduced-motion: reduce) {
   .area-cta, .area-cta svg, .area-items a, .area-all-in, .area-all-cta svg { transition-duration: 1ms; }
 }
+
+/* Depth for the bands: the practice's own render bleeding off the right edge,
+   masked hard so it is atmosphere rather than a plate, and the index number at
+   watermark scale behind the copy. Both sit under everything and neither
+   competes with the text on top of them. */
+.area-bg {
+  position: absolute;
+  top: 0;
+  right: -6%;
+  width: 62%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.55;
+  transition: opacity 700ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.area-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Blurred past legibility on purpose. Unblurred, the render's own labels
+     read through the cards in front of it — "Change Copilot", "no data
+     egress" — which looks like a rendering fault rather than depth. What is
+     wanted here is the colour and the light, not the content. */
+  filter: blur(34px) saturate(1.15);
+  transform: scale(1.12);
+  -webkit-mask-image: radial-gradient(70% 70% at 78% 50%, #000 20%, transparent 78%);
+  mask-image: radial-gradient(70% 70% at 78% 50%, #000 20%, transparent 78%);
+}
+.areas > li:hover .area-bg { opacity: 0.8; }
+
+.area-ghost {
+  position: absolute;
+  top: clamp(18px, 3vw, 44px);
+  left: -0.06em;
+  z-index: -1;
+  font-size: clamp(120px, 17vw, 230px);
+  line-height: 0.78;
+  letter-spacing: -0.06em;
+  color: rgb(var(--accent));
+  opacity: 0.07;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* The sub-item cards get their own ground so the backdrop never washes them. */
+.area-items { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+.area-items > li { background: rgba(6, 6, 6, 0.92); }
+.area-all-in { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+
+@media (max-width: 900px) {
+  .area-bg { width: 100%; right: 0; opacity: 0.26; }
+  .area-ghost { font-size: 110px; top: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) { .area-bg { transition-duration: 1ms; } }
