@@ -4340,42 +4340,63 @@ textarea {
 
 
 
-/* ─── Practice areas ──────────────────────────────────────────────────────
-   One band per area, all on the same two-column grid: the claim on the left,
-   its parts on the right. Nothing collapses, nothing is indented differently
-   from its neighbour, and every sub-item is a link to the place that explains
-   it. The accent tints the rule and the label only — saturated colour belongs
-   to the two flagship products, and three neon plates competing on one page
-   made it louder without making it clearer. */
 
-.areas { list-style: none; padding: 0; margin: 44px 0 0; }
+
+/* ─── Practice areas ──────────────────────────────────────────────────────
+   Monochrome. The presence comes from structure rather than colour: a rail
+   carrying each band's index, a matrix of parts with registration ticks at
+   its corners, and a hard contrast between display type and mono labels.
+   Saturated colour belongs to the two flagship products and nowhere else. */
+
+.areas { list-style: none; padding: 0; margin: 52px 0 0; }
 
 .areas > li {
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.7fr);
-  gap: clamp(28px, 5vw, 72px);
-  padding: clamp(56px, 7vw, 104px) 0;
+  gap: clamp(28px, 5vw, 76px);
+  padding: clamp(52px, 6.5vw, 96px) 0 clamp(52px, 6.5vw, 96px) clamp(28px, 4vw, 62px);
   border-top: 1px solid var(--line-1);
   position: relative;
   isolation: isolate;
 }
-/* A short accent stub on the rule — enough to colour-code the band without
-   putting a saturated field behind the copy. */
-.areas > li::before {
+
+/* The rail: a hairline down the left of every band, brightening at the top
+   where the index sits. Reads as an index in a technical document. */
+.area-rail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--line-3) 0, var(--line-1) 22%, transparent 88%);
+}
+.area-rail::before {
   content: '';
   position: absolute;
-  top: -1px;
-  left: 0;
-  width: 56px;
-  height: 2px;
-  background: rgb(var(--accent));
+  top: 0;
+  left: -3px;
+  width: 7px;
+  height: 1px;
+  background: var(--w-1);
+}
+
+.area-ghost {
+  position: absolute;
+  top: clamp(30px, 4vw, 60px);
+  left: clamp(28px, 4vw, 62px);
+  z-index: -1;
+  font-size: clamp(130px, 18vw, 250px);
+  line-height: 0.76;
+  letter-spacing: -0.07em;
+  color: var(--w-1);
+  opacity: 0.035;
+  pointer-events: none;
+  user-select: none;
 }
 
 .area-copy { position: relative; }
-.area-n { opacity: var(--w-4); margin-bottom: 16px; }
-.area-k { color: rgb(var(--accent)); opacity: 0.9; }
-/* Display scale. These are the four sentences the page exists to make, and
-   they were sitting at list-item size. */
+.area-n { opacity: var(--w-4); margin-bottom: 18px; }
+.area-k { opacity: var(--w-3); }
 .area-t {
   font-size: clamp(28px, 3.6vw, 46px);
   letter-spacing: -0.036em;
@@ -4389,8 +4410,8 @@ textarea {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  margin-top: 22px;
-  padding: 9px 17px;
+  margin-top: 28px;
+  padding: 10px 18px;
   border: 1px solid var(--line-2);
   border-radius: 100px;
   color: var(--w-1);
@@ -4399,29 +4420,43 @@ textarea {
   transition: border-color 300ms cubic-bezier(0.23, 1, 0.32, 1), background 300ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 .area-cta svg { opacity: var(--w-3); transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1); }
-.area-cta:hover { border-color: rgb(var(--accent)); background: rgba(var(--accent), 0.1); }
-.area-cta:hover svg { transform: translateX(3px); }
+.area-cta:hover { border-color: var(--w-1); background: rgba(255, 255, 255, 0.06); }
+.area-cta:hover svg { transform: translateX(3px); opacity: 1; }
 .area-cta:focus-visible { outline: 2px solid var(--w-1); outline-offset: 2px; }
 
-/* Sub-items: two by two, each a link to the section that explains it. */
+/* The parts, as a matrix. Registration ticks at the corners rather than a
+   border — the frame is implied, which reads as drawn rather than boxed. */
+.area-items,
+.area-eg { position: relative; align-self: start; }
+.area-items::before,
+.area-items::after,
+.area-eg::before,
+.area-eg::after {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--line-3);
+  pointer-events: none;
+}
+.area-items::before, .area-eg::before { top: -5px; left: -5px; border-right: 0; border-bottom: 0; }
+.area-items::after,  .area-eg::after  { bottom: -5px; right: -5px; border-left: 0; border-top: 0; }
+
 .area-items {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 1px;
   background: var(--line-1);
   border: 1px solid var(--line-1);
-  border-radius: 14px;
-  overflow: hidden;
   list-style: none;
   padding: 0;
   margin: 0;
-  align-self: start;
 }
 .area-items > li { background: var(--void); }
 .area-items a {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 9px;
   height: 100%;
   padding: 24px 26px 26px;
   text-decoration: none;
@@ -4432,13 +4467,9 @@ textarea {
 .area-i-t { font-size: 16.5px; letter-spacing: -0.016em; }
 .area-i-tag { opacity: var(--w-4); white-space: nowrap; }
 .area-i-d { color: var(--w-2); font-size: 14px; line-height: 1.55; }
-.area-items a:hover { background: rgba(var(--accent), 0.08); }
+.area-items a:hover { background: rgba(255, 255, 255, 0.045); }
 .area-items a:focus-visible { outline: 2px solid var(--w-1); outline-offset: -2px; }
 
-/* The build band shows two systems and the way through to the rest. */
-/* Three explicit columns, not auto-fit: the two cards carry artwork with an
-   intrinsic width, so auto-fit resolved to two and wrapped the third tile onto
-   its own row with a hole beside it. */
 .area-eg {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -4446,90 +4477,35 @@ textarea {
   list-style: none;
   padding: 0;
   margin: 0;
-  align-self: start;
 }
 @media (max-width: 1180px) { .area-eg { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px)  { .area-eg { grid-template-columns: 1fr; } }
+
 .area-all-in {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 20px;
-  border: 1px dashed var(--line-2);
+  padding: 22px;
+  border: 1px solid var(--line-1);
   border-radius: 14px;
   text-decoration: none;
   color: inherit;
   transition: border-color 320ms cubic-bezier(0.23, 1, 0.32, 1), background 320ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-.area-all-n { font-size: clamp(30px, 3.4vw, 40px); letter-spacing: -0.04em; line-height: 1; }
-.area-all-in .body { color: var(--w-2); font-size: 13px; line-height: 1.5; margin-top: 10px; }
-.area-all-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 18px; font-size: 14px; }
+.area-all-n { font-size: clamp(34px, 3.8vw, 46px); letter-spacing: -0.045em; line-height: 1; }
+.area-all-in .body { color: var(--w-2); font-size: 13.5px; line-height: 1.5; margin-top: 12px; }
+.area-all-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 20px; font-size: 14px; }
 .area-all-cta svg { opacity: var(--w-3); transition: transform 320ms cubic-bezier(0.23, 1, 0.32, 1); }
-.area-all-in:hover { border-color: rgb(var(--accent)); background: rgba(var(--accent), 0.08); }
+.area-all-in:hover { border-color: var(--line-3); background: rgba(255, 255, 255, 0.038); }
 .area-all-in:hover .area-all-cta svg { transform: translateX(3px); }
 .area-all-in:focus-visible { outline: 2px solid var(--w-1); outline-offset: 3px; }
 
 @media (max-width: 900px) {
   .areas > li { grid-template-columns: 1fr; gap: 26px; }
   .area-t { max-width: none; }
+  .area-ghost { font-size: 118px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .area-cta, .area-cta svg, .area-items a, .area-all-in, .area-all-cta svg { transition-duration: 1ms; }
 }
-
-/* Depth for the bands: the practice's own render bleeding off the right edge,
-   masked hard so it is atmosphere rather than a plate, and the index number at
-   watermark scale behind the copy. Both sit under everything and neither
-   competes with the text on top of them. */
-.area-bg {
-  position: absolute;
-  top: 0;
-  right: -6%;
-  width: 62%;
-  height: 100%;
-  z-index: -2;
-  pointer-events: none;
-  opacity: 0.55;
-  transition: opacity 700ms cubic-bezier(0.23, 1, 0.32, 1);
-}
-.area-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Blurred past legibility on purpose. Unblurred, the render's own labels
-     read through the cards in front of it — "Change Copilot", "no data
-     egress" — which looks like a rendering fault rather than depth. What is
-     wanted here is the colour and the light, not the content. */
-  filter: blur(34px) saturate(1.15);
-  transform: scale(1.12);
-  -webkit-mask-image: radial-gradient(70% 70% at 78% 50%, #000 20%, transparent 78%);
-  mask-image: radial-gradient(70% 70% at 78% 50%, #000 20%, transparent 78%);
-}
-.areas > li:hover .area-bg { opacity: 0.8; }
-
-.area-ghost {
-  position: absolute;
-  top: clamp(18px, 3vw, 44px);
-  left: -0.06em;
-  z-index: -1;
-  font-size: clamp(120px, 17vw, 230px);
-  line-height: 0.78;
-  letter-spacing: -0.06em;
-  color: rgb(var(--accent));
-  opacity: 0.07;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* The sub-item cards get their own ground so the backdrop never washes them. */
-.area-items { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
-.area-items > li { background: rgba(6, 6, 6, 0.92); }
-.area-all-in { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
-
-@media (max-width: 900px) {
-  .area-bg { width: 100%; right: 0; opacity: 0.26; }
-  .area-ghost { font-size: 110px; top: 6px; }
-}
-
-@media (prefers-reduced-motion: reduce) { .area-bg { transition-duration: 1ms; } }
