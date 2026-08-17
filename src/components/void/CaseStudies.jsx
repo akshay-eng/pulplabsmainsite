@@ -1,73 +1,72 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
+import * as Tabs from '@radix-ui/react-tabs'
+import Chevron from '@/components/apple/Chevron'
 import LoopVideo from '@/components/void/LoopVideo'
 
-/* Case studies as two side-by-side cards rather than a tab strip.
- *
- * Tabs hid half the evidence behind a click, and with only two engagements
- * that is a control standing in front of the content it controls. Both are
- * visible now, and the section is shorter than one tab used to be.
- *
- * The media is real-world footage of the client's actual working environment —
- * a packaging warehouse, a desk of marked-up transcripts — not an invented
- * interface. A generated screen says "here is a mockup"; a room says "this
- * happened somewhere". It is also the one thing Veo does well: photoreal
- * footage with real depth of field, rather than type it cannot render.
- *
- * Server component: no state left to hold once the tabs are gone.
- */
+/* Case studies as a tab strip over a full-bleed stage: a centred row of client
+   tabs, and below it one wide media panel with the story card overlaid on the
+   left. Same Radix Tabs primitive as FunctionExplorer, horizontal this time.
+
+   Content comes from the case_studies table (seeded from the two engagements
+   the clients have signed off), passed down from the server route — this
+   component renders nothing if the table is empty, so an unseeded database
+   never shows an empty frame. */
 export default function CaseStudies({ cases = [] }) {
+  const [active, setActive] = useState(cases[0]?.slug)
   if (!cases.length) return null
 
   return (
-    <ul className="cse">
-      {cases.map((c, i) => (
-        <li key={c.slug} data-r style={{ '--rd': `${i * 80}ms` }}>
-          <Link href={`/case-studies/${c.slug}`} className="cse-card">
-            <span className="cse-media">
-              {c.loop_video ? (
-                <LoopVideo src={c.loop_video} poster={c.cover_image} className="cse-loop" />
-              ) : (
-                c.cover_image && <img src={c.cover_image} alt="" loading="lazy" decoding="async" />
-              )}
-              {/* The footage is the ground the copy sits on, so it needs a
-                  scrim — legibility over a moving image cannot be left to
-                  whatever frame happens to be showing. */}
-              <span className="cse-scrim" aria-hidden="true" />
+    <Tabs.Root value={active} onValueChange={setActive} activationMode="automatic">
+      <Tabs.List className="cse-tabs" aria-label="Case studies">
+        {cases.map((c) => (
+          <Tabs.Trigger key={c.slug} value={c.slug} className="cse-tab">
+            {c.client}
+          </Tabs.Trigger>
+        ))}
+      </Tabs.List>
 
-              <span className="cse-over">
-                <span className="mono cse-k">
-                  {c.client}
-                  {c.industry ? ` · ${c.industry}` : ''}
-                </span>
-                <span className="cse-t">{c.title}</span>
-              </span>
-            </span>
+      {cases.map((c) => (
+        <Tabs.Content key={c.slug} value={c.slug} className="cse-stage">
+          <div className="cse-media" aria-hidden="true">
+            {c.loop_video ? (
+              /* Real footage of the client's working environment. LoopVideo
+                 refuses to fetch under reduced-motion, Save-Data or off-screen
+                 and falls back to cover_image, so the stage is never empty. */
+              <LoopVideo src={c.loop_video} poster={c.cover_image} className="cse-loop" />
+            ) : (
+              c.cover_image && <img src={c.cover_image} alt="" loading="lazy" decoding="async" />
+            )}
+            <span className="cse-scrim" aria-hidden="true" />
+          </div>
 
-            <span className="cse-foot">
-              <span className="body cse-s">{c.summary}</span>
+          <article className="cse-card" data-r>
+            <p className="mono cse-k">
+              {c.client}
+              {c.industry ? ` · ${c.industry}` : ''}
+            </p>
+            <h3 className="d3 cse-t">{c.title}</h3>
+            <p className="body cse-s">{c.summary}</p>
 
-              {c.metrics?.length > 0 && (
-                <span className="cse-out">
-                  {c.metrics.slice(0, 3).map((m) => (
-                    <span key={m.figure + m.caption}>
-                      <b>{m.figure}</b>
-                      <span className="mono">{m.caption}</span>
-                    </span>
-                  ))}
-                </span>
-              )}
+            {c.metrics?.length > 0 && (
+              <ul className="cse-out">
+                {c.metrics.map((m) => (
+                  <li key={m.figure + m.caption}>
+                    <b>{m.figure}</b>
+                    <span className="mono">{m.caption}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
 
-              <span className="cse-more">
-                Read the story
-                <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true">
-                  <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.4" fill="none"
-                    strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            </span>
-          </Link>
-        </li>
+            <Link href={`/case-studies/${c.slug}`} className="cse-more">
+              Read the story <Chevron />
+            </Link>
+          </article>
+        </Tabs.Content>
       ))}
-    </ul>
+    </Tabs.Root>
   )
 }
