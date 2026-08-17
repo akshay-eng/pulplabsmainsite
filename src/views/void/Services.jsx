@@ -9,35 +9,61 @@ import CapCard from '@/components/void/CapCard'
 import CategoryPicker from '@/components/void/CategoryPicker'
 import { catalogue } from '@/data/capabilities'
 
-/* Four practice areas, not five: enterprise accelerators and small business
- * systems were the same practice sold to two buyer sizes, and splitting them
- * made a visitor pick a category before they had picked a problem.
+/* Four practice areas. Enterprise accelerators and small business systems
+ * were the same practice sold to two buyer sizes, so they are one now.
  *
- * BUILD is rendered as a featured band because it is the one that carries a
- * catalogue — the other three are the work around it, which is what the
- * section header has always said. Nothing collapses: an accordion that shuts
- * the panel you were reading in order to open another is a control fighting
- * its own content. */
-const BUILD = {
-  k: 'Systems we build',
-  t: 'Production-tested, and deployed inside your estate.',
-  b: 'Accelerators for IT operations and growth systems for smaller teams — the same practice, sized to the estate. Everything runs inside your boundary rather than as multi-tenant SaaS, wired to the systems you already own, and every irreversible action waits for a named human.',
-  examples: ['incident-intelligence', 'lead-engine'],
-}
-
-const PRACTICES = [
-  { id: 'advisory', n: '02', k: 'Advisory & strategy', t: 'Find out where AI pays back — and where it does not.',
-    tone: 'amber', art: 'pa-advisory', href: '/services/advisory', cta: 'How an assessment runs',
+ * Every area is a band: the claim on the left, its parts on the right, all on
+ * one grid. Nothing collapses and nothing is indented differently from its
+ * neighbour — the accordion hid content, and the pass after it left the two
+ * rows on different margins.
+ *
+ * `accent` tints the rule and the label only. Saturated colour is reserved for
+ * the two flagship products; three neon plates competing on one page made the
+ * page louder without making it clearer. */
+const AREAS = [
+  {
+    id: 'build', n: '01', k: 'Systems we build', accent: '56, 189, 248',
+    t: 'Production-tested, and deployed inside your estate.',
+    b: 'Accelerators for IT operations and growth systems for smaller teams — the same practice, sized to the estate. Everything runs inside your boundary rather than as multi-tenant SaaS, wired to the systems you already own, and every irreversible action waits for a named human.',
+    href: '/services#catalogue', cta: 'Browse all systems',
+    examples: ['incident-intelligence', 'lead-engine'],
+  },
+  {
+    id: 'advisory', n: '02', k: 'Advisory & strategy', accent: '251, 146, 60',
+    t: 'Find out where AI pays back — and where it does not.',
     b: 'Four weeks, four artefacts, one answer. We map the workflow as it actually runs, cost every step in hours and error rate, and rank what is worth automating against what is not — including the row that says do not automate this.',
-    items: ['AI readiness assessment', 'Use-case discovery, ranked by payback', 'Adoption roadmap with an abandon condition', 'Governance & risk framework'] },
-  { id: 'enablement', n: '03', k: 'Enablement & workshops', t: 'Capability transfer, not a training day.',
-    tone: 'violet', art: 'pa-enablement', href: '/services/enablement', cta: 'Platforms and curricula',
-    b: 'Certified instruction across five platforms in three fixed lengths, plus custom. Every session runs on your workflows and your data rather than a generic exercise, and every cohort leaves with something in production.',
-    items: ['Claude, Codex, Copilot, Gemini, watsonx', 'One-day, three-day and one-week cohorts', 'On-site, online or hybrid', 'Each cohort ships something'] },
-  { id: 'managed', n: '04', k: 'Managed operations', t: 'We run what we build.',
-    tone: 'green', art: 'pa-managed', href: '/services/managed', cta: 'How we run it after handover',
-    b: 'Monitoring on behaviour rather than uptime, evaluation sets re-scored as your estate changes, and tuning that ships behind a flag. Handover happens first — staying on is your option, not a dependency we engineer in.',
-    items: ['Monitoring on behaviour, not uptime', 'Evaluation harnesses, re-scored', 'Tuning behind a flag', 'Quarterly review in your numbers'] },
+    href: '/services/advisory', cta: 'How an assessment runs',
+    items: [
+      ['AI readiness assessment', 'Artefact 01', 'Where you actually are, not where a vendor says you are.', '/services/advisory#readiness'],
+      ['Use-case discovery', 'Artefact 02', 'Ranked by payback, with an explicit do-not-automate list.', '/services/advisory#discovery'],
+      ['Adoption roadmap', 'Artefact 03', 'Sequenced so each phase funds the next, with an abandon condition.', '/services/advisory#roadmap'],
+      ['Governance & risk', 'Artefact 04', 'The framework your auditors will ask for, written for your risk function.', '/services/advisory#governance'],
+    ],
+  },
+  {
+    id: 'enablement', n: '03', k: 'Enablement & workshops', accent: '167, 139, 250',
+    t: 'Capability transfer, not a training day.',
+    b: 'Certified instruction across Claude, Codex, Copilot, Gemini and watsonx Orchestrate, in three fixed lengths plus custom. Every session runs on your workflows and your data rather than a generic exercise, and every cohort leaves with something in production.',
+    href: '/services/enablement', cta: 'Platforms and curricula',
+    items: [
+      ['Executive briefing', 'One day', 'For the people who approve the budget. One working artefact by the end.', '/services/enablement#one-day'],
+      ['Builder bootcamp', 'Three days', 'Hands-on for the people who ship. Agents, tools and evaluation.', '/services/enablement#three-day'],
+      ['Embedded enablement', 'One week', 'Alongside your team on live work, taking one workflow into production.', '/services/enablement#one-week'],
+      ['Custom cohort', 'Scoped', 'Mixed platforms, a regulated estate, or roles split across separate tracks.', '/services/enablement#custom'],
+    ],
+  },
+  {
+    id: 'managed', n: '04', k: 'Managed operations', accent: '52, 211, 153',
+    t: 'We run what we build.',
+    b: 'Monitoring on behaviour rather than uptime, evaluation sets re-scored as your estate changes, and tuning that ships behind a flag. Handover happens first — staying on afterwards is your option, not a dependency we engineer in.',
+    href: '/services/managed', cta: 'How we run it after handover',
+    items: [
+      ['Monitoring & alerting', 'Ongoing', 'On the behaviour that matters — quality, refusals and drift, not uptime.', '/services/managed#monitoring'],
+      ['Evaluation harnesses', 'Ongoing', 'Re-scored as your estate changes, so a passing suite still means something.', '/services/managed#evaluation'],
+      ['Model & prompt tuning', 'On change', 'Regression-checked and shipped behind a flag, never straight to production.', '/services/managed#tuning'],
+      ['Quarterly review', 'Quarterly', 'What it saved, in your numbers — including the quarters where it is not much.', '/services/managed#review'],
+    ],
+  },
 ]
 
 export default function Services() {
@@ -73,62 +99,58 @@ export default function Services() {
                 deciding what to build, teaching your team, and keeping it honest afterwards.
               </p>
             </header>
-            <div className="pa-lead">
-              <p className="mono pa-n">01</p>
-              <div className="pa-lead-copy">
-                <h3 className="d3">{BUILD.k}</h3>
-                <p className="body">{BUILD.b}</p>
-              </div>
-            </div>
+            <ul className="areas">
+              {AREAS.map((a, i) => (
+                <li key={a.id} data-r style={{ '--rd': `${i * 60}ms`, '--accent': a.accent }}>
+                  <div className="area-copy">
+                    <p className="mono area-n">{a.n}</p>
+                    <p className="mono area-k">{a.k}</p>
+                    <h3 className="area-t">{a.t}</h3>
+                    <p className="body area-b">{a.b}</p>
+                    <Link href={a.href} className="area-cta">
+                      {a.cta}
+                      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.4" fill="none"
+                          strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </Link>
+                  </div>
 
-            <ul className="caps pa-eg">
-              {BUILD.examples.map((slug, j) => {
-                const cap = catalogue.find((c) => c.slug === slug)
-                return cap ? <CapCard key={slug} cap={cap} i={j} /> : null
-              })}
-              <li className="pa-more" data-r style={{ '--rd': '120ms' }}>
-                <a href="#catalogue" className="pa-more-in">
-                  <span className="pa-more-n">{catalogue.length}</span>
-                  <span className="body">systems in total, across six teams and six sectors.</span>
-                  <span className="pa-more-cta">
-                    View them all
-                    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-                      <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.4" fill="none"
-                        strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                </a>
-              </li>
-            </ul>
-
-            <ul className="pa-rest">
-              {PRACTICES.map((c, i) => (
-                <li key={c.id} data-r style={{ '--rd': `${i * 70}ms` }} data-tone={c.tone}>
-                  <span className="pa-art" aria-hidden="true">
-                    <img src={`/void/${c.art}.webp`} alt="" loading="lazy" decoding="async" />
-                  </span>
-                  <p className="mono pa-n">{c.n}</p>
-                  <p className="mono pa-k">{c.k}</p>
-                  <h3 className="pa-t">{c.t}</h3>
-                  <p className="body pa-b">{c.b}</p>
-                  <ul className="pa-items">
-                    {c.items.map((t) => (
-                      <li key={t}>
-                        <svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true">
-                          <path d="M2.5 7.5l3 3 6-7" stroke="currentColor" strokeWidth="1.6" fill="none"
-                            strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        <span>{t}</span>
+                  {a.examples ? (
+                    <ul className="area-eg">
+                      {a.examples.map((slug, j) => {
+                        const cap = catalogue.find((c) => c.slug === slug)
+                        return cap ? <CapCard key={slug} cap={cap} i={j} /> : null
+                      })}
+                      <li className="area-all">
+                        <a href="#catalogue" className="area-all-in">
+                          <span className="area-all-n">{catalogue.length}</span>
+                          <span className="body">systems in total, across six teams and six sectors.</span>
+                          <span className="area-all-cta">
+                            View them all
+                            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.4" fill="none"
+                                strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </span>
+                        </a>
                       </li>
-                    ))}
-                  </ul>
-                  <Link href={c.href} className="cat-more">
-                    {c.cta}
-                    <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true">
-                      <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.4" fill="none"
-                        strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </Link>
+                    </ul>
+                  ) : (
+                    <ul className="area-items">
+                      {a.items.map(([t, tag, d, href]) => (
+                        <li key={t}>
+                          <Link href={href}>
+                            <span className="area-i-top">
+                              <span className="area-i-t">{t}</span>
+                              <span className="mono area-i-tag">{tag}</span>
+                            </span>
+                            <span className="body area-i-d">{d}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>
