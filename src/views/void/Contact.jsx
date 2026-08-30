@@ -67,7 +67,7 @@ export default function Contact() {
   }
 
   const mailto = `mailto:hello@pulplabs.ai?subject=${encodeURIComponent(
-    `Enquiry — ${values.company || values.name}`,
+    `Enquiry from ${values.company || values.name}`,
   )}&body=${encodeURIComponent(
     `Name: ${values.name}\nEmail: ${values.email}\nCompany: ${values.company}\nTopic: ${values.topic}\n\n${values.message}`,
   )}`
@@ -85,7 +85,7 @@ export default function Contact() {
               that is <span className="dim">eating your week.</span>
             </h1>
             <p className="lede phead-l">
-              Thirty minutes with an engineer, no deck. You will leave with a straight answer on whether AI helps here —
+              Thirty minutes with an engineer, no deck. You will leave with a straight answer on whether AI helps here,
               even if that answer is no.
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function Contact() {
                 <p className="mono">What happens next</p>
                 <ol className="contact-next">
                   <li>We reply the same working day.</li>
-                  <li>Thirty minutes, with an engineer — not a salesperson.</li>
+                  <li>Thirty minutes, with an engineer rather than a salesperson.</li>
                   <li>If we are not the right fit, we say so.</li>
                 </ol>
               </div>
@@ -123,7 +123,7 @@ export default function Contact() {
               <div className="contact-done" role="status" data-r>
                 <h2 className="d3">Almost there, {values.name.split(' ')[0]}.</h2>
                 <p className="body">
-                  It is with us — we reply the same working day. If you would rather add anything, the button
+                  It is with us, and we reply the same working day. If you would rather add anything, the button
                   below opens an email with everything you just wrote.
                 </p>
                 <a className="btn" href={mailto}>

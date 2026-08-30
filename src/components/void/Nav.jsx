@@ -58,7 +58,7 @@ export default function Nav() {
         </ul>
 
         <div className="nv-end">
-          <StartCta className="btn nv-cta" message="Hi PulpLabs — I'd like to start an AI project.">Start a project</StartCta>
+          <StartCta className="btn nv-cta" message="Hi PulpLabs, I'd like to start an AI project.">Start a project</StartCta>
           <button
             type="button"
             className="nv-toggle"
@@ -80,7 +80,7 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-        <StartCta className="btn nv-sheet-cta" message="Hi PulpLabs — I'd like to start an AI project.">Start a project</StartCta>
+        <StartCta className="btn nv-sheet-cta" message="Hi PulpLabs, I'd like to start an AI project.">Start a project</StartCta>
       </div>
     </header>
   )

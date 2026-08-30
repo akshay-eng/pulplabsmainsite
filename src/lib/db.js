@@ -42,7 +42,7 @@ function connect() {
   if (isNew && process.env.NODE_ENV === 'production') {
     console.warn(
       `[db] Created a NEW empty database at ${DB_PATH}. ` +
-        'If you expected existing content, DATABASE_PATH is wrong — it must be absolute in production.',
+        'If you expected existing content, DATABASE_PATH is wrong. It must be absolute in production.',
     )
   } else {
     console.log(`[db] ${DB_PATH}${isNew ? ' (new)' : ''}`)

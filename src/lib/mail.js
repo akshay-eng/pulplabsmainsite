@@ -71,15 +71,15 @@ async function sendViaSmtp({ subject, text, replyTo }) {
 
 export async function sendEnquiryMail(enquiry) {
   if (!mailConfigured()) {
-    console.warn(`[mail] not sent — ${mailStatus()}. Enquiry #${enquiry.id} is saved in the database.`)
+    console.warn(`[mail] not sent. ${mailStatus()}. Enquiry #${enquiry.id} is saved in the database.`)
     return { ok: false, skipped: true, reason: mailStatus() }
   }
 
-  const subject = `Enquiry — ${enquiry.company || enquiry.name} (${enquiry.topic})`
+  const subject = `Enquiry from ${enquiry.company || enquiry.name} (${enquiry.topic})`
   const text = [
     `Name:     ${enquiry.name}`,
     `Email:    ${enquiry.email}`,
-    `Company:  ${enquiry.company || '—'}`,
+    `Company:  ${enquiry.company || 'n/a'}`,
     `Topic:    ${enquiry.topic}`,
     `Received: ${enquiry.created_at}`,
     `Source:   ${enquiry.source || 'contact form'}`,
@@ -88,7 +88,7 @@ export async function sendEnquiryMail(enquiry) {
     '-------',
     enquiry.message,
     '',
-    `— sent by pulplabs.ai · enquiry #${enquiry.id}`,
+    `Sent by pulplabs.ai · enquiry #${enquiry.id}`,
   ].join('\n')
 
   try {

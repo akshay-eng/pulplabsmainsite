@@ -29,7 +29,7 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>PulpLabs — Blog</title>
+    <title>PulpLabs · Blog</title>
     <link>${SITE_URL}/blog</link>
     <description>Engineering field notes and playbooks from live AI work.</description>
     <language>en-gb</language>

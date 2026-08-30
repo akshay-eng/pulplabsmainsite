@@ -24,7 +24,7 @@ export function whatsappHref(message) {
 
 export default function StartCta({
   children,
-  message = "Hi PulpLabs — I'd like to book a 30-minute call about an AI project.",
+  message = "Hi PulpLabs, I'd like to book a 30-minute call about an AI project.",
   href = '/contact',
   className = 'btn',
 }) {

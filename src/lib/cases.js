@@ -130,7 +130,7 @@ function normalise(input, { existing = null } = {}) {
 export function validateCase(v) {
   const errors = {}
   if (!v.title || v.title.length < 3) errors.title = 'Title needs at least 3 characters.'
-  if (!v.client) errors.client = 'Client is required — it is the kicker on the card.'
+  if (!v.client) errors.client = 'Client is required. It is the kicker on the card.'
   if (!v.summary) errors.summary = 'A summary is required; it is the card copy and the meta description.'
   if (v.summary && v.summary.length > 320) errors.summary = 'Keep the summary under 320 characters.'
   return errors

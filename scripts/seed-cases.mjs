@@ -45,7 +45,7 @@ Enquiries arrived at all hours and a quote took two days to leave the building. 
 
 Quotes that took two days now go out in twenty minutes, and the team gets about nine hours a week back.
 
-_Body copy carried over from the original site — edit it in the admin._`,
+_Body copy carried over from the original site. Edit it in the admin._`,
   },
   {
     slug: 'from-transcripts-to-themes-overnight',
@@ -57,7 +57,7 @@ _Body copy carried over from the original site — edit it in the admin._`,
     loop_video: '/void/cases/research',
     position: 1,
     summary:
-      "Field recordings now transcribe, code and cluster themselves against the team's own framework — researchers spend their time on interpretation instead of tagging.",
+      "Field recordings now transcribe, code and cluster themselves against the team's own framework, so researchers spend their time on interpretation instead of tagging.",
     metrics: [
       { figure: '70%', caption: 'less manual coding' },
       { figure: '3×', caption: 'interviews per study' },
@@ -69,13 +69,13 @@ Thematic coding was the slowest part of every study. Researchers spent more time
 
 ## What we built
 
-Field recordings transcribe, code and cluster themselves against the team's own existing framework. The framework stayed theirs — that part is the research.
+Field recordings transcribe, code and cluster themselves against the team's own existing framework. The framework stayed theirs, because that part is the research.
 
 ## What changed
 
 Seventy per cent less manual coding, three times the interviews per study, and a draft insight deck inside a day.
 
-_Body copy carried over from the original site — edit it in the admin._`,
+_Body copy carried over from the original site. Edit it in the admin._`,
   },
 ]
 

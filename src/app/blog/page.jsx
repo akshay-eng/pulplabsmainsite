@@ -11,10 +11,10 @@ import { repos } from '@/data/blog'
 export const metadata = {
   title: 'Blog',
   description:
-    'Engineering field notes and playbooks from live AI work — evals, agent migrations, adoption and the things that broke.',
+    'Engineering field notes and playbooks from live AI work: evals, agent migrations, adoption and the things that broke.',
   alternates: { canonical: '/blog' },
   openGraph: {
-    title: 'Blog — PulpLabs',
+    title: 'Blog · PulpLabs',
     description: 'Engineering field notes and playbooks from live AI work.',
     url: '/blog',
   },

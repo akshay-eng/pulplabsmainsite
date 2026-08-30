@@ -58,7 +58,7 @@ export default function Home({ cases = [] }) {
             </p>
 
             <div className="hero-cta">
-              <StartCta href="/contact" message="Hi PulpLabs — I'd like to book a 30-minute consultation.">Book a 30-min consultation <Chevron /></StartCta>
+              <StartCta href="/contact" message="Hi PulpLabs, I'd like to book a 30-minute consultation.">Book a 30-min consultation <Chevron /></StartCta>
               <Link href="/services" className="btn btn-ghost">
                 View service catalogue
               </Link>
@@ -117,7 +117,7 @@ export default function Home({ cases = [] }) {
               <h2 className="d3">Before anyone writes code.</h2>
               <p className="body">
                 We map the workflow as it actually runs, cost each step in hours and error rate, and rank what is
-                worth automating against what is not. Then we teach your team to run it — certified instruction on
+                worth automating against what is not. Then we teach your team to run it, with certified instruction on
                 Claude, OpenAI, Copilot, Gemini and watsonx Orchestrate, every session on your own workflows rather
                 than a generic exercise.
               </p>
@@ -156,8 +156,8 @@ export default function Home({ cases = [] }) {
               <p className="mono">What is already built</p>
               <h2 className="d3">Systems we have run before.</h2>
               <p className="body">
-                Production-tested accelerators for IT operations — incident triage, change drafting, patch
-                sequencing, agent migration — and growth systems for smaller teams that go live in about four weeks.
+                Production-tested accelerators for IT operations: incident triage, change drafting, patch
+                sequencing and agent migration, plus growth systems for smaller teams that go live in about four weeks.
                 All of it deployed inside your boundary rather than as multi-tenant SaaS, wired to the ITSM, CMDB and
                 line-of-business systems you already run.
               </p>
@@ -221,7 +221,7 @@ export default function Home({ cases = [] }) {
                 {
                   slug: 'evals', img: 'prod-evals', name: 'Evals', tone: 'violet',
                   kicker: 'Observability',
-                  d: 'Watch what actually degrades — answer quality, drift, refusals, cost per run. A model that is up and answering badly passes every check you own.',
+                  d: 'Watch what actually degrades: answer quality, drift, refusals and cost per run. A model that is up and answering badly passes every check you own.',
                   tags: ['Live scoring', 'Drift alerts', 'CI regression gate'],
                 },
                 {

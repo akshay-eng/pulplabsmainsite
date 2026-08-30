@@ -29,10 +29,10 @@ export async function generateMetadata({ params }) {
   if (!c) return {}
   const kind = c.kind === 'function' ? 'by team' : 'by sector'
   return {
-    title: `${c.name} — PulpLabs`,
+    title: `${c.name} · PulpLabs`,
     description: c.blurb,
     alternates: { canonical: `/services/for/${c.id}` },
-    openGraph: { title: `${c.name} — AI solutions ${kind}`, description: c.blurb, url: `/services/for/${c.id}` },
+    openGraph: { title: `${c.name} · AI solutions ${kind}`, description: c.blurb, url: `/services/for/${c.id}` },
   }
 }
 
@@ -91,7 +91,7 @@ export default async function Category({ params }) {
           <div className="shell center close-in">
             <h2 className="d2 measure" data-r>Not seeing your workflow?</h2>
             <p className="lede measure-w close-l" data-r style={{ '--rd': '80ms' }}>
-              This is what we have built more than once. Most engagements start with something that is not on the list —
+              This is what we have built more than once. Most engagements start with something that is not on the list, so
               tell us what is eating your week and we will say honestly whether it is worth building.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>

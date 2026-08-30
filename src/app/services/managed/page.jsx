@@ -6,9 +6,9 @@ import Chevron from '@/components/apple/Chevron'
 import StartCta from '@/components/void/StartCta'
 
 export const metadata = {
-  title: 'Managed operations — PulpLabs',
+  title: 'Managed operations · PulpLabs',
   description:
-    'Monitoring, evaluation, tuning and quarterly review for what we build — for as long as you want us, and no longer. Handover happens first; staying on is your option.',
+    'Monitoring, evaluation, tuning and quarterly review for what we build, for as long as you want us and no longer. Handover happens first; staying on is your option.',
   alternates: { canonical: '/services/managed' },
   openGraph: { images: [{ url: '/void/managed/mo-hero.webp', width: 1600, height: 900 }] },
 }
@@ -22,7 +22,7 @@ const SERVICES = [
     art: 'mo-monitoring',
     k: 'Monitoring & alerting',
     t: 'On behaviour, not just uptime.',
-    b: 'A model that is up and answering badly passes every infrastructure check you have. We watch the things that actually degrade — answer quality against a held-out set, refusal and escalation rates, retrieval hit rate, latency and cost per run — and alert on the ones that move. Drift is slow and quiet, which is exactly why it needs a threshold rather than a person noticing.',
+    b: 'A model that is up and answering badly passes every infrastructure check you have. We watch the things that actually degrade: answer quality against a held-out set, refusal and escalation rates, retrieval hit rate, latency and cost per run, and we alert on the ones that move. Drift is slow and quiet, which is exactly why it needs a threshold rather than a person noticing.',
     out: ['Quality, refusal and drift tracked against a baseline', 'Alerts routed into the on-call you already run', 'Cost and latency per run, visible'],
   },
   {
@@ -31,7 +31,7 @@ const SERVICES = [
     art: 'mo-evaluation',
     k: 'Evaluation harnesses',
     t: 'A passing suite that still means something.',
-    b: 'An eval set written at launch measures the world at launch. Your estate changes, your documentation changes, the questions people ask change — and a suite that never changes with them keeps passing while the system gets worse. We add cases from live traffic, retire ones that no longer represent anything, and keep the gate in CI so a prompt change cannot ship on a hunch.',
+    b: 'An eval set written at launch measures the world at launch. Your estate changes, your documentation changes, the questions people ask change, and a suite that never changes with them keeps passing while the system gets worse. We add cases from live traffic, retire ones that no longer represent anything, and keep the gate in CI so a prompt change cannot ship on a hunch.',
     out: ['Cases added from real traffic, not invented', 'Regression gate wired into your pipeline', 'Failures reported with the case that caught them'],
   },
   {
@@ -49,7 +49,7 @@ const SERVICES = [
     art: 'mo-review',
     k: 'Quarterly review',
     t: 'What it saved, in your numbers.',
-    b: 'Once a quarter we put the measure agreed at scoping next to what actually happened, in the units your finance team uses rather than ours. That includes the quarters where the honest answer is "not much" — and if a system stops earning its keep, saying so is part of the job. A review that only ever reports success is a renewal pitch.',
+    b: 'Once a quarter we put the measure agreed at scoping next to what actually happened, in the units your finance team uses rather than ours. That includes the quarters where the honest answer is "not much". If a system stops earning its keep, saying so is part of the job. A review that only ever reports success is a renewal pitch.',
     out: ['Measured against the criteria set at scoping', 'Written in your units, not ours', 'An explicit recommendation, including to stop'],
   },
 ]
@@ -72,7 +72,7 @@ export default function Managed() {
             </p>
             <h1 className="d1 cat-h">We run what we build.</h1>
             <p className="lede cat-l">
-              Monitoring, evaluation and tuning for as long as you want us — and no longer. Handover happens first,
+              Monitoring, evaluation and tuning for as long as you want us and no longer. Handover happens first,
               not at the end of a notice period.
             </p>
             <p className="cat-note">
@@ -132,7 +132,7 @@ export default function Managed() {
               is to retire it rather than operate it, we will say so before you sign anything.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
-              <StartCta message="Hi PulpLabs — I have a system running that needs monitoring and support.">Talk to an engineer <Chevron /></StartCta>
+              <StartCta message="Hi PulpLabs, I have a system running that needs monitoring and support.">Talk to an engineer <Chevron /></StartCta>
             </div>
           </div>
         </section>

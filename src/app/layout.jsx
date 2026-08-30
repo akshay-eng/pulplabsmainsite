@@ -22,8 +22,8 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://pulplabs.ai
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'PulpLabs — Get to the pulp of what your business needs from AI',
-    template: '%s — PulpLabs',
+    default: 'PulpLabs · Get to the pulp of what your business needs from AI',
+    template: '%s · PulpLabs',
   },
   description:
     'An AI consultancy and engineering firm. Accelerators for enterprise operations, growth systems for small teams, and the enablement that makes either one stick.',

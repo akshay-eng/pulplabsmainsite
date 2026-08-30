@@ -367,7 +367,7 @@ export default function AIDock() {
               {messages.length === 0 && (
                 <div className="dock-empty">
                   <p>
-                    Ask about our services, accelerators, process or security posture — or say <em>book a call</em> and
+                    Ask about our services, accelerators, process or security posture, or say <em>book a call</em> and
                     I'll take your details.
                   </p>
                 </div>

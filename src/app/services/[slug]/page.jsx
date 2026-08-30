@@ -20,11 +20,11 @@ export async function generateMetadata({ params }) {
   const cap = getCapability(slug)
   if (!cap) return {}
   return {
-    title: `${cap.name} — PulpLabs`,
+    title: `${cap.name} · PulpLabs`,
     description: cap.tagline,
     alternates: { canonical: `/services/${cap.slug}` },
     openGraph: {
-      title: `${cap.name} — PulpLabs`,
+      title: `${cap.name} · PulpLabs`,
       description: cap.tagline,
       url: `/services/${cap.slug}`,
       images: [{ url: `/void/cards/${cap.slug}.webp`, width: 1000, height: 545 }],
@@ -63,8 +63,8 @@ export default async function CapabilityPage({ params }) {
             <h1 className="d2 cdet-h">{cap.name}</h1>
             <p className={`sol-status is-${cap.status}`}>
               {cap.status === 'production'
-                ? 'Accelerator — running in client estates today'
-                : 'Built to scope — a shape we have built before, fitted to your systems'}
+                ? 'Accelerator · running in client estates today'
+                : 'Built to scope · a shape we have built before, fitted to your systems'}
             </p>
             <p className="lede cdet-l">{cap.tagline}</p>
 
@@ -110,11 +110,11 @@ export default async function CapabilityPage({ params }) {
           <div className="shell center close-in">
             <h2 className="d2 measure" data-r>Want this running on your estate?</h2>
             <p className="lede measure-w close-l" data-r style={{ '--rd': '80ms' }}>
-              Thirty minutes with an engineer. We will tell you what it takes to stand up here — and if it is the
+              Thirty minutes with an engineer. We will tell you what it takes to stand up here, and if it is the
               wrong fit for your workflow, we will tell you that instead.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
-              <StartCta message={`Hi PulpLabs — I'm interested in ${cap.name}.`}>Start the conversation <Chevron /></StartCta>
+              <StartCta message={`Hi PulpLabs, I'm interested in ${cap.name}.`}>Start the conversation <Chevron /></StartCta>
             </div>
           </div>
         </section>

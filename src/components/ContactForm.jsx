@@ -61,7 +61,7 @@ export default function ContactForm() {
         Book the consultation
       </button>
 
-      {sent && <p className="form-note">Thanks — we'll come back to you within one working day.</p>}
+      {sent && <p className="form-note">Thanks, we'll come back to you within one working day.</p>}
     </form>
   )
 }

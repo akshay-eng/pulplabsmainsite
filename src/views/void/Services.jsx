@@ -28,14 +28,14 @@ const AREAS = [
   {
     id: 'build', n: '01', k: 'Systems we build',
     t: 'Production-tested, and deployed inside your estate.',
-    b: 'Accelerators for IT operations and growth systems for smaller teams — the same practice, sized to the estate. Everything runs inside your boundary rather than as multi-tenant SaaS, wired to the systems you already own, and every irreversible action waits for a named human.',
+    b: 'Accelerators for IT operations and growth systems for smaller teams. Same practice, sized to the estate. Everything runs inside your boundary rather than as multi-tenant SaaS, wired to the systems you already own, and every irreversible action waits for a named human.',
     href: '/services#catalogue', cta: 'Browse all systems',
     examples: ['incident-intelligence', 'lead-engine'],
   },
   {
     id: 'advisory', n: '02', k: 'Advisory & strategy',
-    t: 'Find out where AI pays back — and where it does not.',
-    b: 'Four weeks, four artefacts, one answer. We map the workflow as it actually runs, cost every step in hours and error rate, and rank what is worth automating against what is not — including the row that says do not automate this.',
+    t: 'Find out where AI pays back, and where it does not.',
+    b: 'Four weeks, four artefacts, one answer. We map the workflow as it actually runs, cost every step in hours and error rate, and rank what is worth automating against what is not, right down to the row that says do not automate this.',
     href: '/services/advisory', cta: 'How an assessment runs',
     items: [
       ['AI readiness assessment', 'Artefact 01', 'Where you actually are, not where a vendor says you are.', '/services/advisory#readiness'],
@@ -59,13 +59,13 @@ const AREAS = [
   {
     id: 'managed', n: '04', k: 'Managed operations',
     t: 'We run what we build.',
-    b: 'Monitoring on behaviour rather than uptime, evaluation sets re-scored as your estate changes, and tuning that ships behind a flag. Handover happens first — staying on afterwards is your option, not a dependency we engineer in.',
+    b: 'Monitoring on behaviour rather than uptime, evaluation sets re-scored as your estate changes, and tuning that ships behind a flag. Handover happens first, so staying on afterwards is your option rather than a dependency we engineer in.',
     href: '/services/managed', cta: 'How we run it after handover',
     items: [
-      ['Monitoring & alerting', 'Ongoing', 'On the behaviour that matters — quality, refusals and drift, not uptime.', '/services/managed#monitoring'],
+      ['Monitoring & alerting', 'Ongoing', 'On the behaviour that matters: quality, refusals and drift, not uptime.', '/services/managed#monitoring'],
       ['Evaluation harnesses', 'Ongoing', 'Re-scored as your estate changes, so a passing suite still means something.', '/services/managed#evaluation'],
       ['Model & prompt tuning', 'On change', 'Regression-checked and shipped behind a flag, never straight to production.', '/services/managed#tuning'],
-      ['Quarterly review', 'Quarterly', 'What it saved, in your numbers — including the quarters where it is not much.', '/services/managed#review'],
+      ['Quarterly review', 'Quarterly', 'What it saved, in your numbers, including the quarters where it is not much.', '/services/managed#review'],
     ],
   },
 ]
@@ -99,7 +99,7 @@ export default function Services() {
               <p className="mono step-k">Step one</p>
               <h2 className="d3">How we engage.</h2>
               <p className="lede measure-w">
-                Four practice areas. One builds and runs the systems; the other three are the work around it —
+                Four practice areas. One builds and runs the systems; the other three are the work around it:
                 deciding what to build, teaching your team, and keeping it honest afterwards.
               </p>
             </header>
@@ -169,7 +169,7 @@ export default function Services() {
               <p className="lede measure-w">
                 {catalogue.length} systems sit inside <strong>Enterprise accelerators</strong> and{' '}
                 <strong>Small business systems</strong>. Pick the team that would use one, or the sector you are
-                in — whichever you know first — and you will get just the ones that apply.
+                in, whichever you know first, and you will get just the ones that apply.
               </p>
             </header>
             <CategoryPicker />
@@ -187,7 +187,7 @@ export default function Services() {
               running it. Engagements start with a paid discovery that produces a written scope with success criteria.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
-              <StartCta message="Hi PulpLabs — I'd like a scope for an AI project.">Get a scope <Chevron /></StartCta>
+              <StartCta message="Hi PulpLabs, I'd like a scope for an AI project.">Get a scope <Chevron /></StartCta>
             </div>
           </div>
         </section>

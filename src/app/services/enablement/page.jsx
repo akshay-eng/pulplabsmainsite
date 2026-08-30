@@ -9,7 +9,7 @@ import PlatformMark from '@/components/void/PlatformMark'
 import { delivery, platforms, formats } from '@/data/enablement'
 
 export const metadata = {
-  title: 'Enablement & workshops — PulpLabs',
+  title: 'Enablement & workshops · PulpLabs',
   description:
     'Certified instruction across Claude, OpenAI and Codex, Microsoft Copilot Studio, Gemini and IBM watsonx Orchestrate. One-day, three-day and one-week formats, on-site or online, run on your own workflows.',
   alternates: { canonical: '/services/enablement' },
@@ -31,7 +31,7 @@ export default function Enablement() {
             </p>
             <h1 className="d1 phead-h">Capability transfer, not a training day.</h1>
             <p className="lede phead-l">
-              Five platforms, three fixed lengths, on-site or online — every one of them run on your workflows and
+              Five platforms, three fixed lengths, on-site or online, every one of them run on your workflows and
               your data rather than a generic exercise. Each cohort leaves with something in production.
             </p>
           </div>
@@ -59,7 +59,7 @@ export default function Enablement() {
             <header className="sec-head" data-r>
               <h2 className="d3">Five platforms, taught properly.</h2>
               <p className="lede measure-w">
-                Certified instruction on each — and an honest read on which one suits the job in front of you,
+                Certified instruction on each, plus an honest read on which one suits the job in front of you,
                 including when the answer is a different vendor entirely.
               </p>
             </header>
@@ -81,7 +81,7 @@ export default function Enablement() {
             <header className="sec-head" data-r>
               <h2 className="d3">How it runs.</h2>
               <p className="lede measure-w">
-                The remote format is restructured rather than the same six hours on a call — shorter blocks, more
+                The remote format is restructured rather than the same six hours on a call. Shorter blocks, more
                 days, same labs.
               </p>
             </header>
@@ -105,7 +105,7 @@ export default function Enablement() {
               <h2 className="d3">Pick a platform and a length.</h2>
               <p className="lede measure-w">
                 {platforms.length} platforms × {formats.length} formats, plus custom. Choose two and the curriculum
-                for exactly that combination appears below — nothing else.
+                for exactly that combination appears below, and nothing else.
               </p>
             </header>
             <EnablementExplorer />
@@ -119,7 +119,7 @@ export default function Enablement() {
                 alt="An instructor leaning in over a participant's shoulder while a mixed cohort works at laptops."
                 loading="lazy" decoding="async" />
               <figcaption className="mono">
-                Builder bootcamp — cohorts capped so everyone ships something.
+                Builder bootcamp · cohorts capped so everyone ships something.
               </figcaption>
             </figure>
           </div>
@@ -133,10 +133,10 @@ export default function Enablement() {
             <h2 className="d2 measure" data-r>Tell us who is in the room.</h2>
             <p className="lede measure-w close-l" data-r style={{ '--rd': '80ms' }}>
               Roles, platforms, and the workflow you want the cohort to work on. We will come back with a curriculum
-              built around it — and say so if a shorter format would do the same job.
+              built around it, and say so if a shorter format would do the same job.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
-              <StartCta message="Hi PulpLabs — I'd like to plan an AI enablement cohort for my team.">Plan a cohort <Chevron /></StartCta>
+              <StartCta message="Hi PulpLabs, I'd like to plan an AI enablement cohort for my team.">Plan a cohort <Chevron /></StartCta>
             </div>
           </div>
         </section>

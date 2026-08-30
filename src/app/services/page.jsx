@@ -3,7 +3,7 @@ import Services from '@/views/void/Services'
 export const metadata = {
   title: 'Services',
   description:
-    'Five practice areas: advisory, enterprise accelerators, small business systems, enablement and managed AI operations. No fixed menus, no rate cards — every engagement is scoped from discovery.',
+    'Five practice areas: advisory, enterprise accelerators, small business systems, enablement and managed AI operations. No fixed menus, no rate cards, and every engagement is scoped from discovery.',
   alternates: { canonical: '/services' },
 }
 

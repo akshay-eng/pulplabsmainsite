@@ -5,7 +5,7 @@ export const people = [
   {
     name: 'Name Surname',
     role: 'Founder & AI architect',
-    bio: 'Short bio placeholder — background, focus areas, one human detail.',
+    bio: 'Short bio placeholder. Background, focus areas, one human detail.',
     photo: '/avatars/member-01.webp',
     photoPosition: '50% 20%',
     accent: '#FF6B1A',
@@ -22,7 +22,7 @@ export const people = [
   {
     name: 'Name Surname',
     role: 'Delivery lead',
-    bio: 'Short bio placeholder — background, focus areas, one human detail.',
+    bio: 'Short bio placeholder. Background, focus areas, one human detail.',
     photo: '/avatars/member-02.webp',
     photoPosition: '50% 18%',
     accent: '#F0384B',
@@ -39,7 +39,7 @@ export const people = [
   {
     name: 'Name Surname',
     role: 'ML engineer',
-    bio: 'Short bio placeholder — background, focus areas, one human detail.',
+    bio: 'Short bio placeholder. Background, focus areas, one human detail.',
     photo: '/avatars/member-03.webp',
     photoPosition: '50% 18%',
     accent: '#E8B00A',
@@ -56,7 +56,7 @@ export const people = [
   {
     name: 'Name Surname',
     role: 'Platform engineer',
-    bio: 'Short bio placeholder — background, focus areas, one human detail.',
+    bio: 'Short bio placeholder. Background, focus areas, one human detail.',
     photo: '/avatars/member-04.webp',
     photoPosition: '50% 18%',
     accent: '#7BC043',
@@ -73,7 +73,7 @@ export const people = [
   {
     name: 'Name Surname',
     role: 'Enablement instructor',
-    bio: 'Short bio placeholder — background, focus areas, one human detail.',
+    bio: 'Short bio placeholder. Background, focus areas, one human detail.',
     photo: '/avatars/member-05.webp',
     photoPosition: '50% 18%',
     accent: '#E0447E',
@@ -90,7 +90,7 @@ export const people = [
   {
     name: 'Name Surname',
     role: 'Growth & partnerships',
-    bio: 'Short bio placeholder — background, focus areas, one human detail.',
+    bio: 'Short bio placeholder. Background, focus areas, one human detail.',
     photo: '/avatars/member-06.webp',
     photoPosition: '50% 18%',
     accent: '#FF8A2B',

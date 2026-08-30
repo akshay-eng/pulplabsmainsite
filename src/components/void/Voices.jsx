@@ -29,7 +29,7 @@ const VOICES = [
   {
     ...getClient('ue'),
     org: getClient('ue').name,
-    q: 'Our researchers stopped tagging transcripts and started interpreting them. The coding framework is still ours — the machine just keeps up with it now.',
+    q: 'Our researchers stopped tagging transcripts and started interpreting them. The coding framework is still ours. The machine just keeps up with it now.',
     name: 'Name Surname',
     role: 'Principal',
   },
@@ -42,7 +42,7 @@ const VOICES = [
   {
     ...getClient('moveforward'),
     org: getClient('moveforward').name,
-    q: 'They shipped the boring half first — the bit that cleaned up our data. It made everything after it cheaper, which nobody else had suggested.',
+    q: 'They shipped the boring half first, the bit that cleaned up our data. It made everything after it cheaper, which nobody else had suggested.',
     name: 'Name Surname',
     role: 'Founder',
     draft: true,

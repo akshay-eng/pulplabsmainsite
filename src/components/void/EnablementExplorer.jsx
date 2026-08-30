@@ -74,7 +74,7 @@ export default function EnablementExplorer() {
         {isCustom ? (
           <>
             <header className="ex-head">
-              <h3 className="h4">{custom.name} — {platform.name}</h3>
+              <h3 className="h4">{custom.name} · {platform.name}</h3>
               <p className="mono">By arrangement</p>
             </header>
             <p className="body ex-lede">{custom.blurb}</p>
@@ -95,7 +95,7 @@ export default function EnablementExplorer() {
         ) : (
           <>
             <header className="ex-head">
-              <h3 className="h4">{platform.name} — {format.name}</h3>
+              <h3 className="h4">{platform.name} · {format.name}</h3>
               <p className="mono">{format.length} · {format.cohort} people</p>
             </header>
             <p className="body ex-lede">{format.who}</p>

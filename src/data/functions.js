@@ -24,7 +24,7 @@ export const functions = [
     name: 'IT Operations',
     tag: 'Incident, change, patch and automation',
     blurb:
-      'Where our accelerators are strongest, because it is where we have run the most. All four are deployed inside your estate against the ITSM and CMDB you already run — your data never leaves your boundary for us to operate them.',
+      'Where our accelerators are strongest, because it is where we have run the most. All four are deployed inside your estate against the ITSM and CMDB you already run, so your data never leaves your boundary for us to operate them.',
   },
   {
     id: 'sales',
@@ -117,7 +117,7 @@ export const industries = [
     name: 'Professional services',
     tag: 'Billable time, proposals, contracts',
     blurb:
-      'Capacity is people, so the return comes from taking low-value hours off senior staff — the proposal that starts from a blank page, the contract reread for the fourth time.',
+      'Capacity is people, so the return comes from taking low-value hours off senior staff: the proposal that starts from a blank page, the contract reread for the fourth time.',
     note: 'Anything client-facing keeps a named human owner on the output.',
     solutions: ['proposal-builder', 'pipeline-review', 'contract-review', 'lead-engine', 'report-assembly', 'knowledge-gap'],
   },

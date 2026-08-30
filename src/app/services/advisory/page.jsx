@@ -6,9 +6,9 @@ import Chevron from '@/components/apple/Chevron'
 import StartCta from '@/components/void/StartCta'
 
 export const metadata = {
-  title: 'Advisory & strategy — PulpLabs',
+  title: 'Advisory & strategy · PulpLabs',
   description:
-    'A structured assessment of where AI pays back in your business and where it does not — workflow mapping, ranked use cases, an adoption roadmap and the governance framework your auditors will ask for.',
+    'A structured assessment of where AI pays back in your business and where it does not: workflow mapping, ranked use cases, an adoption roadmap and the governance framework your auditors will ask for.',
   alternates: { canonical: '/services/advisory' },
   openGraph: { images: [{ url: '/void/adv-board.webp', width: 1800, height: 1012 }] },
 }
@@ -33,7 +33,7 @@ const PILLARS = [
     role: 'Operations',
     k: 'Use-case discovery',
     t: 'Ranked by payback, not by novelty.',
-    b: 'We map the workflow as it actually runs — including the steps nobody documented — and cost each one in hours, error rate and delay. Then every candidate gets plotted on payback against effort. The output is a shortlist, and just as usefully, a list of things to leave alone.',
+    b: 'We map the workflow as it actually runs, including the steps nobody documented, and cost each one in hours, error rate and delay. Then every candidate gets plotted on payback against effort. The output is a shortlist, and just as usefully, a list of things to leave alone.',
     out: ['A workflow map of how the work really happens', 'Every candidate scored on payback and effort', 'A ranked shortlist, and an explicit do-not-automate list'],
   },
   {
@@ -43,7 +43,7 @@ const PILLARS = [
     role: 'Finance',
     k: 'Adoption roadmap',
     t: 'Sequenced so each phase funds the next.',
-    b: 'Nobody gets a two-year budget on faith. The roadmap is ordered so the first thing delivered is the thing that pays for the second — usually not the most exciting candidate, but the one with the shortest path to a number a CFO recognises. Each phase carries its own success criteria and its own abandon condition.',
+    b: 'Nobody gets a two-year budget on faith. The roadmap is ordered so the first thing delivered is the thing that pays for the second. Usually not the most exciting candidate, but the one with the shortest path to a number a CFO recognises. Each phase carries its own success criteria and its own abandon condition.',
     out: ['A phased plan with a measure attached to each phase', 'A written abandon condition per phase', 'Resourcing and skills gaps named in advance'],
   },
   {
@@ -62,7 +62,7 @@ const RUN = [
   ['Week 1', 'Interviews and observation', 'We sit with the people doing the work. What they describe in a meeting and what they do at their desk are rarely the same process.'],
   ['Week 2', 'Data and systems review', 'What exists, what is usable, what integrates, and what would have to change first.'],
   ['Week 3', 'Scoring and modelling', 'Every candidate costed and plotted. This is where most of the shortlist gets shorter.'],
-  ['Week 4', 'Readout and roadmap', 'A written report and a working session — not a slide deck emailed over afterwards.'],
+  ['Week 4', 'Readout and roadmap', 'A written report and a working session, not a slide deck emailed over afterwards.'],
 ]
 
 export default function Advisory() {
@@ -78,10 +78,10 @@ export default function Advisory() {
             <p className="mono">
               <Link href="/services" className="crumb-a">Capabilities</Link> / Advisory &amp; strategy
             </p>
-            <h1 className="d1 adv-h">Find out where AI pays back — and where it does not.</h1>
+            <h1 className="d1 adv-h">Find out where AI pays back, and where it does not.</h1>
             <p className="lede adv-l">
               Four weeks, four artefacts, one answer. We map your workflows, the data behind them and the constraints
-              around them before anyone writes code — and we tell you which candidates are not worth building.
+              around them before anyone writes code, and we tell you which candidates are not worth building.
             </p>
           </div>
         </section>
@@ -95,8 +95,8 @@ export default function Advisory() {
                 The most valuable line in the report is usually the one that says <em>do not automate this.</em>
               </p>
               <p className="body">
-                An assessment that recommends everything is a sales document. Ours names what to leave alone, and why
-                — because the cost of building the wrong thing is not just the build, it is the two years you spend
+                An assessment that recommends everything is a sales document. Ours names what to leave alone, and why,
+                because the cost of building the wrong thing is not just the build, it is the two years you spend
                 maintaining it.
               </p>
             </blockquote>
@@ -129,7 +129,7 @@ export default function Advisory() {
           <div className="shell adv-rel">
             <header className="sec-head" data-r>
               <h2 className="d3">What you get.</h2>
-              <p className="lede measure-w">Four artefacts, each written for a different reader — the person who needs the readiness picture is not the one who has to sign off the risk position.</p>
+              <p className="lede measure-w">Four artefacts, each written for a different reader. The person who needs the readiness picture is not the one who has to sign off the risk position.</p>
             </header>
 
             <ul className="adv-pillars">
@@ -223,8 +223,8 @@ export default function Advisory() {
               <div className="adv-eg-col is-out">
                 <p className="mono">The recommendation</p>
                 <p className="body">
-                  Validate at intake before you automate anything. Payback in eight weeks on the validation alone —
-                  and it makes the later build cheaper, not redundant.
+                  Validate at intake before you automate anything. Payback in eight weeks on the validation alone,
+                  and it makes the later build cheaper rather than redundant.
                 </p>
               </div>
             </div>
@@ -239,10 +239,10 @@ export default function Advisory() {
             <h2 className="d2 measure" data-r>Start with the workflow that is eating your week.</h2>
             <p className="lede measure-w close-l" data-r style={{ '--rd': '80ms' }}>
               Thirty minutes with an engineer, no deck. You will get a straight answer on whether an assessment is
-              even worth running — sometimes the answer is that you already know what to build.
+              even worth running. Sometimes the answer is that you already know what to build.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
-              <StartCta message="Hi PulpLabs — I'd like to book a 30-minute call about an AI assessment.">Book a call <Chevron /></StartCta>
+              <StartCta message="Hi PulpLabs, I'd like to book a 30-minute call about an AI assessment.">Book a call <Chevron /></StartCta>
             </div>
           </div>
         </section>

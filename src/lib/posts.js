@@ -145,7 +145,7 @@ export function validate(v) {
   const errors = {}
   if (!v.title || v.title.length < 3) errors.title = 'Title needs at least 3 characters.'
   if (v.title && v.title.length > 200) errors.title = 'Title is capped at 200 characters.'
-  if (!v.description) errors.description = 'A description is required — it is the meta description and the card excerpt.'
+  if (!v.description) errors.description = 'A description is required. It is the meta description and the card excerpt.'
   if (v.description && v.description.length > 300) errors.description = 'Keep the description under 300 characters.'
   if (!v.body || v.body.trim().length < 10) errors.body = 'The post body is empty.'
   return errors

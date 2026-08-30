@@ -25,11 +25,11 @@ const KNOWLEDGE = [
     patterns: ['service', 'services', 'offer', 'offering', 'what do you do', 'practice', 'capabilities', 'help with'],
     answer:
       'We work across five practice areas:\n\n' +
-      '**Advisory & strategy** — where AI pays back, and where it doesn\'t. Workflow, data and constraint mapping before anyone writes code.\n' +
-      '**Enterprise accelerators** — production-tested IT-ops accelerators deployed inside your estate, wired to your ITSM and CMDB.\n' +
-      '**Small business solutions** — growth and ops systems live in about four weeks, with a human approval step you keep.\n' +
-      '**Enablement & workshops** — certified instructors across Claude, OpenAI, Copilot Studio and IBM watsonx Orchestrate.\n' +
-      '**Managed AI operations** — we run what we build.',
+      '**Advisory & strategy**: where AI pays back, and where it doesn\'t. Workflow, data and constraint mapping before anyone writes code.\n' +
+      '**Enterprise accelerators**: production-tested IT-ops accelerators deployed inside your estate, wired to your ITSM and CMDB.\n' +
+      '**Small business solutions**: growth and ops systems live in about four weeks, with a human approval step you keep.\n' +
+      '**Enablement & workshops**: certified instructors across Claude, OpenAI, Copilot Studio and IBM watsonx Orchestrate.\n' +
+      '**Managed AI operations**: we run what we build.',
     chips: ['Tell me about accelerators', 'How does an engagement start?', 'Book a call'],
   },
   {
@@ -37,11 +37,11 @@ const KNOWLEDGE = [
     patterns: ['accelerator', 'accelerators', 'incident', 'change copilot', 'patch', 'migration', 'itsm', 'cmdb'],
     answer:
       'Four accelerators ship today, all deployed inside your estate rather than as a hosted SaaS:\n\n' +
-      '**Incident Intelligence** — triage, correlation and suggested remediation on your live queue.\n' +
-      '**Change Copilot** — risk scoring and change-record drafting against your CAB rules.\n' +
-      '**Patch Orchestrator** — patch sequencing with rollback paths.\n' +
-      '**Agent Migration** — moving RPA flows to agents without breaking your audit trail.\n\n' +
-      'Each integrates with your existing ITSM and CMDB — they read your data where it already lives.',
+      '**Incident Intelligence**: triage, correlation and suggested remediation on your live queue.\n' +
+      '**Change Copilot**: risk scoring and change-record drafting against your CAB rules.\n' +
+      '**Patch Orchestrator**: patch sequencing with rollback paths.\n' +
+      '**Agent Migration**: moving RPA flows to agents without breaking your audit trail.\n\n' +
+      'Each integrates with your existing ITSM and CMDB, so they read your data where it already lives.',
     chips: ['What results have these produced?', 'Book a technical call'],
   },
   {
@@ -58,9 +58,9 @@ const KNOWLEDGE = [
     patterns: ['workshop', 'workshops', 'training', 'enablement', 'bootcamp', 'briefing', 'teach', 'upskill', 'course'],
     answer:
       'Three formats, all run on your workflows and your data rather than generic exercises:\n\n' +
-      '**Executive briefing** — half a day, for the people who approve the budget.\n' +
-      '**Builder bootcamp** — two days, hands-on for the people who ship.\n' +
-      '**Embedded enablement** — six weeks alongside your team on live work.\n\n' +
+      '**Executive briefing**: half a day, for the people who approve the budget.\n' +
+      '**Builder bootcamp**: two days, hands-on for the people who ship.\n' +
+      '**Embedded enablement**: six weeks alongside your team on live work.\n\n' +
       'Instructors are certified across Claude, OpenAI, Copilot Studio and IBM watsonx Orchestrate.',
     chips: ['Book an enablement call', 'Tell me about the team'],
   },
@@ -69,10 +69,10 @@ const KNOWLEDGE = [
     patterns: ['process', 'engagement', 'how do you work', 'get started', 'start', 'steps', 'timeline', 'how long'],
     answer:
       'Four steps:\n\n' +
-      '**1 · Discover** — your workflows, data and constraints.\n' +
-      '**2 · Scope & propose** — a written scope with success criteria before any build.\n' +
-      '**3 · Build & evaluate** — we run task-level evals before anything touches a production queue.\n' +
-      '**4 · Hand over** — documentation, training and the option for us to keep running it.\n\n' +
+      '**1 · Discover**: your workflows, data and constraints.\n' +
+      '**2 · Scope & propose**: a written scope with success criteria before any build.\n' +
+      '**3 · Build & evaluate**: we run task-level evals before anything touches a production queue.\n' +
+      '**4 · Hand over**: documentation, training and the option for us to keep running it.\n\n' +
       'The evaluation step is the one people skip. It\'s the reason incident bots ship confident and wrong.',
     chips: ['Book a scoping call', 'What do you charge?'],
   },
@@ -80,7 +80,7 @@ const KNOWLEDGE = [
     id: 'team',
     patterns: ['team', 'who are you', 'people', 'founder', 'staff', 'certified', 'certification', 'credentials'],
     answer:
-      'A six-person team — AI architects, delivery leads and ML engineers — certified across four platforms: ' +
+      'A six-person team of AI architects, delivery leads and ML engineers, certified across four platforms: ' +
       '**Claude**, **OpenAI**, **Copilot Studio** and **IBM watsonx Orchestrate**.\n\n' +
       'You can see the full roster on the Team page.',
     chips: ['See the team', 'Book a call'],
@@ -129,7 +129,7 @@ const KNOWLEDGE = [
     id: 'security',
     patterns: ['security', 'secure', 'data', 'privacy', 'compliance', 'gdpr', 'audit', 'governance', 'risk', 'on-prem', 'onprem'],
     answer:
-      'Accelerators are deployed **inside your estate**, not as a multi-tenant SaaS — your data does not leave your boundary for us to operate them.\n\n' +
+      'Accelerators are deployed **inside your estate**, not as a multi-tenant SaaS, so your data does not leave your boundary for us to operate them.\n\n' +
       'Advisory engagements include a governance and risk framework, and the Agent Migration accelerator exists specifically to move RPA flows to agents ' +
       'without breaking your audit trail.\n\n' +
       'For a specific compliance regime, a call with an architect is the right next step.',
@@ -139,7 +139,7 @@ const KNOWLEDGE = [
     id: 'blog',
     patterns: ['blog', 'article', 'writing', 'post', 'posts', 'read', 'newsletter', 'open source'],
     answer:
-      'The blog covers engineering field notes and playbooks — recent pieces include why incident bots keep guessing and how evals fix it, ' +
+      'The blog covers engineering field notes and playbooks. Recent pieces include why incident bots keep guessing and how evals fix it, ' +
       'and migrating RPA flows to agents without breaking audit.',
     chips: ['Read the blog', 'Book a call'],
     action: { type: 'navigate', to: '/blog', label: 'Read the blog' },
@@ -183,7 +183,7 @@ export function matchIntent(input) {
     return {
       id: 'greeting',
       answer:
-        'Hello. I can answer questions about what PulpLabs does — services, accelerators, our process, security posture — or take your details for a call.\n\nWhat would be most useful?',
+        'Hello. I can answer questions about what PulpLabs does: services, accelerators, our process and security posture. I can also take your details for a call.\n\nWhat would be most useful?',
       chips: ['What services do you offer?', 'How does an engagement start?', 'Book a call'],
     }
   }
@@ -198,7 +198,7 @@ export function matchIntent(input) {
 const FALLBACK = {
   id: 'fallback',
   answer:
-    "I don't have a confident answer to that one — I only answer from what's published on this site, and I'd rather say so than guess.\n\n" +
+    "I don't have a confident answer to that one. I only answer from what's published on this site, and I'd rather say so than guess.\n\n" +
     `A person can give you a proper answer: **${BOOKING_EMAIL}**, or I can take your details for a call.`,
   chips: ['What services do you offer?', 'Book a call'],
 }
@@ -237,7 +237,7 @@ export function validateBookingField(step, value) {
     return null
   }
   if (step === 'email') {
-    if (!EMAIL_RE.test(v)) return "That doesn't look like a complete email address — could you check it?"
+    if (!EMAIL_RE.test(v)) return "That doesn't look like a complete email address. Could you check it?"
     return null
   }
   if (step === 'topic') {
@@ -249,12 +249,12 @@ export function validateBookingField(step, value) {
 
 /** Builds the confirmation plus a mailto so the request actually goes somewhere. */
 export function completeBooking({ name, email, topic }) {
-  const subject = encodeURIComponent(`Call request — ${name}`)
-  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nTopic:\n${topic}\n\n— sent from pulplabs.ai`)
+  const subject = encodeURIComponent(`Call request from ${name}`)
+  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nTopic:\n${topic}\n\nSent from pulplabs.ai`)
   return {
     reply:
       `Got it, ${name.split(' ')[0]}.\n\n` +
-      `**Email** — ${email}\n**Topic** — ${topic}\n\n` +
+      `**Email**: ${email}\n**Topic**: ${topic}\n\n` +
       'One thing to be straight about: this site has no booking backend wired up yet, so I can\'t put it in a calendar myself. ' +
       'Use the button below and it opens a pre-filled email to the team, who reply the same working day.',
     action: {
@@ -283,7 +283,7 @@ export async function askAssistant(text, history = []) {
     })
 
     if (res.status === 429) {
-      return { reply: "That's a lot of questions at once — give it a minute and try again.", chips: [] }
+      return { reply: "That's a lot of questions at once. Give it a minute and try again.", chips: [] }
     }
 
     if (res.ok) {

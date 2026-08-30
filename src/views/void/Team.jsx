@@ -18,7 +18,7 @@ const PEOPLE = [
   {
     role: 'Founder & AI architect',
     disc: 'Architecture',
-    b: 'Owns the shape of every engagement — what gets built, what gets refused, and where the evaluation gates sit.',
+    b: 'Owns the shape of every engagement: what gets built, what gets refused, and where the evaluation gates sit.',
   },
   {
     role: 'Delivery lead',
@@ -114,7 +114,7 @@ export default function Team() {
               ))}
             </ul>
             <p className="mono roster-note" data-r>
-              Names, photographs and links are placeholders in src/data/team.js — replace before launch.
+              Names, photographs and links are placeholders in src/data/team.js. Replace them before launch.
             </p>
           </div>
         </section>
@@ -132,7 +132,7 @@ export default function Team() {
             </p>
             <p className="body plate-b">
               We hold formal accreditation on the four platforms below. Beyond those we build on, integrate and operate
-              against the wider ecosystem — frontier and open-weight models, the major cloud AI platforms, and the
+              against the wider ecosystem: frontier and open-weight models, the major cloud AI platforms, and the
               orchestration, data and ITSM tooling around them. Ask about anything specific and we will tell you
               straight whether we have shipped on it.
             </p>
@@ -178,7 +178,7 @@ export default function Team() {
               No account managers between you and the engineer. Thirty minutes, and a straight answer.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
-              <StartCta message="Hi PulpLabs — I'd like to talk to your team about an AI project.">Start a project <Chevron /></StartCta>
+              <StartCta message="Hi PulpLabs, I'd like to talk to your team about an AI project.">Start a project <Chevron /></StartCta>
             </div>
           </div>
         </section>

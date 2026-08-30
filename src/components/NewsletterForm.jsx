@@ -32,7 +32,7 @@ export default function NewsletterForm({ variant = 'inline' }) {
         <button type="submit">{sent ? 'Subscribed ✓' : 'Subscribe'}</button>
       </form>
       <p className="newsletter-note">
-        {sent ? 'Thanks — you are on the list.' : 'One email a month. Unsubscribe in a click.'}
+        {sent ? 'Thanks, you are on the list.' : 'One email a month. Unsubscribe in a click.'}
       </p>
       </>
     )

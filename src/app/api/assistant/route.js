@@ -45,7 +45,7 @@ function localAnswer(message) {
   if (entry) return { reply: entry.answer, chips: entry.chips, action: entry.action, source: 'local' }
   return {
     reply:
-      "I can't reach the model right now, so I'm answering from what's published on this site — and I don't have a confident answer to that one.\n\nA person can help: **hello@pulplabs.ai**, or say *book a call* and I'll take your details.",
+      "I can't reach the model right now, so I'm answering from what's published on this site, and I don't have a confident answer to that one.\n\nA person can help: **hello@pulplabs.ai**, or say *book a call* and I'll take your details.",
     chips: ['What services do you offer?', 'Book a call'],
     source: 'local',
   }

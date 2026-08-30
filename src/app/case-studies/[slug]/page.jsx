@@ -21,12 +21,12 @@ export async function generateMetadata({ params }) {
   const image = c.cover_image ? new URL(c.cover_image, SITE_URL).toString() : `${SITE_URL}/art/outcomes.webp`
 
   return {
-    title: `${c.title} — ${c.client}`,
+    title: `${c.title} · ${c.client}`,
     description: c.summary,
     alternates: { canonical: `/case-studies/${c.slug}` },
     openGraph: {
       type: 'article',
-      title: `${c.title} — ${c.client}`,
+      title: `${c.title} · ${c.client}`,
       description: c.summary,
       url,
       siteName: 'PulpLabs',
@@ -132,7 +132,7 @@ export default async function CaseStudyPage({ params }) {
           <div className="card-body">
             <h2 style={{ color: 'var(--ink-deep)' }}>Got a workflow like this one?</h2>
             <p style={{ color: 'rgba(31,23,16,.78)' }}>
-              Thirty minutes with an engineer — you&apos;ll leave with a straight answer on whether AI helps here.
+              Thirty minutes with an engineer, and you&apos;ll leave with a straight answer on whether AI helps here.
             </p>
           </div>
           <Link href="/#contact" className="btn btn-lemon" style={{ position: 'relative' }}>
