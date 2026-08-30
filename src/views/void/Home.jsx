@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import StartCta from '@/components/void/StartCta'
 import Marquee from 'react-fast-marquee'
 import { clients } from '@/data/clients'
 import Voices from '@/components/void/Voices'
@@ -57,9 +58,7 @@ export default function Home({ cases = [] }) {
             </p>
 
             <div className="hero-cta">
-              <Link href="#contact" className="btn">
-                Book a 30-min consultation <Chevron />
-              </Link>
+              <StartCta href="/contact" message="Hi PulpLabs — I'd like to book a 30-minute consultation.">Book a 30-min consultation <Chevron /></StartCta>
               <Link href="/services" className="btn btn-ghost">
                 View service catalogue
               </Link>

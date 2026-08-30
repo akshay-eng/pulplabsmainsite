@@ -3,6 +3,7 @@ import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
+import StartCta from '@/components/void/StartCta'
 import EnablementExplorer from '@/components/void/EnablementExplorer'
 import PlatformMark from '@/components/void/PlatformMark'
 import { delivery, platforms, formats } from '@/data/enablement'
@@ -135,7 +136,7 @@ export default function Enablement() {
               built around it — and say so if a shorter format would do the same job.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
-              <Link href="/contact" className="btn">Plan a cohort <Chevron /></Link>
+              <StartCta message="Hi PulpLabs — I'd like to plan an AI enablement cohort for my team.">Plan a cohort <Chevron /></StartCta>
             </div>
           </div>
         </section>

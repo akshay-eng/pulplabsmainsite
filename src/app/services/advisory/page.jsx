@@ -3,6 +3,7 @@ import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
+import StartCta from '@/components/void/StartCta'
 
 export const metadata = {
   title: 'Advisory & strategy — PulpLabs',
@@ -241,7 +242,7 @@ export default function Advisory() {
               even worth running — sometimes the answer is that you already know what to build.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
-              <Link href="/contact" className="btn">Book a call <Chevron /></Link>
+              <StartCta message="Hi PulpLabs — I'd like to book a 30-minute call about an AI assessment.">Book a call <Chevron /></StartCta>
             </div>
           </div>
         </section>

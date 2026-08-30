@@ -4464,3 +4464,20 @@ textarea {
   .pr > li, .pr > li::after, .pm, .pr-r-x, .pr-cta svg { transition-duration: 1ms; }
   .pr > li:hover::after { transform: scaleX(1); }
 }
+
+/* ─── Device-routed CTA ───────────────────────────────────────────────────
+   Both links are in the markup and CSS picks one, so the destination is
+   correct on first paint rather than after hydration. Coarse pointer OR a
+   phone-width viewport counts as touch — a tablet in landscape is still a
+   device with WhatsApp on it. */
+.cta-touch { display: none; }
+@media (pointer: coarse), (max-width: 720px) {
+  .cta-touch { display: inline-flex; }
+  .cta-desk { display: none; }
+}
+
+/* Honeypot. Positioned off-screen rather than display:none — some bots skip
+   hidden inputs, and the point is that they fill this one in. */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.contact-failed { margin-bottom: 12px; }
+.contact-failed a { color: inherit; }

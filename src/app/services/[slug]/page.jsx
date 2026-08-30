@@ -4,6 +4,7 @@ import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
+import StartCta from '@/components/void/StartCta'
 import { allSolutions, getCapability } from '@/data/capabilities'
 import { getFunction } from '@/data/functions'
 
@@ -113,7 +114,7 @@ export default async function CapabilityPage({ params }) {
               wrong fit for your workflow, we will tell you that instead.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
-              <Link href="/contact" className="btn">Start the conversation <Chevron /></Link>
+              <StartCta message={`Hi PulpLabs — I'm interested in ${cap.name}.`}>Start the conversation <Chevron /></StartCta>
             </div>
           </div>
         </section>

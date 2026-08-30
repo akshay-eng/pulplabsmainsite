@@ -3,6 +3,7 @@ import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
+import StartCta from '@/components/void/StartCta'
 
 export const metadata = {
   title: 'Managed operations — PulpLabs',
@@ -131,7 +132,7 @@ export default function Managed() {
               is to retire it rather than operate it, we will say so before you sign anything.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
-              <Link href="/contact" className="btn">Talk to an engineer <Chevron /></Link>
+              <StartCta message="Hi PulpLabs — I have a system running that needs monitoring and support.">Talk to an engineer <Chevron /></StartCta>
             </div>
           </div>
         </section>

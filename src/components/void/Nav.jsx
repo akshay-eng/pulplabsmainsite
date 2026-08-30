@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import StartCta from '@/components/void/StartCta'
 import { usePathname } from 'next/navigation'
 import { useScrolled } from '@/lib/apple-motion'
 
@@ -57,7 +58,7 @@ export default function Nav() {
         </ul>
 
         <div className="nv-end">
-          <Link href="/contact" className="btn nv-cta">Start a project</Link>
+          <StartCta className="btn nv-cta" message="Hi PulpLabs — I'd like to start an AI project.">Start a project</StartCta>
           <button
             type="button"
             className="nv-toggle"
@@ -79,7 +80,7 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-        <Link href="/contact" className="btn nv-sheet-cta">Start a project</Link>
+        <StartCta className="btn nv-sheet-cta" message="Hi PulpLabs — I'd like to start an AI project.">Start a project</StartCta>
       </div>
     </header>
   )

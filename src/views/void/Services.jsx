@@ -5,6 +5,7 @@ import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
+import StartCta from '@/components/void/StartCta'
 import CapCard from '@/components/void/CapCard'
 import CategoryPicker from '@/components/void/CategoryPicker'
 import PracticeMark from '@/components/void/PracticeMark'
@@ -186,7 +187,7 @@ export default function Services() {
               running it. Engagements start with a paid discovery that produces a written scope with success criteria.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
-              <Link href="/contact" className="btn">Get a scope <Chevron /></Link>
+              <StartCta message="Hi PulpLabs — I'd like a scope for an AI project.">Get a scope <Chevron /></StartCta>
             </div>
           </div>
         </section>

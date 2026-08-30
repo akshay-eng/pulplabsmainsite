@@ -15,9 +15,11 @@ const TOPICS = [
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 export default function Contact() {
-  const [values, setValues] = useState({ name: '', email: '', company: '', topic: 'accelerators', message: '' })
+  const [values, setValues] = useState({ name: '', email: '', company: '', topic: 'accelerators', message: '', website: '' })
   const [errors, setErrors] = useState({})
   const [sent, setSent] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const [failed, setFailed] = useState(null)
 
   const set = (k) => (e) => {
     setValues((v) => ({ ...v, [k]: e.target.value }))
@@ -34,7 +36,7 @@ export default function Contact() {
     return e
   }
 
-  function onSubmit(event) {
+  async function onSubmit(event) {
     event.preventDefault()
     const e = validate()
     setErrors(e)
@@ -43,7 +45,25 @@ export default function Contact() {
       document.getElementById(Object.keys(e)[0])?.focus()
       return
     }
-    setSent(true)
+
+    setBusy(true)
+    setFailed(null)
+    try {
+      const res = await fetch('/api/enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...values, source: 'contact-form' }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.error || 'That did not go through.')
+      setSent(true)
+    } catch (err) {
+      /* The mailto below still works, so a failure here is recoverable rather
+         than a dead end — say so instead of just reporting an error. */
+      setFailed(err.message)
+    } finally {
+      setBusy(false)
+    }
   }
 
   const mailto = `mailto:hello@pulplabs.ai?subject=${encodeURIComponent(
@@ -103,8 +123,8 @@ export default function Contact() {
               <div className="contact-done" role="status" data-r>
                 <h2 className="d3">Almost there, {values.name.split(' ')[0]}.</h2>
                 <p className="body">
-                  This site has no form backend yet, so nothing has been sent. The button below opens a pre-filled email
-                  to the team with everything you just wrote.
+                  It is with us — we reply the same working day. If you would rather add anything, the button
+                  below opens an email with everything you just wrote.
                 </p>
                 <a className="btn" href={mailto}>
                   Send it to the team
@@ -169,8 +189,23 @@ export default function Contact() {
                   )}
                 </div>
 
-                <button type="submit" className="btn contact-submit">
-                  Send
+                {/* Honeypot: positioned off-screen rather than display:none,
+                    which some bots detect and skip. Never focusable, never
+                    announced. */}
+                <div className="hp" aria-hidden="true">
+                  <label htmlFor="website">Website</label>
+                  <input id="website" name="website" tabIndex={-1} autoComplete="off"
+                    value={values.website} onChange={set('website')} />
+                </div>
+
+                {failed && (
+                  <p className="f-err contact-failed" role="alert">
+                    {failed} You can still <a href={mailto}>send it as an email</a>.
+                  </p>
+                )}
+
+                <button type="submit" className="btn contact-submit" disabled={busy}>
+                  {busy ? 'Sending…' : 'Send'}
                 </button>
                 <p className="mono">We reply the same working day. No newsletter, no sequence.</p>
               </form>

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import StartCta from '@/components/void/StartCta'
 import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import Chevron from '@/components/apple/Chevron'
@@ -177,9 +178,7 @@ export default function Team() {
               No account managers between you and the engineer. Thirty minutes, and a straight answer.
             </p>
             <div className="close-cta" data-r style={{ '--rd': '160ms' }}>
-              <Link href="/contact" className="btn">
-                Start a project <Chevron />
-              </Link>
+              <StartCta message="Hi PulpLabs — I'd like to talk to your team about an AI project.">Start a project <Chevron /></StartCta>
             </div>
           </div>
         </section>

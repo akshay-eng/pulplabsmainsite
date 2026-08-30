@@ -112,6 +112,21 @@ function migrate(db) {
 
     -- Single-admin credential store. Kept in the DB rather than an env var so
     -- the password can be rotated without a redeploy.
+    CREATE TABLE IF NOT EXISTS enquiries (
+      id           INTEGER PRIMARY KEY AUTOINCREMENT,
+      name         TEXT    NOT NULL DEFAULT '',
+      email        TEXT    NOT NULL DEFAULT '',
+      company      TEXT    NOT NULL DEFAULT '',
+      topic        TEXT    NOT NULL DEFAULT 'other',
+      message      TEXT    NOT NULL DEFAULT '',
+      -- Which button or page the enquiry came from, so the WhatsApp route and
+      -- the form can be told apart later.
+      source       TEXT    NOT NULL DEFAULT 'contact-form',
+      created_at   TEXT    NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_enquiries_created ON enquiries (created_at DESC);
+
     CREATE TABLE IF NOT EXISTS admin_users (
       id            INTEGER PRIMARY KEY AUTOINCREMENT,
       email         TEXT NOT NULL UNIQUE,
