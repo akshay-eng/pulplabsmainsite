@@ -67,9 +67,13 @@ trademark would be worse.
 
 ## Client logos — `public/logos/client-*.webp`
 
-`client-pps.webp` (Power & Pack Solutions), `client-ue.webp` (Urban Ethnographers),
-`client-moveforward.webp` (moveForward_) and `client-bluesea.webp` (Blue Sea Powertech) are the
-clients' own marks, supplied by the site owner. Both are shown **unmodified**, on their own
+All `client-*.webp` marks are the organisations' own logos, supplied by the site owner:
+Power & Pack Solutions, Urban Ethnographers, moveForward_, Blue Sea Powertech, Gazet
+International, International Business Magazine, SLD, Shrusti Agarbatti, Soul Cirkus and Canvape.
+
+**Check before launch:** Gazet International and International Business Magazine are
+publications. If they represent press coverage rather than client engagements, they should not
+sit under a heading reading "Trusted by" — see the note in `src/data/clients.js`. Both are shown **unmodified**, on their own
 background colour, with the plate behind them in CSS set to match — no knocking out, no
 recolouring. A trademark recoloured to fit a palette stops being the trademark, and keying a
 near-white ground out of a small raster leaves fringing on every antialiased edge.

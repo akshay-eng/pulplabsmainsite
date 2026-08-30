@@ -54,6 +54,54 @@ export const clients = [
     ground: '#f8c808',
     accent: '248, 200, 8',
   },
+
+  /* Belt only — these appear in the Trusted by marquee but not in the
+     testimonial carousel, which picks its four by id. Each keeps its own
+     ground colour so the plate behind it matches the file and no mark is
+     knocked out or recoloured. */
+  {
+    id: 'gazet',
+    name: 'Gazet International',
+    logo: '/logos/client-gazet.webp',
+    ground: '#f8f8f8',
+    shape: 'wide',
+  },
+  {
+    id: 'intlbm',
+    name: 'International Business Magazine',
+    logo: '/logos/client-intlbm.webp',
+    ground: '#f8f8f8',
+    shape: 'wide',
+  },
+  {
+    id: 'sld',
+    name: 'SLD',
+    logo: '/logos/client-sld.webp',
+    ground: '#f8f8f8',
+    shape: 'blocky', // square lockup
+  },
+  {
+    id: 'shrusti',
+    name: 'Shrusti Agarbatti',
+    logo: '/logos/client-shrusti.webp',
+    ground: '#f8f8f8',
+    shape: 'blocky', // close to square
+  },
+  {
+    id: 'soulcirkus',
+    name: 'Soul Cirkus',
+    logo: '/logos/client-soulcirkus.webp',
+    // Drawn light on its own near-black, unlike every other mark here.
+    ground: '#1f2029',
+    shape: 'wide',
+  },
+  {
+    id: 'canvape',
+    name: 'Canvape',
+    logo: '/logos/client-canvape.webp',
+    ground: '#f8f8f8',
+    shape: 'wide',
+  },
 ]
 
 export const getClient = (id) => clients.find((c) => c.id === id)
