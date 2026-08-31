@@ -1,5 +1,7 @@
 import 'server-only'
 
+import { KNOWLEDGE } from '@/lib/knowledge'
+
 /* ==========================================================================
    LLM client for the site assistant. Currently Groq.
 
@@ -28,36 +30,17 @@ const MODEL = process.env.LLM_MODEL || 'openai/gpt-oss-120b'
    2. 'low' effort is right here. These are lookups against a grounded prompt,
       not hard problems, and effort costs latency the visitor waits through. */
 const REASONING_EFFORT = process.env.LLM_REASONING_EFFORT || 'low'
-const MAX_TOKENS = 1200
+/* 3. Output tokens count against the same per-minute budget as the prompt, and
+      on Groq's free tier that budget is 8,000 for the whole site. The answers
+      here are meant to be two or three short paragraphs, so 1200 was reserving
+      headroom nobody uses and starving the next visitor's request. 700 still
+      leaves reasoning room at 'low' effort. */
+const MAX_TOKENS = 700
 
-const SYSTEM = `You are the assistant on pulplabs.ai, the website of PulpLabs, an AI consultancy and engineering firm.
-
-WHAT PULPLABS DOES, across five practice areas:
-1. Advisory & strategy: where AI pays back and where it doesn't; workflow, data and constraint mapping before any code.
-2. Enterprise accelerators: production-tested IT-ops accelerators deployed inside the client's own estate, integrated with their ITSM and CMDB. The four are: Incident Intelligence, Change Copilot, Patch Orchestrator, Agent Migration.
-3. Small business solutions: Lead Engine, Support Desk, Marketing Studio, Social Autopilot. Live in about four weeks, tuned monthly, always with a human approval step the client keeps.
-4. Enablement & workshops: Executive briefing (half day), Builder bootcamp (2 days), Embedded enablement (6 weeks). Run on the client's own workflows and data.
-5. Managed AI operations: PulpLabs runs what it builds.
-
-HOW ENGAGEMENTS WORK, in four steps:
-Discover (week 0–1) → Scope & propose (week 1–2) → Build & evaluate (week 2–8) → Hand over (ongoing).
-Task-level evaluation runs before anything touches a production queue.
-
-FACTS YOU MAY CITE:
-- A small team, formally accredited on Claude, OpenAI, Copilot Studio and IBM watsonx Orchestrate, and hands-on with Gemini.
-- 8+ accelerators in production. MTTR down 38%. Quote turnaround 4x faster.
-- Accelerators deploy inside the client's estate, not as multi-tenant SaaS, so their data does not leave their boundary.
-- Contact: hello@pulplabs.ai
-
-PRICING: there is no public price list and no rate card. Engagements start with a paid discovery that produces a written scope with success criteria. Never quote a number, a range, a day rate or an hourly rate. If pushed, say pricing depends on scope and estate size and offer a 30-minute scoping call.
-
-RULES:
-- Answer ONLY from the facts above. If you do not know, say so plainly and offer hello@pulplabs.ai or a call. Never invent services, clients, case studies, prices, timelines, headcount or certifications.
-- Never claim to be human. If asked, say you are an assistant on the PulpLabs site.
-- Never promise that a meeting has been booked. You cannot access a calendar. To arrange a call, tell the user to say "book a call" and the site will take their details.
-- Be direct and concise: two or three short paragraphs at most, plain British English, no marketing fluff, no exclamation marks, no emoji.
-- Use **bold** for emphasis. Do not use headings, tables or code blocks.
-- Stay on PulpLabs and its work. If asked about something unrelated, say it is outside what you can help with and redirect.`
+/* The grounding context is composed from src/data at build time rather than
+   written out here, so a new solution or a closed vacancy reaches the assistant
+   without anyone remembering to edit this file. See src/lib/knowledge.js. */
+const SYSTEM = KNOWLEDGE
 
 export class LlmError extends Error {
   constructor(message, { status, detail } = {}) {

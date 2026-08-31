@@ -4661,3 +4661,16 @@ textarea {
 @media (prefers-reduced-motion: reduce) {
   .rl-panel, .rl[data-open] .rl-panel, .rl-sign span { transition-duration: 1ms; }
 }
+
+/* The nav CTA must stay hidden on a phone.
+   StartCta renders both halves and `.cta-touch { display: inline-flex }` sits
+   later in this stylesheet at the same specificity as the `.nv-cta` hide rule,
+   so it was winning and putting the button back in the top bar. Two classes
+   beat one. The CTA inside the opened sheet is unaffected: that is where it
+   belongs on a phone. */
+@media (max-width: 760px) {
+  .nv-cta.cta-touch,
+  .nv-cta.cta-desk {
+    display: none;
+  }
+}

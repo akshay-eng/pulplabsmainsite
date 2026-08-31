@@ -1,16 +1,21 @@
 /* ==========================================================================
    PulpLabs assistant — knowledge, intent routing and the booking flow.
 
-   Answers come from Grok via /api/assistant. This file keeps a local intent
-   matcher too, used for two things:
+   Answers come from the model behind /api/assistant. This file keeps a local
+   intent matcher too, used for two things:
 
      1. Fallback. If the model is unreachable, out of credits or rate limited,
         the dock answers from the site's own content instead of erroring.
      2. The booking flow, which stays deterministic on purpose — collecting a
         name and email is not a job for a language model.
 
-   The xAI key lives in XAI_API_KEY and is read only in src/lib/grok.js, which
-   is server-only. Nothing in this file ever sees it.
+   The API key is read only in src/lib/llm.js, which is server-only. Nothing in
+   this file ever sees it.
+
+   These answers are written by hand and so they can drift from the catalogue,
+   which is exactly what happened once already. Keep them broad: the specifics
+   belong in src/lib/knowledge.js, which is generated from src/data and cannot
+   go stale. If you add a solution, you do not need to touch this file.
    ========================================================================== */
 
 export const BOOKING_EMAIL = 'hello@pulplabs.ai'
@@ -24,45 +29,74 @@ const KNOWLEDGE = [
     id: 'services',
     patterns: ['service', 'services', 'offer', 'offering', 'what do you do', 'practice', 'capabilities', 'help with'],
     answer:
-      'We work across five practice areas:\n\n' +
-      '**Advisory & strategy**: where AI pays back, and where it doesn\'t. Workflow, data and constraint mapping before anyone writes code.\n' +
-      '**Enterprise accelerators**: production-tested IT-ops accelerators deployed inside your estate, wired to your ITSM and CMDB.\n' +
-      '**Small business solutions**: growth and ops systems live in about four weeks, with a human approval step you keep.\n' +
-      '**Enablement & workshops**: certified instructors across Claude, OpenAI, Copilot Studio and IBM watsonx Orchestrate.\n' +
-      '**Managed AI operations**: we run what we build.',
-    chips: ['Tell me about accelerators', 'How does an engagement start?', 'Book a call'],
+      'We work across four practice areas:\n\n' +
+      '**Systems we build**: accelerators for IT operations and growth systems for smaller teams. Same practice, sized to the estate, and deployed inside your boundary rather than as hosted SaaS.\n' +
+      '**Advisory & strategy**: four weeks, four artefacts, one answer on where AI pays back and where it does not.\n' +
+      '**Enablement & workshops**: certified instruction on your own workflows and data, in three fixed lengths plus custom.\n' +
+      '**Managed operations**: we run what we build, monitoring behaviour rather than uptime.',
+    chips: ['What products do you have?', 'How does an engagement start?', 'Book a call'],
+    action: { type: 'navigate', to: '/services', label: 'See the catalogue' },
+  },
+  {
+    id: 'products',
+    patterns: ['product', 'products', 'evals', 'eval', 'devops copilot', 'observability', 'monitoring platform', 'flagship'],
+    answer:
+      'Two products carry our name:\n\n' +
+      '**Evals**: agent and model observability judged on behaviour rather than uptime. It tracks answer quality against a held-out set, refusal and escalation rates, retrieval hit rate, latency and cost, and gates prompt or model changes in CI. It reports; it will not tune or roll back on its own.\n' +
+      '**DevOps Copilot**: pipeline and release work, wired into the toolchain you already run.\n\n' +
+      'Each has its own page under Services.',
+    chips: ['Tell me about accelerators', 'Book a technical call'],
+    action: { type: 'navigate', to: '/services/evals', label: 'Open Evals' },
   },
   {
     id: 'accelerators',
-    patterns: ['accelerator', 'accelerators', 'incident', 'change copilot', 'patch', 'migration', 'itsm', 'cmdb'],
+    patterns: ['accelerator', 'accelerators', 'incident', 'change copilot', 'patch', 'migration', 'itsm', 'cmdb', 'it operations', 'itops'],
     answer:
-      'Four accelerators ship today, all deployed inside your estate rather than as a hosted SaaS:\n\n' +
+      'The IT operations accelerators run inside your estate rather than as hosted SaaS:\n\n' +
       '**Incident Intelligence**: triage, correlation and suggested remediation on your live queue.\n' +
       '**Change Copilot**: risk scoring and change-record drafting against your CAB rules.\n' +
       '**Patch Orchestrator**: patch sequencing with rollback paths.\n' +
       '**Agent Migration**: moving RPA flows to agents without breaking your audit trail.\n\n' +
-      'Each integrates with your existing ITSM and CMDB, so they read your data where it already lives.',
-    chips: ['What results have these produced?', 'Book a technical call'],
+      'Each reads your data where it already lives, through the ITSM and CMDB you own.',
+    chips: ['What products do you have?', 'Book a technical call'],
+    action: { type: 'navigate', to: '/services/for/it-operations', label: 'IT operations solutions' },
+  },
+  {
+    id: 'catalogue',
+    patterns: ['catalogue', 'catalog', 'browse', 'full list', 'all solutions', 'use case', 'use cases',
+      'industry', 'industries', 'sector', 'function', 'department',
+      'bank', 'banking', 'financial services', 'insurance', 'hospital', 'hospitals', 'healthcare', 'clinical',
+      'manufacturing', 'factory', 'retail', 'ecommerce', 'e-commerce', 'public sector', 'government',
+      'professional services', 'law firm', 'work with'],
+    answer:
+      'The catalogue runs to nineteen solutions and you can come at it from either direction.\n\n' +
+      'By **function**: IT operations, sales, customer support, marketing, finance and back office, data and reporting.\n' +
+      'By **industry**: financial services, healthcare and life sciences, manufacturing, retail, professional services and public sector. Read those as where the work lands rather than as claimed domain expertise. The solutions underneath are the same ones; what changes is the constraint around them.\n\n' +
+      'Each solution has its own page with what it takes in, what it puts out, and what it will not do.',
+    chips: ['What products do you have?', 'Book a call'],
+    action: { type: 'navigate', to: '/services', label: 'Browse the catalogue' },
   },
   {
     id: 'smallbiz',
     patterns: ['small business', 'small team', 'startup', 'smb', 'lead engine', 'support desk', 'marketing studio', 'social autopilot'],
     answer:
-      'For small teams we run four systems: **Lead Engine**, **Support Desk**, **Marketing Studio** and **Social Autopilot**.\n\n' +
-      'Typical shape: live in about four weeks, tuned monthly, and every one of them keeps a human approval step that you control. ' +
-      'No system sends or commits anything on your behalf unless you decide it should.',
+      'For smaller teams the same practice comes sized down: **Lead Engine**, **Support Desk**, **Marketing Studio**, **Social Autopilot** and a handful of others across finance, data and support.\n\n' +
+      'Typical shape is live in about four weeks, tuned monthly, and every one of them keeps a human approval step you control. ' +
+      'Nothing sends or commits on your behalf unless you decide it should.',
     chips: ['What does that cost?', 'Book a call'],
   },
   {
     id: 'enablement',
-    patterns: ['workshop', 'workshops', 'training', 'enablement', 'bootcamp', 'briefing', 'teach', 'upskill', 'course'],
+    patterns: ['workshop', 'workshops', 'training', 'enablement', 'bootcamp', 'briefing', 'teach', 'upskill', 'course', 'curriculum'],
     answer:
-      'Three formats, all run on your workflows and your data rather than generic exercises:\n\n' +
-      '**Executive briefing**: half a day, for the people who approve the budget.\n' +
-      '**Builder bootcamp**: two days, hands-on for the people who ship.\n' +
-      '**Embedded enablement**: six weeks alongside your team on live work.\n\n' +
-      'Instructors are certified across Claude, OpenAI, Copilot Studio and IBM watsonx Orchestrate.',
-    chips: ['Book an enablement call', 'Tell me about the team'],
+      'Three fixed lengths, all run on your workflows and your data rather than generic exercises:\n\n' +
+      '**One day** (6 hours): an executive briefing for the people who approve the budget, ending with one working artefact.\n' +
+      '**Three days** (3 × 6 hours): hands-on for the people who ship. Agents, tools and evaluation.\n' +
+      '**One week** (5 × 6 hours): embedded alongside your team, taking one workflow into production.\n\n' +
+      'Platforms: **Claude**, **Codex & ChatGPT**, **Copilot**, **Gemini** and **watsonx Orchestrate**. On-site, online or hybrid. ' +
+      'A custom cohort is there for mixed platforms, a regulated estate, or roles that need separate tracks.',
+    chips: ['See platforms and curricula', 'Book an enablement call'],
+    action: { type: 'navigate', to: '/services/enablement', label: 'See platforms and curricula' },
   },
   {
     id: 'process',
@@ -81,10 +115,20 @@ const KNOWLEDGE = [
     patterns: ['team', 'who are you', 'people', 'founder', 'staff', 'certified', 'certification', 'credentials'],
     answer:
       'A small team of AI architects, delivery leads and ML engineers, formally accredited on: ' +
-      '**Claude**, **OpenAI**, **Copilot Studio** and **IBM watsonx Orchestrate**.\n\n' +
+      '**Claude**, **OpenAI**, **Copilot Studio** and **IBM watsonx Orchestrate**, and hands-on with **Gemini**.\n\n' +
       'You can see the full roster on the Team page.',
-    chips: ['See the team', 'Book a call'],
+    chips: ['See the team', 'Are you hiring?'],
     action: { type: 'navigate', to: '/team', label: 'See the team' },
+  },
+  {
+    id: 'careers',
+    patterns: ['career', 'careers', 'hiring', 'hire', 'job', 'jobs', 'vacancy', 'vacancies', 'internship', 'intern', 'apply', 'application', 'work for you', 'join', 'recruit'],
+    answer:
+      'We are taking interns. The open role is an **Application Development Intern**: six months, Bengaluru or remote within India, building with React Native, React, Node and SQL.\n\n' +
+      'It is not a shadowing role. You pick up tickets from the same board as everyone else, your pull requests go through the same review, and what you build gets deployed, so we do expect you hands-on from week one.\n\n' +
+      'Applying takes a name, a phone number and a CV on the role page. I cannot submit it for you.',
+    chips: ['Open the role', 'Tell me about the team'],
+    action: { type: 'navigate', to: '/careers', label: 'Open the role' },
   },
   {
     id: 'pricing',
@@ -112,26 +156,26 @@ const KNOWLEDGE = [
     answer:
       'Pricing isn\'t published, because it depends on scope, estate size and whether you want us to run the system afterwards.\n\n' +
       'What I can tell you: engagements start with a **paid discovery** so you get a written scope with success criteria before committing to a build. ' +
-      'Small business systems and enterprise accelerators are priced very differently.\n\n' +
+      'A small business system and an enterprise accelerator are priced very differently.\n\n' +
       'The fastest way to a real number is a 30-minute scoping call.',
     chips: ['Book a scoping call', 'How does an engagement start?'],
   },
   {
     id: 'results',
-    patterns: ['result', 'results', 'roi', 'case study', 'proof', 'evidence', 'outcome', 'metrics', 'mttr'],
+    patterns: ['result', 'results', 'roi', 'case study', 'case studies', 'proof', 'evidence', 'outcome', 'reference'],
     answer:
-      'Representative numbers from deployed work: **MTTR down 38%**, **quote turnaround 4× faster**, and **8+ accelerators** in production.\n\n' +
-      'Case studies are on the Services page. Happy to walk through a comparable engagement on a call.',
+      'There are written case studies on the site from engagements the clients have signed off, and each solution page sets out what that system takes in and what it hands back.\n\n' +
+      'For numbers from an engagement close to yours, a call is honestly the better route. We would rather talk through a comparable piece of work than quote an average that means nothing for your estate.',
     chips: ['See case studies', 'Book a call'],
     action: { type: 'navigate', to: '/services', label: 'See case studies' },
   },
   {
     id: 'security',
-    patterns: ['security', 'secure', 'data', 'privacy', 'compliance', 'gdpr', 'audit', 'governance', 'risk', 'on-prem', 'onprem'],
+    patterns: ['security', 'secure', 'data', 'privacy', 'compliance', 'gdpr', 'audit', 'governance', 'risk', 'on-prem', 'onprem', 'residency'],
     answer:
-      'Accelerators are deployed **inside your estate**, not as a multi-tenant SaaS, so your data does not leave your boundary for us to operate them.\n\n' +
-      'Advisory engagements include a governance and risk framework, and the Agent Migration accelerator exists specifically to move RPA flows to agents ' +
-      'without breaking your audit trail.\n\n' +
+      'Systems are deployed **inside your estate**, not as a multi-tenant SaaS, so your data does not leave your boundary for us to operate them.\n\n' +
+      'Advisory engagements include a governance and risk framework written for your risk function, every irreversible action waits for a named human, ' +
+      'and the Agent Migration accelerator exists specifically to move RPA flows to agents without breaking your audit trail.\n\n' +
       'For a specific compliance regime, a call with an architect is the right next step.',
     chips: ['Book a technical call', 'Tell me about accelerators'],
   },
@@ -147,9 +191,9 @@ const KNOWLEDGE = [
   {
     id: 'contact',
     patterns: ['contact', 'email', 'reach', 'phone', 'get in touch', 'talk to', 'speak to', 'human'],
-    answer: `You can reach the team at **${BOOKING_EMAIL}**, use the contact form on the home page, or I can take your details right here.`,
+    answer: `You can reach the team at **${BOOKING_EMAIL}**, use the contact form, or I can take your details right here.`,
     chips: ['Book a call', 'Open contact form'],
-    action: { type: 'navigate', to: '/#contact', label: 'Open contact form' },
+    action: { type: 'navigate', to: '/contact', label: 'Open contact form' },
   },
 ]
 
@@ -300,7 +344,7 @@ export async function askAssistant(text, history = []) {
 
 export const OPENERS = [
   'What services do you offer?',
+  'What products do you have?',
   'How does an engagement start?',
-  'Is my data safe?',
   'Book a call',
 ]
