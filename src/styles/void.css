@@ -1814,8 +1814,10 @@ canvas {
   gap: 8px;
 }
 
+/* .roster-body has an 8px gap; this takes the bio to 16px so the designation
+   reads as attached to the name above it rather than to the prose below. */
 .roster-body .body {
-  margin-top: 2px;
+  margin-top: 8px;
 }
 
 /* The name is the heading of the card now, so it takes the brightest tier.
@@ -1825,13 +1827,19 @@ canvas {
   color: var(--w-1);
 }
 
-/* The role, demoted to a caption under the name. --w-2 keeps it clearly
-   readable while leaving the name as the thing the eye lands on first. */
+/* The designation.
+   It was 0.875rem in --w-2, which put it a sixteenth of a rem away from .body
+   at 0.9375rem in the same --w-2. Same colour, near enough the same size: it
+   read as the first line of the bio rather than as a job title. Full white at
+   .h4 size with weight 500 separates it from the prose, while the name still
+   leads on size alone at .d3. */
 .roster-role {
-  color: var(--w-2);
-  font-size: 0.875rem;
-  line-height: 1.4;
-  margin: -2px 0 0;
+  color: var(--w-1);
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  letter-spacing: -0.014em;
+  font-weight: 500;
+  margin: 0;
 }
 
 .roster-note {
