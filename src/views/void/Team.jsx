@@ -30,6 +30,16 @@ const PEOPLE = [
     disc: 'Modelling',
     b: 'Builds and scores the evaluation harnesses. Decides when a model is good enough to touch a live queue.',
   },
+  {
+    role: 'Platform engineer',
+    disc: 'Infrastructure',
+    b: 'Deploys inside your estate and wires into your ITSM and CMDB without opening a hole in your boundary.',
+  },
+  {
+    role: 'Enablement instructor',
+    disc: 'Enablement',
+    b: 'Runs the briefings and bootcamps on your workflows. Certified across all four platforms.',
+  },
 ]
 
 const CERTS = [
