@@ -37,6 +37,13 @@ docker buildx rm incluster        # frees the node; recreating takes a minute
 
 Then point `kustomization.yaml` and `seed-job.yaml` at the new tag.
 
+The push occasionally fails with `no active session ... context deadline
+exceeded`. Registry credentials travel from your machine to the in-cluster
+BuildKit over the kubectl connection, and that tunnel drops on a long push. The
+build itself is fine and its layers are cached, so re-running the same command
+finishes in under a minute. If it keeps failing, mount a Docker Hub
+`config.json` into the BuildKit pod so it authenticates on its own instead.
+
 `.github/workflows/docker.yml` does the same thing on native runners and
 produces a proper multi-arch manifest, which is the better answer once the
 Docker Hub secrets are set on the repository.
