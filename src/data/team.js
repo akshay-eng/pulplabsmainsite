@@ -13,6 +13,10 @@ export const people = [
   {
     name: 'Akshay',
     role: 'Founder & AI architect',
+    disc: 'Architecture',
+    blurb:
+      'Owns the shape of every engagement: what gets built, what gets refused, and where the evaluation gates sit.',
+    country: { code: 'IN', name: 'India' },
     bio: '',
     photo: '/avatars/akshay.webp',
     accent: '#FF6B1A',
@@ -29,6 +33,10 @@ export const people = [
   {
     name: 'Akash',
     role: 'Delivery lead',
+    disc: 'Delivery',
+    blurb:
+      'Runs the week-by-week increments and the handover. The person who tells you when a scope has moved.',
+    country: { code: 'CA', name: 'Canada' },
     bio: '',
     photo: '/avatars/akash.webp',
     accent: '#F0384B',
@@ -44,7 +52,11 @@ export const people = [
   },
   {
     name: 'Justin',
-    role: 'ML engineer',
+    role: 'Sales & marketing lead',
+    disc: 'Sales',
+    blurb:
+      'Takes the work to market and handles the first conversation. Straight with you about what we can deliver before anything gets signed.',
+    country: { code: 'LT', name: 'Lithuania' },
     bio: '',
     photo: '/avatars/justin.webp',
     accent: '#E8B00A',
@@ -60,7 +72,11 @@ export const people = [
   },
   {
     name: 'Prithvi',
-    role: 'ML engineer',
+    role: 'Platform engineer',
+    disc: 'Infrastructure',
+    blurb:
+      'Deploys inside your estate and wires into your ITSM and CMDB without opening a hole in your boundary.',
+    country: { code: 'IN', name: 'India' },
     bio: '',
     photo: '/avatars/prithvi.webp',
     accent: '#E8B00A',
@@ -76,7 +92,11 @@ export const people = [
   },
   {
     name: 'Aditya',
-    role: 'ML engineer',
+    role: 'Enablement instructor',
+    disc: 'Enablement',
+    blurb:
+      'Runs the briefings and bootcamps on your workflows, on the platforms we are accredited on.',
+    country: { code: 'IN', name: 'India' },
     bio: '',
     photo: '/avatars/aditya.webp',
     accent: '#E8B00A',
@@ -92,7 +112,11 @@ export const people = [
   },
   {
     name: 'Supriya',
-    role: 'ML engineer',
+    role: 'Growth & partnerships',
+    disc: 'Commercial',
+    blurb:
+      'Scoping, discovery and the honest conversation about whether the thing you asked for is the thing you need.',
+    country: { code: 'IN', name: 'India' },
     bio: '',
     photo: '/avatars/supriya.webp',
     accent: '#E8B00A',

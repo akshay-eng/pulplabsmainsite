@@ -1825,6 +1825,23 @@ canvas {
    white: technically rendered, invisible in practice. */
 .roster-name {
   color: var(--w-1);
+  /* inline-flex rather than block so the flag sits on the name's baseline
+     instead of starting a line of its own, and the gap survives a name long
+     enough to wrap. */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* The flag is a small object beside a large one, so it needs a floor on its
+   size: at .d3's clamp the name can reach 2.1rem and a 21px flag beside it
+   starts to read as debris. A rounded corner and the hairline drawn inside the
+   SVG keep it looking like a mark rather than a stray image. */
+.flag {
+  flex: none;
+  border-radius: 2px;
+  display: block;
 }
 
 /* The designation.

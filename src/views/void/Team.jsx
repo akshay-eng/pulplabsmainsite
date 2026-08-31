@@ -12,43 +12,17 @@ import NextPage from '@/components/void/NextPage'
    made it invisible in practice and left the page reading as a list of generic
    roles rather than a team.
 
-   The roles paired to each person here have not been confirmed against who
-   actually does what. That used to be said out loud in a note under the grid;
-   it is not any more, so the only record of it is this comment. */
-import { people as ROSTER } from '@/data/team'
+   Roles, disciplines and blurbs come from src/data/team.js with the people
+   they belong to. They used to live in a second array here, paired by index,
+   which meant inserting someone in the wrong position handed everyone below
+   them another person's job title. That is not a hypothetical: it happened
+   once already in this file.
 
-const PEOPLE = [
-  {
-    role: 'Founder & AI architect',
-    disc: 'Architecture',
-    b: 'Owns the shape of every engagement: what gets built, what gets refused, and where the evaluation gates sit.',
-  },
-  {
-    role: 'Delivery lead',
-    disc: 'Delivery',
-    b: 'Runs the week-by-week increments and the handover. The person who tells you when a scope has moved.',
-  },
-  {
-    role: 'ML engineer',
-    disc: 'Modelling',
-    b: 'Builds and scores the evaluation harnesses. Decides when a model is good enough to touch a live queue.',
-  },
-  {
-    role: 'Platform engineer',
-    disc: 'Infrastructure',
-    b: 'Deploys inside your estate and wires into your ITSM and CMDB without opening a hole in your boundary.',
-  },
-  {
-    role: 'Enablement instructor',
-    disc: 'Enablement',
-    b: 'Runs the briefings and bootcamps on your workflows, on the platforms we are accredited on.',
-  },
-  {
-    role: 'Growth & partnerships',
-    disc: 'Commercial',
-    b: 'Scoping, discovery and the honest conversation about whether the thing you asked for is the thing you need.',
-  },
-]
+   Roles other than Justin's have not been confirmed against who actually does
+   what. That was said out loud in a note under the grid until it was removed,
+   so this comment is now the only record of it. */
+import { people } from '@/data/team'
+import Flag from '@/components/void/Flag'
 
 const CERTS = [
   ['Claude architects', 'Anthropic'],
@@ -96,25 +70,28 @@ export default function Team() {
         <section className="sec-sm">
           <div className="shell-wide">
             <ul className="roster">
-              {PEOPLE.map((p, i) => (
-                <li key={p.role} data-r style={{ '--rd': `${i * 60}ms` }}>
+              {people.map((p, i) => (
+                <li key={p.name} data-r style={{ '--rd': `${i * 60}ms` }}>
                   {/* alt is empty on purpose: the name sits next to the
                       portrait as a heading, so describing it again only makes a
                       screen reader say it twice. */}
                   <span className="roster-photo">
                     <img
-                      src={ROSTER[i]?.photo ?? '/avatars/member-01.webp'}
+                      src={p.photo}
                       alt=""
                       loading="lazy"
                       decoding="async"
-                      style={{ objectPosition: ROSTER[i]?.photoPosition ?? '50% 20%' }}
+                      style={{ objectPosition: p.photoPosition ?? '50% 20%' }}
                     />
                   </span>
                   <div className="roster-body">
                     <p className="mono">{p.disc}</p>
-                    <h2 className="d3 roster-name">{ROSTER[i]?.name ?? 'Name pending'}</h2>
+                    <h2 className="d3 roster-name">
+                      {p.name}
+                      {p.country && <Flag code={p.country.code} title={p.country.name} />}
+                    </h2>
                     <p className="roster-role">{p.role}</p>
-                    <p className="body">{p.b}</p>
+                    <p className="body">{p.blurb}</p>
                   </div>
                 </li>
               ))}
