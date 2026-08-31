@@ -7,11 +7,12 @@ import Footer from '@/components/void/Footer'
 import Chevron from '@/components/apple/Chevron'
 import NextPage from '@/components/void/NextPage'
 
-/* Names are still placeholders in src/data/team.js. Rather than invent six
-   people for a real company's team page, each card carries the role, the
-   discipline and a real description of the work — and says plainly that the
-   name is pending. A fabricated roster is the one thing on this page that
-   would actually mislead someone. */
+/* Real people, real photographs, from src/data/team.js. The name leads each
+   card: it used to sit under the bio in the dimmest tier at 26% opacity, which
+   made it invisible in practice and left the page reading as a list of generic
+   roles rather than a team.
+
+   Roles here are still provisional and the note under the grid says so. */
 import { people as ROSTER } from '@/data/team'
 
 const PEOPLE = [
@@ -78,13 +79,14 @@ export default function Team() {
                 the moment either changes, and the claim underneath is what
                 actually matters anyway. */}
             <h1 className="d1 phead-h">
-              Small team.
+              The people who build it.
               <br />
               <span className="dim">Certified where it counts.</span>
             </h1>
             <p className="lede phead-l">
-              Small enough that the person who scoped your engagement is the person who builds it. Certified across
-              every platform we deploy on, and deliberately not growing faster than we can staff properly.
+              The person who scopes your engagement is the person who builds it. You will not be handed to a delivery
+              team you have never met once the contract is signed. We are certified across every platform we deploy
+              on, and we hire only as fast as we can staff properly.
             </p>
           </div>
         </section>
@@ -94,10 +96,9 @@ export default function Team() {
             <ul className="roster">
               {PEOPLE.map((p, i) => (
                 <li key={p.role} data-r style={{ '--rd': `${i * 60}ms` }}>
-                  {/* Portraits are AI-generated illustrations of fictional
-                      people — see public/IMAGE_CREDITS.md. Desaturated so they
-                      sit in a monochrome system, and the card still says the
-                      name is pending so nobody reads them as real staff. */}
+                  {/* alt is empty on purpose: the name sits next to the
+                      portrait as a heading, so describing it again only makes a
+                      screen reader say it twice. */}
                   <span className="roster-photo">
                     <img
                       src={ROSTER[i]?.photo ?? '/avatars/member-01.webp'}
@@ -109,10 +110,10 @@ export default function Team() {
                   </span>
                   <div className="roster-body">
                     <p className="mono">{p.disc}</p>
-                    <h2 className="d3">{p.role}</h2>
+                    <h2 className="d3 roster-name">{ROSTER[i]?.name ?? 'Name pending'}</h2>
+                    <p className="roster-role">{p.role}</p>
                     <p className="body">{p.b}</p>
                   </div>
-                  <span className="mono roster-name">{ROSTER[i]?.name ?? 'Name pending'}</span>
                 </li>
               ))}
             </ul>

@@ -1818,9 +1818,20 @@ canvas {
   margin-top: 2px;
 }
 
+/* The name is the heading of the card now, so it takes the brightest tier.
+   It previously sat under the bio as dim mono type at --w-4, which is 26%
+   white: technically rendered, invisible in practice. */
 .roster-name {
-  color: var(--w-4);
-  letter-spacing: 0.1em;
+  color: var(--w-1);
+}
+
+/* The role, demoted to a caption under the name. --w-2 keeps it clearly
+   readable while leaving the name as the thing the eye lands on first. */
+.roster-role {
+  color: var(--w-2);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  margin: -2px 0 0;
 }
 
 .roster-note {
