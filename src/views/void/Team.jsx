@@ -12,7 +12,9 @@ import NextPage from '@/components/void/NextPage'
    made it invisible in practice and left the page reading as a list of generic
    roles rather than a team.
 
-   Roles here are still provisional and the note under the grid says so. */
+   The roles paired to each person here have not been confirmed against who
+   actually does what. That used to be said out loud in a note under the grid;
+   it is not any more, so the only record of it is this comment. */
 import { people as ROSTER } from '@/data/team'
 
 const PEOPLE = [
@@ -117,9 +119,6 @@ export default function Team() {
                 </li>
               ))}
             </ul>
-            <p className="mono roster-note" data-r>
-              Roles above have not been confirmed against who does what. Bios and links are still to come.
-            </p>
           </div>
         </section>
 

@@ -1842,12 +1842,6 @@ canvas {
   margin: 0;
 }
 
-.roster-note {
-  margin-top: 20px;
-  color: var(--w-4);
-  letter-spacing: 0.08em;
-}
-
 @media (max-width: 900px) {
   .roster {
     grid-template-columns: repeat(2, 1fr);
