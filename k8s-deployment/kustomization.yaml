@@ -28,6 +28,13 @@ labels:
       app.kubernetes.io/name: pulplabs-site
       app.kubernetes.io/part-of: pulplabs
 
+# Pinned to an immutable tag rather than :latest. With imagePullPolicy
+# IfNotPresent a floating tag is never re-pulled once the node has a copy, so
+# a redeploy silently keeps serving the old image. Bump this line to roll out.
+#
+# The -amd64 suffix is not decoration: :latest on Docker Hub is currently the
+# arm64 build, and this cluster's only node is amd64, so pulling :latest here
+# fails with "no matching manifest for linux/amd64".
 images:
   - name: ak3hay/pulplabs-site
-    newTag: latest
+    newTag: e147042-amd64

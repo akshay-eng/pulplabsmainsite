@@ -36,8 +36,19 @@ spec:
         fsGroup: 10001
       containers:
         - name: seed
-          image: ak3hay/pulplabs-site:latest
-          command: ['node', 'scripts/seed.mjs']
+          # Keep this tag in step with kustomization.yaml. The Job is not part
+          # of the kustomization, so the image transformer there does not reach
+          # it, and :latest on Docker Hub is the arm64 build which will not run
+          # on an amd64 node.
+          image: ak3hay/pulplabs-site:e147042-amd64
+          # Posts first, then case studies. Both are idempotent, so re-running
+          # the Job against a populated volume is safe.
+          command: ['sh', '-c', 'node scripts/seed.mjs && node scripts/seed-cases.mjs']
+
+          # Set ADMIN_EMAIL and ADMIN_PASSWORD here to create the admin login.
+          # Left out deliberately: seed.mjs only creates the user when both are
+          # present, and the password should be chosen by you rather than
+          # generated into a file. See the README.
           envFrom:
             - configMapRef:
                 name: pulplabs-config

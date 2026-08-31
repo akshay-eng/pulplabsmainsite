@@ -6,13 +6,10 @@ database and its uploaded files.
 Image: `ak3hay/pulplabs-site` on Docker Hub. Tags are `latest`, the short git
 SHA of the commit it was built from, and `arm64`.
 
-## Read this before you deploy: the published image is arm64 only
+## Building for amd64: build on the cluster
 
-The image on Docker Hub today is **`linux/arm64` only**. It was built and smoke
-tested on an Apple Silicon machine, where arm64 is native.
-
-`linux/amd64` could not be built there. Cross-building it runs the whole
-toolchain under QEMU and `next build` segfaults partway through:
+`linux/amd64` cannot be cross-built on an Apple Silicon machine. Under the QEMU
+emulation buildx falls back to, `next build` segfaults:
 
 ```
 qemu: uncaught target signal 11 (Segmentation fault) - core dumped
@@ -20,41 +17,62 @@ Next.js build worker exited with code: null and signal: SIGSEGV
 ```
 
 Forcing a single-threaded build (`NEXT_BUILD_SINGLE_THREAD=1`, wired into the
-Dockerfile and `next.config.mjs`) gets it past compilation and static
-generation, and it still dies afterwards. This is emulation, not our code.
+Dockerfile and `next.config.mjs`) gets it past compilation and static generation
+and it still dies afterwards. There is nothing to fix in our code.
 
-**So check what your nodes are before deploying:**
+The cluster node is amd64, so build there instead. buildx runs BuildKit as a
+Deployment and streams the local build context to it, which means the build is
+native, needs no git access and no registry secret in the cluster: your own
+Docker Hub login travels with the request.
 
 ```bash
-kubectl get nodes -o wide   # look at the ARCH column
+docker buildx create --name incluster --driver kubernetes \
+  --driver-opt namespace=pulplabs,replicas=1 --platform linux/amd64
+docker buildx build --builder incluster --platform linux/amd64 \
+  --build-arg NEXT_PUBLIC_SITE_URL=http://192.168.1.5:30081 \
+  --build-arg NEXT_PUBLIC_WHATSAPP=919448055577 \
+  -t ak3hay/pulplabs-site:$(git rev-parse --short HEAD)-amd64 --push .
+docker buildx rm incluster        # frees the node; recreating takes a minute
 ```
 
-- **arm64 nodes** (Raspberry Pi, Ampere, Graviton, Docker Desktop on an M-series
-  Mac): deploy as is.
-- **amd64 nodes**: the pull fails with `no matching manifest for linux/amd64`.
-  Build it on a native amd64 machine. `.github/workflows/docker.yml` does
-  exactly that: it builds each architecture on a runner of that architecture and
-  joins them into one manifest. Add `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`
-  as repository secrets and run it, and `:latest` becomes multi-arch with no
-  change to any manifest here.
+Then point `kustomization.yaml` and `seed-job.yaml` at the new tag.
 
-## The one constraint that shapes everything here
+`.github/workflows/docker.yml` does the same thing on native runners and
+produces a proper multi-arch manifest, which is the better answer once the
+Docker Hub secrets are set on the repository.
 
-The site stores its content in **SQLite**, in a single file on a volume. That is
-a reasonable choice for a marketing site with two authors, and it is why these
-manifests look the way they do:
+**Tags on Docker Hub are not interchangeable.** `:latest` and `:arm64` are the
+arm64 build; `:amd64` and `:<sha>-amd64` are the amd64 one. Pulling `:latest`
+onto this cluster fails with `no matching manifest for linux/amd64`. Tags are
+also pinned rather than floating because `imagePullPolicy: IfNotPresent` never
+re-pulls a tag the node already has, so a redeploy on `:latest` would silently
+keep serving the old image.
 
-- **`replicas: 1`**, and not as a placeholder to raise later. A second pod
-  cannot mount a ReadWriteOnce volume on another node, and if it lands on the
-  same node it corrupts the database instead.
-- **`strategy: Recreate`**, not RollingUpdate. A rolling update starts the new
-  pod before stopping the old one, both want the same volume, and the rollout
-  wedges in `ContainerCreating` until it times out. A few seconds of downtime
-  buys a deploy that finishes.
-- **No HorizontalPodAutoscaler.** There is nothing to scale to.
+## Deployed on `stallion` (192.168.1.5)
 
-Scaling this out means moving to Postgres first. There is no replica count that
-makes SQLite safe, so if traffic ever justifies it, that is the change to make.
+Live at **http://192.168.1.5:30081**.
+
+| | |
+|---|---|
+| Namespace | `pulplabs` |
+| Node | `stallion`, single control-plane, **amd64**, k8s v1.31 |
+| Storage | `local-path` (the default class), 5Gi, `WaitForFirstConsumer` |
+| Exposure | NodePort **30081**, pinned so the URL survives a redeploy |
+| Ingress | Applied, `pulplabs.ai`, class `nginx` |
+
+Two things to know about this cluster specifically:
+
+- **No cert-manager.** The `cert-manager.io/cluster-issuer` annotation on the
+  Ingress resolves to nothing, so `pulplabs-tls` is never created and nginx
+  serves its own default certificate. The TLS block is left in as the shape to
+  keep; install cert-manager and it starts working. Until then use the NodePort.
+- **`local-path` storage is node-local.** The database lives in a directory on
+  `stallion`. Losing that node loses the content, and no volume snapshot exists.
+  Take backups (below) rather than assuming the PVC is durable.
+
+`NEXT_PUBLIC_SITE_URL` is baked into the deployed image as
+`http://192.168.1.5:30081` so in-page absolute URLs and OG tags resolve on the
+LAN. A production image needs a rebuild with the real domain.
 
 ## First deploy
 
@@ -71,13 +89,21 @@ kubectl apply -f secret.yaml
 # 3. Everything else.
 kubectl apply -k .
 
-# 4. Seed the empty volume: admin user, posts, case studies.
+# 4. Seed the empty volume with the posts and case studies.
 #    The site must be down for this. SQLite is single-writer and the volume is
 #    ReadWriteOnce, so the Job and the pod cannot both hold it.
 kubectl scale deploy/pulplabs-site -n pulplabs --replicas=0
+kubectl wait --for=delete pod -n pulplabs -l app.kubernetes.io/name=pulplabs-site --timeout=90s
 kubectl apply -f seed-job.yaml
 kubectl wait --for=condition=complete job/pulplabs-seed -n pulplabs --timeout=300s
 kubectl scale deploy/pulplabs-site -n pulplabs --replicas=1
+
+# 5. The admin login is NOT created by the step above, because seed.mjs only
+#    makes one when both variables are present and the password should be
+#    yours rather than something generated into a file:
+#      kubectl set env job/pulplabs-seed ... is no use once a Job has run, so
+#    edit seed-job.yaml to add ADMIN_EMAIL and ADMIN_PASSWORD (12+ characters),
+#    delete the finished Job and re-apply it with the site scaled to zero.
 
 kubectl rollout status deploy/pulplabs-site -n pulplabs
 ```

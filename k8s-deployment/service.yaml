@@ -6,11 +6,19 @@ metadata:
   labels:
     app.kubernetes.io/name: pulplabs-site
 spec:
-  type: ClusterIP
+  # NodePort so the site is reachable at http://<node-ip>:30081 without DNS or
+  # a certificate. The Ingress alongside this still works, because a NodePort
+  # Service keeps its ClusterIP and that is what the controller routes to.
+  #
+  # The port is pinned rather than left to the 30000-32767 auto-assignment, so
+  # the URL does not change on every redeploy. NEXT_PUBLIC_SITE_URL is baked
+  # into the image against this exact number: change one and rebuild the other.
+  type: NodePort
   selector:
     app.kubernetes.io/name: pulplabs-site
   ports:
     - name: http
       port: 80
       targetPort: http
+      nodePort: 30081
       protocol: TCP
