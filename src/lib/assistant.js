@@ -80,7 +80,7 @@ const KNOWLEDGE = [
     id: 'team',
     patterns: ['team', 'who are you', 'people', 'founder', 'staff', 'certified', 'certification', 'credentials'],
     answer:
-      'A six-person team of AI architects, delivery leads and ML engineers, certified across four platforms: ' +
+      'A small team of AI architects, delivery leads and ML engineers, formally accredited on: ' +
       '**Claude**, **OpenAI**, **Copilot Studio** and **IBM watsonx Orchestrate**.\n\n' +
       'You can see the full roster on the Team page.',
     chips: ['See the team', 'Book a call'],

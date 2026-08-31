@@ -38,7 +38,7 @@ const PEOPLE = [
   {
     role: 'Enablement instructor',
     disc: 'Enablement',
-    b: 'Runs the briefings and bootcamps on your workflows. Certified across all four platforms.',
+    b: 'Runs the briefings and bootcamps on your workflows, on the platforms we are accredited on.',
   },
   {
     role: 'Growth & partnerships',
@@ -74,10 +74,13 @@ export default function Team() {
 
           <div className="shell phead-in">
             <p className="mono">Team</p>
+            {/* No counts. A headcount and a certification tally both go stale
+                the moment either changes, and the claim underneath is what
+                actually matters anyway. */}
             <h1 className="d1 phead-h">
-              Six people.
+              Small team.
               <br />
-              <span className="dim">Four platforms.</span>
+              <span className="dim">Certified where it counts.</span>
             </h1>
             <p className="lede phead-l">
               Small enough that the person who scoped your engagement is the person who builds it. Certified across
@@ -131,7 +134,7 @@ export default function Team() {
               <span className="dim">fluent across the rest.</span>
             </p>
             <p className="body plate-b">
-              We hold formal accreditation on the four platforms below. Beyond those we build on, integrate and operate
+              We hold formal accreditation on the platforms below. Beyond those we build on, integrate and operate
               against the wider ecosystem: frontier and open-weight models, the major cloud AI platforms, and the
               orchestration, data and ITSM tooling around them. Ask about anything specific and we will tell you
               straight whether we have shipped on it.
