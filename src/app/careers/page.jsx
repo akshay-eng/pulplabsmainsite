@@ -1,9 +1,8 @@
-import Link from 'next/link'
 import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
-import RoleAccordion from '@/components/void/RoleAccordion'
-import { roles, expectations, hiring } from '@/data/careers'
+import RoleSheet from '@/components/void/RoleSheet'
+import { roles } from '@/data/careers'
 
 export const metadata = {
   title: 'Careers',
@@ -38,88 +37,23 @@ export default function Careers() {
           </div>
         </section>
 
-        {/* Roles first. A candidate came here for the job, and making them
-            scroll past three sections of culture copy to find it is the most
-            common thing careers pages get wrong. Everything that explains the
-            place sits underneath, where it answers a question they now have. */}
-        <section className="sec-sm cx-roles">
+        {/* Just the roles. Each one is laid out in full rather than hidden
+            behind a toggle: with a list this short, collapsing it only puts a
+            click between someone and the thing they came to read. */}
+        <section className="sec-sm">
           <div className="shell">
-            <p className="mono cx-eyebrow">Open roles</p>
             {open.length === 0 ? (
-              <p className="lede measure-w cx-none">
+              <p className="lede measure-w rs-none">
                 Nothing open right now. If you think you should be here anyway, tell us what you have shipped and
                 we will keep it on file.
               </p>
             ) : (
-              <ul className="roles">
+              <div className="rs-stack">
                 {open.map((r) => (
-                  /* Sole role opens by default: collapsing the only thing on
-                     the page hides the whole point of visiting it. With more
-                     than one, everything starts closed so the list is the
-                     first thing you see. */
-                  <RoleAccordion key={r.slug} role={r} defaultOpen={open.length === 1} />
+                  <RoleSheet key={r.slug} role={r} />
                 ))}
-              </ul>
+              </div>
             )}
-          </div>
-        </section>
-
-        <section className="sec-sm cx-band">
-          <div className="shell">
-            <p className="mono cx-eyebrow">What to expect</p>
-            <h2 className="d2 cx-h">
-              Three things we will hold ourselves to.
-            </h2>
-            <ul className="cx-expect">
-              {expectations.map(([t, b], i) => (
-                <li key={t} data-r style={{ '--rd': `${i * 70}ms` }}>
-                  <span className="mono cx-num">{String(i + 1).padStart(2, '0')}</span>
-                  <h3 className="h4 cx-expect-t">{t}</h3>
-                  <p className="body">{b}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section className="plate cx-plate">
-          <div className="plate-img" aria-hidden="true">
-            <img src="/void/grid-horizon.webp" alt="" loading="lazy" decoding="async" />
-          </div>
-          <div className="shell plate-in">
-            <p className="mono">How hiring works</p>
-            <p className="d2 plate-h">
-              Four steps,
-              <br />
-              <span className="dim">and an answer either way.</span>
-            </p>
-            <ol className="cx-steps">
-              {hiring.map(([t, b], i) => (
-                <li key={t} data-r style={{ '--rd': `${i * 60}ms` }}>
-                  <span className="mono cx-step-n">{String(i + 1).padStart(2, '0')}</span>
-                  <div>
-                    <p className="h4 cx-step-t">{t}</p>
-                    <p className="body">{b}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <section className="sec-sm">
-          <div className="shell cx-spec" data-r>
-            <div>
-              <h2 className="d3 cx-spec-h">Nothing here fits?</h2>
-              <p className="body cx-spec-b">
-                We open roles when the work demands them rather than on a schedule, so the list above is short more
-                often than not. If you have built something you think we should see, send it. We would rather read
-                about a real project than a CV written to match a posting.
-              </p>
-            </div>
-            <Link href="/contact" className="btn cx-spec-cta">
-              Send us your work
-            </Link>
           </div>
         </section>
 
