@@ -4693,3 +4693,148 @@ textarea {
     display: none;
   }
 }
+
+/* ==========================================================================
+   Careers
+   ==========================================================================
+   The page was a hero and a single accordion sitting on a lot of black. It
+   answered "what is the job" and nothing else, so anyone weighing up whether
+   to apply had to guess at the rest.
+
+   Order is deliberate: roles first, then what to expect, then how hiring runs,
+   then a way in when nothing fits. A candidate arrives with one question and
+   the answer should not be below three screens of culture copy.
+   -------------------------------------------------------------------------- */
+
+.cx-eyebrow {
+  color: var(--w-3);
+  margin-bottom: 18px;
+}
+
+.cx-roles .roles {
+  border-top: 1px solid var(--line-2);
+}
+
+.cx-none {
+  color: var(--w-2);
+}
+
+.cx-h {
+  margin: 0 0 clamp(28px, 3.4vw, 44px);
+  max-width: 22ch;
+}
+
+/* ---- what to expect ---- */
+
+/* Three equal columns that collapse to one. Hairline dividers rather than
+   boxes: the card treatment is already carrying the solution catalogue and
+   reusing it here would make three prose claims look like three products. */
+.cx-expect {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 3.4vw, 48px);
+}
+
+.cx-expect li {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding-top: 22px;
+  border-top: 1px solid var(--line-2);
+}
+
+.cx-num {
+  color: var(--w-4);
+}
+
+.cx-expect-t {
+  margin: 2px 0 0;
+}
+
+/* ---- how hiring works ---- */
+
+.cx-steps {
+  list-style: none;
+  margin: clamp(32px, 4vw, 48px) 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1px;
+  background: var(--line-1);
+  border: 1px solid var(--line-1);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* The number sits in its own fixed column so the titles align down the page.
+   An inline number wraps into the prose the moment a title runs to two lines. */
+.cx-steps li {
+  background: var(--void);
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: clamp(14px, 1.6vw, 22px);
+  padding: clamp(20px, 2.4vw, 28px) clamp(20px, 2.6vw, 32px);
+  align-items: start;
+}
+
+.cx-step-n {
+  color: var(--w-4);
+  padding-top: 5px;
+}
+
+.cx-step-t {
+  margin: 0 0 6px;
+}
+
+/* ---- speculative application ---- */
+
+.cx-spec {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(24px, 3vw, 48px);
+  align-items: center;
+  border: 1px solid var(--line-1);
+  border-radius: 18px;
+  padding: clamp(26px, 3.4vw, 44px);
+}
+
+.cx-spec-h {
+  margin: 0 0 12px;
+}
+
+.cx-spec-b {
+  max-width: 62ch;
+}
+
+.cx-spec-cta {
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .cx-expect {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cx-spec {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .cx-spec-cta {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 600px) {
+  .cx-expect {
+    grid-template-columns: 1fr;
+  }
+  /* The number column costs more than it earns at this width. */
+  .cx-steps li {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .cx-step-n {
+    padding-top: 0;
+  }
+}
