@@ -1,7 +1,7 @@
 import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
-import ApplyModal from '@/components/void/ApplyModal'
+import RoleAccordion from '@/components/void/RoleAccordion'
 import { roles } from '@/data/careers'
 
 export const metadata = {
@@ -43,69 +43,22 @@ export default function Careers() {
             </div>
           </section>
         ) : (
-          open.map((r) => (
-            <section className="sec-sm" id={r.slug} key={r.slug}>
-              <div className="shell">
-                <div className="cr">
-                  <header className="cr-head">
-                    <div>
-                      <p className="mono cr-k">{r.team}</p>
-                      <h2 className="cr-t">{r.title}</h2>
-                      <p className="body cr-s">{r.summary}</p>
-                    </div>
-                    <ul className="cr-facts">
-                      {[['Type', r.type], ['Length', r.length], ['Where', r.location]].map(([k, v]) => (
-                        <li key={k}>
-                          <span className="mono">{k}</span>
-                          <span>{v}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </header>
-
-                  <p className="body cr-about">{r.about}</p>
-
-                  <div className="cr-grid">
-                    <div>
-                      <p className="mono cr-lbl">What we need you to already have</p>
-                      <ul className="cr-need">
-                        {r.need.map(([t, d]) => (
-                          <li key={t}>
-                            <span className="cr-need-t">{t}</span>
-                            <span className="body">{d}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="cr-side">
-                      <div>
-                        <p className="mono cr-lbl">What you will be doing</p>
-                        <ul className="cr-list">
-                          {r.doing.map((d) => <li key={d} className="body">{d}</li>)}
-                        </ul>
-                      </div>
-                      <div>
-                        <p className="mono cr-lbl">Nice to have</p>
-                        <ul className="cr-list">
-                          {r.nice.map((d) => <li key={d} className="body">{d}</li>)}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <p className="cr-honest">
-                    <span className="mono">Worth saying up front</span>
-                    {r.honest}
-                  </p>
-
-                  <div className="cr-cta">
-                    <ApplyModal role={r} />
-                  </div>
-                </div>
-              </div>
-            </section>
-          ))
+          <section className="sec-sm">
+            <div className="shell">
+              <p className="mono roles-count">
+                {open.length} open {open.length === 1 ? 'role' : 'roles'}
+              </p>
+              <ul className="roles">
+                {open.map((r, i) => (
+                  /* Sole role opens by default: collapsing the only thing on
+                     the page hides the whole point of visiting it. With more
+                     than one, everything starts closed so the list is the
+                     first thing you see. */
+                  <RoleAccordion key={r.slug} role={r} defaultOpen={open.length === 1} />
+                ))}
+              </ul>
+            </div>
+          </section>
         )}
 
         <NextPage href="/team" title="Team" />
