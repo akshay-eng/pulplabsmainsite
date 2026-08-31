@@ -4481,3 +4481,116 @@ textarea {
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .contact-failed { margin-bottom: 12px; }
 .contact-failed a { color: inherit; }
+
+/* ─── Careers ─────────────────────────────────────────────────────────── */
+
+.cr { border: 1px solid var(--line-1); border-radius: 18px; padding: clamp(26px, 3.4vw, 44px); }
+
+.cr-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(220px, 0.8fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+  padding-bottom: clamp(24px, 3vw, 34px);
+  border-bottom: 1px solid var(--line-1);
+}
+.cr-k { opacity: var(--w-3); }
+.cr-t { font-size: clamp(26px, 3.2vw, 40px); letter-spacing: -0.032em; line-height: 1.06; margin: 12px 0 0; }
+.cr-s { color: var(--w-2); margin: 16px 0 0; max-width: 52ch; font-size: 15.5px; line-height: 1.62; }
+
+.cr-facts { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.cr-facts li { display: grid; gap: 4px; padding-bottom: 12px; border-bottom: 1px solid var(--line-1); }
+.cr-facts .mono { opacity: var(--w-4); }
+
+.cr-about { color: var(--w-2); margin: clamp(24px, 3vw, 34px) 0 0; max-width: 74ch; font-size: 15px; line-height: 1.68; }
+
+.cr-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 60px);
+  margin-top: clamp(30px, 4vw, 44px);
+}
+.cr-lbl { opacity: var(--w-3); margin-bottom: 16px; }
+
+.cr-need { list-style: none; padding: 0; margin: 0; }
+.cr-need li { display: grid; gap: 5px; padding: 14px 0; border-top: 1px solid var(--line-1); }
+.cr-need li:last-child { border-bottom: 1px solid var(--line-1); }
+.cr-need-t { font-size: 15.5px; letter-spacing: -0.014em; }
+.cr-need .body { color: var(--w-2); font-size: 13.5px; line-height: 1.5; }
+
+.cr-side { display: grid; gap: clamp(26px, 3vw, 36px); align-content: start; }
+.cr-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.cr-list li { color: var(--w-2); font-size: 14px; line-height: 1.5; padding-left: 18px; position: relative; }
+.cr-list li::before { content: ''; position: absolute; left: 0; top: 9px; width: 7px; height: 1px; background: var(--line-3); }
+
+.cr-honest {
+  display: block;
+  margin-top: clamp(30px, 4vw, 44px);
+  padding: 20px 24px;
+  border: 1px solid var(--line-1);
+  border-left: 2px solid var(--line-3);
+  border-radius: 3px;
+  color: var(--w-2);
+  font-size: 14.5px;
+  line-height: 1.62;
+  max-width: 74ch;
+}
+.cr-honest .mono { display: block; opacity: var(--w-3); margin-bottom: 9px; }
+.cr-cta { margin-top: clamp(28px, 3.4vw, 38px); }
+
+@media (max-width: 860px) {
+  .cr-head, .cr-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── Apply dialog ────────────────────────────────────────────────────────
+   Native <dialog>: focus trapping, Escape, inert background and the top layer
+   come free, and every one of those is easy to get subtly wrong by hand. */
+.ap {
+  width: min(560px, calc(100vw - 32px));
+  max-height: min(88vh, 780px);
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 18px;
+  background: #0a0a0a;
+  color: var(--w-1);
+  overflow: auto;
+}
+.ap::backdrop { background: rgba(0, 0, 0, 0.72); backdrop-filter: blur(6px); }
+.ap-in { padding: clamp(22px, 3vw, 32px); }
+
+.ap-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.ap-head .mono { opacity: var(--w-3); }
+.ap-t { margin: 8px 0 0; }
+.ap-x {
+  flex: none; width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--line-2); border-radius: 100px; background: transparent; color: var(--w-2); cursor: pointer;
+  transition: border-color 240ms, color 240ms;
+}
+.ap-x:hover { border-color: var(--w-1); color: var(--w-1); }
+.ap-x:focus-visible { outline: 2px solid var(--w-1); outline-offset: 2px; }
+
+.ap-form { display: grid; gap: 16px; }
+.ap-form .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 520px) { .ap-form .f-row { grid-template-columns: 1fr; } }
+
+/* The real input stays in the DOM and focusable; only its default appearance
+   is replaced, so keyboard and screen-reader users get the native picker. */
+.ap-file { position: relative; display: block; cursor: pointer; }
+.ap-file input {
+  position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;
+}
+.ap-file span {
+  display: flex; align-items: center; min-height: 46px; padding: 0 15px;
+  border: 1px dashed var(--line-2); border-radius: 10px; color: var(--w-3); font-size: 14.5px;
+  transition: border-color 240ms, color 240ms;
+}
+.ap-file[data-has] span { border-style: solid; border-color: var(--line-3); color: var(--w-1); }
+.ap-file:hover span { border-color: var(--w-1); }
+.ap-file input:focus-visible + span { outline: 2px solid var(--w-1); outline-offset: 2px; }
+
+.ap-submit { margin-top: 6px; justify-self: start; }
+.ap-note { opacity: var(--w-4); }
+.ap-done { display: grid; gap: 20px; justify-items: start; }
+.ap-done .body { color: var(--w-2); }
+
+@media (prefers-reduced-motion: reduce) { .ap-x, .ap-file span { transition-duration: 1ms; } }

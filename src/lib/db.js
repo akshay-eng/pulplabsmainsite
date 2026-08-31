@@ -127,6 +127,22 @@ function migrate(db) {
 
     CREATE INDEX IF NOT EXISTS idx_enquiries_created ON enquiries (created_at DESC);
 
+    CREATE TABLE IF NOT EXISTS applications (
+      id           INTEGER PRIMARY KEY AUTOINCREMENT,
+      role_slug    TEXT    NOT NULL DEFAULT '',
+      name         TEXT    NOT NULL DEFAULT '',
+      email        TEXT    NOT NULL DEFAULT '',
+      phone        TEXT    NOT NULL DEFAULT '',
+      note         TEXT    NOT NULL DEFAULT '',
+      -- Filename on disk under UPLOAD_DIR. The CV itself is never stored in
+      -- the database; this is the pointer to it.
+      cv_file      TEXT    NOT NULL DEFAULT '',
+      cv_name      TEXT    NOT NULL DEFAULT '',
+      created_at   TEXT    NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_applications_created ON applications (created_at DESC);
+
     CREATE TABLE IF NOT EXISTS admin_users (
       id            INTEGER PRIMARY KEY AUTOINCREMENT,
       email         TEXT NOT NULL UNIQUE,
