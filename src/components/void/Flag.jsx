@@ -69,10 +69,11 @@ const FLAGS = {
 export default function Flag({ code, title }) {
   const art = FLAGS[code]
   if (!art) return null
+  /* Labelled only when asked. Where the country is spelled out in text beside
+     the flag, an aria-label here would make a screen reader announce it twice. */
+  const label = title ? { role: 'img', 'aria-label': title } : { 'aria-hidden': true }
   return (
-    /* role="img" with a title rather than aria-hidden: the country is
-       information, and it is the only place on the card that carries it. */
-    <svg className="flag" viewBox="0 0 24 16" width="21" height="14" role="img" aria-label={title}>
+    <svg className="flag" viewBox="0 0 24 16" width="20" height="13" {...label}>
       {art}
       {/* Hairline edge so the white in the Indian and Canadian flags does not
           bleed into a light background, and the yellow band in Lithuania's

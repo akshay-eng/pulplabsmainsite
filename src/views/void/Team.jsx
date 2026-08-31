@@ -83,13 +83,23 @@ export default function Team() {
                       decoding="async"
                       style={{ objectPosition: p.photoPosition ?? '50% 20%' }}
                     />
+                    {/* The country sits on the portrait rather than beside the
+                        name. The portraits are fully desaturated, so a flag
+                        anywhere else on the card is the loudest thing on it;
+                        here the colour reads as a stamp on the photograph and
+                        the name gets its typography back. The country is spelled
+                        out because a 20px flag alone is a guess for anyone who
+                        does not know it. */}
+                    {p.country && (
+                      <span className="roster-flag">
+                        <Flag code={p.country.code} />
+                        <span className="mono">{p.country.name}</span>
+                      </span>
+                    )}
                   </span>
                   <div className="roster-body">
                     <p className="mono">{p.disc}</p>
-                    <h2 className="d3 roster-name">
-                      {p.name}
-                      {p.country && <Flag code={p.country.code} title={p.country.name} />}
-                    </h2>
+                    <h2 className="d3 roster-name">{p.name}</h2>
                     <p className="roster-role">{p.role}</p>
                     <p className="body">{p.blurb}</p>
                   </div>

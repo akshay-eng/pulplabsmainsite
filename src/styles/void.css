@@ -1825,23 +1825,53 @@ canvas {
    white: technically rendered, invisible in practice. */
 .roster-name {
   color: var(--w-1);
-  /* inline-flex rather than block so the flag sits on the name's baseline
-     instead of starting a line of its own, and the gap survives a name long
-     enough to wrap. */
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
 }
 
-/* The flag is a small object beside a large one, so it needs a floor on its
-   size: at .d3's clamp the name can reach 2.1rem and a 21px flag beside it
-   starts to read as debris. A rounded corner and the hairline drawn inside the
-   SVG keep it looking like a mark rather than a stray image. */
+/* The country, stamped on the portrait.
+   It sat beside the name first and read as an emoji dropped into a heading:
+   the portraits are grayscale(1), so a full-colour flag is the loudest thing
+   on the card and next to 2.1rem type it looked like debris. On the photograph
+   the same colour reads as deliberate, and the heading gets its typography
+   back. */
+.roster-flag {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 9px 5px 6px;
+  border-radius: 7px;
+  /* Translucent rather than solid: the portrait stays readable underneath, and
+     the blur keeps the label legible over a light patch of the photograph. */
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.roster-flag .mono {
+  color: var(--w-1);
+  line-height: 1;
+}
+
 .flag {
   flex: none;
   border-radius: 2px;
   display: block;
+}
+
+/* The chip is the one piece of colour on the card, so it warms with the
+   portrait rather than sitting at full saturation over a grey image. */
+.roster-flag .flag {
+  filter: saturate(0.85);
+  transition: filter var(--t-panel) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .roster li:hover .roster-flag .flag {
+    filter: saturate(1);
+  }
 }
 
 /* The designation.
