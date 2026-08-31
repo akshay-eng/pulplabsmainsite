@@ -6,6 +6,16 @@ const nextConfig = {
   // better-sqlite3 is a native addon; it must stay external to the bundle.
   serverExternalPackages: ['better-sqlite3'],
 
+  /* `next dev` and `next build` both write to .next, so running a build while
+     the dev server is up replaces the dev chunk graph underneath it and the
+     browser then dies with "__webpack_modules__[moduleId] is not a function".
+     The only cure once it happens is stopping everything, deleting .next and
+     starting over.
+     Setting NEXT_DIST_DIR sends a build somewhere else instead. `npm run
+     build:check` uses it, which is what to run when you just want to know
+     whether the project still compiles. */
+  distDir: process.env.NEXT_DIST_DIR || '.next',
+
   /* Single-threaded build, only when NEXT_BUILD_SINGLE_THREAD is set.
    *
    * Cross-building the linux/amd64 image on an Apple Silicon machine runs the

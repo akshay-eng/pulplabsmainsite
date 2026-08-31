@@ -33,3 +33,7 @@ skills-lock.json
 
 # Kubernetes secrets: real credentials, never committed.
 k8s-deployment/secret.yaml
+
+# Throwaway output from `npm run build:check`, so a verification build
+# never clobbers the dev server sharing .next.
+.next-check
