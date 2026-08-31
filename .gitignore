@@ -30,3 +30,6 @@ next-env.d.ts
 # instruction files, not this site's source.
 .agents/
 skills-lock.json
+
+# Kubernetes secrets: real credentials, never committed.
+k8s-deployment/secret.yaml

@@ -1,0 +1,149 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pulplabs-site
+  namespace: pulplabs
+  labels:
+    app.kubernetes.io/name: pulplabs-site
+spec:
+  # One replica, and this is not a placeholder to raise later.
+  #
+  # The site keeps its content in SQLite on a ReadWriteOnce volume. A second
+  # pod cannot mount that volume on another node, and if it lands on the same
+  # node it corrupts the database instead. Scaling this out means moving to
+  # Postgres first; there is no replica count that makes SQLite safe here.
+  replicas: 1
+
+  # Recreate, not RollingUpdate, for the same reason. A rolling update starts
+  # the new pod before terminating the old one, both then want the same RWO
+  # volume, and the rollout wedges in ContainerCreating until it times out.
+  # This trades a few seconds of downtime for a deploy that actually completes.
+  strategy:
+    type: Recreate
+
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pulplabs-site
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pulplabs-site
+    spec:
+      securityContext:
+        # Matches the app user created in the Dockerfile. fsGroup is what makes
+        # the mounted volume group-writable; without it the first write to
+        # /data fails with EACCES and the pod looks healthy until someone
+        # submits the contact form.
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+
+      # The image runs as an unprivileged user that cannot chown /data, so the
+      # directory has to exist with the right ownership before the app starts.
+      # fsGroup handles the mount point itself; this handles the subdirectory.
+      initContainers:
+        - name: prepare-data
+          image: busybox:1.36
+          command: ['sh', '-c', 'mkdir -p /data/uploads && chmod 0775 /data /data/uploads']
+          securityContext:
+            runAsUser: 10001
+            runAsGroup: 10001
+          volumeMounts:
+            - name: data
+              mountPath: /data
+
+      containers:
+        - name: site
+          image: ak3hay/pulplabs-site:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+
+          envFrom:
+            - configMapRef:
+                name: pulplabs-config
+            - secretRef:
+                name: pulplabs-secrets
+
+          # Readiness checks the database, because a pod that cannot read its
+          # content should be taken out of the Service. Liveness deliberately
+          # does not: restarting the process does nothing for a broken volume
+          # and only produces a crash loop that buries the real error.
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+          # Next.js compiles nothing at boot in standalone mode, but the native
+          # SQLite addon and the migrations run on first connect. This gives
+          # that up to 60s before the liveness probe starts counting.
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            periodSeconds: 5
+            failureThreshold: 12
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              # No CPU limit on purpose. Node throttles hard under CFS quota and
+              # the symptom is slow first paints that look like a network fault.
+              # The request is what the scheduler uses; the limit only punishes.
+              memory: 768Mi
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ['ALL']
+            # readOnlyRootFilesystem is off, and it was tested rather than
+            # assumed. Four routes use ISR (the home page, the feed, blog posts
+            # and case studies, all revalidating from SQLite), and Next writes
+            # each regenerated page back into /app/.next/server/app. Under a
+            # read-only root that write fails with
+            #   "Failed to update prerender cache for /index [Error: EROFS]"
+            # on every revalidation. Pages still render, so it degrades quietly
+            # into re-rendering everything from the database and filling the log
+            # with errors that look like a fault and are not.
+            #
+            # Mounting a volume over .next/server would shadow the built output
+            # and break the app outright. Copying the build into an emptyDir at
+            # startup would work but adds a full copy to every pod start for a
+            # site this size. The container still runs non-root as UID 10001
+            # with no privilege escalation and every capability dropped.
+            readOnlyRootFilesystem: false
+
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            # Next's image optimiser cache. An emptyDir keeps that churn off
+            # the container's writable layer, where it would otherwise grow
+            # until the node's disk pressure eviction notices.
+            - name: cache
+              mountPath: /app/.next/cache
+            - name: tmp
+              mountPath: /tmp
+
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pulplabs-data
+        - name: cache
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}

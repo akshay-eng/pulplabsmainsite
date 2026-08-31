@@ -1,0 +1,35 @@
+# The build context was previously unfiltered, which meant `COPY . .` pulled
+# .env.local into an image layer. Anyone who pulled the image could read the
+# Resend and Groq keys out of it. Everything secret is excluded here and
+# injected at runtime from a Kubernetes Secret instead.
+.env
+.env.*
+!.env.example
+
+# Rebuilt inside the image. Copying the host's arm64 native addons into an
+# amd64 build produces a binary that dies with "invalid ELF header" at boot.
+node_modules
+.next
+out
+
+.git
+.gitignore
+.github
+
+# Local database and uploads. These live on the PersistentVolumeClaim.
+.data
+data
+*.db
+*.db-journal
+*.sqlite
+
+.DS_Store
+*.log
+npm-debug.log*
+
+# Docs and tooling that add nothing to a running container.
+k8s-deployment
+.agents
+.claude
+*.md
+!README.md

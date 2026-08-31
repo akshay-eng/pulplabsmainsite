@@ -1,0 +1,35 @@
+# Non-secret runtime configuration.
+#
+# NEXT_PUBLIC_SITE_URL and NEXT_PUBLIC_WHATSAPP are absent on purpose. They are
+# compiled into the browser bundle, so setting them here would have no effect
+# whatsoever and would only look like it was working. They are build arguments;
+# see the Dockerfile and the README.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pulplabs-config
+  namespace: pulplabs
+  labels:
+    app.kubernetes.io/name: pulplabs-site
+data:
+  NODE_ENV: "production"
+  PORT: "3000"
+  HOSTNAME: "0.0.0.0"
+  NEXT_TELEMETRY_DISABLED: "1"
+
+  # Both paths sit on the PersistentVolumeClaim mounted at /data.
+  DATABASE_PATH: "/data/pulplabs.db"
+  UPLOAD_DIR: "/data/uploads"
+
+  # The site assistant. gpt-oss-120b on Groq's free tier allows 8000 tokens a
+  # minute for the whole deployment, and the grounding prompt costs about 2300
+  # of them, so roughly three questions a minute are answered by the model and
+  # the rest fall back to the offline answers in src/lib/assistant.js. Raise the
+  # tier before launch if that matters.
+  LLM_MODEL: "openai/gpt-oss-120b"
+  LLM_REASONING_EFFORT: "low"
+
+  # Resend will reject the whole request, delivering to nobody, if any single
+  # recipient is unverified. Add the second address only once the domain is
+  # verified in Resend.
+  ENQUIRY_RECIPIENTS: "akshaysdeekshith@gmail.com"

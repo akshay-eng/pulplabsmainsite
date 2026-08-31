@@ -1,0 +1,46 @@
+# Assumes ingress-nginx and cert-manager, which is the common pairing. If your
+# cluster runs Traefik, GKE ingress or an ALB controller, the annotations and
+# ingressClassName are what change; the rules below stay as they are.
+#
+# Both hosts are listed so the apex and www resolve, and the redirect between
+# them is left to DNS or the load balancer rather than being hardcoded here.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pulplabs-site
+  namespace: pulplabs
+  labels:
+    app.kubernetes.io/name: pulplabs-site
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # CV uploads. The default is 1MB, which rejects a PDF résumé with a bare
+    # 413 and no message the candidate can act on.
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - pulplabs.ai
+        - www.pulplabs.ai
+      secretName: pulplabs-tls
+  rules:
+    - host: pulplabs.ai
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pulplabs-site
+                port:
+                  name: http
+    - host: www.pulplabs.ai
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pulplabs-site
+                port:
+                  name: http

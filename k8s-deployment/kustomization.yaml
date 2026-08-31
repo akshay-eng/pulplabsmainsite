@@ -1,0 +1,33 @@
+# secret.yaml is not listed. It holds live credentials, it is gitignored, and
+# it is applied separately so that `kubectl apply -k .` on a fresh clone fails
+# loudly with a missing secret rather than quietly deploying without one.
+#
+# seed-job.yaml is also excluded: it is a one-shot run against an empty volume,
+# not part of the steady-state manifest set. Apply it by name when you need it.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: pulplabs
+
+resources:
+  - namespace.yaml
+  - pvc.yaml
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+# `labels` rather than the deprecated `commonLabels`, and without
+# includeSelectors on purpose. commonLabels writes into the Deployment's
+# selector, and a selector is immutable once applied: changing a label here
+# later would make every subsequent apply fail with a field-is-immutable error
+# that can only be cleared by deleting the Deployment. The selector it needs is
+# already declared explicitly in deployment.yaml.
+labels:
+  - pairs:
+      app.kubernetes.io/name: pulplabs-site
+      app.kubernetes.io/part-of: pulplabs
+
+images:
+  - name: ak3hay/pulplabs-site
+    newTag: latest

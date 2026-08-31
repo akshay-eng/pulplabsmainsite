@@ -1,0 +1,23 @@
+# The SQLite file and the uploaded CVs and cover images share one volume.
+#
+# ReadWriteOnce is not a limitation to work around here, it is the correct
+# access mode. better-sqlite3 holds the database open from a single process,
+# and two pods writing the same file over a shared mount corrupts it. The
+# Deployment is pinned to one replica for the same reason.
+#
+# storageClassName is deliberately left unset so the cluster's default class is
+# used. Set it explicitly if your cluster has no default, or if you want a class
+# that survives node loss: `kubectl get storageclass` will tell you what exists.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pulplabs-data
+  namespace: pulplabs
+  labels:
+    app.kubernetes.io/name: pulplabs-site
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

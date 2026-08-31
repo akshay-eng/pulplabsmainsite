@@ -1,0 +1,52 @@
+# One-shot seed for a fresh volume: creates the admin user and imports the
+# posts and case studies.
+#
+# Run it once, after the PVC exists and before or just after the first deploy.
+# It is a Job rather than an initContainer because seeding is a first-boot
+# action, not something that should re-run on every restart.
+#
+# The Deployment must be scaled to zero while this runs. The volume is
+# ReadWriteOnce and SQLite is single-writer, so the Job and the site cannot
+# hold it at the same time:
+#
+#   kubectl scale deploy/pulplabs-site -n pulplabs --replicas=0
+#   kubectl apply -f seed-job.yaml
+#   kubectl wait --for=condition=complete job/pulplabs-seed -n pulplabs --timeout=300s
+#   kubectl scale deploy/pulplabs-site -n pulplabs --replicas=1
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pulplabs-seed
+  namespace: pulplabs
+  labels:
+    app.kubernetes.io/name: pulplabs-site
+spec:
+  backoffLimit: 2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pulplabs-site
+        app.kubernetes.io/component: seed
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+      containers:
+        - name: seed
+          image: ak3hay/pulplabs-site:latest
+          command: ['node', 'scripts/seed.mjs']
+          envFrom:
+            - configMapRef:
+                name: pulplabs-config
+            - secretRef:
+                name: pulplabs-secrets
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pulplabs-data
