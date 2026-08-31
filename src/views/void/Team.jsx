@@ -40,6 +40,11 @@ const PEOPLE = [
     disc: 'Enablement',
     b: 'Runs the briefings and bootcamps on your workflows. Certified across all four platforms.',
   },
+  {
+    role: 'Growth & partnerships',
+    disc: 'Commercial',
+    b: 'Scoping, discovery and the honest conversation about whether the thing you asked for is the thing you need.',
+  },
 ]
 
 const CERTS = [

@@ -90,6 +90,22 @@ export const people = [
     linkedin: '#',
     github: '#',
   },
+  {
+    name: 'Supriya',
+    role: 'ML engineer',
+    bio: '',
+    photo: '/avatars/supriya.webp',
+    accent: '#E8B00A',
+    photoBg: '#FFF3C4',
+    dots: 'rgba(201,147,10,.2)',
+    figure: '#E8B00A',
+    figureOpacity: 1,
+    tagColor: '#8A6D00',
+    roleStyle: { color: '#8A6D00', background: '#FFF6D6', border: '1px solid #F2DD9B' },
+    shadow: 'rgba(255,201,60,.3)',
+    linkedin: '#',
+    github: '#',
+  },
       ]
 
 export const certifications = [
