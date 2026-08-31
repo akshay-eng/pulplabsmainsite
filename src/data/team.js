@@ -1,13 +1,20 @@
 import { CertClaude, CertOpenAI, CertCopilot, CertWatsonx } from '../components/icons'
 
-// Placeholder roster — swap in real names, photos and links.
+/* Three real people, with their own photographs.
+ *
+ * The other three entries were AI-generated portraits of fictional people and
+ * have been removed rather than left beside real colleagues, which would have
+ * read as a six-person team. Add real entries here as they join.
+ *
+ * Photos are pre-cropped to 4:3 with the face placed, so no photoPosition
+ * override is needed. Roles below are the slots that already existed and have
+ * NOT been confirmed against who actually does what. */
 export const people = [
   {
-    name: 'Name Surname',
+    name: 'Akshay',
     role: 'Founder & AI architect',
-    bio: 'Short bio placeholder. Background, focus areas, one human detail.',
-    photo: '/avatars/member-01.webp',
-    photoPosition: '50% 20%',
+    bio: '',
+    photo: '/avatars/akshay.webp',
     accent: '#FF6B1A',
     photoBg: '#FFEBD9',
     dots: 'rgba(255,107,26,.2)',
@@ -20,11 +27,10 @@ export const people = [
     github: '#',
   },
   {
-    name: 'Name Surname',
+    name: 'Akash',
     role: 'Delivery lead',
-    bio: 'Short bio placeholder. Background, focus areas, one human detail.',
-    photo: '/avatars/member-02.webp',
-    photoPosition: '50% 18%',
+    bio: '',
+    photo: '/avatars/akash.webp',
     accent: '#F0384B',
     photoBg: '#FFE1E4',
     dots: 'rgba(240,56,75,.18)',
@@ -37,11 +43,10 @@ export const people = [
     github: '#',
   },
   {
-    name: 'Name Surname',
+    name: 'Justin',
     role: 'ML engineer',
-    bio: 'Short bio placeholder. Background, focus areas, one human detail.',
-    photo: '/avatars/member-03.webp',
-    photoPosition: '50% 18%',
+    bio: '',
+    photo: '/avatars/justin.webp',
     accent: '#E8B00A',
     photoBg: '#FFF3C4',
     dots: 'rgba(201,147,10,.2)',
@@ -53,58 +58,7 @@ export const people = [
     linkedin: '#',
     github: '#',
   },
-  {
-    name: 'Name Surname',
-    role: 'Platform engineer',
-    bio: 'Short bio placeholder. Background, focus areas, one human detail.',
-    photo: '/avatars/member-04.webp',
-    photoPosition: '50% 18%',
-    accent: '#7BC043',
-    photoBg: '#EAF6DC',
-    dots: 'rgba(123,192,67,.25)',
-    figure: '#7BC043',
-    figureOpacity: 1,
-    tagColor: '#4F7A1D',
-    roleStyle: { color: '#4F7A1D', background: '#EFF8E3', border: '1px solid #CDE8A9' },
-    shadow: 'rgba(123,192,67,.25)',
-    linkedin: '#',
-    github: '#',
-  },
-  {
-    name: 'Name Surname',
-    role: 'Enablement instructor',
-    bio: 'Short bio placeholder. Background, focus areas, one human detail.',
-    photo: '/avatars/member-05.webp',
-    photoPosition: '50% 18%',
-    accent: '#E0447E',
-    photoBg: '#FFE4EE',
-    dots: 'rgba(224,68,126,.18)',
-    figure: '#E0447E',
-    figureOpacity: 0.9,
-    tagColor: '#B02A5F',
-    roleStyle: { color: '#B02A5F', background: '#FFE9F2', border: '1px solid #FFC7DD' },
-    shadow: 'rgba(255,92,147,.18)',
-    linkedin: '#',
-    github: '#',
-  },
-  {
-    name: 'Name Surname',
-    role: 'Growth & partnerships',
-    bio: 'Short bio placeholder. Background, focus areas, one human detail.',
-    photo: '/avatars/member-06.webp',
-    photoPosition: '50% 18%',
-    accent: '#FF8A2B',
-    photoBg: '#FFF3E4',
-    dots: 'rgba(255,138,43,.22)',
-    figure: '#FF8A2B',
-    figureOpacity: 0.9,
-    tagColor: '#B07A45',
-    roleStyle: { color: '#8A5A2B', background: '#FFF0DF', border: '1px solid #FFD9B0' },
-    shadow: 'rgba(255,138,43,.2)',
-    linkedin: '#',
-    github: '#',
-  },
-]
+      ]
 
 export const certifications = [
   { icon: CertClaude, name: 'Claude architects', issuer: 'Anthropic', shadow: 'rgba(255,107,26,.16)' },

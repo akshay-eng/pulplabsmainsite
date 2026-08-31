@@ -30,21 +30,6 @@ const PEOPLE = [
     disc: 'Modelling',
     b: 'Builds and scores the evaluation harnesses. Decides when a model is good enough to touch a live queue.',
   },
-  {
-    role: 'Platform engineer',
-    disc: 'Infrastructure',
-    b: 'Deploys inside your estate and wires into your ITSM and CMDB without opening a hole in your boundary.',
-  },
-  {
-    role: 'Enablement instructor',
-    disc: 'Enablement',
-    b: 'Runs the briefings and bootcamps on your workflows. Certified across all four platforms.',
-  },
-  {
-    role: 'Growth & partnerships',
-    disc: 'Commercial',
-    b: 'Scoping, discovery and the honest conversation about whether the thing you asked for is the thing you need.',
-  },
 ]
 
 const CERTS = [
@@ -109,12 +94,12 @@ export default function Team() {
                     <h2 className="d3">{p.role}</h2>
                     <p className="body">{p.b}</p>
                   </div>
-                  <span className="mono roster-name">Name pending</span>
+                  <span className="mono roster-name">{ROSTER[i]?.name ?? 'Name pending'}</span>
                 </li>
               ))}
             </ul>
             <p className="mono roster-note" data-r>
-              Names, photographs and links are placeholders in src/data/team.js. Replace them before launch.
+              Roles above have not been confirmed against who does what. Bios and links are still to come.
             </p>
           </div>
         </section>

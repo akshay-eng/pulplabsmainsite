@@ -99,3 +99,18 @@ larger raster would let it sit at the same size as the Urban Ethnographers mark.
    company name and no person's name deliberately, so none can be mistaken for a real reference.
    Do not attach an invented company to one: an attributed testimonial that did not happen is a
    fabricated reference, and it surfaces badly in due diligence.
+
+
+## Team portraits — `public/avatars/akshay.webp`, `akash.webp`, `justin.webp`
+
+Real photographs of real people, supplied by the site owner. Not generated.
+
+Each was cropped individually rather than positioned with CSS, because the three
+originals were framed completely differently: head-and-shoulders landscape, full-body
+portrait, and three-quarter. `object-position` can slide a frame around but cannot change
+how large a head is inside it, so a shared value could not have matched them. Each crop
+places the head at a similar size and eye line inside the same 4:3 frame.
+
+The six `member-0N.webp` files are the AI-generated portraits of fictional people that
+previously filled this page. They are no longer referenced and can be deleted once the
+roster is settled.
