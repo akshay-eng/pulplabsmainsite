@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import StartCta from '@/components/void/StartCta'
 import { usePathname } from 'next/navigation'
 import { useScrolled } from '@/lib/apple-motion'
 
@@ -59,7 +58,17 @@ export default function Nav() {
         </ul>
 
         <div className="nv-end">
-          <StartCta className="btn nv-cta" message="Hi PulpLabs, I'd like to start an AI project.">Start a project</StartCta>
+          {/* Off-site, so a plain anchor rather than next/link: prefetching and
+              client routing do nothing for a different origin. rel="noreferrer"
+              goes with target="_blank" to close the window.opener hole. */}
+          <a
+            className="btn nv-cta"
+            href="https://learn.pulplabs.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn
+          </a>
           <button
             type="button"
             className="nv-toggle"
@@ -81,7 +90,15 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-        <StartCta className="btn nv-sheet-cta" message="Hi PulpLabs, I'd like to start an AI project.">Start a project</StartCta>
+        <a
+          className="btn nv-sheet-cta"
+          href="https://learn.pulplabs.ai"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => setOpen(false)}
+        >
+          Learn
+        </a>
       </div>
     </header>
   )

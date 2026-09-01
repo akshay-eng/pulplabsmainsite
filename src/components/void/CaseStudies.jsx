@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import * as Tabs from '@radix-ui/react-tabs'
 import Chevron from '@/components/apple/Chevron'
 import LoopVideo from '@/components/void/LoopVideo'
@@ -14,6 +13,22 @@ import LoopVideo from '@/components/void/LoopVideo'
    the clients have signed off), passed down from the server route — this
    component renders nothing if the table is empty, so an unseeded database
    never shows an empty frame. */
+/* The full write-ups live on learn.pulplabs.ai, not on this site.
+ *
+ * Keyed by slug rather than by array index so that reordering the case studies,
+ * or seeding a third, cannot silently point one client's card at another
+ * client's story. A slug with no entry here falls back to the local
+ * /case-studies page, which still exists and still renders.
+ *
+ * Worth a look when a third is added: "enquiry-to-engagement" was given for the
+ * Urban Ethnographers study, whose subject is research transcripts rather than
+ * enquiries. The pairing came from the order the two URLs were supplied. If it
+ * is wrong, it is wrong here. */
+const STORY = {
+  'quotes-in-minutes-not-days': 'https://learn.pulplabs.ai/field/quote-turnaround',
+  'from-transcripts-to-themes-overnight': 'https://learn.pulplabs.ai/field/enquiry-to-engagement',
+}
+
 export default function CaseStudies({ cases = [] }) {
   const [active, setActive] = useState(cases[0]?.slug)
   if (!cases.length) return null
@@ -61,9 +76,20 @@ export default function CaseStudies({ cases = [] }) {
               </ul>
             )}
 
-            <Link href={`/case-studies/${c.slug}`} className="cse-more">
-              Read the story <Chevron />
-            </Link>
+            {STORY[c.slug] ? (
+              <a
+                href={STORY[c.slug]}
+                className="cse-more"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Read the story <Chevron />
+              </a>
+            ) : (
+              <a href={`/case-studies/${c.slug}`} className="cse-more">
+                Read the story <Chevron />
+              </a>
+            )}
           </article>
         </Tabs.Content>
       ))}

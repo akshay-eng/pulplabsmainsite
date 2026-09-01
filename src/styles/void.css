@@ -74,7 +74,29 @@ body {
   letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Nothing sideways, on either axis of the problem.
+   *
+   * There were two separate faults behind the page sliding under a finger on a
+   * phone. First, roughly ten pixels of real overflow, mostly the hero's
+   * bleed. Second, and the one that actually produced the rubber-band stretch,
+   * overscroll-behavior-x defaulting to auto: a horizontal drag bounces the
+   * whole document even when there is nothing to scroll to.
+   *
+   * `clip` rather than `hidden`, and this matters. `hidden` makes the element a
+   * scroll container, which silently breaks `position: sticky` in any
+   * descendant, and the careers page depends on a sticky rail. `clip` cuts the
+   * overflow without creating one. The `hidden` line stays first as a fallback
+   * for Safari before 16; browsers that understand `clip` take the second. */
   overflow-x: hidden;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
+}
+
+html {
+  overflow-x: hidden;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
 }
 
 ::selection {
