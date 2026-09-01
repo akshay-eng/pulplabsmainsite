@@ -23,27 +23,28 @@ const VOICES = [
     ...getClient('pps'),
     org: getClient('pps').name,
     q: 'Quotes that took our team two days now go out in twenty minutes. The PulpLabs team understood our pricing rules better than some of our own hires.',
-    name: 'Name Surname',
+    name: 'Srinivas',
     role: 'Director',
   },
   {
     ...getClient('ue'),
     org: getClient('ue').name,
     q: 'Our researchers stopped tagging transcripts and started interpreting them. The coding framework is still ours. The machine just keeps up with it now.',
-    name: 'Name Surname',
+    name: 'Padmini Ram',
     role: 'Principal',
   },
 
-  /* DRAFT QUOTES — both clients are real and their logos are theirs, but these
-     words are ours, not theirs. Get each one confirmed in writing before this
-     goes live: a quote attributed to a named company that they did not say is
-     a fabricated reference, and it is worse than an anonymous placeholder
-     precisely because it looks credible. */
+  /* DRAFT QUOTES. The clients are real, the logos are theirs, the names are
+     the people who actually hold those roles, but THE WORDS ARE STILL OURS.
+     Naming a person raises the stakes rather than lowering them: an invented
+     sentence in Ashok's mouth is worse than the same sentence unattributed,
+     because it now looks like something he said. Get all four signed off in
+     writing before launch. The two above are drafts as well. */
   {
     ...getClient('moveforward'),
     org: getClient('moveforward').name,
     q: 'They shipped the boring half first, the bit that cleaned up our data. It made everything after it cheaper, which nobody else had suggested.',
-    name: 'Name Surname',
+    name: 'Ashok',
     role: 'Founder',
     draft: true,
   },
@@ -51,35 +52,11 @@ const VOICES = [
     ...getClient('bluesea'),
     org: getClient('bluesea').name,
     q: 'Our field reports used to sit in an inbox for a week. They are summarised and routed the same day now, and the escalation rules are ones we wrote.',
-    name: 'Name Surname',
+    name: 'Ananth',
     role: 'Operations Director',
     draft: true,
   },
 
-  /* ── PLACEHOLDERS — replace before launch ──────────────────────────────
-     These four are written copy, not real client quotes. They are here so the
-     carousel has something to page to while real ones are collected.
-
-     They deliberately carry NO company name and NO person's name, only a role
-     and a sector, so that none of them can be mistaken for a real named
-     reference or quoted back at us. Do not invent a company to sit on one —
-     an attributed testimonial that did not happen is a fabricated reference,
-     and it is the kind of thing that surfaces badly in due diligence.
-
-     When a real one arrives, delete a placeholder and add it in the shape of
-     the two above: name, role, org, logo, ground, accent. */
-  {
-    q: 'The first thing they told us was which two of our five ideas were not worth building. Nobody had done that before.',
-    role: 'Head of IT Operations',
-    org: 'Manufacturing · 1,200 staff',
-    placeholder: true,
-  },
-  {
-    q: 'It went into our own environment, against our own ticketing system. Our security team signed it off in one session rather than three.',
-    role: 'CTO',
-    org: 'Financial services · 400 staff',
-    placeholder: true,
-  },
 ]
 
 export default function Voices() {
@@ -125,12 +102,12 @@ export default function Voices() {
     <div className="vx" role="group" aria-roledescription="carousel" aria-label="Client testimonials">
       <div className="vx-track" ref={track} tabIndex={0} onKeyDown={onKey}>
         {VOICES.map((v) => (
-          <blockquote className="vx-item" key={v.org} data-ph={v.placeholder || undefined}
+          <blockquote className="vx-item" key={v.org} data-ph={!v.logo || undefined}
             style={{ '--accent': v.accent ?? '255, 255, 255' }}>
             <span className="vx-wash" aria-hidden="true" />
             <p className="vx-q">{v.q}</p>
             <footer className="vx-foot">
-              {v.placeholder ? (
+              {!v.logo ? (
                 <span className="vx-mark" aria-hidden="true" />
               ) : (
                 <span className="vx-plate" style={{ background: v.ground }}>
