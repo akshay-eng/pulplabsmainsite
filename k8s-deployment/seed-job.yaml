@@ -40,7 +40,7 @@ spec:
           # of the kustomization, so the image transformer there does not reach
           # it, and :latest on Docker Hub is the arm64 build which will not run
           # on an amd64 node.
-          image: ak3hay/pulplabs-site:68547ce-amd64
+          image: ak3hay/pulplabs-site:cd80ef7-amd64
           # Posts first, then case studies. Both are idempotent, so re-running
           # the Job against a populated volume is safe.
           command: ['sh', '-c', 'node scripts/seed.mjs && node scripts/seed-cases.mjs']
