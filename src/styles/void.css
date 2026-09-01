@@ -1839,9 +1839,11 @@ canvas {
   bottom: 10px;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 5px 9px 5px 6px;
-  border-radius: 7px;
+  gap: 8px;
+  /* Tighter around a 30x20 flag than it was around a 20x13 one, so the chip
+     grows with the flag rather than in proportion to it. */
+  padding: 5px 10px 5px 5px;
+  border-radius: 8px;
   /* Translucent rather than solid: the portrait stays readable underneath, and
      the blur keeps the label legible over a light patch of the photograph. */
   background: rgba(0, 0, 0, 0.55);

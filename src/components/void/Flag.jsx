@@ -9,9 +9,17 @@
  * 1:2, so its bands are marginally wide here; matching each flag's true ratio
  * would stagger the alignment for no gain at this size.
  *
- * The maple leaf took three attempts. What finally made it read as a leaf
- * rather than a star was the stem: the body has to stop short and a narrow
- * shaft continue down, otherwise every point radiates from the centre.
+ * SIZE IS PART OF THE DRAWING. These render at 30x20. At the 20x13 they used
+ * to be, Canada's maple leaf disappeared completely: every notch in it was
+ * sub-pixel and averaged away, leaving plain red-white-red that reads as Peru.
+ * India's chakra was a navy smudge. Both were verified by rasterising at the
+ * exact pixel size and magnifying with nearest-neighbour, which is the only
+ * check that shows what a screen actually shows. Magnifying the SVG instead
+ * flatters detail that never survives.
+ *
+ * The leaf is also drawn chunkier than a real one for the same reason: eleven
+ * fat lobes rather than the true outline, because fine notches do not exist at
+ * 20 pixels tall.
  */
 const FLAGS = {
   IN: (
@@ -54,7 +62,7 @@ const FLAGS = {
       <rect width="24" height="16" fill="#fff" />
       <rect width="6" height="16" fill="#D52B1E" />
       <rect x="18" width="6" height="16" fill="#D52B1E" />
-      <path d="" fill="#D52B1E" />
+      <path d="M12.00 1.70L12.90 5.48L14.24 4.72L13.90 6.99L16.03 6.24L15.47 8.63L16.82 9.51L14.24 10.02L14.58 12.54L12.78 11.78L12.73 14.30L11.22 11.78L9.42 12.54L9.76 10.02L7.18 9.51L8.53 8.63L7.97 6.24L10.10 6.99L9.76 4.72L11.10 5.48L12.00 1.70Z" fill="#D52B1E" />
     </>
   ),
   LT: (
@@ -73,7 +81,7 @@ export default function Flag({ code, title }) {
      the flag, an aria-label here would make a screen reader announce it twice. */
   const label = title ? { role: 'img', 'aria-label': title } : { 'aria-hidden': true }
   return (
-    <svg className="flag" viewBox="0 0 24 16" width="20" height="13" {...label}>
+    <svg className="flag" viewBox="0 0 24 16" width="30" height="20" {...label}>
       {art}
       {/* Hairline edge so the white in the Indian and Canadian flags does not
           bleed into a light background, and the yellow band in Lithuania's
