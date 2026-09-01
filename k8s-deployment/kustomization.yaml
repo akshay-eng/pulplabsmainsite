@@ -37,4 +37,4 @@ labels:
 # fails with "no matching manifest for linux/amd64".
 images:
   - name: ak3hay/pulplabs-site
-    newTag: 3aeb0dc-amd64
+    newTag: 6459c9a-amd64
