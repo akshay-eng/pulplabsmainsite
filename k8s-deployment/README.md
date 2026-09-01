@@ -169,6 +169,45 @@ Liveness is a **TCP check, not that endpoint**, and deliberately so. Restarting
 the container does nothing for a broken volume; pointing liveness at a database
 check turns one storage fault into a crash loop that buries the real error.
 
+## Putting pulplabs.ai in front of it
+
+The node has no static IP, so the answer is a **Cloudflare Tunnel**, not a
+Cloudflare A record.
+
+An A record plus dynamic DNS needs your router to forward ports 80 and 443
+inbound. Most Indian residential connections sit behind CGNAT, where the public
+IP is shared and inbound forwarding is not available at any price. DDNS does not
+rescue that: it points a name at an address that still refuses connections.
+
+`cloudflared` dials **out** and holds the connection open, so requests arrive
+back down that pipe. No inbound ports, no forwarding, works behind CGNAT, the
+changing IP stops mattering, and the home IP is never published. TLS terminates
+at Cloudflare's edge, which also settles this cluster having no cert-manager.
+
+The full runbook is in the comment at the top of `cloudflared.yaml`. In short:
+add the domain to Cloudflare, point GoDaddy's nameservers at it (GoDaddy stays
+the registrar), create the tunnel, put its token in a Secret, apply the
+manifest, and set SSL/TLS mode to Full.
+
+Three things that are easy to get wrong:
+
+- **`ssl-redirect` must be off.** It is already set in `ingress.yaml` with the
+  reason. TLS ends at Cloudflare and cloudflared speaks HTTP to nginx; if
+  ingress-nginx thinks it is serving HTTPS it 308-redirects every request back
+  out to Cloudflare, which returns it as HTTP, forever. The browser reports
+  ERR_TOO_MANY_REDIRECTS and no log says why.
+- **`NEXT_PUBLIC_SITE_URL` needs a rebuild.** The deployed image has
+  `http://192.168.1.5:30081` compiled into it, so canonical links, OG tags and
+  the sitemap will all point at a LAN address. Rebuild with
+  `https://pulplabs.ai` when the domain is live. It is a build argument, not
+  something a ConfigMap can change.
+- **Keep the NodePort.** It stays useful for reaching the site from the LAN when
+  the tunnel or Cloudflare is the thing that is broken.
+
+The tunnel points at ingress-nginx rather than at the site Service directly, so
+the existing Ingress rules do the host routing and a single tunnel can carry
+preso and anything else added later.
+
 ## Storage
 
 `pvc.yaml` requests 5Gi with no `storageClassName`, so the cluster default is

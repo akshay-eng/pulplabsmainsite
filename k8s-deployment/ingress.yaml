@@ -16,6 +16,18 @@ metadata:
     # CV uploads. The default is 1MB, which rejects a PDF résumé with a bare
     # 413 and no message the candidate can act on.
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    # Required with Cloudflare Tunnel, and it is not optional.
+    #
+    # TLS terminates at Cloudflare's edge and cloudflared speaks plain HTTP to
+    # this controller. ingress-nginx sees a TLS block below, assumes it is
+    # serving HTTPS itself, and 308-redirects every HTTP request to HTTPS. The
+    # redirect goes back out to Cloudflare, which sends it down the tunnel as
+    # HTTP again: an infinite loop, and the browser shows ERR_TOO_MANY_REDIRECTS
+    # with nothing useful in any log.
+    #
+    # Turn this back on the day cert-manager issues a real certificate here and
+    # the origin genuinely serves HTTPS.
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
   tls:

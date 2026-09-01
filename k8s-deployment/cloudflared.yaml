@@ -1,0 +1,103 @@
+# Cloudflare Tunnel: how pulplabs.ai reaches a server with no static IP.
+#
+# WHY A TUNNEL RATHER THAN AN A RECORD
+#
+# The obvious route is a Cloudflare A record kept current by dynamic DNS. It
+# works only if two things are true, and on a home connection the second one
+# usually is not:
+#
+#   1. Something updates the record every time the IP changes.
+#   2. Your router can forward ports 80 and 443 inbound to 192.168.1.5.
+#
+# Most Indian residential ISPs put customers behind CGNAT, which means the
+# public IP is shared and there is no inbound port forwarding to be had at any
+# price. Dynamic DNS does not help: it points a name at an address that still
+# refuses connections.
+#
+# cloudflared dials OUT to Cloudflare and holds the connection open. Requests
+# arrive back down that pipe. So:
+#   - no inbound ports, no port forwarding, no firewall holes
+#   - works behind CGNAT
+#   - the changing IP stops mattering entirely, and the DDNS you configured
+#     becomes unnecessary for this
+#   - your home IP is never published in DNS
+#   - TLS terminates at Cloudflare's edge, which is also the answer to this
+#     cluster having no cert-manager
+#
+# WHAT TO DO FIRST (none of this is in the cluster)
+#
+#   1. Add pulplabs.ai to Cloudflare (free plan is enough). It gives you two
+#      nameservers.
+#   2. In GoDaddy, change the nameservers to those two. GoDaddy stays the
+#      registrar; Cloudflare just runs the DNS. Usually live within the hour.
+#   3. Create the tunnel and take the token:
+#        cloudflared tunnel login
+#        cloudflared tunnel create pulplabs
+#        cloudflared tunnel route dns pulplabs pulplabs.ai
+#        cloudflared tunnel route dns pulplabs www.pulplabs.ai
+#      The route commands create the CNAMEs for you. An apex CNAME is fine
+#      here; Cloudflare flattens it.
+#   4. Put the token in the cluster. It is a credential, so it is not in this
+#      file and not in the repo:
+#        kubectl create secret generic cloudflared-token -n pulplabs \
+#          --from-literal=token='<the token from the dashboard>'
+#   5. kubectl apply -f cloudflared.yaml
+#   6. In Cloudflare, set SSL/TLS mode to Full.
+#
+# The tunnel points at ingress-nginx rather than straight at the site, so the
+# existing Ingress rules do the host routing and one tunnel can carry preso and
+# anything else you add later.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflared
+  namespace: pulplabs
+  labels:
+    app.kubernetes.io/name: cloudflared
+spec:
+  # Two, so a node drain or a pod restart does not take the site off the
+  # internet. They are stateless and Cloudflare load-balances across both.
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cloudflared
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: cloudflared
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+      containers:
+        - name: cloudflared
+          image: cloudflare/cloudflared:2025.2.0
+          args:
+            - tunnel
+            - --no-autoupdate
+            # Metrics must bind somewhere for the probes below to work.
+            - --metrics=0.0.0.0:2000
+            - run
+          env:
+            - name: TUNNEL_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflared-token
+                  key: token
+          livenessProbe:
+            httpGet:
+              path: /ready
+              port: 2000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ['ALL']
