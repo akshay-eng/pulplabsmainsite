@@ -42,11 +42,26 @@
 #        kubectl create secret generic cloudflared-token -n pulplabs \
 #          --from-literal=token='<the token from the dashboard>'
 #   5. kubectl apply -f cloudflared.yaml
-#   6. In Cloudflare, set SSL/TLS mode to Full.
+#   6. In the tunnel's Public Hostname tab, add:
+#        pulplabs.ai      HTTP  pulplabs-site.pulplabs.svc.cluster.local:80
+#        www.pulplabs.ai  HTTP  pulplabs-site.pulplabs.svc.cluster.local:80
+#   7. In Cloudflare, set SSL/TLS mode to Full.
 #
-# The tunnel points at ingress-nginx rather than straight at the site, so the
-# existing Ingress rules do the host routing and one tunnel can carry preso and
-# anything else you add later.
+# WHY POINT AT THE SERVICE AND NOT AT ingress-nginx
+#
+# Both work. Straight at the Service is one hop shorter and, more usefully, it
+# sidesteps the redirect loop described in ingress.yaml entirely: ingress-nginx
+# is never in the path, so it cannot decide to bounce HTTP to HTTPS. Nothing
+# about this depends on the Ingress being right.
+#
+# Point at ingress-nginx-controller.ingress-nginx.svc.cluster.local:80 instead
+# once you want one tunnel carrying several hostnames and would rather do the
+# host routing with Ingress rules than with a list in the dashboard. If you do,
+# the ssl-redirect annotation on ingress.yaml stops being optional.
+#
+# Because the token makes this a REMOTELY MANAGED tunnel, that hostname mapping
+# lives in the Cloudflare dashboard, not in this file and not in a ConfigMap.
+# There is no local config to keep in sync.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
