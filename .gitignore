@@ -37,3 +37,7 @@ k8s-deployment/secret.yaml
 # Throwaway output from `npm run build:check`, so a verification build
 # never clobbers the dev server sharing .next.
 .next-check
+
+# Cloudflare tunnel credentials, if one is ever copied into the repo.
+*.cloudflared.json
+cloudflared-creds.json
