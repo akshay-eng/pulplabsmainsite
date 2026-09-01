@@ -184,10 +184,14 @@ back down that pipe. No inbound ports, no forwarding, works behind CGNAT, the
 changing IP stops mattering, and the home IP is never published. TLS terminates
 at Cloudflare's edge, which also settles this cluster having no cert-manager.
 
-The full runbook is in the comment at the top of `cloudflared.yaml`. In short:
-add the domain to Cloudflare, point GoDaddy's nameservers at it (GoDaddy stays
-the registrar), create the tunnel, put its token in a Secret, apply the
-manifest, and set SSL/TLS mode to Full.
+**The step-by-step runbook is [TUNNEL-RUNBOOK.md](TUNNEL-RUNBOOK.md).** Start
+there for anything to do with the domain: creating the tunnel, the DNS records,
+deploying cloudflared, and every trap that came up doing it the first time.
+
+The short version: add the domain to Cloudflare, point GoDaddy's nameservers at
+it (GoDaddy stays the registrar), create the tunnel **from the CLI rather than
+the Zero Trust dashboard, which asks for a credit card**, load its credentials
+as a Secret, apply the manifest, and set SSL/TLS to Full.
 
 Three things that are easy to get wrong:
 
