@@ -41,3 +41,6 @@ k8s-deployment/secret.yaml
 # Cloudflare tunnel credentials, if one is ever copied into the repo.
 *.cloudflared.json
 cloudflared-creds.json
+
+# Connector credentials, never committed.
+connectors/.env.local

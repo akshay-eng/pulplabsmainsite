@@ -1,0 +1,23 @@
+{
+  "name": "@pulplabs/connectors",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Connectors for ITSM, document stores and automation platforms.",
+  "exports": {
+    ".": "./src/index.js",
+    "./core": "./src/core/index.js"
+  },
+  "bin": {
+    "connector-probe": "./bin/probe.mjs"
+  },
+  "scripts": {
+    "test": "node --test 'test/**/*.test.mjs'",
+    "probe": "node bin/probe.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {},
+  "license": "UNLICENSED",
+  "private": true
+}
