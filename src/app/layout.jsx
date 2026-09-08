@@ -27,7 +27,15 @@ export const metadata = {
   },
   description:
     'An AI consultancy and engineering firm. Accelerators for enterprise operations, growth systems for small teams, and the enablement that makes either one stick.',
-  icons: { icon: '/favicon.svg' },
+  /* SVG first for anything modern, a PNG behind it for anything not, and an
+     apple-touch-icon because iOS uses a screenshot of the page without one. */
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
   openGraph: { type: 'website', siteName: 'PulpLabs', url: SITE_URL },
   twitter: { card: 'summary_large_image' },
 }
