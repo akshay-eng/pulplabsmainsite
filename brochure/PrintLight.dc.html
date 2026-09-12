@@ -16,10 +16,12 @@
 </helmet>
 
 <!-- A4 at 96px/inch. Fixed frame: this exports as one page. -->
-<div style="width: 794px; height: 1123px; background: #ffffff; color: #111111; font-family: Geist, system-ui, -apple-system, 'Segoe UI', sans-serif; letter-spacing: -0.011em; box-sizing: border-box; padding: 52px 52px 44px; display: flex; flex-direction: column;">
+<div style="width: 794px; height: 1123px; background: #ffffff; color: #111111; font-family: Geist, system-ui, -apple-system, 'Segoe UI', sans-serif; letter-spacing: -0.011em; box-sizing: border-box; padding: 52px 52px 44px; display: flex; flex-direction: column; position: relative; overflow: hidden;">
+
+  <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(0,0,0,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.055) 1px, transparent 1px); background-size: 72px 72px; -webkit-mask-image: radial-gradient(120% 80% at 78% 8%, #000 0%, transparent 70%); mask-image: radial-gradient(120% 80% at 78% 8%, #000 0%, transparent 70%);"></div>
 
   <!-- masthead -->
-  <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.18);">
+  <div style="position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.18);">
     <div style="display: flex; align-items: center; gap: 11px;">
       <svg width="26" height="26" viewBox="0 0 20 20" aria-hidden="true">
         <path d="M2 14 L10 3 L18 14" stroke="#111111" stroke-width="1.6" fill="none" stroke-linejoin="round" stroke-linecap="round" />
@@ -31,36 +33,67 @@
   </div>
 
   <!-- headline -->
-  <div style="padding-top: 28px;">
+  <div style="position: relative; z-index: 1; padding-top: 20px; display: flex; gap: 26px; align-items: flex-start;">
+    <div style="flex: 1 1 auto; min-width: 0;">
     <h1 style="margin: 0; font-size: 41px; line-height: 1.03; letter-spacing: -0.042em; font-weight: 500; max-width: 16ch;">
       Get to the pulp of what your business needs from AI.
     </h1>
     <p style="margin: 18px 0 0; font-size: 16.5px; line-height: 1.55; color: rgba(0,0,0,0.66); max-width: 62ch;">
       AI systems that survive a security review and are still running a year later, deployed inside your own boundary.
     </p>
+    </div>
+
+    <!-- The proposition as a schematic rather than an ornament: sources inside
+         a bounded estate, one system, and a gate a person closes before
+         anything leaves. Stroke-based so it stays crisp at 300 DPI and costs
+         no ink beyond the line. -->
+    <svg width="222" height="206" viewBox="0 0 240 215" fill="none" aria-hidden="true"
+         style="flex: none; margin-top: 4px;">
+      <rect x="2" y="2" width="236" height="176" rx="10" stroke="rgba(0,0,0,0.30)" stroke-width="1" stroke-dasharray="5 5" />
+      <text x="14" y="21" fill="rgba(0,0,0,0.50)" font-family="'Geist Mono', ui-monospace, monospace" font-size="7.5" letter-spacing="1.4">YOUR ESTATE</text>
+
+      <rect x="20" y="34" width="56" height="20" rx="3" stroke="rgba(0,0,0,0.50)" stroke-width="1" />
+      <rect x="92" y="34" width="56" height="20" rx="3" stroke="rgba(0,0,0,0.50)" stroke-width="1" />
+      <rect x="164" y="34" width="56" height="20" rx="3" stroke="rgba(0,0,0,0.50)" stroke-width="1" />
+
+      <path d="M48 54 L120 78 M120 54 L120 78 M192 54 L120 78" stroke="rgba(0,0,0,0.50)" stroke-width="1" stroke-linecap="round" />
+
+      <circle cx="120" cy="89" r="11" stroke="#111111" stroke-width="1.3" />
+      <circle cx="120" cy="89" r="2.6" fill="#111111" />
+      <path d="M120 100 L120 118" stroke="#111111" stroke-width="1.3" stroke-linecap="round" />
+
+      <path d="M58 126 L106 126 M134 126 L182 126" stroke="#111111" stroke-width="1.3" stroke-linecap="round" />
+      <path d="M58 126 L58 133 M182 126 L182 133" stroke="rgba(0,0,0,0.50)" stroke-width="1" stroke-linecap="round" />
+      <path d="M112 126 L117 131 L128 120" stroke="#111111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="58" y="147" fill="rgba(0,0,0,0.50)" font-family="'Geist Mono', ui-monospace, monospace" font-size="7.5" letter-spacing="1.4">A NAMED HUMAN COMMITS</text>
+
+      <path d="M120 134 L120 196" stroke="#111111" stroke-width="1.3" stroke-linecap="round" />
+      <path d="M114 189 L120 197 L126 189" stroke="#111111" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="134" y="200" fill="rgba(0,0,0,0.66)" font-family="'Geist Mono', ui-monospace, monospace" font-size="7.5" letter-spacing="1.4">ACTION</text>
+    </svg>
   </div>
 
   <!-- what you can buy -->
-  <div style="padding-top: 26px;">
+  <div style="position: relative; z-index: 1; padding-top: 22px;">
     <p style="margin: 0 0 18px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0,0,0,0.50);">What we do</p>
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: rgba(0,0,0,0.18); border: 1px solid rgba(0,0,0,0.18); border-radius: 10px; overflow: hidden;">
-      <div style="background: #ffffff; padding: 14px 18px;">
-        <p style="margin: 0 0 7px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(0,0,0,0.36);">01</p>
+      <div style="background: #ffffff; padding: 12px 18px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin: 0 0 5px;"><span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(0,0,0,0.36);">01</span><svg width="14" height="19" viewBox="0 0 30 40" fill="none" stroke="rgba(0,0,0,0.66)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g><rect x="3" y="25" width="10" height="8" rx="1" /><rect x="17" y="25" width="10" height="8" rx="1" /><rect x="10" y="12" width="10" height="8" rx="1" /><path d="M8 25v-2h14v2M15 23v-3" /><path d="M2 37h26" /></g></svg></div>
         <p style="margin: 0 0 5px; font-size: 17px; font-weight: 500; letter-spacing: -0.02em;">Systems we build</p>
         <p style="margin: 0; font-size: 13px; line-height: 1.42; color: rgba(0,0,0,0.66);">Production-tested, deployed inside your estate and wired to the systems you already run.</p>
       </div>
       <div style="background: #ffffff; padding: 16px 20px;">
-        <p style="margin: 0 0 7px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(0,0,0,0.36);">02</p>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin: 0 0 5px;"><span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(0,0,0,0.36);">02</span><svg width="14" height="19" viewBox="0 0 30 40" fill="none" stroke="rgba(0,0,0,0.66)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g><path d="M4 20h5" /><path d="M9 20l6-9h13" /><path d="M9 20l6 9h8" /><path d="M9 20h7" /><circle cx="28" cy="11" r="2" /><path d="M22 29h1.5M15.5 20h1.5" /></g></svg></div>
         <p style="margin: 0 0 5px; font-size: 17px; font-weight: 500; letter-spacing: -0.02em;">Advisory &amp; strategy</p>
         <p style="margin: 0; font-size: 13.5px; line-height: 1.45; color: rgba(0,0,0,0.66);">Where AI pays back and where it does not. Four weeks, four artefacts, one answer.</p>
       </div>
       <div style="background: #ffffff; padding: 16px 20px;">
-        <p style="margin: 0 0 7px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(0,0,0,0.36);">03</p>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin: 0 0 5px;"><span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(0,0,0,0.36);">03</span><svg width="14" height="19" viewBox="0 0 30 40" fill="none" stroke="rgba(0,0,0,0.66)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g><circle cx="15" cy="20" r="2.5" /><path d="M22 13a10 10 0 0 1 0 14" /><path d="M26.5 8.5a16.5 16.5 0 0 1 0 23" /><path d="M8 13a10 10 0 0 0 0 14" /></g></svg></div>
         <p style="margin: 0 0 5px; font-size: 17px; font-weight: 500; letter-spacing: -0.02em;">Enablement &amp; workshops</p>
         <p style="margin: 0; font-size: 13.5px; line-height: 1.45; color: rgba(0,0,0,0.66);">Capability transfer, not a training day. Run on your own workflows and your own data.</p>
       </div>
       <div style="background: #ffffff; padding: 16px 20px;">
-        <p style="margin: 0 0 7px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(0,0,0,0.36);">04</p>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin: 0 0 5px;"><span style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(0,0,0,0.36);">04</span><svg width="14" height="19" viewBox="0 0 30 40" fill="none" stroke="rgba(0,0,0,0.66)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g><path d="M2 22h6l3-6 3 12 3-9 2 3h10" /><path d="M2 32h26" /><path d="M6 32v3M14 32v3M22 32v3" /></g></svg></div>
         <p style="margin: 0 0 5px; font-size: 17px; font-weight: 500; letter-spacing: -0.02em;">Managed operations</p>
         <p style="margin: 0; font-size: 13.5px; line-height: 1.45; color: rgba(0,0,0,0.66);">We run what we build. Monitoring on behaviour rather than uptime.</p>
       </div>
@@ -68,7 +101,7 @@
   </div>
 
   <!-- the differentiator: five limitations accepted on purpose -->
-  <div style="padding-top: 24px;">
+  <div style="position: relative; z-index: 1; padding-top: 20px;">
     <p style="margin: 0 0 13px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0,0,0,0.50);">How we work</p>
     <div style="display: flex; flex-direction: column; gap: 9px;">
       <div style="display: flex; gap: 14px; align-items: baseline;">
@@ -95,7 +128,7 @@
   </div>
 
   <!-- products and catalogue scale -->
-  <div style="padding-top: 22px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px;">
+  <div style="position: relative; z-index: 1; padding-top: 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px;">
     <div>
       <p style="margin: 0 0 12px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0,0,0,0.50);">Our products</p>
       <p style="margin: 0 0 6px; font-size: 14.5px; line-height: 1.45;"><span style="font-weight: 500;">Evals</span><span style="color: rgba(0,0,0,0.66);"> — agent and model observability, judged on behaviour rather than uptime.</span></p>
@@ -109,7 +142,7 @@
   </div>
 
   <!-- contact -->
-  <div style="margin-top: auto; padding-top: 18px; border-top: 1px solid rgba(0,0,0,0.18); display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+  <div style="position: relative; z-index: 1; margin-top: auto; padding-top: 18px; border-top: 1px solid rgba(0,0,0,0.18); display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
     <div>
       <p style="margin: 0 0 8px; font-size: 19px; font-weight: 500; letter-spacing: -0.024em;">Start with a conversation, not a pilot.</p>
       <p style="margin: 0; font-size: 13.5px; line-height: 1.45; color: rgba(0,0,0,0.66);">Tell us the workflow that is costing you most. We will tell you whether AI is the answer.</p>

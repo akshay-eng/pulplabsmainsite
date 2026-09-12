@@ -24,6 +24,23 @@ palette swap, so editing it directly gets overwritten on the next regenerate.
 
 Live canvas: https://claude.ai/code/artifact/85196df2-689d-431f-8eee-4b4f45ceb666
 
+## The illustrations
+
+Three kinds, all vector, all drawn rather than placed:
+
+- **The hero schematic** shows the proposition instead of decorating it: sources
+  inside a dashed boundary, one system, and a gate a person closes before
+  anything leaves. It sits in space the headline was not using, so it costs no
+  vertical room on a page that has none to spare.
+- **The four practice marks** are lifted verbatim from
+  `src/components/void/PracticeMark.jsx`, so the flyer and the site draw the
+  same four symbols.
+- **A 72px grid**, the same rhythm as the site's `.grid-bg`, masked to fade at
+  the edges so it reads as texture rather than a table.
+
+Stroke-based throughout: crisp at 300 DPI, and it costs no ink beyond the line,
+which matters on the print version.
+
 ## Deliberately excluded
 
 No performance metrics and no client names. `PULPLABS-BRIEF.md` §13 lists the
