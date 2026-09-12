@@ -1,0 +1,16 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 794, "h": 1123, "title": "Screen / forward (A4)", "print": "fixed" },
+    { "file": "PrintLight.dc.html", "x": 914, "y": 0, "w": 794, "h": 1123, "title": "Print on paper (A4)", "print": "fixed" }
+  ],
+  "annotations": [
+    {
+      "id": "which-one",
+      "x": 0,
+      "y": -150,
+      "w": 500,
+      "text": "Two treatments of one flyer.\n\nLeft: the brand version, for emailing and sharing on screen.\nRight: same layout inverted for paper. A full-bleed black A4 drinks ink, prints patchy on office lasers and costs more at a print shop.\n\nExport PDF captures both. Export PNG does one at a time."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}
