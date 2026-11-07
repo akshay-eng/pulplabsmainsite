@@ -8,8 +8,8 @@
   "images": [
     {
       "name": "pulplabs-site",
-      "newName": "docker.io/ak3hay/pulplabs-site",
-      "digest": "sha256:d8914f27b33aff8d156e46bdaef80ffb5998d23351cfee0e3bf617a66edad1fb"
+      "newName": "ghcr.io/akshay-eng/pulplabsmainsite",
+      "digest": "sha256:a37c118b7f42ca08305a18e5f175385b58618d3a5254321a511e2900966cccc6"
     }
   ]
 }
