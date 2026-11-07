@@ -1,0 +1,15 @@
+{
+  "apiVersion": "kustomize.config.k8s.io/v1beta1",
+  "kind": "Kustomization",
+  "namespace": "pulplabs",
+  "resources": [
+    "app.yaml"
+  ],
+  "images": [
+    {
+      "name": "pulplabs-site",
+      "newName": "docker.io/ak3hay/pulplabs-site",
+      "digest": "sha256:d8914f27b33aff8d156e46bdaef80ffb5998d23351cfee0e3bf617a66edad1fb"
+    }
+  ]
+}

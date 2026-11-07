@@ -16,6 +16,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # generateStaticParams reads the DB at build time. The real volume isn't
 # mounted yet, so point at a throwaway file — pages revalidate at runtime.
+ARG NEXT_PUBLIC_SITE_URL=https://pulplabs.ai
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 ENV DATABASE_PATH=/tmp/build.db
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build

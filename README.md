@@ -149,3 +149,7 @@ LLM_REASONING_EFFORT=low                      # low suits simple grounded lookup
 - Case-study copy on `/services` is still placeholder.
 - Set `NEXT_PUBLIC_SITE_URL` in production, or every canonical URL, OG tag, sitemap entry and RSS
   link will point at localhost.
+
+## Continuous delivery
+
+See [CI/CD to the home lab](docs/CICD.md) for the main → Actions → GHCR → Argo CD pipeline and rollback instructions.
