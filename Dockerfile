@@ -44,8 +44,6 @@ COPY --from=build /app/public ./public
 # The seed script runs against the mounted volume on first boot.
 COPY --from=build /app/scripts ./scripts
 COPY --from=build /app/node_modules/better-sqlite3 ./node_modules/better-sqlite3
-COPY --from=build /app/node_modules/bindings ./node_modules/bindings
-COPY --from=build /app/node_modules/file-uri-to-path ./node_modules/file-uri-to-path
 COPY --from=build /app/node_modules/bcryptjs ./node_modules/bcryptjs
 
 RUN mkdir -p /data && chown -R app:app /data /app
