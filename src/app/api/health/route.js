@@ -2,6 +2,7 @@ import { db } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
+// Argo CD deployment smoke test: keep readiness checks backed by SQLite.
 export function GET() {
   try {
     db.prepare('SELECT 1').get()
