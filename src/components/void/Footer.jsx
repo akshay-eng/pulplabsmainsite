@@ -29,7 +29,6 @@ export default function Footer() {
           <nav aria-label="Company">
             <p className="mono">Company</p>
             <ul>
-              <li><Link href="/team">Team</Link></li>
               <li><Link href="/blog">Blog</Link></li>
               <li>
                 <a href="https://github.com/pulplabs" target="_blank" rel="noreferrer">GitHub</a>

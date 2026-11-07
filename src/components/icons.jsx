@@ -162,33 +162,3 @@ export function PieIcon({ size = 38, disc, fill, fraction = 'quarter', full = fa
     </svg>
   )
 }
-
-/* Certification badges. */
-export function CertClaude({ size = 38 }) {
-  return <PieIcon size={size} disc="#FFEBD9" fill="#FF6B1A" fraction="quarter" />
-}
-
-export function CertOpenAI({ size = 38 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="20" cy="20" r="19" fill="#FFE1E4" />
-      <circle cx="20" cy="20" r="10" fill="none" stroke="#F0384B" strokeWidth="2.6" />
-    </svg>
-  )
-}
-
-export function CertCopilot({ size = 38 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="20" cy="20" r="19" fill="#FFF3C4" />
-      <rect x="12" y="12" width="7" height="7" rx="2" fill="#C9930A" />
-      <rect x="21" y="12" width="7" height="7" rx="2" fill="#E8B00A" />
-      <rect x="12" y="21" width="7" height="7" rx="2" fill="#E8B00A" />
-      <rect x="21" y="21" width="7" height="7" rx="2" fill="#C9930A" />
-    </svg>
-  )
-}
-
-export function CertWatsonx({ size = 38 }) {
-  return <PieIcon size={size} disc="#EAF6DC" fill="#7BC043" full />
-}

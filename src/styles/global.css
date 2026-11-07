@@ -1213,7 +1213,7 @@ svg {
   color: var(--muted-cool);
 }
 
-/* Closing CTA banner (services / team) */
+/* Closing CTA banner (services) */
 
 .cta-banner {
   position: relative;
@@ -1236,140 +1236,6 @@ svg {
 .cta-banner p {
   font-size: 15.5px;
   margin: 10px 0 0;
-}
-
-/* ==========================================================================
-   Team page
-   ========================================================================== */
-
-.fruit-cluster {
-  position: absolute;
-  right: 60px;
-  top: 34px;
-  display: flex;
-  pointer-events: none;
-}
-
-.fruit-cluster span {
-  width: 74px;
-  height: 74px;
-  border-radius: 50%;
-  opacity: 0.85;
-  mix-blend-mode: multiply;
-}
-
-.fruit-cluster span + span {
-  margin-left: -22px;
-}
-
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 18px;
-}
-
-.person-photo {
-  aspect-ratio: 4 / 3;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.person-photo .head {
-  position: absolute;
-  top: 14%;
-  width: 26%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-}
-
-.person-photo .shoulders {
-  width: 52%;
-  height: 30%;
-  border-radius: 100px 100px 0 0;
-}
-
-.person-photo .tag {
-  position: absolute;
-  top: 12px;
-  left: 14px;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  padding: 0;
-}
-
-.person-body {
-  padding: 22px 24px 24px;
-}
-
-.person-body .name {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 21px;
-  letter-spacing: -0.02em;
-}
-
-.person-role {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border-radius: var(--r-pill);
-  padding: 5px 12px;
-  margin-top: 8px;
-}
-
-.person-body p {
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--body);
-  margin: 12px 0 0;
-}
-
-.person-links {
-  display: flex;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.person-links a {
-  font-size: 12.5px;
-  font-weight: 600;
-  border: 1.5px solid var(--rule);
-  border-radius: var(--r-pill);
-  padding: 7px 15px;
-  color: var(--body-soft);
-  transition: border-color 0.15s ease;
-}
-
-.cert-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-}
-
-.cert-card {
-  background: var(--surface);
-  border-radius: 18px;
-  padding: 22px 24px;
-  display: flex;
-  gap: 14px;
-  align-items: center;
-}
-
-.cert-card .name {
-  font-weight: 700;
-  font-size: 15.5px;
-}
-
-.cert-card .issuer {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  color: var(--muted);
-  margin-top: 3px;
 }
 
 /* ==========================================================================
@@ -1650,7 +1516,7 @@ svg {
   font-family: var(--mono);
 }
 
-/* Compact footer (services / team / blog) */
+/* Compact footer (services / blog) */
 
 .footer-slim {
   margin-top: 80px;

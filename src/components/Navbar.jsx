@@ -9,7 +9,6 @@ import { useStuck } from '../lib/motion'
 const LINKS = [
   { to: '/', label: 'Home' },
   { to: '/services', label: 'Services' },
-  { to: '/team', label: 'Team' },
   { to: '/blog', label: 'Blog' },
 ]
 

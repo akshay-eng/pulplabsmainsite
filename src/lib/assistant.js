@@ -62,7 +62,7 @@ const KNOWLEDGE = [
       '**Builder bootcamp** — two days, hands-on for the people who ship.\n' +
       '**Embedded enablement** — six weeks alongside your team on live work.\n\n' +
       'Instructors are certified across Claude, OpenAI, Copilot Studio and IBM watsonx Orchestrate.',
-    chips: ['Book an enablement call', 'Tell me about the team'],
+    chips: ['Book an enablement call', 'How does an engagement start?'],
   },
   {
     id: 'process',
@@ -75,16 +75,6 @@ const KNOWLEDGE = [
       '**4 · Hand over** — documentation, training and the option for us to keep running it.\n\n' +
       'The evaluation step is the one people skip. It\'s the reason incident bots ship confident and wrong.',
     chips: ['Book a scoping call', 'What do you charge?'],
-  },
-  {
-    id: 'team',
-    patterns: ['team', 'who are you', 'people', 'founder', 'staff', 'certified', 'certification', 'credentials'],
-    answer:
-      'A six-person team — AI architects, delivery leads and ML engineers — certified across four platforms: ' +
-      '**Claude**, **OpenAI**, **Copilot Studio** and **IBM watsonx Orchestrate**.\n\n' +
-      'You can see the full roster on the Team page.',
-    chips: ['See the team', 'Book a call'],
-    action: { type: 'navigate', to: '/team', label: 'See the team' },
   },
   {
     id: 'pricing',
@@ -147,7 +137,7 @@ const KNOWLEDGE = [
   {
     id: 'contact',
     patterns: ['contact', 'email', 'reach', 'phone', 'get in touch', 'talk to', 'speak to', 'human'],
-    answer: `You can reach the team at **${BOOKING_EMAIL}**, use the contact form on the home page, or I can take your details right here.`,
+    answer: `You can reach us at **${BOOKING_EMAIL}**, use the contact form on the home page, or I can take your details right here.`,
     chips: ['Book a call', 'Open contact form'],
     action: { type: 'navigate', to: '/#contact', label: 'Open contact form' },
   },
@@ -256,11 +246,11 @@ export function completeBooking({ name, email, topic }) {
       `Got it, ${name.split(' ')[0]}.\n\n` +
       `**Email** — ${email}\n**Topic** — ${topic}\n\n` +
       'One thing to be straight about: this site has no booking backend wired up yet, so I can\'t put it in a calendar myself. ' +
-      'Use the button below and it opens a pre-filled email to the team, who reply the same working day.',
+      'Use the button below and it opens a pre-filled email to PulpLabs. We reply the same working day.',
     action: {
       type: 'mailto',
       href: `mailto:${BOOKING_EMAIL}?subject=${subject}&body=${body}`,
-      label: 'Send this to the team',
+      label: 'Send call request',
     },
     chips: ['What services do you offer?', 'How does an engagement start?'],
   }

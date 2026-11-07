@@ -9,7 +9,6 @@ with a SQLite-backed blog, an admin CMS and a REST API.
 | ----------- | -------- | -------------------------------------------------------------------------------------------------- |
 | `/`         | Home     | Hero, trusted-by strip, practice-area preview, engagement steps, testimonials, enablement, contact |
 | `/services` | Services | Five-area catalogue, enterprise accelerators, case studies, CTA                                     |
-| `/team`     | Team     | Six-person roster, platform certifications, CTA                                                     |
 | `/blog`     | Blog     | Post index from the database, category and tag filters, newsletter                                 |
 | `/blog/[slug]` | Post  | Server-rendered article, table of contents, related posts, full SEO metadata                       |
 | `/admin`    | CMS      | Sign-in, post list, markdown editor. Gated by middleware, `noindex`                                 |
@@ -35,15 +34,15 @@ src/
 ├── data/           Page content — copy, colours and metrics live here, not in JSX
 ├── app/            Routes: marketing pages, /blog, /admin, /api, sitemap, robots, feed
 ├── lib/            db.js, posts.js, markdown.js, auth.js, motion.js, assistant.js
-├── views/          Home, Services, Team — the marketing page bodies
+├── views/          Home, Services — the marketing page bodies
 └── styles/         global → refined → components → blog → ai-dock (load order matters)
 
 `views/` rather than `pages/` on purpose: `pages/` is reserved by Next and these components
 would be picked up as Pages Router routes.
 ```
 
-Content is separated from markup on purpose: to change a service blurb, a team member or a blog
-post, edit the matching file in `src/data/` — no JSX changes needed.
+Content is separated from markup on purpose: to change a service blurb or a blog post, edit the
+matching file in `src/data/` — no JSX changes needed.
 
 Stylesheets load in that order and each layer builds on the one before, so `refined.css` can
 override `global.css` without specificity hacks. Tokens live at the top of the first two.
@@ -102,8 +101,7 @@ what makes the difference between a sharp result and a soft one.
 
 The art is deliberately abstract rather than photoreal. A realistic "packaging line" photo on a case
 study would imply it documents that client's actual facility; stylised art carries the subject
-without claiming to be evidence. For the same reason there are no generated team photos — faces on
-a team page read as real employees.
+without claiming to be evidence.
 
 ## Assistant
 
@@ -146,7 +144,6 @@ LLM_REASONING_EFFORT=low                      # low suits simple grounded lookup
 - The assistant dock cannot actually book anything — see "Assistant dock" above.
 - The telemetry panel is headed "Live estate telemetry"; the figures are static values from
   `src/views/Home.jsx`, not a live feed. Reword if that framing overstates it.
-- Team names, bios, photos and social links in `src/data/team.js` are placeholders.
 - The seeded blog posts are stubs — the originals were titles and excerpts only. Rewrite them in
   the admin.
 - Case-study copy on `/services` is still placeholder.

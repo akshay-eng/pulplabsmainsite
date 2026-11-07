@@ -73,7 +73,7 @@ export const engagementSteps = [
 export const testimonials = [
   {
     quote:
-      'Quotes that took our team two days now go out in twenty minutes. The PulpLabs team understood our pricing rules better than some of our own hires.',
+      'Quotes that took our team two days now go out in twenty minutes. PulpLabs understood our pricing rules better than some of our own hires.',
     name: 'Name Surname',
     role: 'Director, Power & Pack Solutions',
     accent: '#F0384B',

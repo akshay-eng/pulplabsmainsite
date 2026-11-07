@@ -13,7 +13,7 @@ import * as THREE from 'three'
 
    Deliberately imports only `three` and `@react-three/fiber` — no drei. Every
    drei helper drags in a large dependency tree, and none of this needs one.
-   Lazy-loaded from Home so /services, /team and /blog never pay for it.
+   Lazy-loaded from Home so /services and /blog never pay for it.
    ========================================================================== */
 
 /* Ashima Arts simplex noise (MIT). Standard GLSL implementation — used here

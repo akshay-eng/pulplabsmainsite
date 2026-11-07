@@ -27,7 +27,6 @@ export function FooterFull() {
 
         <div className="footer-col">
           <div className="mono-note">Company</div>
-          <Link href="/team">Team</Link>
           <Link href="/blog">Blog</Link>
           <a href="https://github.com/pulplabs" target="_blank" rel="noreferrer">
             GitHub
@@ -51,7 +50,7 @@ export function FooterFull() {
   )
 }
 
-// Single-row footer — used on services, team and blog.
+// Single-row footer — used on services and blog.
 export function FooterSlim() {
   return (
     <footer className="footer-slim">
@@ -64,7 +63,6 @@ export function FooterSlim() {
         <div className="footer-slim-links">
           <Link href="/">Home</Link>
           <Link href="/services">Services</Link>
-          <Link href="/team">Team</Link>
           <Link href="/blog">Blog</Link>
         </div>
 

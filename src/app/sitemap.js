@@ -8,7 +8,6 @@ export default function sitemap() {
   const staticPages = [
     { url: '/', priority: 1.0, changeFrequency: 'monthly' },
     { url: '/services', priority: 0.9, changeFrequency: 'monthly' },
-    { url: '/team', priority: 0.7, changeFrequency: 'monthly' },
     { url: '/blog', priority: 0.9, changeFrequency: 'weekly' },
   ].map((p) => ({ ...p, url: `${SITE_URL}${p.url}`, lastModified: new Date() }))
 

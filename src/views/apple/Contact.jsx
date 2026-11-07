@@ -104,10 +104,10 @@ export default function Contact() {
                 <h2 className="t-title">Almost there, {values.name.split(' ')[0]}.</h2>
                 <p className="t-body">
                   This site has no form backend yet, so nothing has been sent. The button below opens a pre-filled email
-                  to the team with everything you just wrote.
+                  to PulpLabs with everything you just wrote.
                 </p>
                 <a className="btn" href={mailto}>
-                  Send it to the team
+                  Send your enquiry
                 </a>
                 <button type="button" className="link contact-back" onClick={() => setSent(false)}>
                   Edit the details

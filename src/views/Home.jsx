@@ -131,12 +131,6 @@ export default function Home() {
               </strong>{' '}
               certifications
             </span>
-            <span>
-              <strong>
-                <Counter to={6} />
-              </strong>{' '}
-              people
-            </span>
           </div>
         </div>
 
@@ -307,9 +301,8 @@ export default function Home() {
       </section>
 
       {/* ENABLEMENT */}
-      {/* Photo strip leading into the enablement band. Generated imagery, used
-          the way stock photography is — nobody in it is identifiable, so it
-          illustrates the work without implying these are PulpLabs staff. */}
+      {/* Photo strip leading into the enablement band. Generated imagery
+          illustrates a workshop rather than documenting an actual engagement. */}
       <section className="section photo-strip" data-reveal>
         <figure className="photo-band">
           <img src="/photos/workshop.webp" alt="A team working through a system diagram on a whiteboard" loading="lazy" decoding="async" />

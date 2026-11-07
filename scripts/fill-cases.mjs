@@ -13,7 +13,7 @@ Enquiries arrived at all hours through three channels — the website form, a sh
 
 The cost was not the quoting itself. It was the enquiries that went quiet while waiting.
 
-> "Quotes that took our team two days now go out in twenty minutes. The PulpLabs team understood our pricing rules better than some of our own hires."
+> "Quotes that took our team two days now go out in twenty minutes. PulpLabs understood our pricing rules better than some of our own hires."
 
 ## What we looked at first
 

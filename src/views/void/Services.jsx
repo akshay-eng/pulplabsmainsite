@@ -195,8 +195,8 @@ export default function Services() {
           </div>
         </section>
         <NextPage
-          href="/team"
-          title="Team"
+          href="/contact"
+          title="Contact"
         />
       </main>
 
