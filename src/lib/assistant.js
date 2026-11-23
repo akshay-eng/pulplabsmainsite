@@ -107,6 +107,14 @@ const KNOWLEDGE = [
     chips: ['Book a scoping call', 'How does an engagement start?'],
   },
   {
+    id: 'sovereign',
+    patterns: ['sovereign', 'sovereignty', 'data residency', 'on prem', 'on-prem', 'on premise', 'self-hosted', 'self hosted', 'private ai', 'where does my data', 'stallion', 'ai server', 'your own server'],
+    answer:
+      'We build **sovereign AI**: systems deployed inside your own boundary rather than as multi-tenant SaaS, so your data stays in your estate and your region.\n\n' +
+      'Early prototyping runs on **Stallion**, our in-house AI server. What goes to production runs on your infrastructure.',
+    chips: ['Book a call', 'Where do you work?'],
+  },
+  {
     id: 'regions',
     patterns: ['where are you', 'where do you work', 'where are you based', 'location', 'located', 'which countries', 'region', 'regions', 'india', 'canada', 'europe', 'time zone', 'timezone'],
     answer:

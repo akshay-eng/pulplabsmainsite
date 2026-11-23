@@ -54,7 +54,7 @@ export default function Footer() {
 
         <div className="ft-base">
           <p className="mono">© {new Date().getFullYear()} PulpLabs. All rights reserved.</p>
-          <p className="mono">India · Canada · Europe — deployed inside your estate</p>
+          <p className="mono">Sovereign AI · India · Canada · Europe</p>
         </div>
       </div>
     </footer>

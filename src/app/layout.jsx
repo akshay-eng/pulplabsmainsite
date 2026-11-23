@@ -29,7 +29,8 @@ export const metadata = {
     template: '%s — PulpLabs',
   },
   description:
-    'An AI consultancy and engineering firm working with teams in India, Canada and Europe. Accelerators for enterprise operations, growth systems for small teams, and the enablement that makes either one stick.',
+    'Sovereign AI consultancy and engineering for teams in India, Canada and Europe. Accelerators for enterprise operations, growth systems for small teams, and the enablement that makes either one stick — deployed inside your own boundary.',
+  keywords: ['Sovereign AI', 'AI consultancy', 'AI engineering', 'India', 'Canada', 'Europe', 'enterprise AI', 'IT operations AI'],
   icons: { icon: '/favicon.svg' },
   openGraph: { type: 'website', siteName: 'PulpLabs', url: SITE_URL },
   twitter: { card: 'summary_large_image' },

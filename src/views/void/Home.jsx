@@ -46,7 +46,7 @@ export default function Home({ cases = [] }) {
             {/* The mark as liquid chrome, reflecting the same light band
                 that sits behind the headline. */}
             <LiquidMark className="hero-mark" weight={2.7} />
-            <p className="mono hero-pill-line">We stay after the pilot</p>
+            <p className="mono hero-pill-line">Sovereign AI · We stay after the pilot</p>
 
             {/* Each line rises out of its own mask. The words stay one
                 heading for assistive tech; the spans are presentational. */}
@@ -149,11 +149,12 @@ export default function Home({ cases = [] }) {
         <section className="sec">
           <div className="shell split">
             <div className="split-copy" data-r>
-              <p className="mono">Inside your estate</p>
+              <p className="mono">Sovereign AI</p>
               <h2 className="d3">It runs on what you already have.</h2>
               <p className="body">
-                Deployed inside your boundary rather than as multi-tenant SaaS, wired to the ITSM, CMDB and
-                line-of-business systems you already run. Your data does not leave for us to operate any of it.
+                Sovereign AI, in practice: deployed inside your boundary rather than as multi-tenant SaaS, wired to
+                the ITSM, CMDB and line-of-business systems you already run. Your data does not leave for us to
+                operate any of it.
               </p>
               <ul className="split-list">
                 {['ITSM and CMDB you already run', 'Your identity provider and access model', 'No data leaves your boundary'].map((t) => (
@@ -166,6 +167,8 @@ export default function Home({ cases = [] }) {
                   </li>
                 ))}
               </ul>
+              {/* Deliberately quiet: a footnote, not a feature. */}
+              <p className="mono split-note">Prototyped on Stallion, our in-house AI server.</p>
             </div>
             <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
               <Art src="/void/sec-connect.webp" sizes="(max-width: 760px) 100vw, 50vw" loading="lazy" decoding="async" />
