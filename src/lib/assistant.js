@@ -107,6 +107,14 @@ const KNOWLEDGE = [
     chips: ['Book a scoping call', 'How does an engagement start?'],
   },
   {
+    id: 'regions',
+    patterns: ['where are you', 'where do you work', 'where are you based', 'location', 'located', 'which countries', 'region', 'regions', 'india', 'canada', 'europe', 'time zone', 'timezone'],
+    answer:
+      'We work with teams in **India**, **Canada** and **Europe**, and calls are scheduled in your time zone.\n\n' +
+      'Systems deploy inside your own estate rather than ours, so your data stays in your region.',
+    chips: ['Book a call', 'What do you offer?'],
+  },
+  {
     id: 'results',
     patterns: ['result', 'results', 'roi', 'case study', 'proof', 'evidence', 'outcome', 'metrics', 'mttr'],
     answer:

@@ -387,7 +387,7 @@ canvas {
   transition-delay: var(--rd, 0ms);
 }
 
-[data-r='1'] {
+[data-r][data-in] {
   opacity: 1;
   transform: none;
 }

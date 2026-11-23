@@ -4,9 +4,12 @@ import '@/styles/void.css'
 /* The dock is mounted globally, so its own stylesheet belongs here rather than
    with the legacy routes. apple.css restyles its surface further down. */
 import '@/styles/ai-dock.css'
+/* Liquid glass sits last so it can restyle nav, buttons and the dock. */
+import '@/styles/liquid.css'
 
 import AIDock from '@/components/AIDock'
 import Reveal from '@/components/apple/Reveal'
+import GlassDefs from '@/components/liquid/GlassDefs'
 
 /* Self-hosted by next/font — no network request to Google, no layout shift
    from a late swap, and the CSS variables let void.css own the type scale.
@@ -26,7 +29,7 @@ export const metadata = {
     template: '%s — PulpLabs',
   },
   description:
-    'An AI consultancy and engineering firm. Accelerators for enterprise operations, growth systems for small teams, and the enablement that makes either one stick.',
+    'An AI consultancy and engineering firm working with teams in India, Canada and Europe. Accelerators for enterprise operations, growth systems for small teams, and the enablement that makes either one stick.',
   icons: { icon: '/favicon.svg' },
   openGraph: { type: 'website', siteName: 'PulpLabs', url: SITE_URL },
   twitter: { card: 'summary_large_image' },
@@ -48,6 +51,7 @@ export default function RootLayout({ children }) {
         {/* Keyboard users should never have to tab the whole nav on every page */}
         <a className="skip" href="#main">Skip to content</a>
         <Reveal />
+        <GlassDefs />
         {children}
         <AIDock />
       </body>

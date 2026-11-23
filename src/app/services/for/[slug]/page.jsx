@@ -7,6 +7,7 @@ import Chevron from '@/components/apple/Chevron'
 import SolCard from '@/components/void/SolCard'
 import { functions, industries, getFunction, getIndustry } from '@/data/functions'
 import { byFunction, getSolution } from '@/data/capabilities'
+import Art from '@/components/Art'
 
 /* One route for both category kinds. They render identically — a category is
    a heading, a paragraph of what makes it different, and the solutions inside
@@ -50,7 +51,7 @@ export default async function Category({ params }) {
       <main id="main">
         <section className="cat-head">
           <div className="cat-head-art" aria-hidden="true">
-            <img src={`/void/cat/${c.kind === 'function' ? 'dept' : 'ind'}-${c.id}.webp`} alt="" fetchPriority="high" decoding="async" />
+            <Art src={`/void/cat/${c.kind === 'function' ? 'dept' : 'ind'}-${c.id}.webp`} sizes="(max-width: 760px) 100vw, 50vw" fetchPriority="high" decoding="async" />
           </div>
           <div className="shell cat-head-in">
             <p className="mono cdet-crumb">

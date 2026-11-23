@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import Navbar from '@/components/Navbar'
-import { FooterSlim } from '@/components/Footer'
+import Nav from '@/components/void/Nav'
+import Footer from '@/components/void/Footer'
+import Chevron from '@/components/apple/Chevron'
 import { getCaseBySlug, listPublishedCases, relatedCases } from '@/lib/cases'
 import { renderMarkdown } from '@/lib/markdown'
 import { SITE_URL } from '@/app/layout'
@@ -58,90 +59,97 @@ export default async function CaseStudyPage({ params }) {
   }
 
   return (
-    <div className="page">
-      <Navbar />
+    <div className="grain jr">
+      <Nav />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <article className="post">
-        <header className="post-header" style={{ '--post-accent': c.accent }}>
-          <div className="shell">
-            <nav className="post-crumbs" aria-label="Breadcrumb">
-              <Link href="/services#work">Case studies</Link>
-              {c.industry && (
-                <>
-                  <span aria-hidden="true">/</span>
-                  <span>{c.industry}</span>
-                </>
+      <main id="main">
+        <article>
+          <header className="jr-hero">
+            <div className="shell">
+              <nav className="mono jr-crumbs hero-pill-line" aria-label="Breadcrumb">
+                <Link href="/services#work">Case studies</Link>
+                {c.industry && (
+                  <>
+                    <span aria-hidden="true">/</span>
+                    <span>{c.industry}</span>
+                  </>
+                )}
+              </nav>
+
+              <p className="mono hero-pill-line" style={{ marginTop: 26, color: 'var(--w-1)' }}>
+                {c.client}
+              </p>
+              <h1 className="d2 hero-h" style={{ maxWidth: '20ch', marginTop: 14 }}>
+                {c.title}
+              </h1>
+              <p className="lede hero-l">{c.summary}</p>
+
+              {c.metrics.length > 0 && (
+                <div className="jr-metrics hero-cta">
+                  {c.metrics.map((m) => (
+                    <div key={m.figure + m.caption} className="jr-metric lg lg-card">
+                      <strong>{m.figure}</strong>
+                      <span className="mono">{m.caption}</span>
+                    </div>
+                  ))}
+                </div>
               )}
-            </nav>
-
-            <div className="case-client" style={{ color: c.accent }}>
-              {c.client}
             </div>
-            <h1>{c.title}</h1>
-            <p className="post-lede">{c.summary}</p>
+          </header>
 
-            {c.metrics.length > 0 && (
-              <div className="case-hero-metrics">
-                {c.metrics.map((m) => (
-                  <div key={m.figure + m.caption}>
-                    <div className="figure" style={{ color: c.accent }}>{m.figure}</div>
-                    <div className="caption">{m.caption}</div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </header>
+          {c.cover_image && (
+            <div className="shell">
+              <figure className="jr-cover" data-r>
+                <img src={c.cover_image} alt="" fetchPriority="high" decoding="async" />
+              </figure>
+            </div>
+          )}
 
-        {c.cover_image && (
-          <div className="shell">
-            <figure className="post-cover">
-              <img src={c.cover_image} alt="" fetchPriority="high" decoding="async" />
-            </figure>
+          <div className="shell-wide jr-body is-solo">
+            {/* Sanitised in renderMarkdown() */}
+            <div className="jr-prose" dangerouslySetInnerHTML={{ __html: html }} />
           </div>
+        </article>
+
+        {related.length > 0 && (
+          <section className="shell jr-sec">
+            <header className="sec-h" data-r>
+              <p className="mono">Where this has already run</p>
+              <h2 className="d3">More work</h2>
+            </header>
+            <div className="jr-related">
+              {related.map((r, i) => (
+                <Link key={r.slug} href={`/case-studies/${r.slug}`} className="jr-card" data-r style={{ '--rd': `${i * 80}ms` }}>
+                  <span className="jr-card-art" aria-hidden="true">
+                    {r.cover_image && <img src={r.cover_image} alt="" loading="lazy" decoding="async" />}
+                  </span>
+                  <span className="jr-card-copy">
+                    <span className="mono">{r.client}</span>
+                    <h3>{r.title}</h3>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
         )}
 
-        <div className="shell post-body-grid">
-          {/* Sanitised in renderMarkdown() */}
-          <div className="prose" dangerouslySetInnerHTML={{ __html: html }} />
-        </div>
-      </article>
-
-      {related.length > 0 && (
-        <section className="section post-related">
-          <h2 className="section-title" style={{ fontSize: 30, marginBottom: 20 }}>More work</h2>
-          <div className="case-related">
-            {related.map((r) => (
-              <Link key={r.slug} href={`/case-studies/${r.slug}`} className="card card-lift case-related-card">
-                <div className="case-related-art">
-                  {r.cover_image && <img src={r.cover_image} alt="" loading="lazy" decoding="async" />}
-                </div>
-                <div className="case-related-copy">
-                  <div className="case-client" style={{ color: r.accent }}>{r.client}</div>
-                  <h3>{r.title}</h3>
-                </div>
-              </Link>
-            ))}
+        <section className="shell">
+          <div className="jr-cta lg lg-card" data-r>
+            <div>
+              <h2 className="d3">Got a workflow like this one?</h2>
+              <p className="body">
+                Thirty minutes with an engineer — you&apos;ll leave with a straight answer on whether AI helps here.
+              </p>
+            </div>
+            <Link href="/contact" className="btn">
+              Book a consultation <Chevron />
+            </Link>
           </div>
         </section>
-      )}
+      </main>
 
-      <section className="section">
-        <div className="cta-banner" style={{ background: 'var(--tangerine)' }}>
-          <div className="card-body">
-            <h2 style={{ color: 'var(--ink-deep)' }}>Got a workflow like this one?</h2>
-            <p style={{ color: 'rgba(31,23,16,.78)' }}>
-              Thirty minutes with an engineer — you&apos;ll leave with a straight answer on whether AI helps here.
-            </p>
-          </div>
-          <Link href="/#contact" className="btn btn-lemon" style={{ position: 'relative' }}>
-            Book a consultation
-          </Link>
-        </div>
-      </section>
-
-      <FooterSlim />
+      <Footer />
     </div>
   )
 }

@@ -1,0 +1,164 @@
+{
+  "/void/advisory-strategy.webp": {
+    "w": 3840,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      3840
+    ]
+  },
+  "/void/cat/dept-data.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/cat/dept-finance.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/cat/dept-it-operations.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/cat/dept-marketing.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/cat/dept-sales.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/cat/dept-support.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/enablement-workshops.webp": {
+    "w": 3840,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      3840
+    ]
+  },
+  "/void/hero-bleed.webp": {
+    "w": 3840,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      3840
+    ]
+  },
+  "/void/cat/ind-financial.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/cat/ind-healthcare.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/cat/ind-manufacturing.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/cat/ind-professional.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/cat/ind-public.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/cat/ind-retail.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/managed/mo-hero.webp": {
+    "w": 3840,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      3840
+    ]
+  },
+  "/void/sec-approve.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  },
+  "/void/sec-connect.webp": {
+    "w": 2160,
+    "h": 2160,
+    "sizes": [
+      960,
+      1920,
+      2160
+    ]
+  }
+}

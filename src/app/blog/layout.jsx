@@ -1,11 +1,8 @@
-/* The previous design system, scoped to the routes that still use it. The
-   reimagined landing pages load src/styles/apple.css alone; keeping both in
-   the root layout would put two conflicting foundations on every page. */
-import '@/styles/global.css'
-import '@/styles/refined.css'
-import '@/styles/components.css'
-import '@/styles/blog.css'
+/* The journal routes (blog, case studies) now sit on the void system like
+   every other page. void.css and liquid.css come from the root layout; this
+   adds only the long-form reading styles. */
+import '@/styles/journal.css'
 
-export default function LegacyLayout({ children }) {
+export default function JournalLayout({ children }) {
   return children
 }

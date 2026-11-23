@@ -1,0 +1,1032 @@
+/* ==========================================================================
+   Liquid glass
+
+   Loaded after void.css. The void rule still holds — no hue in the chrome —
+   so glass here is a *material*, not a tint: it is defined entirely by what
+   it does to the light behind it (bend, blur, saturate) and by how its own
+   edge catches light (a bright top rim, a faint bottom bounce, a highlight
+   that follows the pointer).
+
+   Three layers on every glass surface:
+     background  — a near-transparent sheet, lighter at the top
+     box-shadow  — rim light and depth (no borders: a border is a line,
+                   a rim is a reflection)
+     ::before    — the specular highlight under the pointer
+     ::after     — a gradient rim, brighter where light would strike
+   Refraction is added on top in Chromium via html[data-lg="refract"].
+   ========================================================================== */
+
+:root {
+  --lg-sheet: linear-gradient(180deg, rgba(255, 255, 255, 0.11) 0%, rgba(255, 255, 255, 0.035) 100%);
+  --lg-sheet-strong: linear-gradient(180deg, rgba(30, 30, 36, 0.66) 0%, rgba(8, 8, 10, 0.6) 100%);
+  --lg-frost: blur(16px) saturate(175%) brightness(1.08);
+  --lg-rim:
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+    inset 0 14px 22px -18px rgba(255, 255, 255, 0.4);
+  --lg-drop: 0 12px 40px -8px rgba(0, 0, 0, 0.6);
+  --ease-liquid: cubic-bezier(0.34, 1.36, 0.64, 1);
+}
+
+/* --------------------------------------------------------------------------
+   The shared material
+   -------------------------------------------------------------------------- */
+
+.lg,
+.btn-ghost,
+.nv-in,
+.dock-composer,
+.xp-tab {
+  position: relative;
+  isolation: isolate;
+}
+
+.lg,
+.btn-ghost {
+  background: var(--lg-sheet);
+  -webkit-backdrop-filter: var(--lg-frost);
+  backdrop-filter: var(--lg-frost);
+  box-shadow: var(--lg-rim), var(--lg-drop);
+  border-color: transparent;
+}
+
+/* Specular highlight — a soft disc of light under the pointer, added with
+   plus-lighter so it brightens what is there instead of painting over it. */
+.lg::before,
+.btn::before,
+.nv-in::before,
+.dock-composer::before,
+.xp-tab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(
+    140px circle at var(--mx, 50%) var(--my, -40%),
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0.06) 40%,
+    transparent 70%
+  );
+  mix-blend-mode: plus-lighter;
+  opacity: 0;
+  transition: opacity 360ms var(--ease-out);
+}
+
+/* Rim — a 1px gradient ring. Bright at top-left and bottom-right like a lens
+   lit from above; mask-composite cuts out the middle. */
+.lg::after,
+.btn-ghost::after,
+.nv-in::after,
+.dock-composer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    150deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.1) 28%,
+    rgba(255, 255, 255, 0.02) 55%,
+    rgba(255, 255, 255, 0.22) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lg:hover::before,
+  .btn:hover::before,
+  .nv-in:hover::before,
+  .dock-composer:hover::before,
+  .xp-tab:hover::before {
+    opacity: 1;
+  }
+}
+
+/* Refraction — Chromium only. The pill filter is tuned for capsules, the card
+   filter for anything boxier. */
+html[data-lg='refract'] .btn-ghost,
+html[data-lg='refract'] .lg-pill {
+  -webkit-backdrop-filter: url(#lg-pill) brightness(1.1);
+  backdrop-filter: url(#lg-pill) brightness(1.1);
+}
+
+html[data-lg='refract'] .nv-in {
+  -webkit-backdrop-filter: url(#lg-bar) brightness(0.92);
+  backdrop-filter: url(#lg-bar) brightness(0.92);
+}
+
+html[data-lg='refract'] .lg-card,
+html[data-lg='refract'] .dock-composer,
+html[data-lg='refract'] .dock-panel {
+  -webkit-backdrop-filter: url(#lg-card) blur(10px) brightness(1.08) !important;
+  backdrop-filter: url(#lg-card) blur(10px) brightness(1.08) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+
+   Primary stays solid white — it is the one high-contrast target on a page
+   and glass would cost it legibility. It gets a liquid *finish* instead: a
+   soft vertical gradient, an inner shadow at the base, a lit top edge, and
+   the same pointer highlight. Press squashes it slightly with an overshoot
+   on release, which is what makes it feel like a drop rather than a tile.
+   -------------------------------------------------------------------------- */
+
+.btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    transform 420ms var(--ease-liquid),
+    background-color var(--t-hover) var(--ease-out),
+    box-shadow var(--t-hover) var(--ease-out),
+    opacity var(--t-hover) var(--ease-out);
+}
+
+.btn:not(.btn-ghost) {
+  background: linear-gradient(180deg, #ffffff 0%, #ececf0 100%);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -3px 8px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.18),
+    0 8px 28px -6px rgba(255, 255, 255, 0.22);
+}
+
+.btn:not(.btn-ghost)::before {
+  background: radial-gradient(120px circle at var(--mx, 50%) var(--my, -40%), rgba(255, 255, 255, 0.95), transparent 70%);
+  mix-blend-mode: normal;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:not(.btn-ghost):hover {
+    background: linear-gradient(180deg, #ffffff 0%, #f4f4f7 100%);
+    box-shadow:
+      inset 0 1px 0 #fff,
+      inset 0 -3px 8px rgba(0, 0, 0, 0.08),
+      0 0 0 1px rgba(255, 255, 255, 0.3),
+      0 10px 36px -6px rgba(255, 255, 255, 0.34);
+  }
+  .btn-ghost:hover {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 100%);
+  }
+}
+
+.btn:active {
+  transform: scale(0.955, 0.93);
+  transition-duration: 120ms;
+  transition-timing-function: var(--ease-out);
+}
+
+/* Content above the highlight layer */
+.btn > * {
+  position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   Nav — a floating glass capsule instead of a full-width bar.
+   -------------------------------------------------------------------------- */
+
+.nv {
+  padding: 12px var(--gutter) 0;
+  background: transparent !important;
+  border-bottom: 0 !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  pointer-events: none;
+}
+
+.nv > * {
+  pointer-events: auto;
+}
+
+.nv-in {
+  height: 54px;
+  max-width: calc(var(--shell-wide) - 2 * var(--gutter));
+  padding-inline: 18px 8px;
+  border-radius: 100px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.015) 100%);
+  -webkit-backdrop-filter: var(--lg-frost);
+  backdrop-filter: var(--lg-frost);
+  box-shadow: var(--lg-rim), 0 10px 40px -10px rgba(0, 0, 0, 0.7);
+  /* Only paint properties transition. The capsule used to draw in by
+     animating max-width, which re-runs layout on every frame of the
+     transition — the one thing that reliably drops a frame. */
+  transition:
+    background 400ms var(--ease-out),
+    box-shadow 400ms var(--ease-out);
+}
+
+/* Once scrolled the capsule darkens so text below it stays legible through
+   the glass. */
+.nv[data-scrolled] .nv-in,
+.nv[data-open] .nv-in {
+  background: var(--lg-sheet-strong);
+}
+
+.nv-links a {
+  border-radius: 100px;
+}
+
+.nv-cta {
+  min-height: 38px;
+}
+
+/* The toggle's two bars sat in grid rows stretched to the full button
+   height, so on open they crossed as a ">" instead of an "X". Pack the rows
+   so the bars are 6.4px apart, which is what the ±3.2px translate assumes. */
+.nv-toggle {
+  align-content: center;
+}
+
+/* The links used to push the end group right; on mobile they are hidden,
+   so the end group pushes itself. */
+.nv-end {
+  margin-left: auto;
+}
+
+/* The sheet becomes a glass card under the capsule */
+.nv-sheet {
+  margin: 10px auto 0;
+  max-width: calc(var(--shell-wide) - 2 * var(--gutter));
+  border: 0;
+  border-radius: 24px;
+  padding: 10px 22px 22px;
+  background: var(--lg-sheet-strong);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
+  box-shadow: var(--lg-rim), var(--lg-drop);
+  animation: sheet-drop 420ms var(--ease-liquid) both;
+  transform-origin: top center;
+}
+
+.nv-sheet a:not(.btn) {
+  border-bottom-color: rgba(255, 255, 255, 0.07);
+}
+
+@keyframes sheet-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+}
+
+/* The nav no longer occupies a bar's worth of height at the top of the page,
+   but it is still in flow (sticky), so the hero math is unchanged. */
+:root {
+  --nav-h: 66px;
+}
+
+/* --------------------------------------------------------------------------
+   Function explorer rail — the active tab becomes a lit glass pill.
+   -------------------------------------------------------------------------- */
+
+.xp-tab {
+  border-radius: 14px;
+  transition:
+    color var(--t-hover) var(--ease-out),
+    background 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    border-color 300ms var(--ease-out),
+    transform 420ms var(--ease-liquid);
+}
+
+.xp-tab[data-state='active'] {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-color: transparent;
+  color: var(--w-1);
+  box-shadow: var(--lg-rim), 0 10px 30px -12px rgba(255, 255, 255, 0.18);
+}
+
+.xp-tab:active {
+  transform: scale(0.98);
+}
+
+/* --------------------------------------------------------------------------
+   Dock — the composer and panel pick up the card refraction above; this just
+   rounds them into the same family as the nav.
+   -------------------------------------------------------------------------- */
+
+.dock-composer {
+  border-radius: 100px !important;
+  border-color: transparent !important;
+  box-shadow: var(--lg-rim), 0 24px 70px rgba(0, 0, 0, 0.7) !important;
+}
+
+.dock-panel {
+  border-radius: 24px !important;
+  border-color: transparent !important;
+  box-shadow: var(--lg-rim), 0 24px 70px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility exits
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-transparency: reduce) {
+  .lg,
+  .btn-ghost,
+  .nv-in,
+  .nv-sheet,
+  .xp-tab[data-state='active'] {
+    background: #121214 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .lg,
+  .btn-ghost,
+  .nv-in {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn:active,
+  .xp-tab {
+    transition-duration: 1ms;
+  }
+  .btn:active {
+    transform: none;
+  }
+  .nv-sheet {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Liquid mark
+   ========================================================================== */
+
+.lqm {
+  position: relative;
+  width: 100%;
+}
+
+.lqm canvas,
+.lqm-static {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.lqm[data-mode='gl'] canvas {
+  animation: lqm-in 1400ms var(--ease-out) both;
+}
+
+@keyframes lqm-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+    filter: blur(8px);
+  }
+}
+
+.lqm-word {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  font-size: 20cqh;
+  background: linear-gradient(180deg, #fff 0%, #c9ccd6 48%, #5b6070 52%, #e9ebf2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-mark {
+  width: clamp(104px, 12vw, 168px);
+  margin: 0 auto clamp(6px, 1.4vw, 18px);
+  /* Lifts it off the light plate the way the headline's shadow does */
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.55));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lqm[data-mode='gl'] canvas {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Process story — sticky stage, four steps, one particle system
+   ========================================================================== */
+
+.ps {
+  --p: 0;
+  position: relative;
+  /* Four steps of dwell plus the screen the stage itself occupies */
+  height: 460svh;
+}
+
+.ps-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.ps-canvas {
+  position: absolute;
+  inset: 0 0 0 28%;
+  z-index: -1;
+  -webkit-mask-image: radial-gradient(70% 72% at 50% 50%, #000 40%, transparent 85%);
+  mask-image: radial-gradient(70% 72% at 50% 50%, #000 40%, transparent 85%);
+}
+
+.ps-canvas canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.ps-ui {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding-top: calc(var(--nav-h) + clamp(24px, 5vh, 56px));
+  padding-bottom: clamp(28px, 6vh, 56px);
+}
+
+.ps-head .d2 {
+  margin-top: 14px;
+  max-width: 14ch;
+}
+
+.ps-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  align-items: center;
+  max-width: 400px;
+}
+
+.ps-step {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  filter: blur(8px);
+  transition:
+    opacity 600ms var(--ease-out),
+    transform 800ms var(--ease-out),
+    filter 600ms var(--ease-out);
+  pointer-events: none;
+}
+
+.ps-step[data-on] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  pointer-events: auto;
+  transition-delay: 120ms;
+}
+
+.ps-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  color: var(--w-1);
+  margin-bottom: 22px;
+}
+
+.ps-n {
+  color: var(--w-2);
+}
+
+.ps-of {
+  color: var(--w-4);
+}
+
+.ps-t {
+  margin-top: 10px;
+  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+  letter-spacing: -0.035em;
+}
+
+.ps-b {
+  margin-top: 14px;
+  font-size: 1rem;
+  max-width: 36ch;
+}
+
+.ps-k {
+  margin-top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--w-3);
+}
+
+.ps-k::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+}
+
+/* Rail */
+.ps-rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding-top: 18px;
+}
+
+.ps-rail::before,
+.ps-fill {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+}
+
+.ps-rail::before {
+  right: 0;
+  background: var(--line-2);
+}
+
+.ps-fill {
+  width: 100%;
+  background: linear-gradient(90deg, #4f7bff, #46e0ff 35%, #7dff8c 65%, #ffb24d);
+  transform-origin: left;
+  transform: scaleX(var(--p));
+  box-shadow: 0 0 12px rgba(120, 200, 255, 0.6);
+}
+
+.ps-stop {
+  position: relative;
+  color: var(--w-4);
+  transition: color 400ms var(--ease-out);
+}
+
+.ps-stop::before {
+  content: '';
+  position: absolute;
+  top: -21px;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--w-4);
+  transition:
+    background 400ms var(--ease-out),
+    box-shadow 400ms var(--ease-out);
+}
+
+.ps-stop[data-on] {
+  color: var(--w-1);
+}
+
+.ps-stop[data-on]::before {
+  background: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 760px) {
+  .ps {
+    height: 440svh;
+  }
+  .ps-canvas {
+    inset: 8% 0 26% 0;
+    opacity: 0.75;
+  }
+  .ps-steps {
+    align-items: end;
+    padding-bottom: 20px;
+  }
+  .ps-step {
+    padding: 20px;
+    border-radius: 22px;
+    box-shadow: var(--lg-rim);
+    background: rgba(0, 0, 0, 0.42);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+  .ps-icon {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 14px;
+  }
+  .ps-stop span {
+    font-size: 0.5625rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+/* Reduced motion: no stage, no scene — a plain list of four */
+@media (prefers-reduced-motion: reduce) {
+  .ps {
+    height: auto;
+  }
+  .ps-stage {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+  .ps-canvas,
+  .ps-rail {
+    display: none;
+  }
+  .ps-ui {
+    padding-block: clamp(80px, 12vw, 140px);
+    gap: 48px;
+  }
+  .ps-steps {
+    max-width: none;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 36px;
+  }
+  .ps-step {
+    grid-area: auto;
+    opacity: 1;
+    transform: none;
+    filter: none;
+    pointer-events: auto;
+  }
+  .ps-t {
+    font-size: 1.6rem;
+  }
+}
+
+/* ==========================================================================
+   Icons in context
+   ========================================================================== */
+
+.xp-tab-l {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.xp-glyph {
+  flex: none;
+  opacity: 0.55;
+  transition:
+    opacity var(--t-hover) var(--ease-out),
+    transform 420ms var(--ease-liquid);
+}
+
+.xp-tab[data-state='active'] .xp-glyph {
+  opacity: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .xp-tab:hover .xp-glyph {
+    opacity: 1;
+    transform: translateY(-1px) scale(1.06);
+  }
+}
+
+.xp-badge {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  color: var(--w-1);
+  animation: badge-in 700ms var(--ease-liquid) both;
+}
+
+@keyframes badge-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7) rotate(-8deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-badge {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Hero choreography
+   ========================================================================== */
+
+.hero-h {
+  animation: none;
+}
+
+.hl {
+  display: block;
+  overflow: hidden;
+  /* Room for descenders inside the mask, given back to the line box */
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.hl > span {
+  display: block;
+  animation: line-up 1100ms var(--ease-out) both;
+  animation-delay: calc(var(--l) * 110ms + 220ms);
+  transform-origin: 0 100%;
+}
+
+@keyframes line-up {
+  from {
+    transform: translate3d(0, 105%, 0) rotate(1.5deg);
+  }
+}
+
+.hero-pill-line {
+  animation-delay: 120ms;
+}
+
+.hero-l {
+  animation-delay: 520ms;
+}
+
+.hero-cta {
+  animation-delay: 640ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hl > span {
+    animation: none;
+  }
+}
+
+/* Nav mark — a small liquid wobble on hover */
+.nv-brand svg {
+  transition: transform 500ms var(--ease-liquid);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nv-brand:hover svg {
+    animation: mark-wobble 800ms var(--ease-out);
+  }
+}
+
+@keyframes mark-wobble {
+  0% {
+    transform: none;
+  }
+  25% {
+    transform: scale(1.18, 0.86);
+  }
+  50% {
+    transform: scale(0.9, 1.12) translateY(-1px);
+  }
+  75% {
+    transform: scale(1.05, 0.96);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nv-brand:hover svg {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Footer sign-off
+   ========================================================================== */
+
+.ft-mark {
+  margin: clamp(48px, 8vw, 96px) auto clamp(8px, 2vw, 24px);
+  max-width: 1100px;
+}
+
+.ft-mark .lqm {
+  container-type: size;
+}
+
+/* ==========================================================================
+   Aurora — the live hero light
+   ========================================================================== */
+
+.aurora img,
+.aurora canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aurora canvas {
+  opacity: 0;
+  transition: opacity 1200ms var(--ease-out);
+}
+
+.aurora[data-live] canvas {
+  opacity: 1;
+}
+
+.aurora[data-live] img {
+  opacity: 0;
+  transition: opacity 1200ms var(--ease-out);
+}
+
+/* The shader moves on its own; the CSS drift would only add a second,
+   competing motion and a large compositing layer. */
+.hero-light.aurora {
+  animation: none;
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Regions — India, Canada, Europe
+   ========================================================================== */
+
+.rg-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--w-3);
+  flex: none;
+}
+
+/* Hero: a named mention in the lede, then three chips under the buttons */
+.hero-regions {
+  color: var(--w-1);
+  font-weight: 500;
+}
+
+.rg-chips {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 14px;
+  animation: rise 900ms var(--ease-out) both;
+  animation-delay: 760ms;
+}
+
+.rg-chips ul {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rg-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 100px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.rg-chip .rg-dot {
+  background: linear-gradient(135deg, #4f7bff, #7dff8c 55%, #ffb24d);
+  box-shadow: 0 0 8px rgba(125, 255, 180, 0.6);
+}
+
+/* Section */
+.rg-head .d2 {
+  max-width: 20ch;
+}
+
+.rg-lede {
+  margin-top: 18px;
+  max-width: 60ch;
+}
+
+.rg-grid {
+  list-style: none;
+  margin: clamp(32px, 4vw, 52px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+@media (max-width: 860px) {
+  .rg-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rg-card {
+  border-radius: 24px;
+  padding: clamp(22px, 2.6vw, 32px);
+  display: grid;
+  gap: 6px;
+  overflow: hidden;
+}
+
+/* Each card carries a sliver of the hero's light, shifted along the band so
+   the three read left-to-right as one spectrum: blue, green, amber. */
+.rg-card::before {
+  opacity: 1;
+  background: radial-gradient(70% 90% at 100% 0%, var(--rg-glow), transparent 65%);
+  mix-blend-mode: plus-lighter;
+}
+
+.rg-card:nth-child(1) {
+  --rg-glow: rgba(79, 123, 255, 0.22);
+}
+.rg-card:nth-child(2) {
+  --rg-glow: rgba(110, 240, 160, 0.18);
+}
+.rg-card:nth-child(3) {
+  --rg-glow: rgba(255, 178, 77, 0.2);
+}
+
+.rg-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rg-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--w-3);
+}
+
+.rg-state[data-on] {
+  color: var(--w-1);
+}
+
+.rg-state[data-on] .rg-dot {
+  background: #7dff8c;
+  box-shadow: 0 0 10px rgba(125, 255, 140, 0.8);
+  animation: rg-pulse 2.4s var(--ease-in-out) infinite;
+}
+
+@keyframes rg-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.rg-time {
+  margin: clamp(18px, 3vw, 34px) 0 0;
+  font-size: clamp(3rem, 6vw, 4.6rem);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.rg-zones {
+  color: var(--w-3);
+}
+
+.rg-cta {
+  margin-top: clamp(28px, 3.5vw, 44px);
+}
+
+/* Contact page */
+.contact-regions {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line-1);
+}
+
+.contact-regions li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line-1);
+  font-weight: 500;
+}
+
+.contact-regions .mono {
+  color: var(--w-4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rg-chips {
+    animation: none;
+  }
+  .rg-state[data-on] .rg-dot {
+    animation: none;
+  }
+}

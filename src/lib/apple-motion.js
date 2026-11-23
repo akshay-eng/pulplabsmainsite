@@ -13,7 +13,10 @@ const reduced = () =>
    -------------------------------------------------------------------------- */
 export function useReveal() {
   useEffect(() => {
-    const mark = (el) => el.setAttribute('data-r', '1')
+    // A separate attribute rather than rewriting data-r: React renders data-r,
+    // so changing it before a streamed server segment hydrates is a mismatch.
+    // data-in is ours alone.
+    const mark = (el) => el.setAttribute('data-in', '')
 
     if (reduced()) {
       document.querySelectorAll('[data-r]').forEach(mark)
@@ -33,7 +36,7 @@ export function useReveal() {
       { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
     )
 
-    const scan = () => document.querySelectorAll('[data-r=""], [data-r]:not([data-r="1"])').forEach((el) => io.observe(el))
+    const scan = () => document.querySelectorAll('[data-r]:not([data-in])').forEach((el) => io.observe(el))
     scan()
 
     const mo = new MutationObserver(scan)
