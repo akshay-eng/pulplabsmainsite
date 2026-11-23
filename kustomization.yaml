@@ -9,7 +9,7 @@
     {
       "name": "pulplabs-site",
       "newName": "ghcr.io/akshay-eng/pulplabsmainsite",
-      "digest": "sha256:25f0c6b18131c1c6947b2f42e88c97ed1d8aafd0dfb07c818ee13bf9386f037c"
+      "digest": "sha256:6ff298d9eff3d134ac2c325a801faa56f4012a23cb209b1134b4c0eea40c019e"
     }
   ]
 }
