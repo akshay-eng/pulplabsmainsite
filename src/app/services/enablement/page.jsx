@@ -6,13 +6,14 @@ import Chevron from '@/components/apple/Chevron'
 import EnablementExplorer from '@/components/void/EnablementExplorer'
 import PlatformMark from '@/components/void/PlatformMark'
 import { delivery, platforms, formats } from '@/data/enablement'
+import Art from '@/components/Art'
 
 export const metadata = {
   title: 'Enablement & workshops — PulpLabs',
   description:
     'Certified instruction across Claude, OpenAI and Codex, Microsoft Copilot Studio, Gemini and IBM watsonx Orchestrate. One-day, three-day and one-week formats, on-site or online, run on your own workflows.',
   alternates: { canonical: '/services/enablement' },
-  openGraph: { images: [{ url: '/void/enablement-workshops.webp', width: 1600, height: 900 }] },
+  openGraph: { images: [{ url: '/void/enablement-workshops-1920.webp', width: 1920, height: 1080 }] },
 }
 
 export default function Enablement() {
@@ -114,8 +115,8 @@ export default function Enablement() {
         <section className="sec-sm">
           <div className="shell">
             <figure className="enb-photo" data-r>
-              <img src="/void/enablement-workshops.webp"
-                alt="An instructor leaning in over a participant's shoulder while a mixed cohort works at laptops."
+              <Art src="/void/enablement-workshops.webp" sizes="(max-width: 1140px) 100vw, 1140px"
+                alt="A workshop room after hours: whiteboards and chairs set out in a loose circle."
                 loading="lazy" decoding="async" />
               <figcaption className="mono">
                 Builder bootcamp — cohorts capped so everyone ships something.

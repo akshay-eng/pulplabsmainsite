@@ -10,6 +10,7 @@ import CapCard from '@/components/void/CapCard'
 import { byParent } from '@/data/capabilities'
 import CategoryPicker from '@/components/void/CategoryPicker'
 import { allSolutions } from '@/data/capabilities'
+import Art from '@/components/Art'
 
 const CAT = [
   { id: 'advisory', n: '01', art: 'adv-board', alt: 'An assessment report: a workflow map with high-payback steps ringed, an opportunity scoring table, a readiness heatmap and effort estimates.', more: ['/services/advisory', 'How we run an assessment'], k: 'Advisory & strategy', t: 'Find out where AI pays back — and where it does not.',
@@ -26,7 +27,7 @@ const CAT = [
   { id: 'small-business', n: '03', k: 'Small business systems', t: 'Live in about four weeks.',
     b: 'Growth and operations systems for small teams, tuned monthly. Every one keeps a human approval step you control — nothing sends or commits on your behalf unless you decide it should.',
     items: [['Lead Engine', 'Enquiries answered and qualified around the clock.'], ['Support Desk', 'First-line resolution with escalation you define.'], ['Marketing Studio', 'Campaign drafting against your own positioning.'], ['Social Autopilot', 'Scheduled, on-brand, always reviewable.']] },
-  { id: 'enablement', n: '04', photo: 'enablement-workshops', alt: 'An instructor working through a build alongside a cohort at their laptops.', more: ['/services/enablement', 'Platforms, formats and curricula'], k: 'Enablement & workshops', t: 'Capability transfer, not a training day.',
+  { id: 'enablement', n: '04', photo: 'enablement-workshops', alt: 'A workshop room after hours: whiteboards and chairs in a loose circle.', more: ['/services/enablement', 'Platforms, formats and curricula'], k: 'Enablement & workshops', t: 'Capability transfer, not a training day.',
     b: 'Certified instructors across Claude, OpenAI, Copilot Studio and IBM watsonx Orchestrate. Every session runs on your workflows and your data. Each cohort leaves with something in production.',
     tracks: [
       ['Executive briefing', 'One day', 'For the people who approve the budget. One working artefact by the end.', 'one-day'],
@@ -141,7 +142,7 @@ export default function Services() {
                             would misrepresent what those engagements are. */}
                         {(c.photo || c.art) && (
                           <figure className={`cat-photo${c.art ? ' is-art' : ''}`}>
-                            <img src={`/void/${c.photo ?? c.art}.webp`} alt={c.alt} loading="lazy" decoding="async" />
+                            <Art src={`/void/${c.photo ?? c.art}.webp`} sizes="(max-width: 760px) 100vw, 50vw" alt={c.alt} loading="lazy" decoding="async" />
                           </figure>
                         )}
                         {c.more && (

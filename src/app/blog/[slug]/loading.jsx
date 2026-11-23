@@ -3,21 +3,13 @@
    happened" even when the response is quick. */
 export default function Loading() {
   return (
-    <div className="page">
-      <div className="skeleton-header">
-        <div className="shell">
-          <span className="sk sk-kicker" />
-          <span className="sk sk-title" />
-          <span className="sk sk-title short" />
-          <span className="sk sk-line" />
-        </div>
-      </div>
-      <div className="shell skeleton-body">
-        <span className="sk sk-line" />
-        <span className="sk sk-line" />
-        <span className="sk sk-line short" />
-        <span className="sk sk-line" />
-        <span className="sk sk-line short" />
+    <div className="jr" aria-busy="true" aria-label="Loading">
+      <div className="shell" style={{ paddingTop: 'calc(var(--nav-h) + 96px)', display: 'grid', gap: 18 }}>
+        <span className="jr-sk" style={{ width: 120, height: 12 }} />
+        <span className="jr-sk" style={{ width: '70%', height: 48 }} />
+        <span className="jr-sk" style={{ width: '45%', height: 48 }} />
+        <span className="jr-sk" style={{ width: '60%', height: 16, marginTop: 12 }} />
+        <span className="jr-sk" style={{ width: '100%', aspectRatio: '1.91 / 1', borderRadius: 22, marginTop: 32 }} />
       </div>
     </div>
   )

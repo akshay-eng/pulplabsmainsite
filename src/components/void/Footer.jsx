@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import LiquidMark from '@/components/liquid/LiquidMark'
 
 export default function Footer() {
   return (
@@ -8,8 +9,8 @@ export default function Footer() {
           <div>
             <p className="d3 ft-line">pulplabs.ai</p>
             <p className="body ft-blurb">
-              AI consultancy and engineering. Accelerators, solutions and enablement for enterprises and small
-              businesses.
+              AI consultancy and engineering for teams in India, Canada and Europe. Accelerators, solutions and
+              enablement for enterprises and small businesses.
             </p>
           </div>
           <Link href="/contact" className="btn">Book a call</Link>
@@ -45,9 +46,15 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* The sign-off: the wordmark in the same liquid chrome as the hero
+            mark, so the page ends where it began. */}
+        <div className="ft-mark">
+          <LiquidMark kind="wordmark" aspect={4.4} label="PulpLabs" />
+        </div>
+
         <div className="ft-base">
           <p className="mono">© {new Date().getFullYear()} PulpLabs. All rights reserved.</p>
-          <p className="mono">Deployed inside your estate</p>
+          <p className="mono">India · Canada · Europe — deployed inside your estate</p>
         </div>
       </div>
     </footer>

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
+import { regions } from '@/data/regions'
 
 const TOPICS = [
   ['accelerators', 'Enterprise accelerators'],
@@ -79,6 +80,19 @@ export default function Contact() {
                 <a className="contact-mail" href="mailto:hello@pulplabs.ai">
                   hello@pulplabs.ai
                 </a>
+              </div>
+
+              <div data-r style={{ '--rd': '30ms' }}>
+                <p className="mono">Where we work</p>
+                <ul className="contact-regions">
+                  {regions.map((r) => (
+                    <li key={r.id}>
+                      <span>{r.name}</span>
+                      <span className="mono">{r.zones}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="body contact-hint">Calls are scheduled in your time zone.</p>
               </div>
 
               <div data-r style={{ '--rd': '60ms' }}>

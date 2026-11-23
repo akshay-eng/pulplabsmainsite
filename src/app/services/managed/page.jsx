@@ -3,13 +3,14 @@ import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
+import Art from '@/components/Art'
 
 export const metadata = {
   title: 'Managed operations — PulpLabs',
   description:
     'Monitoring, evaluation, tuning and quarterly review for what we build — for as long as you want us, and no longer. Handover happens first; staying on is your option.',
   alternates: { canonical: '/services/managed' },
-  openGraph: { images: [{ url: '/void/managed/mo-hero.webp', width: 1600, height: 900 }] },
+  openGraph: { images: [{ url: '/void/managed/mo-hero-1920.webp', width: 1920, height: 1080 }] },
 }
 
 /* Four services, each written as what we watch and what we do about it —
@@ -61,7 +62,7 @@ export default function Managed() {
       <main id="main">
         <section className="cat-head">
           <div className="cat-head-art" aria-hidden="true">
-            <img src="/void/managed/mo-hero.webp" alt="" fetchPriority="high" decoding="async" />
+            <Art src="/void/managed/mo-hero.webp" sizes="100vw" fetchPriority="high" decoding="async" />
           </div>
           <div className="shell cat-head-in">
             <p className="mono cdet-crumb">

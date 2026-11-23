@@ -9,9 +9,13 @@ import Nav from '@/components/void/Nav'
 import Footer from '@/components/void/Footer'
 import NextPage from '@/components/void/NextPage'
 import Chevron from '@/components/apple/Chevron'
-import LoopVideo from '@/components/void/LoopVideo'
+import AuroraField from '@/components/liquid/AuroraField'
 import FunctionExplorer from '@/components/void/FunctionExplorer'
 import CaseStudies from '@/components/void/CaseStudies'
+import LiquidMark from '@/components/liquid/LiquidMark'
+import ProcessStory from '@/components/story/ProcessStory'
+import Regions, { RegionChips } from '@/components/regions/Regions'
+import Art from '@/components/Art'
 
 export default function Home({ cases = [] }) {
   /* The logo belt is an enhancement over the static row, gated the same way
@@ -33,27 +37,34 @@ export default function Home({ cases = [] }) {
       <main id="main">
         {/* ── Hero ─────────────────────────────────────────────────────── */}
         <section className="hero grid-bg">
-          <LoopVideo
-            className="hero-light"
-            src="/void/hero-loop"
-            poster="/void/hero-pause.webp"
-            opacity={0.85}
-            once
-            pauseAt={4.2}
-          />
+          {/* The light band, rendered live at native resolution (it was a
+              720p video). The old poster frame stays underneath as the
+              no-WebGL fallback. */}
+          <AuroraField className="hero-light" poster="/void/hero-pause.webp" />
 
           <div className="shell hero-in">
+            {/* The mark as liquid chrome, reflecting the same light band
+                that sits behind the headline. */}
+            <LiquidMark className="hero-mark" weight={2.7} />
             <p className="mono hero-pill-line">We stay after the pilot</p>
 
+            {/* Each line rises out of its own mask. The words stay one
+                heading for assistive tech; the spans are presentational. */}
             <h1 className="d1 hero-h">
-              Get to the pulp of what your
-              <br />
-              business needs <span className="dim">from AI.</span>
+              <span className="hl" style={{ '--l': 0 }}>
+                <span>Get to the pulp of what your</span>
+              </span>
+              <span className="hl" style={{ '--l': 1 }}>
+                <span>
+                  business needs <span className="dim">from AI.</span>
+                </span>
+              </span>
             </h1>
 
             <p className="lede hero-l measure-w">
-              PulpLabs is an AI consultancy and engineering firm. Operational accelerators for enterprises, growth
-              solutions for small teams, and the hands-on enablement that makes both stick.
+              PulpLabs is an AI consultancy and engineering firm working with teams across{' '}
+              <strong className="hero-regions">India, Canada and Europe</strong>. Operational accelerators for
+              enterprises, growth solutions for small teams, and the hands-on enablement that makes both stick.
             </p>
 
             <div className="hero-cta">
@@ -64,6 +75,8 @@ export default function Home({ cases = [] }) {
                 View service catalogue
               </Link>
             </div>
+
+            <RegionChips />
 
           </div>
         </section>
@@ -123,6 +136,11 @@ export default function Home({ cases = [] }) {
           </div>
         </section>
 
+        {/* ── Process story ────────────────────────────────────────────
+            The engagement as one continuous scroll: four stages, one
+            particle system re-forming for each. */}
+        <ProcessStory />
+
         <div className="flow">
         {/* ── Inside your estate ───────────────────────────────────────
             Two claims that were only ever made in prose: that this runs on the
@@ -150,7 +168,7 @@ export default function Home({ cases = [] }) {
               </ul>
             </div>
             <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
-              <img src="/void/sec-connect.webp" alt="" loading="lazy" decoding="async" />
+              <Art src="/void/sec-connect.webp" sizes="(max-width: 760px) 100vw, 50vw" loading="lazy" decoding="async" />
             </div>
           </div>
         </section>
@@ -178,7 +196,7 @@ export default function Home({ cases = [] }) {
               </ul>
             </div>
             <div className="split-art" data-r style={{ '--rd': '90ms' }} aria-hidden="true">
-              <img src="/void/sec-approve.webp" alt="" loading="lazy" decoding="async" />
+              <Art src="/void/sec-approve.webp" sizes="(max-width: 760px) 100vw, 50vw" loading="lazy" decoding="async" />
             </div>
           </div>
         </section>
@@ -249,6 +267,11 @@ export default function Home({ cases = [] }) {
         )}
 
         </div>
+
+        {/* ── Where we work ─────────────────────────────────────────────
+            Closes the page: after the work and the proof, where and when
+            we can start. */}
+        <Regions />
 
         <NextPage
           href="/services"

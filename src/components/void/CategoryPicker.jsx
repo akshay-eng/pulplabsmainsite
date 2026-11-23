@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { functions, industries } from '@/data/functions'
+import Art from '@/components/Art'
 
 /* Pick a category, then go and read it.
  *
@@ -34,7 +35,7 @@ export default function CategoryPicker() {
           <li className="tile" key={c.id} style={{ '--rd': `${i * 45}ms` }}>
             <Link href={`/services/for/${c.id}`} className="tile-link">
               <span className="tile-art">
-                <img src={`/void/cat/${lens === 'team' ? 'dept' : 'ind'}-${c.id}.webp`} alt="" loading="lazy" decoding="async" />
+                <Art src={`/void/cat/${lens === 'team' ? 'dept' : 'ind'}-${c.id}.webp`} sizes="(max-width: 760px) 50vw, 360px" loading="lazy" decoding="async" />
                 <span className="tile-chip">{c.name}</span>
               </span>
               <span className="tile-body">

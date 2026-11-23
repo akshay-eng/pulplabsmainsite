@@ -7,6 +7,7 @@ import Chevron from '@/components/apple/Chevron'
 import SolCard from './SolCard'
 import { functions } from '@/data/functions'
 import { byFunction } from '@/data/capabilities'
+import { functionGlyph } from '@/components/icons/Glyphs'
 
 /* A function-first cut of the catalogue for the home page: a rail of tabs on
    the left, the active function's solutions on the right, rendered with the
@@ -34,17 +35,31 @@ export default function FunctionExplorer() {
       <aside className="xp-rail" data-r>
         <p className="mono xp-hint">Use tabs to explore more</p>
         <Tabs.List className="xp-tabs" aria-label="Business functions">
-          {functions.map((f) => (
-            <Tabs.Trigger key={f.id} value={f.id} className="mono xp-tab">
-              {f.name}
-              <span className="xp-dot" aria-hidden="true" />
-            </Tabs.Trigger>
-          ))}
+          {functions.map((f) => {
+            const Glyph = functionGlyph[f.id]
+            return (
+              <Tabs.Trigger key={f.id} value={f.id} className="mono xp-tab">
+                <span className="xp-tab-l">
+                  {Glyph && <Glyph size={17} className="xp-glyph" />}
+                  {f.name}
+                </span>
+                <span className="xp-dot" aria-hidden="true" />
+              </Tabs.Trigger>
+            )
+          })}
         </Tabs.List>
       </aside>
 
       {functions.map((f) => (
         <Tabs.Content key={f.id} value={f.id} className="xp-panel">
+          {functionGlyph[f.id] && (
+            <span className="xp-badge lg" aria-hidden="true">
+              {(() => {
+                const Glyph = functionGlyph[f.id]
+                return <Glyph size={24} />
+              })()}
+            </span>
+          )}
           <h3 className="d3 xp-h">
             AI for <span className="dim">{f.name}.</span>
           </h3>
