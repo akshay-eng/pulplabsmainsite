@@ -67,7 +67,7 @@ export default function Regions() {
           </h2>
           <p className="lede rg-lede">
             We work with teams across three regions. Calls and builds run in your time zone, and systems deploy inside
-            your own boundary — so your data stays in your region, not ours.
+            your own boundary — so your data stays in your region, not ours. Sovereign AI by default.
           </p>
         </header>
 

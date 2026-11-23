@@ -1030,3 +1030,10 @@ html[data-lg='refract'] .dock-panel {
     animation: none;
   }
 }
+
+/* A quiet footnote under the sovereign-AI checklist */
+.split-note {
+  margin-top: 18px;
+  color: var(--w-4);
+  letter-spacing: 0.1em;
+}
